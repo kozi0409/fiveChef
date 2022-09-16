@@ -10,6 +10,7 @@
 </settings>
 <!-- 타입엘리스 사용 -->
 	<typeAliases>
+		<typeAlias type="com.kh.fivechef.fridge.domain.Fridge" alias="Fridge"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"></mapper>
