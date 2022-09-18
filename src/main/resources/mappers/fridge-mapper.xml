@@ -4,5 +4,21 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <!-- 나는 맵퍼다 선언 -->
  <mapper namespace="FridgeMapper">
- 
+ 	<resultMap type="Fridge" id="fridgeResultMap">
+ 		<id property="fridgeNo" 				column="FRIDGE_NO" />
+ 		<result property="fridgeName" 			column="FRIDGE_NAME" />
+ 		<result property="enrollDate" 			column="FRIDGE_DATE" />
+ 		<result property="fridgeFilename" 		column="FRIDGE_FILENAME" />
+ 		<result property="fridgeFileRename" 	column="FRIDGE_FILERENAME" />
+ 		<result property="fridgeFilepath" 		column="FRIDGE_FILEPATH" />
+ 		<result property="userId" 				column="USER_ID" />
+ 	</resultMap>
+ 	<insert id="insertFridge">
+ 		INSERT INTO MY_FRIDGE_TBL
+ 		VALUES(SEQ_FRIDGE_NO.NEXTVAL, #{fridgeName}, DEFAULT, #{fridgeFilename}, #{fridgeFileRename}, #{fridgeFilepath}, #{userId})
+ 	</insert>
+ 	<select id="selectAllFridge" resultMap="fridgeResultMap">
+ 		SELECT * FROM MY_FRIDGE_TBL
+ 		WHERE ORDER BY FRIDGE_NO DESC
+ 	</select>
  </mapper>
