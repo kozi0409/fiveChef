@@ -10,7 +10,11 @@
 	</settings>
 	<!-- 타입엘리스 사용 -->
 	<typeAliases>
+		<typeAlias type="com.kh.fivechef.admin.domain.Admin" alias="Admin"/>
 		<typeAlias type="com.kh.fivechef.fridge.domain.Fridge" alias="Fridge"/>
+		<typeAlias type="com.kh.fivechef.notice.domain.Notice" alias="Notice"/>
+		<typeAlias type="com.kh.fivechef.recipe.domain.Recipe" alias="Recipe"/>
+		<typeAlias type="com.kh.fivechef.user.domain.User" alias="User"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"></mapper>
