@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,6 +26,11 @@ import com.kh.fivechef.fridge.service.FridgeService;
 public class FridgeController {
 	@Autowired
 	private FridgeService fService;
+	
+//	@RequestMapping(value="/fridge/myFridge.kh", method=RequestMethod.GET)
+//	public String showMyFridge() {
+//		return "fridge/myFridge";
+//	}
 	
 	// 냉장고 등록
 	@PostMapping("/fridge/register.kh")
@@ -63,9 +70,10 @@ public class FridgeController {
 	}
 	
 	// 냉장고 조회
-	@GetMapping("//")
+	@GetMapping("/fridge/myFridge.kh")
 	public ModelAndView fridgeListView(ModelAndView mv) {
 		List<Fridge> fList = fService.printAllFridge();
+		System.out.println(fList);
 		if(!fList.isEmpty()) {
 			mv.addObject("fList", fList);
 		}
