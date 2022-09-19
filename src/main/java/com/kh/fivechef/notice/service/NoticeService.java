@@ -7,12 +7,15 @@ import com.kh.fivechef.notice.domain.Notice;
 public interface NoticeService {
 	public int registerNotice(Notice notice);
 
+	public int removeOneByNo(Integer noticeNo);
+	
 	public int getTotalCount(String searchCondition, String searchValue);
 
 	public List<Notice> printAllNotice(int offset, int limit);
 
 	public List<Notice> printAllByValue(String searchCondition, String searchValue, int currentPage, int noticeLimit);
 
-	public int removeOneByNo(Integer noticeNo);
+	public Notice printOneByNo(Integer noticeNo);
+
 
 }

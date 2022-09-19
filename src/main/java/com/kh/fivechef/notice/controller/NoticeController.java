@@ -78,6 +78,45 @@ public class NoticeController {
 	}
 	
 	/**
+	 * 공지글 수정화면
+	 * @param mv
+	 * @param noticeNo
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="/notice/modifyView.kh", method=RequestMethod.GET)
+	public ModelAndView noticeModifyView(
+			ModelAndView mv
+			, @RequestParam("noticeNo") Integer noticeNo
+			, @RequestParam("page") int page) {
+		try {
+			Notice notice = nService.printOneByNo(noticeNo);
+			mv.addObject("notice", notice);
+			mv.addObject("page", page);
+			mv.setViewName("notice/modifyForm");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
+		return mv;
+	}
+			
+//	@RequestMapping(value="/notice/modify.kh", method=RequestMethod.POST)
+//	public ModelAndView noticeModify(
+//			@ModelAttribute Notice notice
+//			, ModelAndView mv
+//			,@RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
+//			,@RequestParam("page") Integer page
+//			,HttpServletRequest request) {
+//		try {
+//			String noticeFilename = reloadFile.getOriginalFilename();
+//			if(reloadFile != null && !noticeFile)
+//		}
+//	}
+	
+	
+	
+	/**
 	 * 공지글 목록 조회
 	 * @param mv
 	 * @param page
@@ -113,8 +152,36 @@ public class NoticeController {
 		return mv;
 	}
 	
-	//게시글 상세조회
-
+	/**
+	 * 공지글 상세 조회
+	 * @param mv
+	 * @param noticeNo
+	 * @param page
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value="/notice/detail.kh", method=RequestMethod.GET)
+	public ModelAndView noticeDetailView(
+			ModelAndView mv
+			, @RequestParam("noticeNo") Integer noticeNo
+			, @RequestParam("page") Integer page
+			, HttpSession session) {
+		try {
+			Notice notice = nService.printOneByNo(noticeNo);
+			session.setAttribute("noticeNo", notice.getNoticeNo());
+			mv.addObject("notice", notice);
+			mv.addObject("page", page);
+			mv.setViewName("notice/detailView");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		} 
+		return mv;
+		}
+	
+	
+	
+	
 	
 	/**
 	 * 공지글 조건별 검색

@@ -4,28 +4,21 @@ import java.util.Date;
 
 public class Notice {
 	private int noticeNo;
-	private int noticeCount;
-	private String noticeWriter;
 	private String noticeTitle;
 	private String noticeContents;
-	private String noticeFilepath;
+	private String noticeWriter;
 	private String noticeFilename;
 	private String noticeFileRename;
-	private String nStatus;
+	private String noticeFilepath;
+	private int noticeCount;
 	private Date nCreateDate;
 	private Date nUpdateDate;
-	
+	private String nStatus;
 	public int getNoticeNo() {
 		return noticeNo;
 	}
 	public void setNoticeNo(int noticeNo) {
 		this.noticeNo = noticeNo;
-	}
-	public String getNoticeWriter() {
-		return noticeWriter;
-	}
-	public void setNoticeWriter(String noticeWriter) {
-		this.noticeWriter = noticeWriter;
 	}
 	public String getNoticeTitle() {
 		return noticeTitle;
@@ -39,11 +32,11 @@ public class Notice {
 	public void setNoticeContents(String noticeContents) {
 		this.noticeContents = noticeContents;
 	}
-	public String getNoticeFilepath() {
-		return noticeFilepath;
+	public String getNoticeWriter() {
+		return noticeWriter;
 	}
-	public void setNoticeFilepath(String noticeFilepath) {
-		this.noticeFilepath = noticeFilepath;
+	public void setNoticeWriter(String noticeWriter) {
+		this.noticeWriter = noticeWriter;
 	}
 	public String getNoticeFilename() {
 		return noticeFilename;
@@ -56,6 +49,12 @@ public class Notice {
 	}
 	public void setNoticeFileRename(String noticeFileRename) {
 		this.noticeFileRename = noticeFileRename;
+	}
+	public String getNoticeFilepath() {
+		return noticeFilepath;
+	}
+	public void setNoticeFilepath(String noticeFilepath) {
+		this.noticeFilepath = noticeFilepath;
 	}
 	public int getNoticeCount() {
 		return noticeCount;
@@ -81,15 +80,13 @@ public class Notice {
 	public void setnStatus(String nStatus) {
 		this.nStatus = nStatus;
 	}
-	
 	@Override
 	public String toString() {
-		return "Notice [noticeNo=" + noticeNo + ", noticeWriter=" + noticeWriter + ", noticeTitle=" + noticeTitle
-				+ ", noticeContents=" + noticeContents + ", noticeFilepath=" + noticeFilepath + ", noticeFilename="
-				+ noticeFilename + ", noticeFileRename=" + noticeFileRename + ", noticeCount=" + noticeCount
+		return "Notice [noticeNo=" + noticeNo + ", noticeTitle=" + noticeTitle + ", noticeContents=" + noticeContents
+				+ ", noticeWriter=" + noticeWriter + ", noticeFilename=" + noticeFilename + ", noticeFileRename="
+				+ noticeFileRename + ", noticeFilepath=" + noticeFilepath + ", noticeCount=" + noticeCount
 				+ ", nCreateDate=" + nCreateDate + ", nUpdateDate=" + nUpdateDate + ", nStatus=" + nStatus + "]";
 	}
-
 	
 	
 }

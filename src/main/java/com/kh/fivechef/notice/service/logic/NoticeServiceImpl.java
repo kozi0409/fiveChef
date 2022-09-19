@@ -24,7 +24,13 @@ public class NoticeServiceImpl implements NoticeService {
 		int result = nStore.insertNotice(session, notice);
 		return result;
 	}
-
+	
+	@Override
+	public int removeOneByNo(Integer noticeNo) {
+		int result = nStore.deleteOneByNo(session, noticeNo);
+		return result;
+	}
+	
 	@Override
 	public int getTotalCount(String searchCondition, String searchValue) {
 		int totalCount = nStore.selectTotalCount(session, searchCondition, searchValue);
@@ -44,9 +50,14 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 
 	@Override
-	public int removeOneByNo(Integer noticeNo) {
-		int result = nStore.deleteOneByNo(session, noticeNo);
-		return result;
+	public Notice printOneByNo(Integer noticeNo) {
+		Notice notice = nStore.selectOneByNo(session, noticeNo);
+		int result = 0;
+		if(notice != null) {
+			result = nStore.updateNoticeCount(session, noticeNo);
+		}
+		return notice;
 	}
+
 
 }

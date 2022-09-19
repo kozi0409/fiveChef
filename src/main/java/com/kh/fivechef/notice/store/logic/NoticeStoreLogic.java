@@ -20,6 +20,12 @@ public class NoticeStoreLogic implements NoticeStore{
 	}
 
 	@Override
+	public int deleteOneByNo(SqlSession session, int noticeNo) {
+		int result = session.delete("NoticeMapper.deleteNotice",noticeNo);
+		return result;
+	}
+	
+	@Override
 	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
@@ -48,10 +54,18 @@ public class NoticeStoreLogic implements NoticeStore{
 	}
 
 	@Override
-	public int deleteOneByNo(SqlSession session, int noticeNo) {
-		int result = session.delete("NoticeMapper.deleteNotice",noticeNo);
+	public Notice selectOneByNo(SqlSession session, Integer noticeNo) {
+		Notice notice = session.selectOne("NoticeMapper.selectOneByNo", noticeNo);
+		return notice;
+	}
+
+	@Override
+	public int updateNoticeCount(SqlSession session, int noticeNo) {
+		int result = session.update("NoticeMapper.updateCount", noticeNo);
 		return result;
 	}
+
+
 
 
 	

@@ -44,7 +44,7 @@
 					<button onclick="remove_div(this)">삭제</button>
 				</div>
 				냉장고
-				<c:forEach items="${fList }" var="fridge varStatus="i">
+				<c:forEach items="${fList }" var="fridge" varStatus="i">
 					<div class="row">
 						<div class="col">
 							<div class="card col-sm-6" style="width: 18rem;">
