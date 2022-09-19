@@ -31,4 +31,11 @@ public class FridgeServiceImpl implements FridgeService{
 		return fList;
 	}
 
+
+	@Override
+	public int removeOneByNo(Integer fridgeNo) {
+		int result = fStore.deleteOneByNo(session, fridgeNo);
+		return result;
+	}
+
 }

@@ -9,4 +9,5 @@ import com.kh.fivechef.fridge.domain.Fridge;
 public interface FridgeStore {
 	public int insertFridge(SqlSession session, Fridge fridge);
 	public List<Fridge> selectAllFridge(SqlSession session);
+	public int deleteOneByNo(SqlSession session, Integer fridgeNo);
 }

@@ -26,39 +26,46 @@
 		<div style="margin:20px; border:2px solid black;" >
 			<div class="card-body">
 				<div align="right">
-					<div class="row0">
-						냉장고 : 
-					</div>
-					<div class="row1">
-						<button data-bs-toggle="modal" data-bs-target="#modalSignin">생성</button>
-					</div>
-					<div class="row2">
-						<button onclick="#">삭제</button>
+					<div class="row">
+						<div class="col">
+						</div>
+						<div class="col">
+						</div>
+						<div class="col">
+							<div class="row">
+								<div class="col">
+									 
+								</div>
+								<div class="col">
+									냉장고 :<button data-bs-toggle="modal" data-bs-target="#modalSignin">생성</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				냉장고
-					<c:if test="${not empty fList }">
+				<c:if test="${not empty fList }">
+					<div class="row">
 						<c:forEach items="${fList }" var="fridge" varStatus="i">
-							<div class="row">
 								<div class="col">
-									<div class="card col-sm-6" style="width: 18rem;">
-										<img src="/resources/fuploadFiles/${fridge.fridgeFileRename }" class="card-img-top" alt="...">
+									<div class="card col-sm-4" style="width: 18rem;">
+										<img src=<c:if test="${not empty fridge.fridgeFileRename }">"/resources/fuploadFiles/${fridge.fridgeFileRename }"</c:if><c:if test="${empty fridge.fridgeFileRename }">"/resources/images/defaultImages.jpg"</c:if> class="card-img-top" alt="...">
 										<div class="card-body">
 											<h5 class="card-title">${fridge.fridgeName }</h5>
 											<p class="card-text"></p>
-											<a href="#" class="btn btn-warning">수정하기</a>
-											<a href="#" class="btn btn-danger">삭제하기</a>
+											<button class="btn btn-warning" >수정하기</button>
+											<button class="btn btn-danger" onclick="removeFridge(${fridge.fridgeNo });">삭제하기</button>										
 										</div>
 									</div>
 								</div>	
-							</div>
 						</c:forEach>
-					</c:if>
-					<c:if test="${empty fList }">
-						<tr>
-							<td colspan="6" align="center"><b>데이터가 존재하지 않습니다.</b></td>
-						</tr>
-					</c:if>
+					</div>
+				</c:if>
+				<c:if test="${empty fList }">
+					<tr>
+						<td colspan="6" align="center"><b>데이터가 존재하지 않습니다.</b></td>
+					</tr>
+				</c:if>
 			</div>
 		</div>
 		
@@ -99,7 +106,15 @@
 	     </div>
 	  </div>
 	</div>
-		
+	
+	<script>
+		function removeFridge(fNo){
+			event.preventDefault(); // 하이퍼링크 이동 방지
+			if(confirm("게시물을 삭제하시겠습니까?")){
+				location.href="/fridge/removeFridge.kh?fridgeNo="+fNo;
+			}
+		}
+	</script>
 	
 	
 </body>

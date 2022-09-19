@@ -21,4 +21,8 @@
  		SELECT * FROM MY_FRIDGE_TBL
  		ORDER BY FRIDGE_NO DESC
  	</select>
+ 	<delete id="deleteFridge">
+ 		DELETE FROM MY_FRIDGE_TBL
+ 		WHERE FRIDGE_NO = #{fridgeNo}
+ 	</delete>
  </mapper>

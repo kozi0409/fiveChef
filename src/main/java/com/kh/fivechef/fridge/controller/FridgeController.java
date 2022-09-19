@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,7 @@ public class FridgeController {
 				fridge.setFridgeFilepath(fridgeFilepath);
 			}
 			int result = fService.registerFridge(fridge);
+			System.out.println(result);
 			mv.setViewName("redirect:/");
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage());
@@ -73,7 +75,6 @@ public class FridgeController {
 	@RequestMapping(value="/fridge/myFridge.kh", method=RequestMethod.GET)
 	public ModelAndView fridgeListView(ModelAndView mv) {
 		List<Fridge> fList = fService.printAllFridge();
-		System.out.println(fList.toString());
 		if(!fList.isEmpty()) {
 			mv.addObject("fList", fList);
 		}
@@ -82,4 +83,21 @@ public class FridgeController {
 	}
 	// 냉장고 수정
 	// 냉장고 삭제
+	@RequestMapping(value="/fridge/removeFridge.kh", method=RequestMethod.GET)
+	public ModelAndView fridgeRemove(ModelAndView mv
+			, HttpSession session
+			, @RequestParam("fridgeNo") Integer fridgeNo) {
+		try {
+//			int fridgeNo = (int)session.getAttribute("fridgeNo");
+			int result = fService.removeOneByNo(fridgeNo);
+			if(result > 0) {
+				session.removeAttribute("fridgeNo");
+				mv.setViewName("redirect:/");
+			}
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage"); 
+		}
+		return mv;
+	}
 }

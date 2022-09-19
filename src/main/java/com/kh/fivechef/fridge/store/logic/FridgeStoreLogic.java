@@ -23,4 +23,10 @@ public class FridgeStoreLogic implements FridgeStore{
 		return fList;
 	}
 
+	@Override
+	public int deleteOneByNo(SqlSession session, Integer fridgeNo) {
+		int result = session.delete("FridgeMapper.deleteFridge", fridgeNo);
+		return result;
+	}
+
 }
