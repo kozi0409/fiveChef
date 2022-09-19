@@ -15,19 +15,6 @@
 </head>
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
-	<script type="text/javascript">
-		function makeCard(image, url, title, desc, comment) {
-	        let tempHtml = `<div class="card">
-	                <img class="card-img-top" src="${image}" alt="Card image cap">
-	                <div class="card-body">
-	                <a href="${url}" target="_blank" class="card-title">${title}</a>
-	                <p class="card-text">${desc}</p>
-	                <p class="card-text comment">${comment}</p>
-	                </div>
-	            </div>`;
-	        $("#cards-box").append(tempHtml);
-		}
-	</script>
 	
 	<header>
 		<div align="center">
@@ -39,9 +26,15 @@
 		<div style="margin:20px; border:2px solid black;" >
 			<div class="card-body">
 				<div align="right">
-				냉장고 : 
-					<button data-bs-toggle="modal" data-bs-target="#modalSignin">생성</button>
-					<button onclick="#">삭제</button>
+					<div class="row0">
+						냉장고 : 
+					</div>
+					<div class="row1">
+						<button data-bs-toggle="modal" data-bs-target="#modalSignin">생성</button>
+					</div>
+					<div class="row2">
+						<button onclick="#">삭제</button>
+					</div>
 				</div>
 				냉장고
 					<c:if test="${not empty fList }">
@@ -49,11 +42,12 @@
 							<div class="row">
 								<div class="col">
 									<div class="card col-sm-6" style="width: 18rem;">
-										<img src=${fList.fridgeFilename } class="card-img-top" alt="...">
+										<img src="/resources/fuploadFiles/${fridge.fridgeFileRename }" class="card-img-top" alt="...">
 										<div class="card-body">
-											<h5 class="card-title">${fList.fridgeNo }</h5>
+											<h5 class="card-title">${fridge.fridgeName }</h5>
 											<p class="card-text"></p>
 											<a href="#" class="btn btn-warning">수정하기</a>
+											<a href="#" class="btn btn-danger">삭제하기</a>
 										</div>
 									</div>
 								</div>	

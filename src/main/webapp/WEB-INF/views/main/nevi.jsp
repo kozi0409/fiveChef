@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +26,6 @@
 <div class="wrapper row1">
   <header id="header" class="hoc clear"> 
     <section>
-      <div><a href="#"><h3><i class="fas fa-star"></i>팀 요리조리</h3></a></div>
       <div>
         <h1 id="logo"><a href="home.kh"><img src="../resources/images/logo1.png"></a></h1>
       </div>
@@ -38,6 +37,18 @@
             <button class="fas fa-search" type="submit" title="Search"><em>Search</em></button>
           </fieldset>
         </form>
+      </div>
+      <div align="center">
+        <h1 id="logo">
+           <c:if test="${sessionScope.loginUser eq null }">
+             <a href="/user/loginView.kh">LOGIN</a>
+          </c:if>
+          <c:if test="${not empty loginUser}">
+             <div>${sessionScope.loginUser.userId }</div><br>
+             <span><a href="/user/myPage.kh">My Page</a></span><br>
+             <span><a href="/user/logout.kh">logout</a></span><br>
+          </c:if>
+      </h1>
       </div>
     </section>
   </header>

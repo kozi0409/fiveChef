@@ -70,14 +70,14 @@ public class FridgeController {
 	}
 	
 	// 냉장고 조회
-	@GetMapping("/fridge/myFridge.kh")
+	@RequestMapping(value="/fridge/myFridge.kh", method=RequestMethod.GET)
 	public ModelAndView fridgeListView(ModelAndView mv) {
 		List<Fridge> fList = fService.printAllFridge();
 		System.out.println(fList.toString());
 		if(!fList.isEmpty()) {
 			mv.addObject("fList", fList);
 		}
-		mv.setViewName("/");
+		mv.setViewName("fridge/myFridge");
 		return mv;
 	}
 	// 냉장고 수정
