@@ -4,7 +4,29 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <!-- 나는 맵퍼다 선언 -->
  <mapper namespace="QnAMapper">
+ 	<resultMap type="QnA" id="qnaResultMap">
+ 		<id property="questionNo" column="QUESTION_NO"/>
+ 		<result property="questionWriter" column="QUESTION_WRITER"/>
+ 		<result property="questionTitle" column="QUESTION_TITLE"/>
+ 		<result property="questionContents" column="QUESTION_CONTENTS"/>
+ 		<result property="qFileName" column="QUESTION_FILE_NAME"/>
+ 		<result property="qFileReName" column="QUESTION_FILE_RENAME"/>
+ 		<result property="qFilePath" column="QUESTION_FILE_PATH"/>
+ 		<result property="answerStatus" column="ANSWER_STATUS"/>
+ 		<result property="answerContents" column="ANSWERT_CONTENTS"/>
+ 		<result property="answerWriter" column="ANSWER_WRITER"/>
+ 		<result property="qEnrollDate" column="Q_ENROLL_DATE"/>
+ 		<result property="qUpdateDate" column="Q_UPDATE_DATE"/>
+ 	</resultMap>
  		<insert id="insertQnA"> 
  			INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.NEXTVAL, #{questionWriter}, #{questionTitle}, #{questionContents}, #{qFileName}, #{qFileReName}, #{qFilePath}, DEFAULT, #{answerContents}, #{answerWriter}, DEFAULT, DEFAULT) 
  		</insert>
+ 		
+ 		<select id="selectTotalCount" resultType="_int">
+ 			SELECT COUNT(*) FROM QNA_TBL
+ 		</select>
+ 		
+ 		<select id="selectMyQnA" resultMap="qnaResultMap">
+ 			SELECT * FROM QNA_TBL ORDER BY QUESTION_NO DESC
+ 		</select>
  </mapper>

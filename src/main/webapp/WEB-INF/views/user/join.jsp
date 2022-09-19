@@ -7,6 +7,9 @@
 <title>회원 본인인증</title>
 </head>
 <body>
+	<!-- nevi bar -->
+	<jsp:include page="../main/nevi.jsp"></jsp:include>
+	<br><br>
 	<h1 align="center">
 		<a href="home.kh">냉장고 Chef</a>
 	</h1>
@@ -48,5 +51,9 @@
 		<br>
 		<button type="submit">가입하기</button>
 	</form>
+<br><br>
+<!-- copyright -->
+<jsp:include page="../main/footer.jsp"></jsp:include>
+
 </body>
 </html>

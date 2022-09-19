@@ -1,5 +1,7 @@
 package com.kh.fivechef.qna.service.logic;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,18 @@ public class QnAServiceImpl implements QnAService{
 	public int registQnA(QnA QnA) {
 		int result = qStore.insertQnA(session, QnA);
 		return result;
+	}
+
+	@Override
+	public int getTotalCount(String searchCondition, String searchValue) {
+		int totalCount = qStore.selectTotalCount(session, searchCondition, searchValue);
+		return totalCount;
+	}
+
+	@Override
+	public List<QnA> printMyQnA(int currentPage, int qnaLimit) {
+		List<QnA> qList = qStore.selectMyQnA(session, currentPage, qnaLimit);
+		return qList;
 	}
 
 }

@@ -8,6 +8,9 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
+	<!-- nevi bar -->
+	<jsp:include page="../main/nevi.jsp"></jsp:include>
+	<br><br>
 	<h1 align="center">
 		<a href="home.kh">냉장고 Chef</a>
 	</h1>
@@ -30,6 +33,10 @@
 			 </table>
 		</form>
 	</div>
+	<br><br>
+	<!-- copyright -->
+	<jsp:include page="../main/footer.jsp"></jsp:include>
+	
 	<script>
 		function joinUser() {
 			location.href = "/user/userJoinView.kh";
