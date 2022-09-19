@@ -73,11 +73,11 @@ public class FridgeController {
 	@GetMapping("/fridge/myFridge.kh")
 	public ModelAndView fridgeListView(ModelAndView mv) {
 		List<Fridge> fList = fService.printAllFridge();
-		System.out.println(fList);
+		System.out.println(fList.toString());
 		if(!fList.isEmpty()) {
 			mv.addObject("fList", fList);
 		}
-		mv.setViewName("redirect:/");
+		mv.setViewName("/");
 		return mv;
 	}
 	// 냉장고 수정
