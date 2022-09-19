@@ -19,6 +19,6 @@
  	</insert>
  	<select id="selectAllFridge" resultMap="fridgeResultMap">
  		SELECT * FROM MY_FRIDGE_TBL
- 		WHERE ORDER BY FRIDGE_NO DESC
+ 		ORDER BY FRIDGE_NO DESC
  	</select>
  </mapper>
