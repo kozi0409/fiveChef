@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- 나는 맵퍼다 선언 -->
+ <mapper namespace="QnAMapper">
+ 		<insert id="insertQnA"> 
+ 			INSERT INTO QNA_TBL VALUES(SEQ_QNA_NO.NEXTVAL, #{questionWriter}, #{questionTitle}, #{questionContents}, #{qFileName}, #{qFileReName}, #{qFilePath}, DEFAULT, #{answerContents}, #{answerWriter}, DEFAULT, DEFAULT) 
+ 		</insert>
+ </mapper>

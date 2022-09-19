@@ -15,6 +15,7 @@
 		<typeAlias type="com.kh.fivechef.notice.domain.Notice" alias="Notice"/>
 		<typeAlias type="com.kh.fivechef.recipe.domain.Recipe" alias="Recipe"/>
 		<typeAlias type="com.kh.fivechef.user.domain.User" alias="User"/>
+		<typeAlias type="com.kh.fivechef.qna.domain.QnA" alias="QnA"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"></mapper>
@@ -22,6 +23,6 @@
 		<mapper resource="mappers/notice-mapper.xml"></mapper>
 		<mapper resource="mappers/recipe-mapper.xml"></mapper>
 		<mapper resource="mappers/user-mapper.xml"></mapper>
-		
+		<mapper resource="mappers/qna-mapper.xml"></mapper>
 	</mappers>
 </configuration>
