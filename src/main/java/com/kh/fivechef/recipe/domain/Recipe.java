@@ -15,8 +15,8 @@ public class Recipe {
 //	private String comPhoto2;
 //	private String comPhoto3;
 //	private String comPhoto4;
-	private String recipeLikeCount;
-	private String recipeCount;
+	private String recipeLikeCount; //인트로 바꿔
+	private String recipeCount; //인트로
 	//default 0으로 줘야함
 	private String userId;
 	private String recipeLevel;

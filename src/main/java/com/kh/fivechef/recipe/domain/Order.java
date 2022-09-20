@@ -4,11 +4,14 @@ public class Order {
 	private int orederNo;
 	private int recipeNo;
 	private String recipeContents;
-	private String recipePhoto;
+	private String orderPhotoName;
+	private String orderPhotoRename;
+	private String orderPhotopath;
 	@Override
 	public String toString() {
 		return "Order [orederNo=" + orederNo + ", recipeNo=" + recipeNo + ", recipeContents=" + recipeContents
-				+ ", recipePhoto=" + recipePhoto + "]";
+				+ ", orderPhotoName=" + orderPhotoName + ", orderPhotoRename=" + orderPhotoRename + ", orderPhotopath="
+				+ orderPhotopath + "]";
 	}
 	public int getOrederNo() {
 		return orederNo;
@@ -28,12 +31,24 @@ public class Order {
 	public void setRecipeContents(String recipeContents) {
 		this.recipeContents = recipeContents;
 	}
-	public String getRecipePhoto() {
-		return recipePhoto;
+	public String getOrderPhotoName() {
+		return orderPhotoName;
 	}
-	public void setRecipePhoto(String recipePhoto) {
-		this.recipePhoto = recipePhoto;
+	public void setOrderPhotoName(String orderPhotoName) {
+		this.orderPhotoName = orderPhotoName;
 	}
-	
+	public String getorderPhotoRename() {
+		return orderPhotoRename;
+	}
+	public void setorderPhotoRename(String orderPhotoRename) {
+		this.orderPhotoRename = orderPhotoRename;
+	}
+	public String getOrderPhotopath() {
+		return orderPhotopath;
+	}
+	public void setOrderPhotopath(String orderPhotopath) {
+		this.orderPhotopath = orderPhotopath;
+	}
+
 	
 }

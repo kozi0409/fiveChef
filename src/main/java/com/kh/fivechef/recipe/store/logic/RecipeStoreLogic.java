@@ -3,6 +3,7 @@ package com.kh.fivechef.recipe.store.logic;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
@@ -25,6 +26,12 @@ public class RecipeStoreLogic implements RecipeStore{
 	@Override
 	public int insertOrder(SqlSession session, Order order) {
 		int result = session.insert("RecipeMapper.insertOrder",order);
+		return result;
+	}
+
+	@Override
+	public int insertComPhoto(SqlSession session, ComPhoto comPhoto) {
+		int result = session.insert("RecipeMapper.insertComPhoto",comPhoto);
 		return result;
 	}
 

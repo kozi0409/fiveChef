@@ -8,16 +8,17 @@
 <title>냉장고 셰프 레시피 작성</title>
 <style>
 
-#chooseFile {
+/* #chooseFile {
     visibility: hidden;
-}
+} */
+
 </style>
 </head>
 
 <body>
 
 <h2 align="center">레시피 등록</h2>
-	<form action="/recipe/recipeRegister.kh" method="post">
+	<form action="/recipe/recipeRegister.kh" method="post" enctype="multipart/form-data">
 		<table align="center" border="1"  width="900">
 			<tr>
 				<td>제목</td>
@@ -25,16 +26,16 @@
 				<input type="text" name="recipeTitle">
 				</td>
 				<td rowspan="3"  width="200" height="200" align="center">
-				<div class="button">
+			<!-- 	<div class="button">
 					<label for="chooseFile">
 						👉 CLICK HERE! 👈
 					</label>
-				</div>
-				<input type="file" id="chooseFile" name="uploadFile" accept="image/*" onchange="loadFile(this)">
-				<div align="left" class="fileInput">
+				</div> -->
+				<input type="file" id="chooseFile" name="uploadFile" accept="image/*">
+				<!-- <div align="left" class="fileInput">
                  <div class="image-show" id="image-show"></div>   
-                    <div id="fileName" ></div>
-                </div>
+                    <div ><p id="fileName" ></p></div>
+                </div> -->
                 
 				</td>
 			</tr>	
@@ -128,14 +129,23 @@
 			<tr>
 				<td><b>Step1</b></td>
 				<td><textarea rows="11" cols="45" name="recipeContents"></textarea></td>
-				<td align="center" width="200" height="200"><input type="text" name="recipePhoto" value="요리사진"></td>
+				<td align="center" width="200" height="200"><input type="file" id="" name="ouploadFile" accept="image/*"></td>
 			</tr>	
 			<tr>
 				<td><b>Step2</b></td>
 				<td><textarea rows="11" cols="45" name="recipeContents"></textarea></td>
-				<td align="center" width="200" height="200"><input type="text" name="recipePhoto" value="요리사진"></td>
+				<td align="center" width="200" height="200"><input type="file" id="" name="ouploadFile" accept="image/*"></td>
 			</tr>	
 		</table>	
+		<br>
+		<table class="comPhoto" align="center" border="1" height="250" width="900">
+			<tr>
+				<td><input type="file" id="" name="cuploadFile" accept="image/*"></td>
+				<td><input type="file" id="" name="cuploadFile" accept="image/*"></td>
+				<td><input type="file" id="" name="cuploadFile" accept="image/*"></td>
+				<td><input type="file" id="" name="cuploadFile" accept="image/*"></td>
+			</tr>
+		</table>
 		<br>
 		<div align="center">
 		<input type="submit" value="저장">
