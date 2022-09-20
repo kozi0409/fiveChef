@@ -17,14 +17,14 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 	
 	<header>
-		<div align="center">
+		<hr style="border-width:2px;">
+		<div class="mt-5" align="center">
 			<h1>MY 냉장고</h1>
 		</div>
 	</header>
 	<section>
-		
 		<div class="container" >
-			<div class="card-body">
+			<div class="card-body" style="width:100%; background-color:gray; padding: 20px; border-radius: 10px;">
 				<div align="right">
 					<div class="row">
 						<div class="col">
@@ -37,26 +37,24 @@
 									 
 								</div>
 								<div class="col">
-								<h3>냉장고 :</h3>
 								<c:if test="${checkYn == true }">
-									<button class="w-50 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge">생성</button>
+									<button class="w-100 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge">냉장고 생성</button>
 								</c:if>
 								<c:if test="${checkYn == false }">
-									<button class="w-50 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge" disabled>생성</button>
+									<button class="w-100 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge" disabled>냉장고 생성</button>
 								</c:if>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				냉장고
 				<c:if test="${not empty fList }">
 					<div class="row">
 						<c:forEach items="${fList }" var="fridge" varStatus="i">
 								<div class="col">
-									<div class="card col-sm-4" style="width: 18rem; cursor : pointer;">
+									<div class="card col-sm-4" style="width: 18rem; cursor : pointer;" onclick="location.href='/fridge/storage.kh'">
 										<img src=<c:if test="${not empty fridge.fridgeFileRename }">"/resources/fuploadFiles/${fridge.fridgeFileRename }"</c:if><c:if test="${empty fridge.fridgeFileRename }">"/resources/images/defaultImages.jpg"</c:if> class="card-img-top" alt="...">
-										<hr "border-height:3px;">
+										<hr style="border-width:3px;">
 										<div class="card-body text-center">
 											<h5 class="card-title">${fridge.fridgeName }</h5>
 <!-- 											<p class="card-text"></p> -->
@@ -181,7 +179,7 @@
 	<script>
 		function removeFridge(fNo){
 			event.preventDefault(); // 하이퍼링크 이동 방지
-			if(confirm("게시물을 삭제하시겠습니까?")){
+			if(confirm("다시 복원 할 수 없습니다.\\n정말 삭제하시겠습니까?")){
 				location.href="/fridge/removeFridge.kh?fridgeNo="+fNo;
 			}
 		}
