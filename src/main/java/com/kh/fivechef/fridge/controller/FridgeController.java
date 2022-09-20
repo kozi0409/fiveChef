@@ -113,7 +113,7 @@ public class FridgeController {
 				fridge.setFridgeFilepath(fridgeFilepath);
 			}
 			System.out.println(fridge);
-			int result = fService.modifyBoard(fridge);
+			int result = fService.modifyFridge(fridge);
 			mv.setViewName("redirect:/");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
