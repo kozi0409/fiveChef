@@ -21,10 +21,10 @@
  		INSERT INTO NOTICE_TBL
  		VALUES(SEQ_NOTICE_NO.NEXTVAL, #{noticeTitle}, #{noticeContents}, #{noticeWriter}, #{noticeFilename}, #{noticeFileRename}, #{noticeFilepath}, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
  	</insert>
-<!--  	<update id="updateNotice"> -->
-<!--   		UPDATE NOTICE_TBL SET NOTICE_TITLE = #{noticeTitle}, NOTICE_CONTENTS = #{noticeContents}, NOTICE_FILENAME = #{noticeFilename }, NOTICE_RENAME = #{noticeFileRename}, NOTICE_FILEPATH = #{noticeFilepath}, N_UPDATE_DATE = DEFAULT -->
-<!--   		WHERE NOTICE_NO = #{noticeNo} -->
-<!--   	</update> -->
+ 	<update id="updateNotice">
+  		UPDATE NOTICE_TBL SET NOTICE_TITLE = #{noticeTitle}, NOTICE_CONTENTS = #{noticeContents}, NOTICE_FILENAME = #{noticeFilename }, NOTICE_RENAME = #{noticeFileRename}, NOTICE_FILEPATH = #{noticeFilepath}, N_UPDATE_DATE = DEFAULT
+  		WHERE NOTICE_NO = #{noticeNo}
+  	</update>
  	<delete id="deleteNotice">
   		DELETE FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo}
   	</delete>
@@ -34,7 +34,6 @@
  	<select id="selectAllNotice" resultMap="noticeResultMap">
   		SELECT * FROM NOTICE_TBL WHERE N_STATUS = 'Y' ORDER BY NOTICE_NO DESC
   	</select>
-  	
   	<select id="selectTotalCount" resultType="_int">
   		SELECT COUNT(*) FROM NOTICE_TBL
   		<where>
@@ -51,7 +50,9 @@
 			AND N_STATUS = 'Y'
 		</where>
   	</select>
-  	
+  	<select id="selectOneByNo" resultMap="noticeResultMap">
+  		SELECT * FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo } AND N_STATUS = 'Y' 
+  	</select>
   	<select id="selectAllByValue" resultMap="noticeResultMap">
   		SELECT * FROM NOTICE_TBL
   		<where>
@@ -68,7 +69,4 @@
   		 	AND N_STATUS = 'Y'
   		</where>
   	</select>
-  	
-  	
- 
  </mapper>
