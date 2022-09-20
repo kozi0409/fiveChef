@@ -13,7 +13,7 @@
  		<result property="qFileReName" column="QUESTION_FILE_RENAME"/>
  		<result property="qFilePath" column="QUESTION_FILE_PATH"/>
  		<result property="answerStatus" column="ANSWER_STATUS"/>
- 		<result property="answerContents" column="ANSWERT_CONTENTS"/>
+ 		<result property="answerContents" column="ANSWER_CONTENTS"/>
  		<result property="answerWriter" column="ANSWER_WRITER"/>
  		<result property="qEnrollDate" column="Q_ENROLL_DATE"/>
  		<result property="qUpdateDate" column="Q_UPDATE_DATE"/>
@@ -28,5 +28,9 @@
  		
  		<select id="selectMyQnA" resultMap="qnaResultMap">
  			SELECT * FROM QNA_TBL ORDER BY QUESTION_NO DESC
+ 		</select>
+ 		
+ 		<select id="selectOneByNo" resultMap="qnaResultMap">
+ 			SELECT * FROM QNA_TBL WHERE QUESTION_NO = #{questionNo}
  		</select>
  </mapper>

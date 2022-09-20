@@ -11,4 +11,6 @@ public interface QnAService {
 	public int getTotalCount(String searchCondition, String searchValue);
 
 	public List<QnA> printMyQnA(int currentPage, int qnaLimit);
+
+	public QnA printOneByNo(Integer questionNo);
 }

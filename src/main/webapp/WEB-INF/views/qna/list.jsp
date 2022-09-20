@@ -22,7 +22,7 @@
 			<c:forEach items="${qList }" var="qna" varStatus="i">
 				<tr>
 					<td>${i.count }</td>
-					<td><a href="/qna/detail.kh?boardNo=${qna.questionNo }&page=${currentPage }">${qna.questionTitle }</a></td>
+					<td><a href="/qna/detail.kh?questionNo=${qna.questionNo }&page=${currentPage }">${qna.questionTitle }</a></td>
 					<td>${qna.questionWriter }</td>
 					<td>${qna.qEnrollDate }</td>
 					<td>

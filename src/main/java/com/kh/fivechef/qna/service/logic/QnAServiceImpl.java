@@ -37,4 +37,10 @@ public class QnAServiceImpl implements QnAService{
 		return qList;
 	}
 
+	@Override
+	public QnA printOneByNo(Integer questionNo) {
+		QnA qna = qStore.selectOneByNo(session, questionNo);
+		return qna;
+	}
+
 }

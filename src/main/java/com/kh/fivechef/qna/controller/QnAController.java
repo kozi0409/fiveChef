@@ -3,9 +3,11 @@ package com.kh.fivechef.qna.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.qna.domain.QnA;
 import com.kh.fivechef.qna.service.QnAService;
+import com.kh.fivechef.user.domain.User;
 
 @Controller
 public class QnAController {
@@ -45,7 +48,10 @@ public class QnAController {
 	}
 	
 	@RequestMapping(value="/qna/list.kh" , method=RequestMethod.GET) //사용자가 작성한 문의글 보기
-	public ModelAndView myQnAListView (ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
+	public ModelAndView myQnAListView (ModelAndView mv, @RequestParam(value="page", required=false) Integer page, HttpSession session, QnA qna) {
+		User user =(User)session.getAttribute("loginUser");
+		String questionWriter = user.getUserId();
+		session.setAttribute("questionWriter", qna.getQuestionWriter());
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = qService.getTotalCount("", "");
 		int qnaLimit = 10;
@@ -69,6 +75,21 @@ public class QnAController {
 			mv.addObject("qList", qList);
 		}
 		mv.setViewName("qna/list");
+		return mv;
+	}
+	
+	@RequestMapping(value="/qna/detail.kh", method=RequestMethod.GET) 
+	public ModelAndView qnaDetailView(ModelAndView mv, @RequestParam("questionNo") Integer questionNo, @RequestParam("page")Integer page, HttpSession session) {
+		try {
+			QnA qna = qService.printOneByNo(questionNo);
+			session.setAttribute("questionNo", qna.getQuestionNo());
+			mv.addObject("qna", qna);
+			mv.addObject("page", page);
+			mv.setViewName("qna/detail");		
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage");
+		}
 		return mv;
 	}
 }

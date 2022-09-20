@@ -35,5 +35,11 @@ public class QnAStoreLogic implements QnAStore{
 		List<QnA> qList = session.selectList("QnAMapper.selectMyQnA", null, rowBounds);
 		return qList;
 	}
+
+	@Override
+	public QnA selectOneByNo(SqlSessionTemplate session, Integer questionNo) {
+		QnA qna = session.selectOne("QnAMapper.selectOneByNo", questionNo);
+		return qna;
+	}
 	
 }
