@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +8,9 @@
 <title>회원 본인인증</title>
 </head>
 <body>
+<!-- nevi bar -->
+<jsp:include page="../main/nevi.jsp"></jsp:include>
+<br><br>
 	<h1 align="center">
 		<a href="home.kh">냉장고 Chef</a>
 	</h1>
@@ -35,7 +39,7 @@
 		<label>이메일</label>
 		<div class="email-box">
 			<input type="text" id="userEmail" name="userEmail" >
-			<a href="#" class="btn_certify" role="button">
+			<a href="#" class="btn" role="button">
 				<span class>인증번호 받기</span>
 			</a>
 		</div>
@@ -48,5 +52,8 @@
 		<br>
 		<button type="submit">가입하기</button>
 	</form>
+<br><br>
+<!-- copyright -->
+<jsp:include page="../main/footer.jsp"></jsp:include>
 </body>
 </html>

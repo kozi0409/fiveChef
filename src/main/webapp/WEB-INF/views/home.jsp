@@ -7,9 +7,13 @@
 <title>FiveChef</title>
 </head>
 <body>
-   <div>
-      <button onclick="location.href='/fridge/myFridge.jsp'">Visit Our WebSite!</button>
-   </div>
-<%--    <jsp:forward page="/home.kh"></jsp:forward> --%>
+<!-- nevi bar -->
+<jsp:include page="./main/nevi.jsp"></jsp:include>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+   
+<!-- copyright -->
+<jsp:include page="./main/footer.jsp"></jsp:include>
 </body>
 </html>

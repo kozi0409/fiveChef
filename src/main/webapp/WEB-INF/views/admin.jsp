@@ -13,73 +13,56 @@
     <link href="../resources/css/layout.css"" rel="stylesheet">
     <link href="../resources/css/bootstrap.min.css"" rel="stylesheet">
 </head>
-	<script type="text/javascript">
-		$theme-colors: (
-		  "primary":    $primary,
-		  "secondary":  $secondary,
-		  "success":    $success,
-		  "info":       $info,
-		  "warning":    $warning,
-		  "danger":     $danger,
-		  "light":      $light,
-		  "dark":       $dark
-		);	
-	</script>
 <body>
 
 <!-- header start -->
 <header id="header" class="hoc clear"> 
     <section>
         <div>
-            &nbsp;&nbsp;&nbsp;
-          </div>
+            <h1>관리자페이지</h1>
+         </div>
       <div>
-        <h1 id="logo"><a href="home.kh"><img src="../resources/images/logo.png"></a></h1>
+        <h1 id="logo"><a href="home.kh"><img src="../resources/images/logo2.png"></a></h1>
       </div>
       <div>
-         <div>
-        <%-- 		<c:if test="${empty sessionScope.loginUser }">	 --%>
-          <c:if test="${sessionScope.loginUser eq null }">
-	          <form action="/user/loginView.kh" method="post">
-					<table>
-						<tr>
-							<th>ID</th>
-							<td><input type="text" name="adminId"></td>
-							<td rowspan="2">
-								<input type="submit" value="로그인">
-							</td>
-						</tr>
-						<tr>
-							<th>PW</th>
-							<td><input type="password" name="adminPwd"></td>
-							
-						</tr>
-						<tr>
-							<th colspan="3"><a href="/admin/adminJoinView.kh">회원가입</a></th>
-						</tr>
-					</table>
-				</form>
-            <!-- <a href="/user/loginView.kh">LOGIN</a> -->
-         </c:if>
-         <c:if test="${not empty loginUser}">
-            <div>${sessionScope.loginUser.userId }</div><br>
-            <span><a href="/user/myPage.kh">My Page</a></span><br>
-            <span><a href="/user/logout.kh">logout</a></span><br>
-         </c:if>
-        <c:if test="${not empty loginUser }">
-          <table align="right">
-            <tr>
-              <td colspan="2">${sessionScope.loginUser.memberName }님 환영합니다!!</td>
-    <!-- 					<td></td> -->
-            </tr>
-            <tr>
-              <td><a href="/member/myPage.kh">정보수정</a></td>
-              <td><a href="/member/logout.kh">로그아웃</a></td>
-            </tr>
-          </table>
-        </c:if>	
-
-      </div>
+      <div align="center">
+		<div>
+		<c:if test="${sessionScope.loginAdmin eq null }">
+			<form action="/admin/login.kh" method="post">
+				<table>
+					<tr>
+						<th>ID</th>
+						<td><input type="text" name="adminId"></td>
+						<td rowspan="2">
+							<input type="submit" value="로그인">
+						</td>
+					</tr>
+					<tr>
+						<th>PW</th>
+						<td><input type="password" name="adminPwd"></td>
+						
+					</tr>
+					<tr>
+						<th colspan="3"><a href="/admin/adminJoinView.kh">회원가입</a></th>
+					</tr>
+				</table>
+			</form>
+		</c:if>
+		<c:if test="${not empty loginAdmin }">
+		<table align="right">
+				<tr>
+					<td colspan="2">${sessionScope.loginAdmin.adminName }님 환영합니다!!</td>
+<!-- 					<td></td> -->
+				</tr>
+				<tr>
+					<td><a href="/admin/myPage.kh">정보수정</a></td>
+					<td><a href="/admin/logout.kh">로그아웃</a></td>
+				</tr>
+			</table>
+		</c:if>	
+		</div>
+		</h1>
+       </div>
       </div>
     </section>
 </header>
@@ -87,7 +70,7 @@
 <!-- header End -->
 
 <!-- NavBar Start -->
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #d21853;">
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2155f4;">
         <div class="container-xl">
           <a class="navbar-brand" href="#">Navbar</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
