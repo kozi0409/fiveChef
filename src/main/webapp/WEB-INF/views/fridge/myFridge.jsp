@@ -23,7 +23,7 @@
 	</header>
 	<section>
 		
-		<div style="margin:20px; border:2px solid black;" >
+		<div class="container" >
 			<div class="card-body">
 				<div align="right">
 					<div class="row">
@@ -37,7 +37,13 @@
 									 
 								</div>
 								<div class="col">
-									냉장고 :<button data-bs-toggle="modal" data-bs-target="#modalSignin">생성</button>
+								<h3>냉장고 :</h3>
+								<c:if test="${checkYn == true }">
+									<button class="w-50 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge">생성</button>
+								</c:if>
+								<c:if test="${checkYn == false }">
+									<button class="w-50 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge" disabled>생성</button>
+								</c:if>
 								</div>
 							</div>
 						</div>
@@ -48,13 +54,50 @@
 					<div class="row">
 						<c:forEach items="${fList }" var="fridge" varStatus="i">
 								<div class="col">
-									<div class="card col-sm-4" style="width: 18rem;">
+									<div class="card col-sm-4" style="width: 18rem; cursor : pointer;">
 										<img src=<c:if test="${not empty fridge.fridgeFileRename }">"/resources/fuploadFiles/${fridge.fridgeFileRename }"</c:if><c:if test="${empty fridge.fridgeFileRename }">"/resources/images/defaultImages.jpg"</c:if> class="card-img-top" alt="...">
-										<div class="card-body">
+										<hr "border-height:3px;">
+										<div class="card-body text-center">
 											<h5 class="card-title">${fridge.fridgeName }</h5>
-											<p class="card-text"></p>
-											<button class="btn btn-warning" >수정하기</button>
+<!-- 											<p class="card-text"></p> -->
+											<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modifyFridge${i.index }">수정하기</button>
 											<button class="btn btn-danger" onclick="removeFridge(${fridge.fridgeNo });">삭제하기</button>										
+										</div>
+									</div>
+								</div>
+								<!--modify Modal -->
+								<div class="modal fade" id="modifyFridge${i.index }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered">
+										<div class="modal-content">
+										 	<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel">냉장고 수정</h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											    <div class="modal-body">
+												    <div class="modal-body p-5 pt-0">
+														<form action="/fridge/modify.kh" method="post" enctype="multipart/form-data">
+<%-- 															<input type="hidden" name="page" value="${page }"> --%>
+															<input type="hidden" name="fridgeNo" value="${fridge.fridgeNo }">
+<%-- 															<input type="hidden" name="boardFilename" value="${board.boardFilename }"> --%>
+<%-- 															<input type="hidden" name="boardFileRename" value="${board.boardFileRename }"> --%>
+															<br>
+															<div class="form-floating mb-3">
+															<input type="text" class="form-control rounded-4" id="fridgeName" placeholder="냉장고 이름 입력" name="fridgeName" value="${fridge.fridgeName }">
+															<label for="floatingInput">냉장고 이름</label>
+															</div>
+															<div class="mb-3">
+															프로필 사진 등록
+															<c:if test="${not empty fridge.fridgeFilename }">
+																<div>
+																	기존 파일 : ${fridge.fridgeFilename }
+																</div>
+															</c:if>
+															<input class="form-control mt-1" type="file" id="formProfile" name="reloadFile">
+															</div>
+															<button class="w-100 mb-2 btn btn-lg btn-primary" type="submit">수정 완료</button>
+														</form>
+													</div>
+										    	</div>
 										</div>
 									</div>
 								</div>	
@@ -77,10 +120,8 @@
 	</section>
 		
 		
-	
-	
-	<!-- Modal -->
-	<div class="modal fade" id="modalSignin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<!--resist Modal -->
+	<div class="modal fade" id="createFridge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-dialog-centered">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -106,6 +147,36 @@
 	     </div>
 	  </div>
 	</div>
+	
+<!-- 	<!--modify Modal -->
+<!-- 	<div class="modal fade" id="modifyFridge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
+<!-- 	  <div class="modal-dialog modal-dialog-centered"> -->
+<!-- 	    <div class="modal-content"> -->
+<!-- 	      <div class="modal-header"> -->
+<!-- 	        <h5 class="modal-title" id="exampleModalLabel">냉장고 수정111</h5> -->
+<!-- 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+<!-- 	      </div> -->
+<!-- 	      <div class="modal-body"> -->
+<!-- 	        <div class="modal-body p-5 pt-0"> -->
+<!-- 		        <form action="/fridge/modify.kh" method="post" enctype="multipart/form-data"> -->
+<%-- 		        <input type="hidden" name="fridgeNo" value="${fridge.fridgeNo }"> --%>
+<!-- 		        <br> -->
+<!-- 		          <div class="form-floating mb-3"> -->
+<%-- 		            <input type="text" class="form-control rounded-4" id="fridgeName" placeholder="냉장고 이름 입력" name="modifyFridgeName" value="${mFridge.fridgeName }"> --%>
+<!-- 		            <label for="floatingInput">냉장고 이름</label> -->
+		            
+<!-- 		          </div> -->
+<!-- 		          <div class="mb-3"> -->
+<!-- 					  프로필 사진 등록 -->
+<%-- 					  <input class="form-control" type="file" id="formProfile" name="uploadProfile" value="${mFridge.fridgeFilename }"> --%>
+<!-- 				  </div> -->
+<!-- 		          <button class="w-100 mb-2 btn btn-lg btn-primary" type="submit">수정 완료</button> -->
+<!-- 		        </form> -->
+<!-- 		      </div> -->
+<!-- 	        </div> -->
+<!-- 	     </div> -->
+<!-- 	  </div> -->
+<!-- 	</div> -->
 	
 	<script>
 		function removeFridge(fNo){

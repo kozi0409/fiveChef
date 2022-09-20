@@ -16,6 +16,12 @@ public class FridgeStoreLogic implements FridgeStore{
 		int result = session.insert("FridgeMapper.insertFridge", fridge);
 		return result;
 	}
+	
+	@Override
+	public int updateFridge(SqlSession session, Fridge fridge) {
+		int result = session.update("FridgeMapper.updateFridge", fridge);
+		return result;
+	}
 
 	@Override
 	public List<Fridge> selectAllFridge(SqlSession session) {
@@ -28,5 +34,13 @@ public class FridgeStoreLogic implements FridgeStore{
 		int result = session.delete("FridgeMapper.deleteFridge", fridgeNo);
 		return result;
 	}
+
+	@Override
+	public Fridge selectOneByNo(SqlSession session, Integer fridgeNo) {
+		Fridge fridge = session.selectOne("FridgeMapper.selectOneByFridgeNo", fridgeNo);
+		return fridge;
+	}
+
+
 
 }
