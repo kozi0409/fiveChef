@@ -18,6 +18,7 @@
 			<h1 align="center" >${fridgeName } 페이지</h1>
 		</div>
 	</header>
+		<div class="card-body" style="height: 500px; background-color:gold; padding: 30px;">
 		<div class="row">
 			<div class="col" align="left">
 				<button class="btn btn-info" onclick="#">검색</button>
@@ -26,33 +27,38 @@
 				<button class="btn btn-primary" onclick="#">칸 생성</button><button class="btn btn-danger" onclick="#">칸 삭제</button>
 			</div>
 		</div>
-		<div class="card-body" style="height: 500px; background-color:gold; padding: 30px;">
+		<hr style="border-width:2px;">
 			<div class="col">
-				<div class="row text-center">
-					<div class="col" align="left">
+				<div class="row mb-3 mt-3 text-center"  >
+					<div class="col" align="left" >
 						<input type="checkbox">
 					</div>
-					<div class="col" align="left">
+					<div class="col" align="left" >
 						<div>
 							칸 이름
 						</div>
 					</div>
 					<div class="col">
-						대분류
+						<select>
+							<option>대분류</option>
+						</select>
 					</div>
 					<div class="col">
-						소분류
+						<select>
+							<option>소분류</option>
+						</select>
 					</div>
 					<div class="col">
-						재료 검색
+						<input type="text" placeholder="재료 검색">
 					</div>
 					<div class="col">
-						재료삭제
+						<button class="btn btn-primary">재료삭제</button>
 					</div>
 				</div>
 				<div class="row">
 					<div style="height:300px; background-color: gray; padding:20px;">
 						재료 칸
+						<hr style="border-width:2px;">
 					</div>
 				</div>
 				<div class="row">
