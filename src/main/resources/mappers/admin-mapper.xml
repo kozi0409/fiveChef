@@ -4,5 +4,44 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <!-- 나는 맵퍼다 선언 -->
  <mapper namespace="AdminMapper">
- 
+ 	<resultMap type="Admin" id="adminResultMap">
+		<id 	property="adminId" 	column="ADMIN_ID"/>
+		<result property="adminPwd" 	column="ADMIN_PWD"/>
+		<result property="adminName" 	column="ADMIN_NAME"/>
+		<result property="adminEmail" 	column="ADMIN_EMAIL"/>
+		<result property="adminPhone" 	column="ADMIN_PHONE"/>
+		<result property="adminAddr" 	column="ADMIN_ADDR"/>
+		<result property="adminScope" 	column="ADMIN_SCOPE"/>
+		<result property="adminCode" 	column="ADMIN_CODE"/>
+		<result property="regdate" 		column="REG_DATE"/>	
+		<result property="updateDate" 	column="UPDATE_DATE"/>
+		<result property="lastCnt_date" 	column="LASTCNT_DATE"/>
+		<result property="aStatus" 		column="A_STATUS"/>	
+	</resultMap>
+	<!-- 회원가입 -->
+ 	<insert id="insertAdmin" parameterType="Admin">
+ 		INSERT INTO ADMIN_TBL
+ 		VALUES(#{adminId},#{adminPwd},#{adminName},#{adminEmail},#{adminPhone},#{adminAddr}, 
+ 		DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT)
+ 	</insert>
+ 	<update id="updateAdmin" parameterType="Admin">
+		UPDATE ADMIN_TBL
+		SET ADMIN_PWD = #{adminPwd }, ADMIN_EMAIl = #{adminEmail }, ADMIN_PHONE = #{adminPhone}
+		, ADMIN_ADDR = #{adminAddr }, UPDATE_DATE = DEFAULT
+		WHERE ADMIN_ID = #{adminId }
+	</update>
+	<update id="deleteAdmin" parameterType="string">
+		UPDATE ADMIN_TBL
+		SET A_STATUS = 'N'
+		WHERE ADMIN_ID = #{adminId }
+	</update>
+ 	<!-- 로그인 -->
+ 	<select id="selectLoginOne" resultMap="adminResultMap">
+ 		SELECT ADMIN_ID, ADMIN_NAME FROM ADMIN_TBL
+ 		WHERE ADMIN_ID = #{adminId } AND ADMIN_PWD = #{adminPwd } AND A_STATUS = 'Y'
+ 	</select>
+ 	<select id="selectOneById" resultMap="adminResultMap">
+		SELECT * FROM ADMIN_TBL
+		WHERE ADMIN_ID = #{adminId } AND A_STATUS = 'Y'
+	</select>
  </mapper>

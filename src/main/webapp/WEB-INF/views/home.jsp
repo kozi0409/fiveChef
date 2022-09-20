@@ -8,8 +8,8 @@
 </head>
 <body>
 <!-- nevi bar -->
-<jsp:include page="./main.jsp"></jsp:include>
-<jsp:include page="/fridge/myFridge.kh"></jsp:include>
+<jsp:include page="./main/nevi.jsp"></jsp:include>
+
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
    
