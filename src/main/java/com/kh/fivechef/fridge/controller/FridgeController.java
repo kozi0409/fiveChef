@@ -89,7 +89,7 @@ public class FridgeController {
 	
 	// 냉장고 수정
 	@RequestMapping(value="/fridge/modify.kh", method=RequestMethod.POST)
-	public ModelAndView boardModify(@ModelAttribute Fridge fridge, ModelAndView mv
+	public ModelAndView fridgeModify(@ModelAttribute Fridge fridge, ModelAndView mv
 			, @RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
 			, HttpServletRequest request) {
 		try {
