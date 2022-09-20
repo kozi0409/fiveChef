@@ -9,7 +9,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body>
-<!-- nevi bar -->
 <jsp:include page="../main/nevi.jsp"></jsp:include>
 <br><br>
    <h1 align="center">
@@ -43,6 +42,5 @@
       }
       
    </script>
-   
 </body>
 </html>

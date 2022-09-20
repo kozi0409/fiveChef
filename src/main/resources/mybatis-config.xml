@@ -12,10 +12,12 @@
 	<typeAliases>
 		<typeAlias type="com.kh.fivechef.admin.domain.Admin" alias="Admin"/>
 		<typeAlias type="com.kh.fivechef.fridge.domain.Fridge" alias="Fridge"/>
+		<typeAlias type="com.kh.fivechef.fridge.domain.Storage" alias="Storage"/>
 		<typeAlias type="com.kh.fivechef.notice.domain.Notice" alias="Notice"/>
 		<typeAlias type="com.kh.fivechef.recipe.domain.Recipe" alias="Recipe"/>
 		<typeAlias type="com.kh.fivechef.user.domain.User" alias="User"/>
 		<typeAlias type="com.kh.fivechef.qna.domain.QnA" alias="QnA"/>
+		<typeAlias type="com.kh.fivechef.community.domain.Community" alias="Community"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"></mapper>
@@ -24,5 +26,6 @@
 		<mapper resource="mappers/recipe-mapper.xml"></mapper>
 		<mapper resource="mappers/user-mapper.xml"></mapper>
 		<mapper resource="mappers/qna-mapper.xml"></mapper>
+		<mapper resource="mappers/community-mapper.xml"></mapper>
 	</mappers>
 </configuration>
