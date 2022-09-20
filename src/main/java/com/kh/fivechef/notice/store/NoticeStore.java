@@ -10,7 +10,10 @@ public interface NoticeStore {
 
 	public int insertNotice(SqlSession session, Notice notice);
 
+	public int updateNotice(SqlSession session, Notice notice);
+
 	public int deleteOneByNo(SqlSession session, int noticeNo);
+	
 	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue);
 
 	public List<Notice> selectAllNotice(SqlSession session, int currentPage, int limit);
