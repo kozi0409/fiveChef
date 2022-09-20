@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.fivechef.recipe.domain.Ingradient;
+import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.recipe.service.RecipeService;
 import com.kh.fivechef.recipe.store.RecipeStore;
@@ -23,8 +24,14 @@ public class RecipeServiceImpl implements RecipeService{
 
 	@Override
 	public int registerIngradient(Ingradient ing) {
-		// TODO Auto-generated method stub
-		return 0;
+		int result = rStore.insertIngradient(session,ing);
+		return result;
+	}
+
+	@Override
+	public int registerOrder(Order order) {
+		int result=rStore.insertOrder(session,order);
+		return result;
 	}
 
 }
