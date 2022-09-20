@@ -17,8 +17,20 @@
  		INSERT INTO MY_FRIDGE_TBL
  		VALUES(SEQ_FRIDGE_NO.NEXTVAL, #{fridgeName}, DEFAULT, #{fridgeFilename}, #{fridgeFileRename}, #{fridgeFilepath}, #{userId})
  	</insert>
+ 	<update id="updateFridge">
+ 		UPDATE MY_FRIDGE_TBL SET FRIDGE_NAME = #{fridgeName}, FRIDGE_FILENAME = #{fridgeFilename}, FRIDGE_FILERENAME = #{fridgeFileRename}, FRIDGE_FILEPATH = #{fridgeFilepath}, USER_ID = #{userId}
+		WHERE FRIDGE_NO = #{fridgeNo}
+ 	</update>
  	<select id="selectAllFridge" resultMap="fridgeResultMap">
  		SELECT * FROM MY_FRIDGE_TBL
  		ORDER BY FRIDGE_NO DESC
  	</select>
+ 	<select id="selectOneByFridgeNo" resultMap="fridgeResultMap">
+ 		SELECT * FROM MY_FRIDGE_TBL
+ 		WHERE FRIDGE_NO = #{fridgeNo}
+ 	</select>
+ 	<delete id="deleteFridge">
+ 		DELETE FROM MY_FRIDGE_TBL
+ 		WHERE FRIDGE_NO = #{fridgeNo}
+ 	</delete>
  </mapper>

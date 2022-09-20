@@ -21,9 +21,14 @@ public class FridgeServiceImpl implements FridgeService{
 	@Override
 	public int registerFridge(Fridge fridge) {
 		int result = fStore.insertFridge(session, fridge);
-		return 0;
+		return result;
 	}
 
+	@Override
+	public int modifyBoard(Fridge fridge) {
+		int result = fStore.updateFridge(session, fridge);
+		return result;
+	}
 
 	@Override
 	public List<Fridge> printAllFridge() {
@@ -31,4 +36,21 @@ public class FridgeServiceImpl implements FridgeService{
 		return fList;
 	}
 
+
+	@Override
+	public int removeOneByNo(Integer fridgeNo) {
+		int result = fStore.deleteOneByNo(session, fridgeNo);
+		return result;
+	}
+
+
+	@Override
+	public Fridge printOneByNo(Integer fridgeNo) {
+		Fridge fridge = fStore.selectOneByNo(session, fridgeNo);
+		return fridge;
+	}
+
+
+
+	
 }

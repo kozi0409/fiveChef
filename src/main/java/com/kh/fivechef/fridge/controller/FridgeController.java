@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,6 +62,7 @@ public class FridgeController {
 				fridge.setFridgeFilepath(fridgeFilepath);
 			}
 			int result = fService.registerFridge(fridge);
+			System.out.println(result);
 			mv.setViewName("redirect:/");
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage());
@@ -70,16 +72,72 @@ public class FridgeController {
 	}
 	
 	// 냉장고 조회
-	@GetMapping("/fridge/myFridge.kh")
+	@RequestMapping(value="/fridge/myFridge.kh", method=RequestMethod.GET)
 	public ModelAndView fridgeListView(ModelAndView mv) {
 		List<Fridge> fList = fService.printAllFridge();
-		System.out.println(fList.toString());
+		boolean checkYn = false;
+		if(fList.size() <= 3) {
+			checkYn = true;
+		}
 		if(!fList.isEmpty()) {
 			mv.addObject("fList", fList);
+			mv.addObject("checkYn", checkYn);
 		}
-		mv.setViewName("/");
+		mv.setViewName("fridge/myFridge");
 		return mv;
 	}
+	
 	// 냉장고 수정
+	@RequestMapping(value="/fridge/modify.kh", method=RequestMethod.POST)
+	public ModelAndView boardModify(@ModelAttribute Fridge fridge, ModelAndView mv
+			, @RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
+			, HttpServletRequest request) {
+		try {
+			String fridgeFilename = reloadFile.getOriginalFilename();
+			if(reloadFile != null && !fridgeFilename.equals("")) {
+				// 수정, 1. 대체(replace) / 2. 삭제 후 등록  // 2번이 편함
+				String root = request.getSession().getServletContext().getRealPath("resources");
+				String savePath = root + "\\fuploadFiles";
+				//Board board = bService.printOneByNo(board.getBoardNo());
+				File file = new File(savePath + "\\" + fridge.getFridgeFileRename());
+				if(file.exists()) {
+					file.delete();
+				}
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+				String fridgeFileRename = sdf.format(new Date(System.currentTimeMillis()))
+						+ "." + fridgeFilename.substring(fridgeFilename.lastIndexOf(".")+1);
+				String fridgeFilepath = savePath + "\\" + fridgeFileRename;
+				reloadFile.transferTo(new File(fridgeFilepath));
+				fridge.setFridgeFilename(fridgeFilename);
+				fridge.setFridgeFileRename(fridgeFileRename);
+				fridge.setFridgeFilepath(fridgeFilepath);
+			}
+			System.out.println(fridge);
+			int result = fService.modifyBoard(fridge);
+			mv.setViewName("redirect:/");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	
 	// 냉장고 삭제
+	@RequestMapping(value="/fridge/removeFridge.kh", method=RequestMethod.GET)
+	public ModelAndView fridgeRemove(ModelAndView mv
+			, HttpSession session
+			, @RequestParam("fridgeNo") Integer fridgeNo) {
+		try {
+//			int fridgeNo = (int)session.getAttribute("fridgeNo");
+			int result = fService.removeOneByNo(fridgeNo);
+			if(result > 0) {
+				session.removeAttribute("fridgeNo");
+				mv.setViewName("redirect:/");
+			}
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("common/errorPage"); 
+		}
+		return mv;
+	}
 }
