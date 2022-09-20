@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<jsp:include page="/admin.kh"></jsp:include>
+<%-- <jsp:include page="/admin.kh"></jsp:include> --%>
 <body>
     <div class="container">
 	    <div class="row">

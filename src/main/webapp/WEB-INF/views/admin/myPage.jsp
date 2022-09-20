@@ -8,7 +8,7 @@
  <link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-<jsp:include page="/admin.kh"></jsp:include>
+<%-- <jsp:include page="/admin.kh"></jsp:include> --%>
 <div align="center">
 	<h1 align="center">회원정보 수정</h1>
 	<img class="../resources/images/team-1.jpg" src="../resources/images/team-1.jpg">
