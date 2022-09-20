@@ -27,7 +27,7 @@
  		</select>
  		
  		<select id="selectMyQnA" resultMap="qnaResultMap">
- 			SELECT * FROM QNA_TBL ORDER BY QUESTION_NO DESC
+ 			SELECT * FROM QNA_TBL WHERE QUESTION_WRITER = #{questionWriter} ORDER BY QUESTION_NO DESC
  		</select>
  		
  		<select id="selectOneByNo" resultMap="qnaResultMap">

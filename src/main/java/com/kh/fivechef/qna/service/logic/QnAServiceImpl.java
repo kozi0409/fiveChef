@@ -32,8 +32,8 @@ public class QnAServiceImpl implements QnAService{
 	}
 
 	@Override
-	public List<QnA> printMyQnA(int currentPage, int qnaLimit) {
-		List<QnA> qList = qStore.selectMyQnA(session, currentPage, qnaLimit);
+	public List<QnA> printMyQnA(String questionWriter, int currentPage, int qnaLimit) {
+		List<QnA> qList = qStore.selectMyQnA(session, questionWriter, currentPage, qnaLimit);
 		return qList;
 	}
 

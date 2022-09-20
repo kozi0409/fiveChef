@@ -29,10 +29,10 @@ public class QnAStoreLogic implements QnAStore{
 	}
 
 	@Override
-	public List<QnA> selectMyQnA(SqlSessionTemplate session, int currentPage, int qnaLimit) {
+	public List<QnA> selectMyQnA(SqlSessionTemplate session, String questionWriter, int currentPage, int qnaLimit) {
 		int offset = (currentPage - 1) * qnaLimit;
 		RowBounds rowBounds = new RowBounds(offset, qnaLimit);
-		List<QnA> qList = session.selectList("QnAMapper.selectMyQnA", null, rowBounds);
+		List<QnA> qList = session.selectList("QnAMapper.selectMyQnA", questionWriter, rowBounds);
 		return qList;
 	}
 

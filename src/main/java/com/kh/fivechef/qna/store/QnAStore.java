@@ -12,7 +12,7 @@ public interface QnAStore {
 
 	public int selectTotalCount(SqlSessionTemplate session, String searchCondition, String searchValue);
 
-	public List<QnA> selectMyQnA(SqlSessionTemplate session, int currentPage, int qnaLimit);
+	public List<QnA> selectMyQnA(SqlSessionTemplate session, String questionWriter, int currentPage, int qnaLimit);
 
 	public QnA selectOneByNo(SqlSessionTemplate session, Integer questionNo);
 }

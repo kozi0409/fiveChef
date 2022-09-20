@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace= "CommunityMapper">
+  	<resultMap type= "Community" id="communityResultMap">
+  		<id property="communityNo" column="COMMUNITY_NO"/>
+  		<result property="cBoardCode" column="C_BOARD_CODE"/>
+  		<result property="communityTitle" column="COMMUNITY_TITLE"/>
+  		<result property="communityWriter" column="COMMUNITY_WRITER"/>
+  		<result property="communityContents" column="COMMUNITY_CONTENTS"/>
+  		<result property="communityPrice" column="COMMUNITY_PRICE"/>
+  		<result property="communitySalePage" column="COMMUNITY_SALE_PAGE"/>
+  		<result property="communityFileName" column="COMMUNITY_FILE_NAME"/>
+  		<result property="communityFileRename" column="COMMUNITY_FILE_RENAME"/>
+  		<result property="communityFilePath" column="FILE_PATH"/>
+  		<result property="cEnrollDate" column="C_ENROLL_DATE"/>
+  		<result property="cUpdateDate" column="C_UPDATE_DATE"/>
+  		<result property="boardCount" column="BOARD_COUNT"/>
+  	</resultMap>
+  	<insert id = "insertCommunity">
+  		INSERT INTO COMMUNITY_TBL VALUES(SEQ_COMMUNITY_NO.NEXTVAL, #{cBoardCode}, #{communityTitle}, #{communityWriter}, #{communityContents}, #{communityPrice}, #{communitySalePage}, #{communityFileName}, #{communityFileRename}, #{communityFilePath}, DEFAULT, DEFAULT, DEFAULT)
+  	</insert>
+  	
+  	<update id = "updateCount">
+  		UPDATE COMMUNITY_TBL SET BOARD_COUNT = BOARD_COUNT + 1 WHERE COMMUNITY_NO = #{communityNo}
+  	</update>
+  	
+  	<select id="selectTotalCount" resultType="_int">
+ 			SELECT COUNT(*) FROM COMMUNITY_TBL
+ 	</select>
+ 	
+ 	<select id="selectAllCommunity" resultMap="communityResultMap">
+ 			SELECT * FROM COMMUNITY_TBL ORDER BY COMMUNITY_NO DESC
+ 	</select>
+  </mapper>

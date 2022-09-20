@@ -26,7 +26,7 @@ public class QnAController {
 	
 	@RequestMapping(value="/qna/qnaWriteView.kh", method=RequestMethod.GET) //QnA 문의글 페이지 이동
 	public String showQnAWrite() {
-		return "qna/writeForm";
+		return "qna/qnaWriteForm";
 	}
 	
 	@RequestMapping(value="/qna/qnaRegist.kh", method=RequestMethod.POST) //QnA 문의글 등록
@@ -51,7 +51,7 @@ public class QnAController {
 	public ModelAndView myQnAListView (ModelAndView mv, @RequestParam(value="page", required=false) Integer page, HttpSession session, QnA qna) {
 		User user =(User)session.getAttribute("loginUser");
 		String questionWriter = user.getUserId();
-		session.setAttribute("questionWriter", qna.getQuestionWriter());
+		//session.setAttribute("questionWriter", qna.getQuestionWriter());
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = qService.getTotalCount("", "");
 		int qnaLimit = 10;
@@ -65,8 +65,9 @@ public class QnAController {
 		if(maxPage < endNavi) {
 			endNavi = maxPage;
 		}
-		List<QnA> qList = qService.printMyQnA(currentPage, qnaLimit);
+		List<QnA> qList = qService.printMyQnA(questionWriter, currentPage, qnaLimit);
 		if(!qList.isEmpty()) {
+			mv.addObject("questionWriter", questionWriter);
 			mv.addObject("urlVal", "list");
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("maxPage", maxPage);  // listView.jsp에서 사용하기위해 작성 ([이전], [다음]을 위해 작성)

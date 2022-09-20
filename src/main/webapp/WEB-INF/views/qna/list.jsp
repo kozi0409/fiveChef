@@ -18,6 +18,11 @@
 			<th>날짜</th>
 			<th>답변상태</th>
 		</tr>
+		<c:if test="${empty bList }">
+			<tr>
+				<td colspan="6" align="center"><b>데이터가 존재하지 않습니다.</b></td>
+			</tr>
+		</c:if>
 		<c:if test="${!empty qList }">
 			<c:forEach items="${qList }" var="qna" varStatus="i">
 				<tr>
