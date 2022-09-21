@@ -14,6 +14,11 @@
 
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+
+	
+	
+
+	
 	<div class="container">
 	<header>
 		<hr style="border-width:2px;">
@@ -28,20 +33,19 @@
 				<button class="btn btn-info" onclick="#">검색</button>
 			</div>
 			<div class="col" align="right">
-				<button class="btn btn-primary" onclick="#">칸 생성</button><button class="btn btn-danger" onclick="#">칸 삭제</button>
+				<button class="btn btn-primary" onclick="createStorage();">칸 생성</button><button class="btn btn-danger" onclick="deleteStorage();">칸 삭제</button>
 			</div>
 		</div>
 		<hr style="border-width:2px;">
 			<div class="row">
-				1행
-				<div class="col justify-content-center">
-					<input type="checkbox"> 
+				<div class="col-3 justify-content-center">
+					<input type="checkbox">
 					<br>
-					<div >
+					<div class="row">
 						칸 이름
 					</div>
 					<br>
-					<div class="row" >
+					<div class="row">
 						대분류
 						<select id="selLarge" style="width: 150px;" onchange="selectLargeBox(this.value, ${fridgeNo}, '${fridgeName }');">
 							<c:forEach items="${lList }" var="largeCat"  varStatus="i">
@@ -50,7 +54,7 @@
 						</select>
 					</div>
 					<br>
-					<div class="row" >
+					<div class="row">
 						소분류
 						<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);">
 							<c:forEach items="${sList }" var="smallCat"  varStatus="i">
@@ -62,79 +66,50 @@
 						<input type="text" placeholder="재료 검색">
 					</div>
 					<div class="row justify-content-center">
-						<div class="col">
+						<div class="col-5">
 							<button class="btn btn-primary">재료 저장</button>
 						</div>
-						<div class="col">
+						<div class="col-5">
 							<button class="btn btn-danger">재료 삭제</button>
 						</div>
 					</div>
 				</div>
 				<div class="col">
-					<div style="height:300px; background-color: gray; padding:20px;">
-						재료 칸
-						<hr style="border-width:2px;">
-						<input type="hidden" value="values" name="values">
-						<input type="hidden" value="texts" name="texts">
-						<div id="values"></div>
-						<div id="texts"></div>
+					<div class="row row-cols-2" id="gridDiv">
+						<div class="col mt-3 mb-3">
+							<div style="height:400px; background-color: gray; padding:20px;">
+								<input type="checkbox" id="storage">
+								<label for="storage">재료 칸</label>
+								<hr style="border-width:2px;">
+								<input type="hidden" value="values" name="values">
+								<input type="hidden" value="texts" name="texts">
+								<div id="values"></div>
+								<div id="texts"></div>
+							</div>
+						</div>
+<!-- 						<div class="col mt-3 mb-3"> -->
+<!-- 							<div style="height:400px; background-color: gray; padding:20px;"> -->
+<!-- 								<input type="checkbox">재료 칸 -->
+<!-- 								<hr style="border-width:2px;"> -->
+<!-- 								<input type="hidden" value="values" name="values"> -->
+<!-- 								<input type="hidden" value="texts" name="texts"> -->
+<!-- 								<div id="values"></div> -->
+<!-- 								<div id="texts"></div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
+<!-- 						<div class="col mt-3 mb-3"> -->
+<!-- 							<div style="height:400px; background-color: gray; padding:20px;"> -->
+<!-- 								<input type="checkbox">재료 칸 -->
+<!-- 								<hr style="border-width:2px;"> -->
+<!-- 								<input type="hidden" value="values" name="values"> -->
+<!-- 								<input type="hidden" value="texts" name="texts"> -->
+<!-- 								<div id="values"></div> -->
+<!-- 								<div id="texts"></div> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 					</div>
 				</div>
 			</div>
-			
-			
-			
-			
-<!-- 			<div class="col"> -->
-<!-- 				<div class="col mb-3 mt-3"  > -->
-<!-- 					<div class="row" align="left"> -->
-<!-- 						<input type="checkbox"> -->
-<!-- 					</div> -->
-<!-- 					<div class="row" align="left" > -->
-<!-- 						<div> -->
-<!-- 							칸 이름 -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 					<div class="row"> -->
-<!-- 						대분류 -->
-<%-- 						<select id="selLarge" onchange="selectLargeBox(this.value, ${fridgeNo}, '${fridgeName }');"> --%>
-<%-- 							<c:forEach items="${lList }" var="largeCat"  varStatus="i"> --%>
-<%-- 								<option value="${largeCat.largeCatId }" <c:if test="${largeCat.largeCatId eq largeCatId }">selected</c:if>>${largeCat.largeCatName }</option> --%>
-<%-- 							</c:forEach> --%>
-<!-- 						</select> -->
-<!-- 					</div> -->
-					
-<!-- 					<div class="row" > -->
-<!-- 						소분류 -->
-<!-- 						<select id="smallCatSel" style="width: 150px; height:200px;" multiple onchange="list_selected(this);"> -->
-<%-- 							<c:forEach items="${sList }" var="smallCat"  varStatus="i"> --%>
-<%-- 								<option value="${smallCat.smallCatId }">${smallCat.smallCatName }</option> --%>
-<%-- 							</c:forEach> --%>
-<!-- 						</select> -->
-<!-- 					</div> -->
-<!-- 					<div class="row" id="customInput" style="display:none;"> -->
-<!-- 						<input type="text" placeholder="재료 검색"> -->
-<!-- 					</div> -->
-<!-- 					<div class="row"> -->
-<!-- 						<button class="btn btn-danger">재료 삭제</button> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="row"> -->
-<!-- 					<div style="height:300px; background-color: gray; padding:20px;"> -->
-<!-- 						재료 칸 -->
-<!-- 						<hr style="border-width:2px;"> -->
-<!-- 						<input type="hidden" value="values" name="values"> -->
-<!-- 						<input type="hidden" value="texts" name="texts"> -->
-<!-- 						<div id="values"></div> -->
-<!-- 						<div id="texts"></div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="row"> -->
-<!-- 					<div class="col mt-2 text-center"> -->
-<!-- 						<button class="btn btn-primary">재료 저장</button> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
 		</div>
 	</div>
 	
@@ -169,7 +144,40 @@
 			document.getElementById('values').innerText = values;
 			document.getElementById('texts').innerText = texts;
 		}
-
+		
+		var i = 1;
+		function createStorage(){
+			var $form = $("<form>");
+// 			$form.attr("action", "/fridge/changeSmall.kh");
+// 			$form.attr("method", "get");
+			$form.append("<div class='col mt-3 mb-3'>");
+			$form.append("<div style='height:400px; background-color: gray; padding:20px;'><input type='checkbox"+i+"' id='storage'><label for='storage'>재료 칸</label><hr style='border-width:2px;'></div>");
+			$form.append("<input type='hidden' value='values' name='values'>");
+			$form.append("<input type='hidden' value='texts' name='texts'>");
+			$form.append("<input type='hidden' value='texts' name='texts'>");
+			$form.append("<div id='values"+i+"'></div>");
+			$form.append("<div id='texts"+i+'></div>");
+			$form.appendTo("#gridDiv");
+// 			$form.submit();
+			i++;
+			
+		}
+		
+// 		<div class="col mt-3 mb-3">
+// 			<div style="height:400px; background-color: gray; padding:20px;">
+// 				<input type="checkbox" id="storage">
+// 				<label for="storage">재료 칸</label>
+// 				<hr style="border-width:2px;">
+// 				<input type="hidden" value="values" name="values">
+// 				<input type="hidden" value="texts" name="texts">
+// 				<div id="values"></div>
+// 				<div id="texts"></div>
+// 			</div>
+// 		</div>
+		
+		function deleteStorage(){
+			 $("#boxWrap").append("<p class='original'>등장"+i+"</p>");
+		}
 		
 		
 // 		$.ajax({
