@@ -1,5 +1,7 @@
 package com.kh.fivechef.user.service;
 
+import java.util.List;
+
 import com.kh.fivechef.user.domain.User;
 
 public interface UserService {
@@ -13,4 +15,8 @@ public interface UserService {
 	public int removeUser(String userId);
 
 	public int modifyUser(User user);
+
+	//회원목록 출력=>admin
+	//printAllUser
+	public List<User> printAllUser();
 }

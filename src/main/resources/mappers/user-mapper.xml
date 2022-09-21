@@ -38,4 +38,9 @@
 		UPDATE USER_TBL SET USER_PWD = #{userPwd}, USER_PHONE = #{userPhone} WHERE USER_ID = #{userId} 	
 	</update>
 	
+	<!-- admin에서 회원목록 출력합니다. -->
+	<select id="selectAllUser" resultMap="userResultMap">
+		SELECT * FROM USER_TBL ORDER BY U_ENROLL_DATE DESC
+	</select>
+	
  </mapper>

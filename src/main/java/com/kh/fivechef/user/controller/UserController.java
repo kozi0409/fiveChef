@@ -1,5 +1,7 @@
 package com.kh.fivechef.user.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -147,6 +149,18 @@ public class UserController {
 		} catch(Exception e) {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}
+		return mv;
+	}
+	
+	
+	//어드민에서 회원목록 요청합니다.
+	@RequestMapping(value="/admin/userlist.kh", method=RequestMethod.GET) //회원목록 요청
+	public ModelAndView userListView(ModelAndView mv) {
+		List<User> uList = uService.printAllUser();
+		if(!uList.isEmpty()) {
+			mv.addObject("uList", uList);
+		}
+		mv.setViewName("admin/userlistView");
 		return mv;
 	}
 }

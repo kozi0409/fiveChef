@@ -1,5 +1,7 @@
 package com.kh.fivechef.user.service.logic;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +50,12 @@ public class UserServiceImpl implements UserService{
 	public int modifyUser(User user) {
 		int result = uStore.updateUser(session, user);
 		return result;
+	}
+
+
+	@Override
+	public List<User> printAllUser() {
+		List<User> uList = uStore.selectAllUser(session);
+		return uList;
 	}
 }

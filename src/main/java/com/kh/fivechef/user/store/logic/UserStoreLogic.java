@@ -1,5 +1,7 @@
 package com.kh.fivechef.user.store.logic;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -38,5 +40,11 @@ public class UserStoreLogic implements UserStore{
 	public int updateUser(SqlSessionTemplate session, User user) {
 		int result = session.update("UserMapper.updateUser", user);
 		return result;
+	}
+
+	@Override
+	public List<User> selectAllUser(SqlSession session) {
+		List<User> uList = session.selectList("UserMapper.selectAllUser");
+		return uList;
 	}
 }

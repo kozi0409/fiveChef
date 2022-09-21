@@ -1,6 +1,8 @@
 package com.kh.fivechef.admin.service.logic;
 
-import org.mybatis.spring.SqlSessionTemplate;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,7 @@ import com.kh.fivechef.admin.store.logic.AdminStoreLogic;
 public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
-	private SqlSessionTemplate session;
+	private SqlSession session;
 	@Autowired
 	private AdminStore aStore;
 
@@ -46,7 +48,6 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
-
-
+	
 
 }

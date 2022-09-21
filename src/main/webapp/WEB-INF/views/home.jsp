@@ -7,12 +7,10 @@
 <title>FiveChef</title>
 </head>
 <body>
-<!-- nevi bar -->
-<jsp:include page="./main/nevi.jsp"></jsp:include>
+<!-- navs bar -->
+<jsp:include page="./main/user_navs.jsp"></jsp:include>
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-   
 <!-- copyright -->
 <jsp:include page="./main/footer.jsp"></jsp:include>
 </body>
