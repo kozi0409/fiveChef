@@ -46,6 +46,7 @@ public class RecipeController {
 			System.out.println(recipe.getUserId());
 			
 			//썸네일용 사진 업로드
+			//사진업로드 구문을 객체로 만들어서 사용해보자
 		try {
 			String thumbnailName = uploadFile.getOriginalFilename();
 			///////////////////////////경로,파일이름 설정
@@ -66,11 +67,12 @@ public class RecipeController {
 				recipe.setThumbnailRename(thumbnailRename);
 				recipe.setThumbnailpath(thumbnailpath);
 			}
+			
 			//레시피 저장
 			int result = rService.registerRecipe(recipe);
 			
 			
-			//재료저장
+			//재료저장 INGRADIENT_TBL
 			//list는 stream으로 사용해서 코드 단축 시킬 수 있음
 			List<Ingradient> iList = new ArrayList<Ingradient>();
 			for(int i = 0; i<ing.getIngAmount().split(",").length;i++) {
@@ -86,7 +88,7 @@ public class RecipeController {
 				int result2=rService.registerIngradient(iList.get(i));
 			}
 			
-			//order저장
+			//order저장 ORDER_TBL
 			List<Order> oList = new ArrayList<Order>();
 			for(int i = 0; i<order.getRecipeContents().split(",").length;i++) {
 				Order ord = new Order();
@@ -115,11 +117,9 @@ public class RecipeController {
 				int result3 = rService.registerOrder(oList.get(i));
 			}
 			
-			
-			// 완성사진저장
-			
+			// 완성사진저장 COM_PHOTO_TBL
 			List<ComPhoto> cList = new ArrayList<ComPhoto>();
-			System.out.println(cuploadFile.size());
+//			System.out.println(cuploadFile.size());
 			for(int i = 0; i<cuploadFile.size();i++) {
 				ComPhoto cPhoto = new ComPhoto();
 				String comPhotoName = cuploadFile.get(i).getOriginalFilename();
@@ -147,6 +147,7 @@ public class RecipeController {
 			}
 			
 			request.setAttribute("msg", "레시피 등록이 완료되었습니다.");
+			//성공시 메인페이지로 이동하도록 변경
 			request.setAttribute("url", "/recipe/writeView.kh");
 			mv.setViewName("common/alert");
 		} catch (Exception e) {
@@ -158,8 +159,30 @@ public class RecipeController {
 		return mv;
 	}
 	
-	@RequestMapping(value="",method = RequestMethod.GET)
-	public ModelAndView recipeListView(ModelAndView mv) {
+	@RequestMapping(value="/recipe/recipeList.kh",method = RequestMethod.GET)
+	public ModelAndView recipeAllListView(
+			ModelAndView mv
+			,@RequestParam(value="category" , required=false) String listValue
+			) {
+		System.out.println(listValue);
+		int totalCount = rService.countAllRecipe(); 
+		List<Recipe> rList = rService.printAllRecipe(listValue);
+//		System.out.println(totalCount);
+		if(!rList.isEmpty()) {
+			mv.addObject("rList",rList);
+		}
+		mv.addObject("totalCount",totalCount);
+		mv.addObject("listValue",listValue);
+		
+		mv.setViewName("recipe/listView");
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/recipe/recipeValueList.kh",method =RequestMethod.GET)
+	public ModelAndView recipeAllListByvalue(
+			ModelAndView mv
+			,@RequestParam("listValue") String listValue) {
 		
 		
 		
