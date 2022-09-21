@@ -34,6 +34,28 @@ public class CommunityServiceImpl implements CommunityService{
 		List<Community> cList = cStore.selectAllCommunity(session, currentPage, communityLimit);
 		return cList;
 	}
+
+	@Override
+	public Community printOneByNo(Integer communityNo) {
+		Community community = cStore.selectOneByNo(session, communityNo);
+		int result = 0;
+		if(community != null) {
+			result = cStore.updateCommunityCount(session, communityNo);
+		}
+		return community;
+	}
+
+	@Override
+	public int removeCommunity(int communityNo) {
+		int result = cStore.deleteCommunity(session, communityNo);
+		return result;
+	}
+
+	@Override
+	public int modifyCommunity(Community community) {
+		int result = cStore.updateCommunity(session, community);
+		return result;
+	}
 	
 	
 }

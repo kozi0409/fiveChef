@@ -33,4 +33,16 @@
  	<select id="selectAllCommunity" resultMap="communityResultMap">
  			SELECT * FROM COMMUNITY_TBL ORDER BY COMMUNITY_NO DESC
  	</select>
+ 	
+ 	<select id="selectOne" resultMap="communityResultMap">
+ 		SELECT * FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{communityNo}
+ 	</select>
+ 	
+ 	<delete id="deleteCommunity">
+ 		DELETE FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{communityNo}
+ 	</delete>
+ 	
+ 	<update id="updateCommunity">
+ 		UPDATE COMMUNITY_TBL SET COMMUNITY_TITLE = #{communityTitle}, COMMUNITY_CONTENTS = #{communityContents}, C_UPDATE_DATE = DEFAULT WHERE COMMUNITY_NO = #{communityNo}
+ 	</update>
   </mapper>

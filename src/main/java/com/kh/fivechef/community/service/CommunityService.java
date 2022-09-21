@@ -12,4 +12,10 @@ public interface CommunityService {
 
 	List<Community> printAllCommunity(int currentPage, int communityLimit);
 
+	Community printOneByNo(Integer communityNo);
+
+	int removeCommunity(int communityNo);
+
+	int modifyCommunity(Community community);
+
 }

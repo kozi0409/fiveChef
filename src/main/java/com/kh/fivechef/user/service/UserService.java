@@ -13,4 +13,6 @@ public interface UserService {
 	public int removeUser(String userId);
 
 	public int modifyUser(User user);
+
+	public User findUserId(String userEmail);
 }

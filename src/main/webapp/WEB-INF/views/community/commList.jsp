@@ -49,6 +49,15 @@
 			<c:if test="${currentPage < maxPage }">
 			<a href="/community/${urlVal }.kh?page=${currentPage + 1 }">[다음]</a> 
 			</c:if>
+			</td>
+		</tr>
 	</table>
+	<button id="write_btn" onclick="communityWrite()">글쓰기</button>
+	
+	<script>
+		function communityWrite() {
+			location.href = "/community/communityWrite.kh";
+		}
+	</script>
 </body>
 </html>
