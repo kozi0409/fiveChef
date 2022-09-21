@@ -17,29 +17,34 @@ import com.kh.fivechef.fridge.service.StorageService;
 public class StorageController {
 	@Autowired
 	private StorageService sService;
-	
+	// 민석님 공유
 	@RequestMapping(value="/fridge/storage.kh", method=RequestMethod.GET)
 	public ModelAndView showStoragePage(ModelAndView mv
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName) {
 		List<LargeCategory> lList = sService.printLargeCat();
+		List<SmallCategory> sList = sService.printSmallCat("A1");
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
 		mv.addObject("lList", lList);
+		mv.addObject("sList", sList);
 		mv.setViewName("fridge/myMain");
 		return mv;
 	}
-	
+	// 민석님 공유
 	@RequestMapping(value="/fridge/changeSmall.kh", method=RequestMethod.GET)
 	public ModelAndView showSmallCat(ModelAndView mv
 			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
-			,@RequestParam("fridgeName") Integer fridgeName){
-		System.out.println(largeCatId);
+			,@RequestParam("fridgeName") String fridgeName){
+		List<LargeCategory> lList = sService.printLargeCat();
 		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
-		System.out.println(sList);
 		mv.addObject("sList", sList);
-		mv.setViewName("redirect:/fridge/storage.kh?fridgeNo="+fridgeNo+"&fridgeName="+fridgeName);
+		mv.addObject("lList", lList);
+		mv.addObject("fridgeNo", fridgeNo);
+		mv.addObject("fridgeName", fridgeName);
+		mv.addObject("largeCatId", largeCatId);
+		mv.setViewName("fridge/myMain");
 		return mv;
 	}
 	
