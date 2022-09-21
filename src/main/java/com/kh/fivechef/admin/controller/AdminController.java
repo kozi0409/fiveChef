@@ -223,15 +223,15 @@ public class AdminController {
 		endNavi = maxPage;
 		}
 		//////////////////////////////////////////////////////////////////////////
-		List<Admin> adList = aService.printAllAdmin(currentPage, adminLimit);
-		if(!adList.isEmpty()) {
-			mv.addObject("aList", adList);
-			mv.addObject("urlVal", "list");
-			mv.addObject("maxPage", maxPage);
-			mv.addObject("currentPage", currentPage);
-			mv.addObject("startNavi", startNavi);
-			mv.addObject("endNavi", endNavi);
-		}
+//		List<Admin> adList = aService.printAllAdmin(currentPage, adminLimit);
+//		if(!adList.isEmpty()) {
+//			mv.addObject("aList", adList);
+//			mv.addObject("urlVal", "list");
+//			mv.addObject("maxPage", maxPage);
+//			mv.addObject("currentPage", currentPage);
+//			mv.addObject("startNavi", startNavi);
+//			mv.addObject("endNavi", endNavi);
+//		}
 		mv.setViewName("board/listView");
 		return mv;
 
