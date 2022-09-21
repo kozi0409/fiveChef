@@ -8,160 +8,153 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-   
-    <link href="../resources/css/layout.css"" rel="stylesheet">
-    <link href="../resources/css/bootstrap.min.css"" rel="stylesheet">
+    <link href="../resources/layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+  
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="../resources/css/style.css">
+    <!-- Themefisher Icon font -->
+    <link rel="stylesheet" href="../resources/plugins/themefisher-font/style.css">
+    <!-- bootstrap.min css -->
+    <!-- <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css"> -->
+    <!-- Slick Carousel -->
+    <link rel="stylesheet" href="../resources/plugins/slick/slick.css">
+    <link rel="stylesheet" href="../resources/plugins/slick/slick-theme.css">
 </head>
-	<script type="text/javascript">
-		$theme-colors: (
-		  "primary":    $primary,
-		  "secondary":  $secondary,
-		  "success":    $success,
-		  "info":       $info,
-		  "warning":    $warning,
-		  "danger":     $danger,
-		  "light":      $light,
-		  "dark":       $dark
-		);	
-	</script>
-<body>
+<body id="top">
 
 <!-- header start -->
-<header id="header" class="hoc clear"> 
+<div class="wrapper row1">
+  <header id="header" class="hoc clear"> 
     <section>
-        <div>
-            &nbsp;&nbsp;&nbsp;
-          </div>
       <div>
-        <h1 id="logo"><a href="home.kh"><img src="../resources/images/logo.png"></a></h1>
+        <h1 id="logo"><a href="home.kh"><img src="../resources/images/logo1.png"></a></h1>
       </div>
       <div>
-         <div>
-        <%-- 		<c:if test="${empty sessionScope.loginUser }">	 --%>
-          <c:if test="${sessionScope.loginUser eq null }">
-	          <form action="/user/loginView.kh" method="post">
-					<table>
-						<tr>
-							<th>ID</th>
-							<td><input type="text" name="adminId"></td>
-							<td rowspan="2">
-								<input type="submit" value="로그인">
-							</td>
-						</tr>
-						<tr>
-							<th>PW</th>
-							<td><input type="password" name="adminPwd"></td>
-							
-						</tr>
-						<tr>
-							<th colspan="3"><a href="/admin/adminJoinView.kh">회원가입</a></th>
-						</tr>
-					</table>
-				</form>
-            <!-- <a href="/user/loginView.kh">LOGIN</a> -->
-         </c:if>
-         <c:if test="${not empty loginUser}">
-            <div>${sessionScope.loginUser.userId }</div><br>
-            <span><a href="/user/myPage.kh">My Page</a></span><br>
-            <span><a href="/user/logout.kh">logout</a></span><br>
-         </c:if>
-        <c:if test="${not empty loginUser }">
-          <table align="right">
-            <tr>
-              <td colspan="2">${sessionScope.loginUser.memberName }님 환영합니다!!</td>
-    <!-- 					<td></td> -->
-            </tr>
-            <tr>
-              <td><a href="/member/myPage.kh">정보수정</a></td>
-              <td><a href="/member/logout.kh">로그아웃</a></td>
-            </tr>
-          </table>
-        </c:if>	
-
+        <form class="clear" method="post" action="#">
+          <fieldset>
+            <legend>Search:</legend>
+            <input type="search" value="" placeholder="Search Here&hellip;">
+            <button class="fas fa-search" type="submit" title="Search"><em>Search</em></button>
+          </fieldset>
+        </form>
       </div>
+      <div align="center">
+        <h1 id="logo">
+           <c:if test="${sessionScope.loginUser eq null }">
+             <a href="/user/loginView.kh">LOGIN</a>
+          </c:if>
+          <c:if test="${not empty loginUser}">
+             <div>${sessionScope.loginUser.userId }</div><br>
+             <span><a href="/user/myPage.kh">My Page</a></span><br>
+             <span><a href="/user/logout.kh">logout</a></span><br>
+          </c:if>
+      </h1>
       </div>
     </section>
-</header>
-
+  </header>
+</div>
 <!-- header End -->
 
 <!-- NavBar Start -->
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #d21853;">
-        <div class="container-xl">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-              </li>
+<div class="wrapper row2">
+  <nav id="mainav" class="hoc clear"> 
+    
+    <ul class="clear">
+      <li class="active"><a href="home.kh">Home</a></li>
+      <li><a class="drop" href="#">Recipe</a>
+        <ul>
+          <li><a href="pages/gallery.html">Gallery</a></li>
+          <li><a href="pages/full-width.html">Full Width</a></li>
+          <li><a href="pages/sidebar-left.html">Sidebar Left</a></li>
+          <li><a href="pages/sidebar-right.html">Sidebar Right</a></li>
+          <li><a href="pages/basic-grid.html">Basic Grid</a></li>
+          <li><a href="pages/font-icons.html">Font Icons</a></li>
+        </ul>
+      </li>
+      <li><a class="drop" href="#">My 냉장고</a>
+        <ul>
+          <li><a href="#">Level 2</a></li>
+          <li><a class="drop" href="#">Level 2 + Drop</a>
+            <ul>
+              <li><a href="#">Level 3</a></li>
+              <li><a href="#">Level 3</a></li>
+              <li><a href="#">Level 3</a></li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
+          </li>
+          <li><a href="#">Level 2</a></li>
+        </ul>
+      </li>
+      <li><a href="#">커뮤니티</a></li>
+      <li><a href="#">고객센터</a></li>
+      <!-- <li><a href="#">Link Text</a></li>
+      <li><a href="#">Long Link Text</a></li> -->
+    </ul>
+  </nav>
+</div>
+<!-- NavBar End -->
 
-      <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+
+
+<!-- slide image Start -->
+
+<div class="hero-slider">
+  <div class="slider-item th-fullpage hero-area" style="background-image: url(../resources/images/slider/slider-1.jpg);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-center">
+          <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">My recipe</p>
+          <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">Soul Food,<br>Nothing beats home cooking.</h1>
+          <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn" href="shop.html">Shop Now</a>
         </div>
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-	            <img src="../resources/images/slider/slider-1.jpg" class="d-block w-100" alt="..." >
-		            <div class="carousel-caption d-none d-md-block">
-		                <h1>First slide label</h1>
-		                <p>Some representative placeholder content for the first slide.</p>
-		            </div>
-            </div>
-            <div class="carousel-item">
-	            <img src="../resources/images/slider/slider-2.jpg" class="d-block w-100" alt="...">
-		            <div class="carousel-caption d-none d-md-block">
-		                <h1>Second slide label</h1>
-		                <p>Some representative placeholder content for the second slide.</p>
-		            </div>
-            </div>
-            <div class="carousel-item">
-	            <img src="../resources/images/slider/slider-3.jpg" class="d-block w-100" alt="...">
-		            <div class="carousel-caption d-none d-md-block">
-		                <h1>Third slide label</h1>
-		                <p>Some representative placeholder content for the third slide.</p>
-		            </div>
-            </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+      </div>
     </div>
+  </div>
+  <div class="slider-item th-fullpage hero-area" style="background-image: url(../resources/images/slider/slider-2.jpg);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-left">
+          <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">My recipe</p>
+          <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">Mom can cook a mean breakfast.<br> There’s nothing like a homemade meal.</h1>
+          <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn" href="shop.html">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slider-item th-fullpage hero-area" style="background-image: url(../resources/images/slider/slider-3.jpg);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-right">
+          <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">My recipe</p>
+          <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">I'm an absolutely brilliant cook.<br>These recipes and tips are great!</h1>
+          <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn" href="shop.html">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slider-item th-fullpage hero-area" style="background-image: url(../resources/images/slider/slider-4.jpg);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-left">
+          <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">My recipe</p>
+          <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">You’ve got to try this recipe. <br> It’s delicious.</h1>
+          <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn" href="shop.html">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slider-item th-fullpage hero-area" style="background-image: url(../resources/images/slider/slider-5.jpg);">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 text-right">
+          <p data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".1">My recipe</p>
+          <h1 data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".5">I really enjoy cooking these days.<br>Let's have a cook!</h1>
+          <a data-duration-in=".3" data-animation-in="fadeInUp" data-delay-in=".8" class="btn" href="shop.html">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- slide image End -->
 
 <!-- top으로 올리기  -->

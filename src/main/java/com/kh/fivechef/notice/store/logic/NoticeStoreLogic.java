@@ -20,6 +20,12 @@ public class NoticeStoreLogic implements NoticeStore{
 	}
 
 	@Override
+	public int updateNotice(SqlSession session, Notice notice) {
+		int result = session.update("NoticeMapper.updateNotice", notice);
+		return result;
+	}
+
+	@Override
 	public int deleteOneByNo(SqlSession session, int noticeNo) {
 		int result = session.delete("NoticeMapper.deleteNotice",noticeNo);
 		return result;
@@ -36,7 +42,7 @@ public class NoticeStoreLogic implements NoticeStore{
 
 	@Override
 	public List<Notice> selectAllNotice(SqlSession session, int currentPage, int limit) {
-		int offset = (currentPage-1)*limit;
+		int offset = (currentPage-1) * limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		List<Notice> nList = session.selectList("NoticeMapper.selectAllNotice", null, rowBounds);
 		return nList;
@@ -44,7 +50,7 @@ public class NoticeStoreLogic implements NoticeStore{
 
 	@Override
 	public List<Notice> selectAllByValue(SqlSession session, String searchCondition, String searchValue, int currentPage, int noticeLimit) {
-		int offset = (currentPage-1)*noticeLimit;
+		int offset = (currentPage-1) * noticeLimit;
 		RowBounds rowBounds = new RowBounds(offset, noticeLimit);
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);

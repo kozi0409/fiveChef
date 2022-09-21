@@ -8,8 +8,6 @@
 <title>회원 본인인증</title>
 </head>
 <body>
-<!-- nevi bar를 넣어주세요-->
-<%-- <jsp:include page=" "></jsp:include> --%>
 <!-- nevi bar -->
 <br>
 	<h1 align="center">

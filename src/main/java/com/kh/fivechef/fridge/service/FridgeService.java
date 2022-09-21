@@ -6,5 +6,8 @@ import com.kh.fivechef.fridge.domain.Fridge;
 
 public interface FridgeService {
 	public int registerFridge(Fridge fridge);
+	public int modifyBoard(Fridge fridge);
 	public List<Fridge> printAllFridge();
+	public int removeOneByNo(Integer fridgeNo);
+	public Fridge printOneByNo(Integer fridgeNo);
 }

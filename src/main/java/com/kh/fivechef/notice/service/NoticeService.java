@@ -5,7 +5,10 @@ import java.util.List;
 import com.kh.fivechef.notice.domain.Notice;
 
 public interface NoticeService {
+	
 	public int registerNotice(Notice notice);
+
+	public int modifyNotice(Notice notice);
 
 	public int removeOneByNo(Integer noticeNo);
 	

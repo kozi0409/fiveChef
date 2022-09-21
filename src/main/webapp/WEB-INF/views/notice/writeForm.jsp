@@ -17,7 +17,7 @@
 			</tr>
 			<tr>
 				<td align="center">작성자</td>
-				<td><input type="text" name="noticeWriter" value="" style="width:758px;" readonly></td>
+				<td><input type="text" name="noticeWriter" value="" style="width:758px;"></td> <!-- readonly -->
 			</tr>
 			<tr>
 				<td align="center">내용</td>
@@ -25,7 +25,7 @@
 			</tr>
 			<tr>
 				<td align="center">첨부파일</td>
-				<td><input type="file" name="uploadFile"></td>
+				<td><input type="file" name="uploadFile" ></td>
 			</tr>
 			<tr>
 				<td colspan="2">

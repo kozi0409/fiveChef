@@ -4,29 +4,35 @@ import java.sql.Date;
 
 public class Recipe {
 	private int recipeNo;
-	private String userId;
 	private String recipeTitle;
 	private String recipeIntro;
-	private String rThumbnail;
+	private String thumbnailName;
+	private String thumbnailRename;
+	private String thumbnailpath;
 	private String typeCategory;
 	private String wayCategory;
-	private String comPhoto1;
-	private String comPhoto2;
-	private String comPhoto3;
-	private String comPhoto4;
-	private String recipeLikeCount;
-	private String recipeCount;
+//	private String comPhoto1;
+//	private String comPhoto2;
+//	private String comPhoto3;
+//	private String comPhoto4;
+	private String recipeLikeCount; //인트로 바꿔
+	private String recipeCount; //인트로
 	//default 0으로 줘야함
+	private String userId;
 	private String recipeLevel;
 	private String recipeTime;
 	private String recipePerson;
 	private Date rCreateDate;
+
+	
+	
+	
 	@Override
 	public String toString() {
-		return "Recipe [recipeNo=" + recipeNo + ", userId=" + userId + ", recipeTitle=" + recipeTitle + ", recipeIntro="
-				+ recipeIntro + ", rThumbnail=" + rThumbnail + ", typeCategory=" + typeCategory + ", wayCategory="
-				+ wayCategory + ", comPhoto1=" + comPhoto1 + ", comPhoto2=" + comPhoto2 + ", comPhoto3=" + comPhoto3
-				+ ", comPhoto4=" + comPhoto4 + ", recipeLikeCount=" + recipeLikeCount + ", recipeCount=" + recipeCount
+		return "Recipe [recipeNo=" + recipeNo + ", recipeTitle=" + recipeTitle + ", recipeIntro=" + recipeIntro
+				+ ", thumbnailName=" + thumbnailName + ", thumbnailRename=" + thumbnailRename + ", thumbnailpath="
+				+ thumbnailpath + ", typeCategory=" + typeCategory + ", wayCategory=" + wayCategory
+				+ ", recipeLikeCount=" + recipeLikeCount + ", recipeCount=" + recipeCount + ", userId=" + userId
 				+ ", recipeLevel=" + recipeLevel + ", recipeTime=" + recipeTime + ", recipePerson=" + recipePerson
 				+ ", rCreateDate=" + rCreateDate + "]";
 	}
@@ -35,12 +41,6 @@ public class Recipe {
 	}
 	public void setRecipeNo(int recipeNo) {
 		this.recipeNo = recipeNo;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
 	}
 	public String getRecipeTitle() {
 		return recipeTitle;
@@ -54,11 +54,23 @@ public class Recipe {
 	public void setRecipeIntro(String recipeIntro) {
 		this.recipeIntro = recipeIntro;
 	}
-	public String getrThumbnail() {
-		return rThumbnail;
+	public String getThumbnailName() {
+		return thumbnailName;
 	}
-	public void setrThumbnail(String rThumbnail) {
-		this.rThumbnail = rThumbnail;
+	public void setThumbnailName(String thumbnailName) {
+		this.thumbnailName = thumbnailName;
+	}
+	public String getThumbnailRename() {
+		return thumbnailRename;
+	}
+	public void setThumbnailRename(String thumbnailRename) {
+		this.thumbnailRename = thumbnailRename;
+	}
+	public String getThumbnailpath() {
+		return thumbnailpath;
+	}
+	public void setThumbnailpath(String thumbnailpath) {
+		this.thumbnailpath = thumbnailpath;
 	}
 	public String getTypeCategory() {
 		return typeCategory;
@@ -72,30 +84,6 @@ public class Recipe {
 	public void setWayCategory(String wayCategory) {
 		this.wayCategory = wayCategory;
 	}
-	public String getComPhoto1() {
-		return comPhoto1;
-	}
-	public void setComPhoto1(String comPhoto1) {
-		this.comPhoto1 = comPhoto1;
-	}
-	public String getComPhoto2() {
-		return comPhoto2;
-	}
-	public void setComPhoto2(String comPhoto2) {
-		this.comPhoto2 = comPhoto2;
-	}
-	public String getComPhoto3() {
-		return comPhoto3;
-	}
-	public void setComPhoto3(String comPhoto3) {
-		this.comPhoto3 = comPhoto3;
-	}
-	public String getComPhoto4() {
-		return comPhoto4;
-	}
-	public void setComPhoto4(String comPhoto4) {
-		this.comPhoto4 = comPhoto4;
-	}
 	public String getRecipeLikeCount() {
 		return recipeLikeCount;
 	}
@@ -107,6 +95,12 @@ public class Recipe {
 	}
 	public void setRecipeCount(String recipeCount) {
 		this.recipeCount = recipeCount;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getRecipeLevel() {
 		return recipeLevel;

@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+ <link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 <jsp:include page="../main/admin_navs.jsp"></jsp:include>

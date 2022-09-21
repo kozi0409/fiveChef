@@ -5,11 +5,18 @@
  <!-- 나는 맵퍼다 선언 -->
  <mapper namespace="RecipeMapper">
  
+ 
  	<insert id="insertRecipe">
-		INSERT INTO RECIPE_TBL VALUES(RECIPE_NO_SEQ.NEXTVAL,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,DEFAULT)
+		INSERT INTO RECIPE_TBL VALUES(RECIPE_NO_SEQ.NEXTVAL,#{recipeTitle},#{recipeIntro},#{thumbnailName},#{thumbnailRename},#{thumbnailpath},#{typeCategory},#{wayCategory},0,0,#{userId},#{recipeLevel},#{recipeTime},#{recipePerson},DEFAULT)
  	</insert>
- 
- 
- 
+ 	<insert id="insertIngradient">
+ 		INSERT INTO INGRADIENT_TBL VALUES(ING_NUM_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{ingBundleName},#{ingAmount},#{largeCatId},#{smallCatId})
+ 	</insert>
+ 	<insert id="insertOrder">
+ 		INSERT INTO ORDER_TBL VALUES(ORDER_NUM_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{recipeContents},#{orderPhotoName},#{orderPhotoRename},#{orderPhotopath})
+ 	</insert>
+ 	<insert id="insertComPhoto">
+ 		INSERT INTO COMPHOTO_TBL VALUES(COMPHOTO_NO_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{comPhotoName},#{comPhotoRename},#{comPhotopath})
+ 	</insert>
  
  </mapper>

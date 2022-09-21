@@ -63,11 +63,11 @@ public class UserController {
 			if(loginUser != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("loginUser", loginUser);
-				mv.setViewName("redirect:/home.kh");
+				mv.setViewName("/home");
 			} else {
 				request.setAttribute("msg", "로그인 실패");
 				request.setAttribute("url", "/user/loginView.kh");
-				mv.setViewName("/user/alert");
+				mv.setViewName("/common/alert");
 			}
 			
 		} catch(Exception e) {
@@ -82,8 +82,8 @@ public class UserController {
 		if(session != null) {
 			session.invalidate();
 			request.setAttribute("msg", "로그아웃이 완료되었습니다.");
-			request.setAttribute("url", "/home.kh");
-			mv.setViewName("/user/alert");
+			request.setAttribute("url", "/");
+			mv.setViewName("/common/alert");
 		} else {
 			mv.addObject("msg", "로그아웃 실패").setViewName("common/errorPage");
 		}
@@ -114,11 +114,11 @@ public class UserController {
 			if (result > 0) {
 				request.setAttribute("msg", "회원탈퇴가 완료되었습니다.");
 				request.setAttribute("url", "/user/logout.kh");
-				mv.setViewName("/user/alert");	
+				mv.setViewName("/common/alert");	
 			} else {
 				request.setAttribute("msg", "회원탈퇴가 정상적으로 이루어지지 않았습니다.");
 				request.setAttribute("url", "user/myPage.kh");
-				mv.setViewName("/user/alert");
+				mv.setViewName("/common/alert");
 			}
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
@@ -142,7 +142,7 @@ public class UserController {
 			if(result > 0) {
 				request.setAttribute("msg", "회원님의 정보가 수정되었습니다.");
 				request.setAttribute("url", "/user/myPage.kh");
-				mv.setViewName("user/alert");
+				mv.setViewName("common/alert");
 			} else {
 				mv.addObject("msg", "정보 수정 실패").setViewName("common/errorPage");
 			}

@@ -59,8 +59,7 @@ public class NoticeController {
 				File file = new File(savePath);
 				if(!file.exists()) { 
 					file.mkdir();
-				} 
-				//위에 파일하나라서.. 멀티파일해주기 for문돌려서
+				}
 				uploadFile.transferTo(new File(savePath+"\\"+noticeFileRename));
 				String noticeFilepath = savePath+"\\"+noticeFileRename;
 				notice.setNoticeFilename(noticeFilename);
@@ -100,22 +99,76 @@ public class NoticeController {
 		}
 		return mv;
 	}
-			
-//	@RequestMapping(value="/notice/modify.kh", method=RequestMethod.POST)
-//	public ModelAndView noticeModify(
-//			@ModelAttribute Notice notice
-//			, ModelAndView mv
-//			,@RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
-//			,@RequestParam("page") Integer page
-//			,HttpServletRequest request) {
-//		try {
-//			String noticeFilename = reloadFile.getOriginalFilename();
-//			if(reloadFile != null && !noticeFile)
-//		}
-//	}
+	
+	/**
+	 * 게시글 수정
+	 * @param notice
+	 * @param mv
+	 * @param reloadFile
+	 * @param page
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="/notice/modify.kh", method=RequestMethod.POST)
+	public ModelAndView noticeModify(
+			@ModelAttribute Notice notice
+			, ModelAndView mv
+			,@RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
+			,@RequestParam("page") Integer page
+			,HttpServletRequest request) {
+		try {
+			String noticeFilename = reloadFile.getOriginalFilename();
+			if(reloadFile != null && !noticeFilename.equals("")) {
+				String root = request.getSession().getServletContext().getRealPath("resources");
+				String savedPath = root + "\\nuploadFiles";
+				File file = new File(savedPath + "\\" + notice.getNoticeFileRename());
+				if(file.exists()) {
+					file.delete();
+				}
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+				String noticeFileRename = sdf.format(new Date(System.currentTimeMillis())) + "." 
+				+ noticeFilename.substring(noticeFilename.lastIndexOf(".")+1);
+				String noticeFilepath = savedPath + "\\" + noticeFileRename;
+				reloadFile.transferTo(new File(noticeFilepath));
+				notice.setNoticeFilename(noticeFilename);
+				notice.setNoticeFileRename(noticeFileRename);
+				notice.setNoticeFilepath(noticeFilepath);
+			}
+			int result = nService.modifyNotice(notice);
+			mv.setViewName("redirect:/notice/list.kh?page="+page);
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
+
 	
 	
-	
+	/**
+	 * 공지글 삭제
+	 * @param session
+	 * @param model
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="notice/remove.kh", method=RequestMethod.GET)
+	public String noticeRemove(
+			HttpSession session
+			, Model model
+			, @RequestParam("page") Integer page) {
+		try {
+			int noticeNo = (Integer)session.getAttribute("noticeNo");
+			int result = nService.removeOneByNo(noticeNo);
+			if(result > 0) {
+				session.removeAttribute("noticeNo");
+			}
+			return "redirect:/notice/list.kh?page="+page;
+		} catch (Exception e) {
+			model.addAttribute("msg", e.toString());
+			return "common/errorPage";
+		}
+	}
+
 	/**
 	 * 공지글 목록 조회
 	 * @param mv
@@ -175,7 +228,7 @@ public class NoticeController {
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("common/errorPage");
-		} 
+		}
 		return mv;
 		}
 	
@@ -230,31 +283,6 @@ public class NoticeController {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}
 		return mv;
-	}
-	
-	/**
-	 * 공지글 삭제
-	 * @param session
-	 * @param model
-	 * @param page
-	 * @return
-	 */
-	@RequestMapping(value="notice/remove.kh", method=RequestMethod.GET)
-	public String noticeRemove(
-			HttpSession session
-			, Model model
-			, @RequestParam("page") Integer page) {
-		try {
-			int noticeNo = (Integer)session.getAttribute("noticeNo");
-			int result = nService.removeOneByNo(noticeNo);
-			if(result > 0) {
-				session.removeAttribute("noticeNo");
-			}
-			return "redirect:/notice/list.kh?page="+page;
-		} catch (Exception e) {
-			model.addAttribute("msg", e.toString());
-			return "common/errorPage";
-		}
 	}
 	
 	

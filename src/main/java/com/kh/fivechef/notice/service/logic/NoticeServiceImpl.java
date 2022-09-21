@@ -26,6 +26,12 @@ public class NoticeServiceImpl implements NoticeService {
 	}
 	
 	@Override
+	public int modifyNotice(Notice notice) {
+		int result = nStore.updateNotice(session, notice);
+		return result;
+	}
+
+	@Override
 	public int removeOneByNo(Integer noticeNo) {
 		int result = nStore.deleteOneByNo(session, noticeNo);
 		return result;
