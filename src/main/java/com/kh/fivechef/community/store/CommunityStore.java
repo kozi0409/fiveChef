@@ -14,4 +14,12 @@ public interface CommunityStore {
 
 	List<Community> selectAllCommunity(SqlSessionTemplate session, int currentPage, int communityLimit);
 
+	Community selectOneByNo(SqlSessionTemplate session, Integer communityNo);
+
+	int updateCommunityCount(SqlSessionTemplate session, int communityNo);
+
+	int deleteCommunity(SqlSessionTemplate session, int communityNo);
+
+	int updateCommunity(SqlSessionTemplate session, Community community);
+
 }

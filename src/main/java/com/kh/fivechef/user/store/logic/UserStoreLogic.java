@@ -39,4 +39,10 @@ public class UserStoreLogic implements UserStore{
 		int result = session.update("UserMapper.updateUser", user);
 		return result;
 	}
+
+	@Override
+	public User selectUserId(SqlSessionTemplate session, String userEmail) {
+		User findId = session.selectOne("UserMapper.selectUserId", userEmail);
+		return findId;
+	}
 }

@@ -36,5 +36,29 @@ public class CommunityStoreLogic implements CommunityStore{
 		List<Community> cList = session.selectList("CommunityMapper.selectAllCommunity", null, rowBounds);
 		return cList;
 	}
+
+	@Override
+	public Community selectOneByNo(SqlSessionTemplate session, Integer communityNo) {
+		Community community = session.selectOne("CommunityMapper.selectOne", communityNo);
+		return community;
+	}
+
+	@Override
+	public int updateCommunityCount(SqlSessionTemplate session, int communityNo) {
+		int result = session.update("CommunityMapper.updateCount", communityNo);
+		return result;
+	}
+
+	@Override
+	public int deleteCommunity(SqlSessionTemplate session, int communityNo) {
+		int result = session.delete("CommunityMapper.deleteCommunity", communityNo);
+		return result;
+	}
+
+	@Override
+	public int updateCommunity(SqlSessionTemplate session, Community community) {
+		int result = session.update("CommunityMapper.updateCommunity", community);
+		return result;
+	}
 	
 }

@@ -149,4 +149,30 @@ public class UserController {
 		}
 		return mv;
 	}
+	@RequestMapping(value="user/findIdView.kh", method=RequestMethod.GET)
+	public String findIdView() {
+		return "user/findId";
+	}
+	
+	@RequestMapping(value="user/findId.kh", method=RequestMethod.POST)
+	public ModelAndView findUserId (ModelAndView mv, @RequestParam("userEmail")String userEmail, HttpServletRequest request) {
+		User searchId = uService.findUserId(userEmail);
+		String findId = searchId.getUserId();
+		if(findId == null) {
+			request.setAttribute("msg", "가입된 정보가 없습니다.");
+			request.setAttribute("url", "/user/login.kh");
+			mv.setViewName("common/alert");
+		} else {
+			request.setAttribute("msg", "회원님의 아이디는 " + findId + " 입니다.");
+			request.setAttribute("url", "/user/loginView.kh");
+			mv.setViewName("common/alert");
+		}
+		return mv;
+	}
+	
+	@RequestMapping(value="user/findPwdView.kh", method=RequestMethod.GET)
+	public String findPwdView() {
+		return "user/findPwd";
+	}
+	
 }

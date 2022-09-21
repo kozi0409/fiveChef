@@ -16,4 +16,6 @@ public interface UserStore {
 	public int deleteUser(SqlSessionTemplate session, String userId);
 
 	public int updateUser(SqlSessionTemplate session, User user);
+
+	public User selectUserId(SqlSessionTemplate session, String userEmail);
 }

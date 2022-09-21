@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -23,19 +24,19 @@
 			<tr>
 				<td>게시판 유형</td>
 				<td>
-					<select name="cBoardCode" class="code-select">
+					<select name="cBoardCode" class="code-select" onchange="handleOnchange(this)">
 						<option value="free">자유게시판</option>
 						<option value="sale">할인정보게시판</option>
 					</select>
 				</td>
 			</tr>
-			<tr>
+				<tr class="sale_text">
+					<td>할인가격</td>
+					<td><input type="text" name="communityPrice">
+					판매 사이트
+					<input type="text" name="communitySalePage"></td>	
+				</tr>
 			
-				<td>할인가격</td>
-				<td><input type="text" name="communityPrice">
-				판매 사이트
-				<input type="text" name="communitySalePage"></td>	
-			</tr>
 			<tr>
 				<td>내용</td>
 				<td><textarea cols="50" rows="20" name="communityContents"></textarea></td>
@@ -53,7 +54,14 @@
 		</table>
 	</form>
 	<script>
-		
+		$(".sale_text").css('display','none');
+		function handleOnchange(e) {
+			if(e.value == "sale") {
+				$(".sale_text").css('display', 'block');
+			} else {
+				$(".sale_text").css('display', 'none');
+			}
+		}
 	</script>
 </body>
 </html>

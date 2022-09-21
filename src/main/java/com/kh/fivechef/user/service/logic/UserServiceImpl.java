@@ -49,4 +49,11 @@ public class UserServiceImpl implements UserService{
 		int result = uStore.updateUser(session, user);
 		return result;
 	}
+
+
+	@Override
+	public User findUserId(String userEmail) {
+		User findId = uStore.selectUserId(session, userEmail);
+		return findId;
+	}
 }

@@ -7,36 +7,67 @@
 <meta charset="UTF-8">
 <title>로그인 페이지</title>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<style>
+	.find_wrap li {
+		color : black;
+		text-decoration : none;
+		padding_left: 28px;
+		position : relative;
+		display : inline-block;
+	}
+	
+	.btn {
+		border : 0;
+		background-color : rgb(209, 24, 79);
+		color : white;
+		font-size : 11px;
+		padding : 12px 17px;
+		border-radius : 10px;
+	}
+	
+	[id^=find] {
+		text-decoration : none;
+		color : gray;		
+	}
+	
+	.find_wrap {
+		align : center;
+	}
+</style>
 </head>
 <body>
-<!-- nevi bar -->
-<jsp:include page="../main/nevi.jsp"></jsp:include>
-<br><br>
-   <h1 align="center">
-      <a href="home.kh">냉장고 Chef</a>
-   </h1>
-   <br><br><br><br>
    <div class="login-area">
+   	<div class = "header">
+	   <h1 align="center">
+	   <br><br>
+	      <a href="home.kh">냉장고 Chef</a>
+	   </h1>
+   	</div>
+   	<div class = "body" align="center" width="300">
       <form action="/user/login.kh" method="post">
-          <table align="center" width="300">
-             <tr>
-                <td><input type="text" name="user-id" placeholder="아이디"></td>
-             </tr>
-             <tr>
-                <td><input type="password" name="user-pwd" placeholder="비밀번호"></td>
-             </tr>
-             <tr>
-                <td>
-                <button type="submit" class="btn" id="login">로그인</button>
-                <button type="button" class="btn" id="join" onclick="joinUser()">회원가입</button>
-                </td>
-             </tr>
-          </table>
+          <div class="login_box">
+             <div>
+                <div><input type="text" name="user-id" placeholder="아이디"></div>
+             </div>
+             <div>
+                <div><input type="password" name="user-pwd" placeholder="비밀번호"></div>
+             </div>
+          </div>
+                <div>
+                	<button type="submit" class="btn" id="login">로그인</button>
+                	<button type="button" class="btn" id="join" onclick="joinUser()">회원가입</button>
+                </div>
       </form>
+      <ul class="find_wrap">
+      	<li>
+      		<a target="_blank" href="/user/findIdView.kh" class="find_id" id ="find_id">아이디 찾기</a>
+      	</li>
+      	<li>
+      		<a target="_blank" href="#" class="find_pwd" id ="find_pwd">비밀번호 찾기</a>
+      	</li>
+      </ul>
+    </div>
    </div>
-<br><br>
-<!-- copyright -->
-<jsp:include page="../main/footer.jsp"></jsp:include>
    <script>
       function joinUser() {
          location.href = "/user/userJoinView.kh";
