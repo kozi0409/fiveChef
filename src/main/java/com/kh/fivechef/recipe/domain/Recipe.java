@@ -11,12 +11,8 @@ public class Recipe {
 	private String thumbnailpath;
 	private String typeCategory;
 	private String wayCategory;
-//	private String comPhoto1;
-//	private String comPhoto2;
-//	private String comPhoto3;
-//	private String comPhoto4;
-	private String recipeLikeCount; //인트로 바꿔
-	private String recipeCount; //인트로
+	private int recipeLikeCount; //인트로 바꿔
+	private int recipeCount; //인트로
 	//default 0으로 줘야함
 	private String userId;
 	private String recipeLevel;
@@ -84,16 +80,16 @@ public class Recipe {
 	public void setWayCategory(String wayCategory) {
 		this.wayCategory = wayCategory;
 	}
-	public String getRecipeLikeCount() {
+	public int getRecipeLikeCount() {
 		return recipeLikeCount;
 	}
-	public void setRecipeLikeCount(String recipeLikeCount) {
+	public void setRecipeLikeCount(int recipeLikeCount) {
 		this.recipeLikeCount = recipeLikeCount;
 	}
-	public String getRecipeCount() {
+	public int getRecipeCount() {
 		return recipeCount;
 	}
-	public void setRecipeCount(String recipeCount) {
+	public void setRecipeCount(int recipeCount) {
 		this.recipeCount = recipeCount;
 	}
 	public String getUserId() {

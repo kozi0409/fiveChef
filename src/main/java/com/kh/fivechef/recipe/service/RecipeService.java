@@ -1,5 +1,7 @@
 package com.kh.fivechef.recipe.service;
 
+import java.util.List;
+
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Order;
@@ -14,5 +16,10 @@ public interface RecipeService {
 	public int registerOrder(Order order);
 
 	public int registerComPhoto(ComPhoto comPhoto);
+
+	public List<Recipe> printAllRecipe(String listValue);
+
+	public int countAllRecipe();
+
 
 }

@@ -1,5 +1,8 @@
 package com.kh.fivechef.recipe.store.logic;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +36,20 @@ public class RecipeStoreLogic implements RecipeStore{
 	public int insertComPhoto(SqlSession session, ComPhoto comPhoto) {
 		int result = session.insert("RecipeMapper.insertComPhoto",comPhoto);
 		return result;
+	}
+
+	@Override
+	public List<Recipe> selectAllRecipe(SqlSession session, String listValue) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("category", listValue);
+		List<Recipe> rList = session.selectList("RecipeMapper.selectAllRecipe",paramMap);
+		return rList;
+	}
+
+	@Override
+	public int selectCountAllRecipe(SqlSession session) {
+		int count = session.selectOne("RecipeMapper.selectCountAllRecipe");
+		return count;
 	}
 
 }

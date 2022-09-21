@@ -4,8 +4,50 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <!-- 나는 맵퍼다 선언 -->
  <mapper namespace="RecipeMapper">
- 
- 
+ 	<resultMap type="Recipe" id="recipeResultMap">
+ 		<id property="recipeNo" column="RECIPE_NO"/>
+		<result property="recipeTitle" column="RECIPE_TITLE" />
+		<result property="recipeIntro" column="RECIPE_INTRO" />
+		<result property="thumbnailName" column="THUMBNAIL_NAME" />
+		<result property="thumbnailRename" column="THUMBNAIL_RENAME" />
+		<result property="thumbnailpath" column="THUMBNAIL_PATH" />
+		<result property="typeCategory" column="TYPE_CATEGORY" />
+		<result property="wayCategory" column="WAY_CATEGORY" />
+		<result property="recipeLikeCount" column="RECIPE_LIKE_COUNT" />
+		<result property="recipeCount" column="RECIPE_COUNT" />
+		<result property="userId" column="USER_ID" />
+		<result property="recipeLevel" column="RECIPE_LEVEL" />
+		<result property="recipeTime" column="RECIPE_TIME" />
+		<result property="recipePerson" column="RECIPE_PERSON" />
+		<result property="rCreateDate" column="R_CREATE_DATE" />
+ 	</resultMap>
+ 	
+ 	<resultMap type="Recipe" id="ingredientResultMap">
+ 		<id property="ingNo" column="ING_NUM"/>
+		<result property="recipeNo" column="RECIPE_NO" />
+		<result property="ingBundleName" column="ING_BUNDLE_NAME" />
+		<result property="ingAmount" column="ING_AMOUNT" />
+		<result property="largeCatId" column="LARGE_CAT_ID" />
+		<result property="smallCatId" column="SMALL_CAT_ID" />
+ 	</resultMap>
+ 	
+ 	<resultMap type="Recipe" id="orderResultMap">
+ 		<id property="orederNo" column="ORDER_NUM"/>
+		<result property="recipeNo" column="RECIPE_NO" />
+		<result property="recipeContents" column="RECIPE_CONTENTS" />
+		<result property="orderPhotoName" column="ORDER_PHOTO_NAME" />
+		<result property="orderPhotoRename" column="ORDER_PHOTO_RENAME" />
+		<result property="orderPhotopath" column="ORDER_PHOTO_PATH" />
+ 	</resultMap>
+ 	
+ 	<resultMap type="Recipe" id="comPhotoRecultMap">
+ 		<id property="comPhotoNo" column="COMPHOTO_NO"/>
+		<result property="recipeNo" column="RECIPE_NO" />
+		<result property="comPhotoName" column="COMPHOTO_NAME" />
+		<result property="comPhotoRename" column="COMPHOTO_RENAME" />
+		<result property="comPhotopath" column="COMPHOTO_PATH" />
+ 	</resultMap>
+ 	
  	<insert id="insertRecipe">
 		INSERT INTO RECIPE_TBL VALUES(RECIPE_NO_SEQ.NEXTVAL,#{recipeTitle},#{recipeIntro},#{thumbnailName},#{thumbnailRename},#{thumbnailpath},#{typeCategory},#{wayCategory},0,0,#{userId},#{recipeLevel},#{recipeTime},#{recipePerson},DEFAULT)
  	</insert>
@@ -18,5 +60,25 @@
  	<insert id="insertComPhoto">
  		INSERT INTO COMPHOTO_TBL VALUES(COMPHOTO_NO_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{comPhotoName},#{comPhotoRename},#{comPhotopath})
  	</insert>
+ 	<select id="selectAllRecipe" resultMap="recipeResultMap">
+ 		SELECT * FROM RECIPE_TBL
+ 			
+ 			<choose>
+ 				<when test="category == 'countView'">
+ 					ORDER BY RECIPE_LIKE_COUNT DESC
+ 				</when>
+ 				<when test="category == 'likeView'">
+ 					ORDER BY RECIPE_LIKE_COUNT DESC
+ 				</when>
+ 				<otherwise>
+ 					ORDER BY R_CREATE_DATE
+ 				</otherwise>
+ 			</choose>		
+ 	</select>
+ 	<select id="selectCountAllRecipe" resultType="_int">
+ 		<!-- 숫자하나 가져올땐 resultType 으로 처리 -->
+ 		SELECT COUNT(*) FROM RECIPE_TBL
+ 	</select>
+ 	
  
  </mapper>

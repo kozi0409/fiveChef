@@ -1,5 +1,7 @@
 package com.kh.fivechef.recipe.service.logic;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,18 @@ public class RecipeServiceImpl implements RecipeService{
 	public int registerComPhoto(ComPhoto comPhoto) {
 		int result=rStore.insertComPhoto(session,comPhoto);
 		return result;
+	}
+
+	@Override
+	public List<Recipe> printAllRecipe(String listValue) {
+		List<Recipe> rList=rStore.selectAllRecipe(session, listValue);
+		return rList;
+	}
+
+	@Override
+	public int countAllRecipe() {
+		int count = rStore.selectCountAllRecipe(session);
+		return count;
 	}
 
 }
