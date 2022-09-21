@@ -13,6 +13,15 @@
  		<result property="fridgeFilepath" 		column="FRIDGE_FILEPATH" />
  		<result property="userId" 				column="USER_ID" />
  	</resultMap>
+ 	<resultMap type="LargeCat" id="largeResultMap">
+ 		<id property="largeCatId" 				column="LARGE_CAT_ID" />
+ 		<result property="largeCatName" 			column="LARGE_CAT_NAME" />
+ 	</resultMap>
+ 	<resultMap type="SmallCat" id="smallResultMap">
+ 		<id property="smallCatId" 				column="SMALL_CAT_ID" />
+ 		<result property="largeCatId" 			column="LARGE_CAT_ID" />
+ 		<result property="smallCatName" 			column="SMALL_CAT_NAME" />
+ 	</resultMap>
  	<insert id="insertFridge">
  		INSERT INTO MY_FRIDGE_TBL
  		VALUES(SEQ_FRIDGE_NO.NEXTVAL, #{fridgeName}, DEFAULT, #{fridgeFilename}, #{fridgeFileRename}, #{fridgeFilepath}, #{userId})
@@ -33,4 +42,13 @@
  		DELETE FROM MY_FRIDGE_TBL
  		WHERE FRIDGE_NO = #{fridgeNo}
  	</delete>
+ 	
+ 	<select id="selectLargeCat" resultMap="largeResultMap">
+ 		SELECT LARGE_CAT_ID, LARGE_CAT_NAME FROM LARGE_CATEGORY
+ 	</select>
+ 	<select id="selectSmallCat" resultMap="smallResultMap">
+ 		SELECT SMALL_CAT_NAME FROM SMALL_CATEGORY
+ 		WHERE LARGE_CAT_ID = #{largeCatId}
+ 	</select>
+ 	
  </mapper>

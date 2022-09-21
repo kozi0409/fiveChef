@@ -25,7 +25,7 @@ public class FridgeServiceImpl implements FridgeService{
 	}
 
 	@Override
-	public int modifyBoard(Fridge fridge) {
+	public int modifyFridge(Fridge fridge) {
 		int result = fStore.updateFridge(session, fridge);
 		return result;
 	}

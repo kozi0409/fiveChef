@@ -52,7 +52,7 @@
 					<div class="row">
 						<c:forEach items="${fList }" var="fridge" varStatus="i">
 								<div class="col">
-									<div class="card col-sm-4" style="width: 18rem; cursor : pointer;" onclick="location.href='/fridge/storage.kh'">
+									<div class="card col-sm-4" style="width: 18rem; cursor : pointer;" onclick="location.href='/fridge/storage.kh?fridgeNo=${fridge.fridgeNo}&fridgeName=${fridge.fridgeName }'">
 										<img src=<c:if test="${not empty fridge.fridgeFileRename }">"/resources/fuploadFiles/${fridge.fridgeFileRename }"</c:if><c:if test="${empty fridge.fridgeFileRename }">"/resources/images/defaultImages.jpg"</c:if> class="card-img-top" alt="...">
 										<hr style="border-width:3px;">
 										<div class="card-body text-center">
@@ -75,7 +75,7 @@
 												    <div class="modal-body p-5 pt-0">
 														<form action="/fridge/modify.kh" method="post" enctype="multipart/form-data">
 <%-- 															<input type="hidden" name="page" value="${page }"> --%>
-															<input type="hidden" name="fridgeNo" value="${fridge.fridgeNo }">
+															<input type="hidden" name="fridgeNo" value="${fridge.fridgeNo }" required>
 <%-- 															<input type="hidden" name="boardFilename" value="${board.boardFilename }"> --%>
 <%-- 															<input type="hidden" name="boardFileRename" value="${board.boardFileRename }"> --%>
 															<br>
@@ -131,7 +131,7 @@
 		        <form action="/fridge/register.kh" method="post" enctype="multipart/form-data">
 		        <br>
 		          <div class="form-floating mb-3">
-		            <input type="text" class="form-control rounded-4" id="fridgeName" placeholder="냉장고 이름 입력" name="fridgeName">
+		            <input type="text" class="form-control rounded-4" id="fridgeName" placeholder="냉장고 이름 입력" name="fridgeName" required>
 		            <label for="floatingInput">냉장고 이름</label>
 		          </div>
 		          <div class="mb-3">
@@ -179,7 +179,7 @@
 	<script>
 		function removeFridge(fNo){
 			event.preventDefault(); // 하이퍼링크 이동 방지
-			if(confirm("다시 복원 할 수 없습니다.\\n정말 삭제하시겠습니까?")){
+			if(confirm("다시 복원 할 수 없습니다.\n정말 삭제하시겠습니까?")){
 				location.href="/fridge/removeFridge.kh?fridgeNo="+fNo;
 			}
 		}
