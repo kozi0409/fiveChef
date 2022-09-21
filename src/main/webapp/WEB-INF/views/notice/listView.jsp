@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<jsp:include page="/WEB-INF/views/admin.jsp"/>
 <meta charset="UTF-8">
 <title>공지사항</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -14,25 +15,31 @@
 <!-- </style> -->
 </head>
 <body>
-	<h1 align="center">공지사항 목록</h1>
-	<br><br>
 	<div class="container">
 	<div class="table-responsive">
 	<table align="center" border="1" width="" class="table table-hover">
 		<tr class="table-info">
 			<td colspan="5" align="center">
 				<form action="/notice/search.kh" method="get">
-					<select name="searchCondition" class="btn btn-info">
-						<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
-						<option value="title" <c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option>
-						<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
-					</select>
-					<input style="width:500px;" type="text" name="searchValue" value="${searchValue}">
-					<input type="submit" value="검색" class="btn btn-info">
+				<div align="center">
+					<div style="display:inline-block;">
+						<select name="searchCondition" class="btn btn-info">
+							<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
+							<option value="title" <c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option>
+							<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
+						</select>
+					</div>
+					<div style="display:inline-block;">
+						<input style="width:500px;" type="text" name="searchValue" value="${searchValue}">
+					</div>	
+					<div style="display:inline-block;">
+						<input type="submit" value="검색" class="btn btn-info">
+					</div>
+					</div>
 				</form>
 			</td>
 			<td>
-				<button onclick="location.href='/notice/writeView.kh';" class="btn btn-info">공지사항 등록</button>
+				<button type="button" onclick="location.href='/notice/writeView.kh';" class="btn btn-info">공지사항 등록</button>
 			</td>
 		</tr>
 		<tr align="center">

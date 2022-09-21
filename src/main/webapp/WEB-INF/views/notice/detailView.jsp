@@ -5,46 +5,50 @@
 <!DOCTYPE html>
 <html>
 <head>
+<jsp:include page="/WEB-INF/views/admin.jsp"/>
 <meta charset="UTF-8">
 <title>공지사항 상세 조회</title>
+<script src="/resources/js/jquery-3.6.1.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<h1 align="center">${notice.noticeNo }번 공지사항 상세 보기</h1>
-	<br><br>
-	<table align="center" width="500" border="1">
+<%-- <h1 align="center">${notice.noticeNo }번 공지사항 상세 보기</h1> --%>
+<!-- 	<br><br> -->
+<div class="container">
+<div class="table-responsive">
+	<table align="center" width="500" border="1" class="table table-bordered">
 		<tr>
-			<td>제목</td>
+			<td align="center" width="150">제목</td>
 			<td>${notice.noticeTitle}</td>
 		</tr>
 		<tr>
-			<td>작성자</td>
+			<td align="center" width="150">작성자</td>
 			<td>${notice.noticeWriter }</td>
 		</tr>
 		<tr>
-			<td>작성일</td>
+			<td align="center" width="150">작성일</td>
 			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${notice.nCreateDate}"/></td>
 		</tr>
 		<tr>
-			<td>조회수</td>
+			<td align="center" width="150">조회수</td>
 			<td>${notice.noticeCount }</td>
 		</tr>
 		<tr height="300">
-			<td>내용</td>
+			<td align="center" width="150">내용</td>
 			<td>${notice.noticeContents }
 			</td>
 		</tr>
 		<tr>
-			<td>첨부파일</td>
+			<td align="center" width="150">첨부파일</td>
 			<td>
 		 		<img alt="본문이미지" src="/resources/nuploadFiles/${notice.noticeFileRename }" width="300" height="300">
 			</td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center">
-				<a href="/notice/modifyView.kh?noticeNo=${notice.noticeNo }&page=${page}">수정</a>
-				<!--  작성자본인만 수정할수있게 -->
-				<a href="#" onclick="noticeRemove(${page});">삭제</a> <!-- #링크 밑 script에 -->
+				<button onclick="location.href='/notice/modifyView.kh?noticeNo=${notice.noticeNo }&page=${page}';" class="btn btn-info">수정</button>
+				<!-- 관리자만 수정할수있게 -->
+				<button onclick="noticeRemove(${page});" class="btn btn-danger">삭제</button>
 			</td>
 		</tr>
 	</table>
@@ -56,5 +60,7 @@
 			}
 		}
 	</script>
+	</div>
+	</div>
 </body>
 </html>
