@@ -72,14 +72,14 @@
 <!-- NavBar Start -->
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #202c87;">
         <div class="container-xl">
-          <a class="navbar-brand" href="#">fiveChef</a>
+          <a class="navbar-brand" href="/admin/adminlist.kh">fiveChef</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">회원관리</a>
+                <a class="nav-link dropdown-toggle active" aria-current="page" href="/admin/userlist.kh" >회원관리</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">공지사항</a>

@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
 import com.kh.fivechef.admin.store.AdminStore;
-import com.kh.fivechef.admin.store.logic.AdminStoreLogic;
-import com.kh.fivechef.user.domain.User;
 @Service
 public class AdminServiceImpl implements AdminService{
 	
@@ -51,8 +49,14 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public List<Admin> printAllAdmin() {
-		List<Admin> aList = aStore.selectAllAdmin(session);
-		return null;
+		List<Admin> adList = aStore.selectAllAdmin(session);
+		return adList;
+	}
+
+	@Override
+	public int getTotalAdminCount(String searchCondition, String searchValue) {
+		int totCcount = aStore.selectTotalCount(session, searchCondition,searchValue);
+		return totCcount;
 	}
 
 

@@ -3,7 +3,6 @@ package com.kh.fivechef.admin.store.logic;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
@@ -44,7 +43,16 @@ public class AdminStoreLogic implements AdminStore{
 
 	@Override
 	public List<Admin> selectAllAdmin(SqlSession session) {
-		List<Admin> aList = session.selectList("AdminMapper.selectAllAdmin");
-		return null;
+		List<Admin> adList = session.selectList("AdminMapper.selectAllAdmin");
+		return adList;
+	}
+
+	@Override
+	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchValue", searchValue);
+		int totalACount = session.selectOne("AdminMapper.selectTotalCount", paramMap);
+		return totalACount;
 	}
 }

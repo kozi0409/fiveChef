@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,9 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
-import com.kh.fivechef.user.domain.User;
 
-import oracle.sql.DATE;
 
 
 @Controller
@@ -207,12 +204,39 @@ public class AdminController {
 
 	//관리자 목록 출력하기
 	@RequestMapping(value="/admin/adminlist.kh", method=RequestMethod.GET) //관리자 목록 요청
-	public ModelAndView adminListView(ModelAndView mv) {
-		List<Admin> aList = aService.printAllAdmin();
-		if(!aList.isEmpty()) {
-			mv.addObject("aList", aList);
+	public ModelAndView adminListView(
+			ModelAndView mv
+			, @RequestParam(value="page", required=false) Integer page) {
+		/////////////////////////////////////////////////////////////////////////
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = aService.getTotalAdminCount("","");
+		int adminLimit = 10;
+		int naviLimit = 5;
+		int maxPage;
+		int startNavi;
+		int endNavi;
+		// 23/5 = 4.8 + 0.9 = 5(.7)
+		maxPage = (int)((double)totalCount/adminLimit + 0.9);
+		startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+		endNavi = startNavi + naviLimit - 1;
+		if(maxPage < endNavi) {
+		endNavi = maxPage;
 		}
-		mv.setViewName("admin/administView");
+		//////////////////////////////////////////////////////////////////////////
+		List<Admin> adList = aService.printAllAdmin(currentPage, adminLimit);
+		if(!adList.isEmpty()) {
+			mv.addObject("aList", adList);
+			mv.addObject("urlVal", "list");
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+		}
+		mv.setViewName("board/listView");
 		return mv;
+
 	}
+	
+    
+	
 }
