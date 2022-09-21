@@ -10,6 +10,7 @@ import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
 import com.kh.fivechef.admin.store.AdminStore;
 import com.kh.fivechef.admin.store.logic.AdminStoreLogic;
+import com.kh.fivechef.user.domain.User;
 @Service
 public class AdminServiceImpl implements AdminService{
 	
@@ -47,6 +48,14 @@ public class AdminServiceImpl implements AdminService{
 		int result = aStore.deleteAdmin(session, adminId);
 		return result;
 	}
+
+	@Override
+	public List<Admin> printAllAdmin() {
+		List<Admin> aList = aStore.selectAllAdmin(session);
+		return null;
+	}
+
+
 
 	
 

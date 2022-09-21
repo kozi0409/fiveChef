@@ -44,4 +44,8 @@
 		SELECT * FROM ADMIN_TBL
 		WHERE ADMIN_ID = #{adminId } AND A_STATUS = 'Y'
 	</select>
+	<!-- admin에서 관리자목록 출력합니다. -->
+	<select id="selectAllAdmin" resultMap="adminResultMap">
+		SELECT * FROM ADMIN_TBL ORDER BY REG_DATE DESC
+	</select>
  </mapper>

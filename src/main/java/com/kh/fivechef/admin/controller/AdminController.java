@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
+import com.kh.fivechef.user.domain.User;
 
 import oracle.sql.DATE;
 
@@ -204,4 +205,14 @@ public class AdminController {
 	}
 	
 
+	//관리자 목록 출력하기
+	@RequestMapping(value="/admin/adminlist.kh", method=RequestMethod.GET) //관리자 목록 요청
+	public ModelAndView adminListView(ModelAndView mv) {
+		List<Admin> aList = aService.printAllAdmin();
+		if(!aList.isEmpty()) {
+			mv.addObject("aList", aList);
+		}
+		mv.setViewName("admin/administView");
+		return mv;
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.fivechef.admin.domain.Admin;
+import com.kh.fivechef.user.domain.User;
 
 public interface AdminStore {   
 	//selectLoginAdmin
@@ -17,6 +18,8 @@ public interface AdminStore {
 	public int updateAdmin(SqlSession session, Admin admin);
 	//deleteAdmin
 	public int deleteAdmin(SqlSession session, String adminId);
+	
+	public List<Admin> selectAllAdmin(SqlSession session);
 	
 
 	

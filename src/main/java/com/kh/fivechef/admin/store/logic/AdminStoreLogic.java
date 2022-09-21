@@ -42,4 +42,9 @@ public class AdminStoreLogic implements AdminStore{
 		return result;
 	}
 
+	@Override
+	public List<Admin> selectAllAdmin(SqlSession session) {
+		List<Admin> aList = session.selectList("AdminMapper.selectAllAdmin");
+		return null;
+	}
 }
