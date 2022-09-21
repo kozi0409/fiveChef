@@ -36,6 +36,7 @@
 </style>
 </head>
 <body>
+
    <div class="login-area">
    	<div class = "header">
 	   <h1 align="center">

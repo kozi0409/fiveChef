@@ -1,5 +1,7 @@
 package com.kh.fivechef.admin.service;
 
+import java.util.List;
+
 import com.kh.fivechef.admin.domain.Admin;
 
 public interface AdminService {
@@ -13,5 +15,11 @@ public interface AdminService {
 	public int modifyAdmin(Admin admin);
 	//removeAdmin
 	public int removeAdmin(String adminId);
+	//관리자목록 출력
+	public List<Admin> printAllAdmin();
+	
+	public int getTotalAdminCount(String searchCondition, String searchValue);
+	
+
 	
 }

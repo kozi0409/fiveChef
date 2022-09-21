@@ -9,7 +9,7 @@
 </head>
 <body>
 <!-- nevi bar -->
-<jsp:include page="../main/nevi.jsp"></jsp:include>
+<%-- <jsp:include page="../main/nevi.jsp"></jsp:include> --%>
 <br><br>
 	<h1 align="center">
 		<a href="home.kh">냉장고 Chef</a>
@@ -39,7 +39,7 @@
 		<label>이메일</label>
 		<div class="email-box">
 			<input type="text" id="userEmail" name="userEmail" >
-			<a href="#" class="btn_certify" role="button">
+			<a href="#" class="btn" role="button">
 				<span class>인증번호 받기</span>
 			</a>
 		</div>
@@ -52,9 +52,9 @@
 		<br>
 		<button type="submit">가입하기</button>
 	</form>
-<br><br>
-<!-- copyright -->
+<br>
+<!-- footer를 넣어주세요. -->
 <jsp:include page="../main/footer.jsp"></jsp:include>
-
+<!-- footer를 넣어주세요. -->
 </body>
 </html>

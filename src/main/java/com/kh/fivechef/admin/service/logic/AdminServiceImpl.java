@@ -1,18 +1,19 @@
 package com.kh.fivechef.admin.service.logic;
 
-import org.mybatis.spring.SqlSessionTemplate;
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
 import com.kh.fivechef.admin.store.AdminStore;
-import com.kh.fivechef.admin.store.logic.AdminStoreLogic;
 @Service
 public class AdminServiceImpl implements AdminService{
 	
 	@Autowired
-	private SqlSessionTemplate session;
+	private SqlSession session;
 	@Autowired
 	private AdminStore aStore;
 
@@ -46,7 +47,20 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
+	@Override
+	public List<Admin> printAllAdmin() {
+		List<Admin> adList = aStore.selectAllAdmin(session);
+		return adList;
+	}
+
+	@Override
+	public int getTotalAdminCount(String searchCondition, String searchValue) {
+		int totCcount = aStore.selectTotalCount(session, searchCondition,searchValue);
+		return totCcount;
+	}
 
 
+
+	
 
 }

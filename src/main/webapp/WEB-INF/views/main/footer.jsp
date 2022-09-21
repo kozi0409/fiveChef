@@ -13,12 +13,17 @@
     
 <!-- Footer Start -->
 
-<!-- Footer End -->
-  
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<!-- Footer End -->  
 <!-- Copyright Start -->
-  <div class="fixed-bottom center bg-gray" style="background-color: #c0c0c0;" font>
-    <div> 
-      <h7>Copyright &copy; 2022 - All Rights Reserved - <a href="#">팀 요리조리</a></h7>
+  <div class="fixed-bottom center bg-gray" style="background-color: #c0c0c0;">
+    <div>
+    	<table align="center" height="50px">
+    		<tr>
+    			<th>Copyright &copy; 2022 - All Rights Reserved - <a href="#">팀 요리조리</a></th>
+    		</tr>
+    	</table> 
+
     </div>
   </div>
 <!-- Copyright End -->

@@ -1,5 +1,7 @@
 package com.kh.fivechef.admin.store;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.fivechef.admin.domain.Admin;
@@ -16,5 +18,11 @@ public interface AdminStore {
 	//deleteAdmin
 	public int deleteAdmin(SqlSession session, String adminId);
 	
+	public List<Admin> selectAllAdmin(SqlSession session);
+	
+	//관리자 리스트 출력
+	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue);
+	
+
 	
 }

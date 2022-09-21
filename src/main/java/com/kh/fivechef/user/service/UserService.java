@@ -1,5 +1,7 @@
 package com.kh.fivechef.user.service;
 
+import java.util.List;
+
 import com.kh.fivechef.user.domain.User;
 
 public interface UserService {
