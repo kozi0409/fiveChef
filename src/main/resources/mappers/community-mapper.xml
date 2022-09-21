@@ -27,11 +27,27 @@
   	</update>
   	
   	<select id="selectTotalCount" resultType="_int">
- 			SELECT COUNT(*) FROM COMMUNITY_TBL
+ 		SELECT COUNT(*) FROM COMMUNITY_TBL
+ 			<where>
+	 			<if test = "searchCondition.toString() == 'title'">
+	 				COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+	 			</if>
+	 			<if test = "searchCondition.toString() == 'contents'">
+	 				COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+	 			</if>
+	 			<if test = "searchCondition.toString() == 'writer'">
+	 				COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+	 			</if>
+	 			<if test = "searchCondition.toString() == 'all'">
+	 				COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+	 				OR COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+	 				OR COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+	 			</if>
+ 		</where>
  	</select>
  	
  	<select id="selectAllCommunity" resultMap="communityResultMap">
- 			SELECT * FROM COMMUNITY_TBL ORDER BY COMMUNITY_NO DESC
+ 		SELECT * FROM COMMUNITY_TBL ORDER BY COMMUNITY_NO DESC
  	</select>
  	
  	<select id="selectOne" resultMap="communityResultMap">
@@ -45,4 +61,24 @@
  	<update id="updateCommunity">
  		UPDATE COMMUNITY_TBL SET COMMUNITY_TITLE = #{communityTitle}, COMMUNITY_CONTENTS = #{communityContents}, C_UPDATE_DATE = DEFAULT WHERE COMMUNITY_NO = #{communityNo}
  	</update>
+ 	
+ 	<select id="selectAllByValue" resultMap="communityResultMap">
+ 		SELECT * FROM COMMUNITY_TBL
+ 		<where>
+ 			<if test = "searchCondition.toString() == 'title'">
+ 			COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+ 			</if>
+ 			<if test = "searchCondition.toString() == 'contents'">
+ 			COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+ 			</if>
+ 			<if test = "searchCondition.toString() == 'writer'">
+ 			COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+ 			</if>
+ 			<if test = "searchCondition.toString() == 'all'">
+ 			COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+ 			OR COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+ 			OR COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+ 			</if>
+ 		</where>
+ 	</select>
   </mapper>

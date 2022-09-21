@@ -64,7 +64,7 @@
       		<a target="_blank" href="/user/findIdView.kh" class="find_id" id ="find_id">아이디 찾기</a>
       	</li>
       	<li>
-      		<a target="_blank" href="#" class="find_pwd" id ="find_pwd">비밀번호 찾기</a>
+      		<a target="_blank" href="/user/findPwdView.kh" class="find_pwd" id ="find_pwd">비밀번호 찾기</a>
       	</li>
       </ul>
     </div>

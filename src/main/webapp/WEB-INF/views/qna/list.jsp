@@ -18,7 +18,7 @@
 			<th>날짜</th>
 			<th>답변상태</th>
 		</tr>
-		<c:if test="${empty bList }">
+		<c:if test="${empty qList }">
 			<tr>
 				<td colspan="6" align="center"><b>데이터가 존재하지 않습니다.</b></td>
 			</tr>
@@ -42,5 +42,12 @@
 			</c:forEach>
 		</c:if>
 	</table>
+	<button id="write_btn" onclick="qnaWrite()">글쓰기</button>
+	
+	<script>
+		function qnaWrite() {
+			location.href = "/qna/qnaWriteView.kh";
+		}
+	</script>
 </body>
 </html>

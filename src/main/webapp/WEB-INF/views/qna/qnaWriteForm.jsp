@@ -4,25 +4,25 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 작성</title>
 </head>
 <body>
 	<h1 align="center">게시글 등록 페이지</h1>
 	<br><br>
-	<form action="/qna/qnaRegist.kh" method="post">
+	<form action="/qna/qnaRegist.kh" method="post" enctype="multipart/form-data">
 		<table align="center" border="1">
 			<tr>
 				<td>제목</td>
-				<td><input type="text" name="communityTitle"></td>
+				<td><input type="text" name="questionTitle"></td>
 			</tr>
 			<tr>
 				<td>작성자</td>
-				<td><input type="text" name="communityWriter" value="${loginUser.userId }" readonly></td>
+				<td><input type="text" name="questionWriter" value="${loginUser.userId }" readonly></td>
 			</tr>
 			
 			<tr>
 				<td>내용</td>
-				<td><textarea cols="50" rows="20" name="communityContents"></textarea></td>
+				<td><textarea cols="50" rows="20" name="questionContents"></textarea></td>
 			</tr>
 			<tr>
 				<td>첨부파일</td>

@@ -22,4 +22,7 @@ public interface CommunityStore {
 
 	int updateCommunity(SqlSessionTemplate session, Community community);
 
+	List<Community> selectAllByValue(SqlSessionTemplate session, String searchCondition, String searchValue,
+			int currentPage, int communityLimit);
+
 }

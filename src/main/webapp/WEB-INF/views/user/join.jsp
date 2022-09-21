@@ -15,10 +15,12 @@
 		<a href="home.kh">냉장고 Chef</a>
 	</h1>
 	<br>
-	<form id="join_form" method="post" action="/user/register.kh" >
+	<form name="userInfo" method="post" action="/user/register.kh" onsubmit="return checkValue()">
 		<label>아이디</label>
 		<div class="id-box">
 			<input type="text" id="userId" name="userId" placeholder="영문 숫자 조합 6~20자" maxlength="20">
+			<input type="button" value="중복확인" onclick="openIdChk()">
+			<input type="hidden" name="idDuplication" value="idUncheck">
 		</div>
 		<br>
 		<label>비밀번호</label>
@@ -56,5 +58,6 @@
 <!-- footer를 넣어주세요. -->
 <jsp:include page="../main/footer.jsp"></jsp:include>
 <!-- footer를 넣어주세요. -->
+
 </body>
 </html>

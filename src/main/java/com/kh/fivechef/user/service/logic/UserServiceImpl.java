@@ -58,4 +58,11 @@ public class UserServiceImpl implements UserService{
 		User findId = uStore.selectUserId(session, userEmail);
 		return findId;
 	}
+
+
+	@Override
+	public User findUserPwd(String userId, String userEmail) {
+		User searchPwd = uStore.selectUserPwd(session, userId, userEmail);
+		return searchPwd;
+	}
 }

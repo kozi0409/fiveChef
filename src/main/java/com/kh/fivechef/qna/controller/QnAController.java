@@ -1,5 +1,8 @@
 package com.kh.fivechef.qna.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.qna.domain.QnA;
@@ -36,11 +40,29 @@ public class QnAController {
 //				,@RequestParam("questionWriter") String questionWriter
 //				,@RequestParam("questionContents") String questionContents
 				,@ModelAttribute QnA qna
+				,@RequestParam(value="uploadFile", required=false) MultipartFile uploadFile
 				,HttpServletRequest request) {
 		try {
+			String qFileName = uploadFile.getOriginalFilename();
+			if(!uploadFile.getOriginalFilename().equals("")) {
+				String root = request.getSession().getServletContext().getRealPath("resources");
+				String savePath = root + "\\quploadFiles";
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMDDHHmmss");
+				String qFileReName = sdf.format(new Date(System.currentTimeMillis())) + "." + qFileName.substring(qFileName.lastIndexOf(".")+1);
+				File file = new File(savePath);
+				if(!file.exists()) {
+					file.mkdir();
+				}
+				uploadFile.transferTo(new File(savePath + "\\" + qFileReName));
+				String qFilePath = savePath + "\\" + qFileReName;
+				qna.setqFileName(qFileName);
+				qna.setqFileReName(qFileReName);
+				qna.setqFilePath(qFilePath);
+			}
 			int result = qService.registQnA(qna);
-			
-			mv.setViewName("qna/list");
+			request.setAttribute("msg", "등록이 완료되었습니다.");
+			request.setAttribute("url", "/qna/list.kh");
+			mv.setViewName("common/alert");
 		} catch(Exception e) {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}

@@ -18,4 +18,6 @@ public interface CommunityService {
 
 	int modifyCommunity(Community community);
 
+	List<Community> printAllByValue(String searchCondition, String searchValue, int currentPage, int communityLimit);
+
 }

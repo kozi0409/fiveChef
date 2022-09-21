@@ -56,6 +56,13 @@ public class CommunityServiceImpl implements CommunityService{
 		int result = cStore.updateCommunity(session, community);
 		return result;
 	}
+
+	@Override
+	public List<Community> printAllByValue(String searchCondition, String searchValue, int currentPage,
+			int communityLimit) {
+		List<Community> cList = cStore.selectAllByValue(session, searchCondition, searchValue, currentPage, communityLimit);
+		return cList;
+	}
 	
 	
 }

@@ -159,12 +159,12 @@ public class UserController {
 	@RequestMapping(value="user/findId.kh", method=RequestMethod.POST)
 	public ModelAndView findUserId (ModelAndView mv, @RequestParam("userEmail")String userEmail, HttpServletRequest request) {
 		User searchId = uService.findUserId(userEmail);
-		String findId = searchId.getUserId();
-		if(findId == null) {
+		if(searchId == null) {
 			request.setAttribute("msg", "가입된 정보가 없습니다.");
-			request.setAttribute("url", "/user/login.kh");
+			request.setAttribute("url", "/user/loginView.kh");
 			mv.setViewName("common/alert");
 		} else {
+			String findId = searchId.getUserId();
 			request.setAttribute("msg", "회원님의 아이디는 " + findId + " 입니다.");
 			request.setAttribute("url", "/user/loginView.kh");
 			mv.setViewName("common/alert");
@@ -177,4 +177,19 @@ public class UserController {
 		return "user/findPwd";
 	}
 	
+	@RequestMapping(value="user/findPwd.kh", method=RequestMethod.POST)
+	public ModelAndView findUserPwd(ModelAndView mv, @RequestParam("userId")String userId, @RequestParam("userEmail")String userEmail, HttpServletRequest request) {
+		User searchPwd = uService.findUserPwd(userId, userEmail);
+		if(searchPwd == null) {
+			request.setAttribute("msg", "가입된 정보가 없습니다.");
+			request.setAttribute("url", "/user/loginView.kh");
+			mv.setViewName("common/alert");
+		} else {
+			String findPwd = searchPwd.getUserPwd();
+			request.setAttribute("msg", "회원님의 비밀번호는 " + findPwd + " 입니다.");
+			request.setAttribute("url", "/user/loginView.kh");
+			mv.setViewName("common/alert");
+		}
+		return mv;
+	}
 }

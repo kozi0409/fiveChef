@@ -60,5 +60,17 @@ public class CommunityStoreLogic implements CommunityStore{
 		int result = session.update("CommunityMapper.updateCommunity", community);
 		return result;
 	}
+
+	@Override
+	public List<Community> selectAllByValue(SqlSessionTemplate session, String searchCondition, String searchValue,
+			int currentPage, int communityLimit) {
+		int offset = (currentPage - 1) * communityLimit;
+		RowBounds rowBounds = new RowBounds(offset, communityLimit);
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchValue", searchValue);
+		List<Community> cList = session.selectList("CommunityMapper.selectAllByValue", paramMap, rowBounds);
+		return cList;
+	}
 	
 }

@@ -51,6 +51,20 @@
 			</c:if>
 			</td>
 		</tr>
+		<tr>
+		<td colspan="4" align="center">
+			<form action="/community/communitySearch.kh" method="get">
+				<select name="searchCondition">
+					<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
+					<option value="writer" <c:if test="${searchCondition eq 'writer' }">selected</c:if>>작성자</option>
+					<option value="title" <c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option>
+					<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
+				</select>
+				<input type="text" name="searchValue" value="${searchValue }">
+				<input type="submit" value="검색">
+			</form>
+		</td>
+	</tr>
 	</table>
 	<button id="write_btn" onclick="communityWrite()">글쓰기</button>
 	

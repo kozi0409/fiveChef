@@ -11,7 +11,7 @@
 		<br>
 		<form action="/user/findPwd.kh" method="post">
 	             <div>
-	             	<div><input type="text" name="userName" placeholder="이름을 입력해주세요."></div>
+	             	<div><input type="text" name="userId" placeholder="아이디를 입력해주세요."></div>
 	                <div><input type="text" name="userEmail" placeholder="이메일을 입력해주세요."></div>
 	                <button type="submit" class="btn" id="findPwd">비밀번호 찾기</button>
 	             </div>
