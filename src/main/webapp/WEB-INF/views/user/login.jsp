@@ -13,8 +13,8 @@
 
     
 
-<link href="/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  
     <!-- Favicons -->
 <link rel="apple-touch-icon" href="/docs/5.2/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
 <link rel="icon" href="/docs/5.2/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
@@ -105,62 +105,21 @@
 		height : 50px;
 		width : 100px;
 	}
-<<<<<<< HEAD
-    </style>
 
-    
-    <!-- Custom styles for this template -->
-    <link href="signin.css" rel="stylesheet">
+</style>
   </head>
+</head>
   <body class="text-center">
   <br><br><br><br>
-<main class="form-signin w-100 m-auto">
-  <form action="/user/login.kh" method="post" >
+	<main class="form-signin w-100 m-auto">
+  	<form action="/user/login.kh" method="post" >
     <a href="/"><img class="mb-4" src="../../../resources/images/logo1.png" alt="" width="200" height="160"></a>
     <br><br><br>
     <h1 class="h3 mb-3 fw-normal">로그인</h1>
 
+
     <div class="form-floating-center">
       <input type="text" class="form-control" id="floatingInput"  name="user-id" placeholder="ID">
-
-</style>
-</head>
-<body>
-
-   <div class="login-area">
-   	<div class = "header">
-	   <h1 align="center">
-	   <br><br>
-	      <a href="home.kh">냉장고 Chef</a>
-	   </h1>
-   	</div>
-   	<div class = "body" align="center" width="300">
-      <form action="/user/login.kh" method="post">
-          <div class="login_box">
-             <div>
-                <div><input type="text" name="user-id" placeholder="아이디"></div>
-             </div>
-             <div>
-                <div><input type="password" name="user-pwd" placeholder="비밀번호"></div>
-             </div>
-          </div>
-                <div>
-                	<button type="submit" class="btn" id="login">로그인</button>
-                	<button type="button" class="btn" id="join" onclick="joinUser()">회원가입</button>
-                </div>
-      </form>
-      <ul class="find_wrap">
-      	<li>
-      		<a target="_blank" href="/user/findIdView.kh" class="find_id" id ="find_id">아이디 찾기</a>
-      	</li>
-      	<li>
-      		<a target="_blank" href="#" class="find_pwd" id ="find_pwd">비밀번호 찾기</a>
-      	</li>
-      </ul>
-
-    </div>
-
-    <div class="form-floating-center">
       <input type="password" class="form-control" id="floatingPassword" name="user-pwd" placeholder="Password">
     </div>
 
@@ -176,15 +135,8 @@
   </form>
 </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-<script>
-	function joinUser() {
-	   location.href = "/user/userJoinView.kh";
-	}
- </script>
-
-   </div>
    <script>
       function joinUser() {
          location.href = "/user/userJoinView.kh";

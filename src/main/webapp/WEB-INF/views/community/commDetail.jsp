@@ -86,26 +86,28 @@
 				location.href="/community/communityRemove.kh?page=" + value;
 			}
 		}
-		
 		function modifyView(obj, replyContents, replyNo) {
 			event.preventDefault();
 			var $tr = $("<tr>");
 			$tr.append("<td colspan= '3'><input type='text' size='50' value='"+replyContents+"'></td>");
-			$tr.apeend("<td><button onclick='modifyReply(this,"+replyNo+");'>수정</button></td>");
+			$tr.append("<td><button onclick='modifyReply(this,"+replyNo+");'>수정</button></td>");
 			$(obj).parent().parent().after($tr);
 		}
 		
-		function modifyReply(obj, rNo) {
+		function modifyReply(obj, replyNo) {
+			event.preventDefault();
 			var inputTag = $(obj).parent().prev().children();
-			var replyContents = inputTag.val();
+// 			console.log(inputTag);
+			//console.log(inputTag);
+ 			var replyContents = inputTag.val();
 			var $form = $("<form>");
 			$form.attr("action", "/community/modifyReply.kh");
 			$form.attr("method", "post");
 			$form.append("<input type='hidden' value='"+replyContents+"' name='replyContents'>");
-			$form.append("<input typr='hidden' value='"+rNo"'name='replyNo'>");
-			console.log($form[0]);
+			$form.append("<input type='hidden' value='"+replyNo+"'name='replyNo'>");
+			//console.log($form[0]);
 			$form.appendTo("body");
-			$form.submit();
+			$form.submit(); 
 		}
 		function removeReply(replyNo) {
 			event.preventDefault();

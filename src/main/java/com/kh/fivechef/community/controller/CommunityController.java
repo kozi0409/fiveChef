@@ -195,12 +195,12 @@ public class CommunityController {
 	@RequestMapping(value="/community/modifyReply.kh", method=RequestMethod.POST)
 	public String modifyCommunityReply(@ModelAttribute CReply cReply) {
 		int result = cService.modifyReply(cReply);
-		return "/community/communityList.kh";
+		return "redirect:/community/communityList.kh";
 	}
 	
 	@RequestMapping(value="/community/removeReply.kh", method=RequestMethod.POST)
 	public String removeReply(@RequestParam("replyNo") Integer replyNo) {
 		int result = cService.removeReply(replyNo);
-		return "/community/communityList.kh";
+		return "redirect:/community/communityList.kh";
 	}
 }

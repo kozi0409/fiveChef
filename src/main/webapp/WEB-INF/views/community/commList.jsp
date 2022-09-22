@@ -5,10 +5,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>자유게시판</title>
 </head>
 <body>
-	<h2 align="center">게시글 목록</h2><br><br>
+<!-- navs bar -->
+<jsp:include page="../main/user_navs.jsp"></jsp:include>
+<br><br><br>
+	<h2 align="center">자유 게시판</h2><br><br>
 	<table align = "center" border="1">
 		<tr>
 			<th>번호</th>
