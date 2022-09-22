@@ -14,6 +14,13 @@ public class Storage {
 		this.storageName = storageName;
 		this.fridgeNo = fridgeNo;
 	}
+	
+	
+	public Storage(int storageNo, String storageName) {
+		super();
+		this.storageNo = storageNo;
+		this.storageName = storageName;
+	}
 
 
 	public int getStorageNo() {

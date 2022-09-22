@@ -26,10 +26,12 @@ public class StorageController {
 			,@RequestParam("fridgeName") String fridgeName) {
 		List<LargeCategory> lList = sService.printLargeCat();
 		List<SmallCategory> sList = sService.printSmallCat("A1");
+		List<Storage> stList = sService.printStorage(fridgeNo);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
 		mv.addObject("lList", lList);
 		mv.addObject("sList", sList);
+		mv.addObject("stList", stList);
 		mv.setViewName("fridge/myMain");
 		return mv;
 	}
@@ -38,7 +40,29 @@ public class StorageController {
 	public ModelAndView showSmallCat(ModelAndView mv
 			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
-			,@RequestParam("fridgeName") String fridgeName){
+			,@RequestParam("fridgeName") String fridgeName
+			,@RequestParam("jNo") Integer jNo){
+		List<LargeCategory> lList = sService.printLargeCat();
+		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
+		List<Storage> stList = sService.printStorage(fridgeNo);
+		mv.addObject("sList", sList);
+		mv.addObject("lList", lList);
+		mv.addObject("stList", stList);
+		mv.addObject("largeCatId", largeCatId);
+		mv.addObject("fridgeNo", fridgeNo);
+		mv.addObject("fridgeName", fridgeName);
+		mv.addObject("jNo", jNo);
+		mv.setViewName("fridge/myMain");
+		return mv;
+	}
+	
+	@RequestMapping(value="/fridge/createStorage.kh", method=RequestMethod.POST)
+	public ModelAndView createStorage(ModelAndView mv
+			,@ModelAttribute Storage storage
+			,@RequestParam("largeCatId") String largeCatId
+			,@RequestParam("fridgeNo") Integer fridgeNo
+			,@RequestParam("fridgeName") String fridgeName) {
+		int result = sService.registStorage(storage);
 		List<LargeCategory> lList = sService.printLargeCat();
 		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
 		mv.addObject("sList", sList);
@@ -46,17 +70,25 @@ public class StorageController {
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
 		mv.addObject("largeCatId", largeCatId);
-		mv.setViewName("fridge/myMain");
+		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;
 	}
 	
-	@RequestMapping(value="/fridge/createStorage.kh", method=RequestMethod.POST)
-	public ModelAndView createStorage(ModelAndView mv
-			,@ModelAttribute Storage storage) {
-		int result = sService.registStorage(storage);
-		mv.setViewName("fridge/myMain");
-		
+	@RequestMapping(value="/fridge/deleteStorage.kh", method=RequestMethod.POST)
+	public ModelAndView listStorageView(ModelAndView mv
+			,@RequestParam("largeCatId") String largeCatId
+			,@RequestParam("fridgeNo") Integer fridgeNo
+			,@RequestParam("fridgeName") String fridgeName) {
+		List<LargeCategory> lList = sService.printLargeCat();
+		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
+		List<Storage> stList = sService.printStorage(fridgeNo);
+		int result = sService.removeStorage(stList);
+		mv.addObject("sList", sList);
+		mv.addObject("lList", lList);
+		mv.addObject("fridgeNo", fridgeNo);
+		mv.addObject("fridgeName", fridgeName);
+		mv.addObject("largeCatId", largeCatId);
+		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;
 	}
-	
 }

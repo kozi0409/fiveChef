@@ -10,4 +10,6 @@ public interface StorageService {
 	public List<LargeCategory> printLargeCat();
 	public List<SmallCategory> printSmallCat(String largeCatId);
 	public int registStorage(Storage storage);
+	public List<Storage> printStorage(Integer fridgeNo);
+	public int removeStorage(List<Storage> stList);
 }

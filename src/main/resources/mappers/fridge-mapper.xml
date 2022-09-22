@@ -22,6 +22,12 @@
  		<result property="largeCatId" 			column="LARGE_CAT_ID" />
  		<result property="smallCatName" 			column="SMALL_CAT_NAME" />
  	</resultMap>
+ 	<resultMap type="Storage" id="storageResultMap">
+ 		<id property="storageNo" 				column="STORAGE_NO" />
+ 		<result property="storageName" 			column="STORAGE_NAME" />
+ 		<result property="fridgeNo" 			column="FRIDGE_NO" />
+ 	</resultMap>
+ 	
  	<insert id="insertFridge">
  		INSERT INTO MY_FRIDGE_TBL
  		VALUES(SEQ_FRIDGE_NO.NEXTVAL, #{fridgeName}, DEFAULT, #{fridgeFilename}, #{fridgeFileRename}, #{fridgeFilepath}, #{userId})
@@ -55,4 +61,13 @@
  		INSERT INTO STORAGE_TBL
  		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo})
  	</insert>
+ 	
+ 	<select id="selectStorage" resultMap="storageResultMap">
+ 		SELECT STORAGE_NO, STORAGE_NAME FROM STORAGE_TBL
+ 		WHERE FRIDGE_NO = #{fridgeNo}
+ 	</select>
+ 	<delete id="deleteStorage">
+ 		DELETE FROM STORAGE_TBL
+ 		WHERE STORAGE_NO = #{storageNo} AND STORAGE_NAME = #{storageName}
+ 	</delete>
  </mapper>

@@ -21,7 +21,7 @@
 			<h1 align="center" >${fridgeName } 페이지</h1>
 		</div>
 	</header>
-		<div class="card-body" style="height: 530px; background-color:gold; padding: 30px;">
+		<div class="card-body" style="background-color:gold; padding: 30px;">
 		<div class="row">
 			<div class="col" align="left">
 				<button class="btn btn-secondary" onclick="location.href='/'">이전 페이지</button>
@@ -29,83 +29,91 @@
 			</div>
 			<div class="col" align="right">
 				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage">칸 생성</button>
-				<button class="btn btn-danger" onclick="deleteStorage();">칸 삭제</button>
+				<button class="btn btn-danger" onclick="deleteStorage(this.value, ${jNo});">칸 삭제</button>
 			</div>
 		</div>
 		<hr style="border-width:2px;">
-		
-		<div class="row">
-			<div class="col-3" style="background-color:green;">
-				<br>
-				<div class="row">
-					<div class="col-2">
-						<input type="checkbox" id="storageCheck">
-					</div>
-					<div class="col">
-						<h3>냉동 칸</h3>
-					</div>
-					<div class="col">
-						<button class="btn btn-warning" onclick="deleteStorage();">이름 수정</button>
-					</div>
-				</div>
-				<br>
-				<div class="row">
-					<div class="col-3 text-centered">
-						<h6><b>대분류</b></h6>
-					</div>
-					<div class="col">
-						<select id="selLarge" style="width: 150px;" onchange="selectLargeBox(this.value, ${fridgeNo}, '${fridgeName }');">
-							<c:forEach items="${lList }" var="largeCat"  varStatus="i">
-								<option value="${largeCat.largeCatId }" <c:if test="${largeCat.largeCatId eq largeCatId }">selected</c:if>>${largeCat.largeCatName }</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-				<br>
-				<div class="row">
-					<div class="col-3 text-centered">
-						<h6><b>소분류</b></h6>
-					</div>
-					<div class="col">
-						<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);">
-							<c:forEach items="${sList }" var="smallCat"  varStatus="i">
-								<option value="${smallCat.smallCatId }">${smallCat.smallCatName }</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-				<div class="row" id="customInput" style="display:none;">
-					<input type="text" placeholder="재료 검색">
-				</div>
-				<br>
-				<div class="row justify-content-center">
-					<div class="col-5">
-						<button class="btn btn-primary">재료 저장</button>
-					</div>
-					<div class="col-5">
-						<button class="btn btn-danger">재료 삭제</button>
-					</div>
-				</div>
-			</div>
-			<div class="col" style="background-color:blue; padding:20px">
-				<div class="row row-cols-6">
-					<c:forEach var="i" begin="0" end="100">
-						<div class="col">
+			<c:if test="${not empty stList }">
+				<c:forEach items="${stList }" var="storage" varStatus="j">
+					<div class="row mb-2 mt-2">
+						<div class="col-3" style="background-color:green;">
+							<br>
 							<div class="row">
-								<div class="col-1">
-									<input type="checkbox" id="ingredCheck${i }">
+								<div class="col-2">
+									<input type="checkbox" id="storageCheck${j.index }">
 								</div>
 								<div class="col">
-									<label for="ingredCheck${i }">${i }재료명</label>
+									<h3>${storage.storageName }</h3>
+								</div>
+								<div class="col">
+									<button class="btn btn-warning" onclick="#">이름 수정</button>
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<div class="col-3 text-centered">
+									<h6><b>대분류</b></h6>
+								</div>
+								<div class="col">
+									<select id="selLarge" style="width: 150px;" onchange="selectLargeBox(this.value, ${fridgeNo}, '${fridgeName }',${j.index });">
+										<c:forEach items="${lList }" var="largeCat"  varStatus="i">
+											<option id="largeCatOpt" value="${largeCat.largeCatId }" <c:if test="${largeCat.largeCatId eq largeCatId && j.index eq jNo}">selected</c:if>>${largeCat.largeCatName }</option>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+							<br>
+							<div class="row">
+								<div class="col-3 text-centered">
+									<h6><b>소분류</b></h6>
+								</div>
+								<div class="col">
+									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);">
+										<c:forEach items="${sList }" var="smallCat"  varStatus="i">
+											<option value="${smallCat.smallCatId }">${smallCat.smallCatName }</option>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+							<div class="row" id="customInput" style="display:none;">
+								<input type="text" placeholder="재료 검색">
+							</div>
+							<br>
+							<div class="row justify-content-center">
+								<div class="col-5">
+									<button class="btn btn-primary">재료 저장</button>
+								</div>
+								<div class="col-5">
+									<button class="btn btn-danger">재료 삭제</button>
 								</div>
 							</div>
 						</div>
-					</c:forEach>
-				</div>
-			</div>
+						<div class="col" style="background-color:blue; padding:20px">
+							<div class="row row-cols-6">
+								<c:forEach var="i" begin="0" end="50">
+									<div class="col">
+										<div class="row">
+											<div class="col-1">
+												<input type="checkbox" id="ingredCheck${i }">
+											</div>
+											<div class="col">
+												<label for="ingredCheck${i }">${i }재료명</label>
+											</div>
+										</div>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+					</div>
+				</c:forEach>
+			</c:if>
 		</div>
-		
-		
+	</div>
+		<c:if test="${empty stList }">
+			<div>
+				<div colspan="6" align="center"><h3><b>칸을 생성해 주세요.</b></h3></div>
+			</div>
+		</c:if>
 		
 		
 		
@@ -122,11 +130,12 @@
 					</div>
 					    <div class="modal-body">
 						    <div class="modal-body p-5 pt-0">
-								<form action="/fridge/createStorage.kh" method="post">
+								<form action="/fridge/createStorage.kh?fridgeNo=${fridgeNo}&fridgeName=${fridgeName}" method="post">
 									<br>
 									<div class="form-floating mb-3">
 										<input type="hidden" name="fridgeNo" value="${fridgeNo}">
-										<input type="text" class="form-control rounded-4" id="StorageName" placeholder="칸 이름 입력" name="StorageName" required>
+										<input type="hidden" name="largeCatId" value="${largeCatId }">
+										<input type="text" class="form-control rounded-4" id="storageName" placeholder="칸 이름 입력" name="storageName" required>
 										<label for="floatingInput">칸 이름</label>
 									</div>
 									<button class="w-100 mb-2 btn btn-lg btn-primary" type="submit">생성 완료</button>
@@ -138,86 +147,10 @@
 		</div>	
 		
 		
-		
-<!-- 			<div class="row"> -->
-<!-- 				<div class="col-3 justify-content-center"> -->
-<!-- 					<input type="checkbox"> -->
-<!-- 					<br> -->
-<!-- 					<div class="row"> -->
-<!-- 						칸 이름 -->
-<!-- 					</div> -->
-<!-- 					<br> -->
-<!-- 					<div class="row"> -->
-<!-- 						대분류 -->
-<%-- 						<select id="selLarge" style="width: 150px;" onchange="selectLargeBox(this.value, ${fridgeNo}, '${fridgeName }');"> --%>
-<%-- 							<c:forEach items="${lList }" var="largeCat"  varStatus="i"> --%>
-<%-- 								<option value="${largeCat.largeCatId }" <c:if test="${largeCat.largeCatId eq largeCatId }">selected</c:if>>${largeCat.largeCatName }</option> --%>
-<%-- 							</c:forEach> --%>
-<!-- 						</select> -->
-<!-- 					</div> -->
-<!-- 					<br> -->
-<!-- 					<div class="row"> -->
-<!-- 						소분류 -->
-<!-- 						<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);"> -->
-<%-- 							<c:forEach items="${sList }" var="smallCat"  varStatus="i"> --%>
-<%-- 								<option value="${smallCat.smallCatId }">${smallCat.smallCatName }</option> --%>
-<%-- 							</c:forEach> --%>
-<!-- 						</select> -->
-<!-- 					</div> -->
-<!-- 					<div class="row" id="customInput" style="display:none;"> -->
-<!-- 						<input type="text" placeholder="재료 검색"> -->
-<!-- 					</div> -->
-<!-- 					<div class="row justify-content-center"> -->
-<!-- 						<div class="col-5"> -->
-<!-- 							<button class="btn btn-primary">재료 저장</button> -->
-<!-- 						</div> -->
-<!-- 						<div class="col-5"> -->
-<!-- 							<button class="btn btn-danger">재료 삭제</button> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="col"> -->
-<!-- 					<div class="row row-cols-2" id="gridDiv"> -->
-<!-- 						<div class="col mt-3 mb-3"> -->
-<!-- 							<div style="height:400px; background-color: gray; padding:20px;"> -->
-<!-- 								<input type="checkbox" id="storage"> -->
-<!-- 								<label for="storage">재료 칸</label> -->
-<!-- 								<hr style="border-width:2px;"> -->
-<!-- 								<input type="hidden" value="values" name="values"> -->
-<!-- 								<input type="hidden" value="texts" name="texts"> -->
-<!-- 								<div id="values"></div> -->
-<!-- 								<div id="texts"></div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="col mt-3 mb-3"> -->
-<!-- 							<div style="height:400px; background-color: gray; padding:20px;"> -->
-<!-- 								<input type="checkbox">재료 칸 -->
-<!-- 								<hr style="border-width:2px;"> -->
-<!-- 								<input type="hidden" value="values" name="values"> -->
-<!-- 								<input type="hidden" value="texts" name="texts"> -->
-<!-- 								<div id="values"></div> -->
-<!-- 								<div id="texts"></div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="col mt-3 mb-3"> -->
-<!-- 							<div style="height:400px; background-color: gray; padding:20px;"> -->
-<!-- 								<input type="checkbox">재료 칸 -->
-<!-- 								<hr style="border-width:2px;"> -->
-<!-- 								<input type="hidden" value="values" name="values"> -->
-<!-- 								<input type="hidden" value="texts" name="texts"> -->
-<!-- 								<div id="values"></div> -->
-<!-- 								<div id="texts"></div> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
 	
 	<script>
 	
-		function selectLargeBox(value, fNo, fName){
+		function selectLargeBox(value, fNo, fName, jNo){
 // 			value.preventDefault();
 			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
 			$form.attr("action", "/fridge/changeSmall.kh");
@@ -225,10 +158,24 @@
 			$form.append("<input type='hidden' value='"+value+"'name='largeCatId''>");
 			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo''>");
 			$form.append("<input type='hidden' value='"+fName+"' name='fridgeName''>");
+			$form.append("<input type='hidden' value='"+jNo+"' name='jNo''>");
 			$form.appendTo("body");
 			$form.submit();
 		}
 		
+		
+		function deleteStorage(){
+			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+			$form.attr("action", "/fridge/deleteStorage.kh");
+			$form.attr("method", "post");
+			$form.append("<input type='hidden' value='"+value+"'name='largeCatId''>");
+			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo''>");
+			$form.append("<input type='hidden' value='"+fName+"' name='fridgeName''>");
+			$form.append("<input type='hidden' value='"+jNo+"' name='jNo''>");
+			$form.appendTo("body");
+			$form.submit();
+			
+		}
 		
 // 		function list_selected(e) {
 // 			const values = [];
@@ -266,9 +213,7 @@
 // 		}
 		
 		
-// 		function deleteStorage(){
-// 			 $("#boxWrap").append("<p class='original'>등장"+i+"</p>");
-// 		}
+		
 		
 		
 // 		$.ajax({

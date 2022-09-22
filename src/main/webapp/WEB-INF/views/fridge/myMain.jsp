@@ -11,7 +11,7 @@
 <jsp:include page="../main/user_navs.jsp"></jsp:include>
 
 <jsp:include page="./myStorage.jsp"></jsp:include>
-<br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
    
 <!-- copyright -->
 <jsp:include page="../main/footer.jsp"></jsp:include>
