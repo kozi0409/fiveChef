@@ -124,7 +124,7 @@
         var likecheck = ${result}
         $(document).ready(function() {
             if(likecheck > 0){
-                $("#likeup").attr("onclick","javascript: form.action='/add'")
+                $("#likeup").attr("onclick","javascript: form.action='/recipe/recipeLikeDel.kh'")
             }
         });
 

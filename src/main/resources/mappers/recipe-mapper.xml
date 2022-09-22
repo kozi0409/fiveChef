@@ -104,7 +104,7 @@
 	</select>
 	<!-- 좋아요 등록 -->
 	<insert id="insertLike">
-		INSERT INTO R_LIKE_TBL VALUES(LIKE_NO.NEXTVAL,#{recipeNo},#{userId},DEFAULT)
+		INSERT INTO R_LIKE_TBL VALUES(LIKE_NO_SEQ.NEXTVAL,#{recipeNo},#{userId},DEFAULT)
 	</insert>
 	<!-- 좋아요 갯수 업뎃 -->
 	<update id="updateLikeCount">
