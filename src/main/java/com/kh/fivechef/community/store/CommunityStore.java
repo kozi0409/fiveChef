@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.fivechef.community.domain.CReply;
 import com.kh.fivechef.community.domain.Community;
 
 public interface CommunityStore {
@@ -21,5 +22,16 @@ public interface CommunityStore {
 	int deleteCommunity(SqlSessionTemplate session, int communityNo);
 
 	int updateCommunity(SqlSessionTemplate session, Community community);
+
+	List<Community> selectAllByValue(SqlSessionTemplate session, String searchCondition, String searchValue,
+			int currentPage, int communityLimit);
+
+	int insertReply(SqlSessionTemplate session, CReply cReply);
+
+	int updateReply(SqlSessionTemplate session, CReply cReply);
+
+	int deleteReply(SqlSessionTemplate session, Integer replyNo);
+
+	List<CReply> selectAllReply(SqlSessionTemplate session, Integer refCommunityNo);
 
 }

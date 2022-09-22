@@ -17,4 +17,6 @@ public interface UserService {
 	public int modifyUser(User user);
 
 	public User findUserId(String userEmail);
+
+	public User findUserPwd(String userId, String userEmail);
 }

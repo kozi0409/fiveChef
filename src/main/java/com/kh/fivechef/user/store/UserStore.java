@@ -20,4 +20,6 @@ public interface UserStore {
 	public int updateUser(SqlSessionTemplate session, User user);
 
 	public User selectUserId(SqlSessionTemplate session, String userEmail);
+
+	public User selectUserPwd(SqlSessionTemplate session, String userId, String userEmail);
 }

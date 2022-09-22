@@ -1,5 +1,6 @@
 package com.kh.fivechef.user.store.logic;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -46,5 +47,14 @@ public class UserStoreLogic implements UserStore{
 	public User selectUserId(SqlSessionTemplate session, String userEmail) {
 		User findId = session.selectOne("UserMapper.selectUserId", userEmail);
 		return findId;
+	}
+
+	@Override
+	public User selectUserPwd(SqlSessionTemplate session, String userId, String userEmail) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("userId", userId);
+		paramMap.put("userEmail", userEmail);
+		User searchPwd = session.selectOne("UserMapper.selectUserPwd", paramMap);
+		return searchPwd;
 	}
 }

@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fivechef.community.domain.CReply;
 import com.kh.fivechef.community.domain.Community;
 import com.kh.fivechef.community.service.CommunityService;
 import com.kh.fivechef.community.store.CommunityStore;
@@ -55,6 +56,37 @@ public class CommunityServiceImpl implements CommunityService{
 	public int modifyCommunity(Community community) {
 		int result = cStore.updateCommunity(session, community);
 		return result;
+	}
+
+	@Override
+	public List<Community> printAllByValue(String searchCondition, String searchValue, int currentPage,
+			int communityLimit) {
+		List<Community> cList = cStore.selectAllByValue(session, searchCondition, searchValue, currentPage, communityLimit);
+		return cList;
+	}
+
+	@Override
+	public int registReply(CReply cReply) {
+		int result = cStore.insertReply(session, cReply);
+		return result;
+	}
+
+	@Override
+	public int modifyReply(CReply cReply) {
+		int result = cStore.updateReply(session, cReply);
+		return result;
+	}
+
+	@Override
+	public int removeReply(Integer replyNo) {
+		int result = cStore.deleteReply(session, replyNo);
+		return result;
+	}
+
+	@Override
+	public List<CReply> printAllReply(Integer refCommunityNo) {
+		List<CReply> rList = cStore.selectAllReply(session, refCommunityNo);
+		return rList;
 	}
 	
 	

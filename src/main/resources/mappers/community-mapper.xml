@@ -18,6 +18,15 @@
   		<result property="cUpdateDate" column="C_UPDATE_DATE"/>
   		<result property="boardCount" column="BOARD_COUNT"/>
   	</resultMap>
+  	
+  	<resultMap type="cReply" id="replyResultMap">
+  		<id property ="replyNo" column="REPLY_NO"/>
+  		<result property ="refCommunityNo" column="REF_COMMUNITY_NO"/>
+  		<result property ="replyContents" column="REPLY_CONTENTS"/>
+  		<result property ="replyWriter" column="REPLY_WRITER"/>
+  		<result property ="rCreateDate" column="R_CREATE_DATE"/>
+  		<result property ="rUpdateDate" column="R_UPDATE_DATE"/>
+  	</resultMap>
   	<insert id = "insertCommunity">
   		INSERT INTO COMMUNITY_TBL VALUES(SEQ_COMMUNITY_NO.NEXTVAL, #{cBoardCode}, #{communityTitle}, #{communityWriter}, #{communityContents}, #{communityPrice}, #{communitySalePage}, #{communityFileName}, #{communityFileRename}, #{communityFilePath}, DEFAULT, DEFAULT, DEFAULT)
   	</insert>
@@ -27,11 +36,27 @@
   	</update>
   	
   	<select id="selectTotalCount" resultType="_int">
- 			SELECT COUNT(*) FROM COMMUNITY_TBL
+ 		SELECT COUNT(*) FROM COMMUNITY_TBL
+ 			<where>
+	 			<if test = "searchCondition.toString() == 'title'">
+	 				COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+	 			</if>
+	 			<if test = "searchCondition.toString() == 'contents'">
+	 				COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+	 			</if>
+	 			<if test = "searchCondition.toString() == 'writer'">
+	 				COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+	 			</if>
+	 			<if test = "searchCondition.toString() == 'all'">
+	 				COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+	 				OR COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+	 				OR COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+	 			</if>
+ 		</where>
  	</select>
  	
  	<select id="selectAllCommunity" resultMap="communityResultMap">
- 			SELECT * FROM COMMUNITY_TBL ORDER BY COMMUNITY_NO DESC
+ 		SELECT * FROM COMMUNITY_TBL ORDER BY COMMUNITY_NO DESC
  	</select>
  	
  	<select id="selectOne" resultMap="communityResultMap">
@@ -45,4 +70,40 @@
  	<update id="updateCommunity">
  		UPDATE COMMUNITY_TBL SET COMMUNITY_TITLE = #{communityTitle}, COMMUNITY_CONTENTS = #{communityContents}, C_UPDATE_DATE = DEFAULT WHERE COMMUNITY_NO = #{communityNo}
  	</update>
+ 	
+ 	<select id="selectAllByValue" resultMap="communityResultMap">
+ 		SELECT * FROM COMMUNITY_TBL
+ 		<where>
+ 			<if test = "searchCondition.toString() == 'title'">
+ 			COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+ 			</if>
+ 			<if test = "searchCondition.toString() == 'contents'">
+ 			COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+ 			</if>
+ 			<if test = "searchCondition.toString() == 'writer'">
+ 			COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+ 			</if>
+ 			<if test = "searchCondition.toString() == 'all'">
+ 			COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+ 			OR COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+ 			OR COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+ 			</if>
+ 		</where>
+ 	</select>
+ 	
+ 	<insert id="insertReply">
+ 		INSERT INTO C_REPLY_TBL VALUES(C_REPLY_NO_SEQ.NEXTVAL, #{refCommunityNo}, #{replyContents}, #{replyWriter}, DEFAULT, DEFAULT)
+ 	</insert>
+ 	
+ 	<update id="updateReply">
+ 		UPDATE C_REPLY_TBL SET REPLY_CONTENTS = #{replyContents}, R_UPDATE_DATE = DEFAULT WHERE REPLY_NO = #{replyNo}
+ 	</update>
+ 	
+ 	<delete id="deleteReply">
+ 		DELETE FROM C_REPLY_TBL WHERE REPLY_NO = #{replyNo}
+ 	</delete>
+ 	
+ 	<select id="selectAllReply" resultMap="replyResultMap">
+ 		SELECT * FROM C_REPLY_TBL WHERE REF_COMMUNITY_NO = #{refCommunityNo}
+ 	</select>
   </mapper>

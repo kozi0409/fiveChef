@@ -31,7 +31,7 @@
 			<tr height="50">
 				<td>첨부파일</td>
 				<td>
-			<!--  <img alt="본문이미지" src="/resources/buploadFiles/${board.boardFileRename }" width="300" height="300">  -->
+				<img alt="본문이미지" src="/resources/quploadFiles/${qna.qFileReName }" width="300" height="300">
 				</td>
 			</tr>
 			<tr>

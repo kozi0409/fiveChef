@@ -48,4 +48,8 @@
 		SELECT * FROM USER_TBL ORDER BY U_ENROLL_DATE DESC
 	</select>
 	
+	<select id="selectUserPwd" resultMap="userResultMap">
+		SELECT USER_PWD FROM USER_TBL WHERE USER_ID = #{userId} AND USER_EMAIL = #{userEmail}
+	</select>
+	
  </mapper>
