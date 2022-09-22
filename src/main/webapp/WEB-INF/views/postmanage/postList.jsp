@@ -23,6 +23,7 @@
 						<select name="searchCondition" class="btn btn-info">
 							<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
 							<option value="writer" <c:if test="${searchCondition eq 'writer' }">selected</c:if>>작성자</option>
+							<option value="title" <c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option>
 							<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
 						</select>
 					</div>
@@ -54,7 +55,7 @@
 				자유게시판
 			</c:if>
 			<c:if test="${community.cBoardCode eq 'sale'}">
-				할인정보게시판
+				할인정보 게시판
 			</c:if>
 			</td>
 			
@@ -91,5 +92,6 @@
 	</table>
 	</div>
 	</div>
+	<jsp:include page="../main/footer.jsp"></jsp:include>
 </body>
 </html>

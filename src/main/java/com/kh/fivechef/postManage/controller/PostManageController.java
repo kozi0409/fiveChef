@@ -19,21 +19,27 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.community.domain.Community;
-import com.kh.fivechef.notice.domain.Notice;
 import com.kh.fivechef.postManage.service.PostManageService;
+import com.kh.fivechef.recipe.domain.ComPhoto;
+import com.kh.fivechef.recipe.domain.Ingradient;
+import com.kh.fivechef.recipe.domain.Order;
+import com.kh.fivechef.recipe.domain.Recipe;
 
 @Controller
 public class PostManageController {
 	
 	@Autowired
 	private PostManageService pService;
-//	private RecipeService rService;
 
+	
+	// community 에 대한 코드 먼저
+	
+	
 	// 전체 게시글 리스트
 	@RequestMapping(value = "/postmanage/list.kh", method = RequestMethod.GET)
 	public ModelAndView postManageView(ModelAndView mv, @RequestParam(value = "page", required = false) Integer page) {
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = pService.getTotalPostCount("", "");
+		int totalCount = pService.getPostTotalCount("", "");
 		int communityLimit = 10;
 		int naviLimit = 5;
 		int maxPage;
@@ -47,7 +53,7 @@ public class PostManageController {
 		}
 		List<Community> cList = pService.printAllPost(currentPage, communityLimit);
 		if (!cList.isEmpty()) {
-			mv.addObject("urlVal", "communityList");
+			mv.addObject("urlVal", "list");
 			mv.addObject("maxPage", maxPage);
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("startNavi", startNavi);
@@ -113,7 +119,7 @@ public class PostManageController {
 				mv.addObject("currentPage", currentPage);
 				mv.addObject("startNavi", startNavi);
 				mv.addObject("endNavi", endNavi);
-				mv.setViewName("admin/postManage");
+				mv.setViewName("postmanage/postList");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}
@@ -190,4 +196,96 @@ public class PostManageController {
 			return "common/errorPage";
 		}
 	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////////
+	
+	
+	// 레시피에 대한 코드
+	
+	// 리스트
+		@RequestMapping(value = "/recipemanage/list.kh", method = RequestMethod.GET)
+		public ModelAndView recipeManageView(
+				ModelAndView mv
+				,@RequestParam(value="category" , required=false) String listValue
+				,@RequestParam(value="page",required = false) Integer page 
+				) {
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = pService.countAllRecipe();
+			int recipeLimit = 18;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int) ((double) totalCount / recipeLimit + 0.9);
+			startNavi = ((int) ((double) currentPage / naviLimit + 0.9) - 1) * naviLimit + 1;
+			endNavi = startNavi + naviLimit - 1;
+			if (maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			List<Recipe> rList = pService.printAllRecipe(listValue,currentPage,recipeLimit);
+			if(!rList.isEmpty()) {
+				mv.addObject("rList",rList);
+			}
+			mv.addObject("startNavi",startNavi);
+			mv.addObject("endNavi",endNavi);
+			mv.addObject("maxPage",maxPage);
+			mv.addObject("currentPage",currentPage);
+			mv.addObject("urlVal","list");
+			mv.addObject("listValue",listValue);
+			mv.addObject("totalCount",totalCount);
+			mv.setViewName("postmanage/recipeList");
+			
+			return mv;
+		}
+	
+		// 상세 페이지 조회
+		@RequestMapping(value="/recipemanage/detail.kh",method=RequestMethod.GET)
+		public ModelAndView recipeManageDetailView(
+				ModelAndView mv
+				,@RequestParam(value="category" , required=false) String listValue
+				,@RequestParam(value="page" ,required = false) Integer page
+				,@RequestParam("recipeNo") Integer recipeNo
+				,@ModelAttribute Order order
+				,@ModelAttribute ComPhoto comPhoto
+				,@ModelAttribute Ingradient ing
+				,HttpSession session) {
+			try {
+				
+				Recipe recipe = pService.printOneByNo(recipeNo);
+				session.setAttribute("recipeNo",recipe.getRecipeNo());
+				List<Ingradient> iList = pService.printAllIng(recipeNo);
+				String bundle = iList.get(0).getIngBundleName();
+				List<Order> oList = pService.printAllOrder(recipeNo);
+				List<ComPhoto> cList = pService.printAllComPhoto(recipeNo);
+				
+				mv.addObject("urlVal","detail");
+				mv.addObject("listValue",listValue);
+				mv.addObject("page", page);
+				mv.addObject("cList",cList);
+				mv.addObject("oList",oList);
+				mv.addObject("iList",iList);
+				mv.addObject("bundle",bundle);
+				mv.addObject("recipe",recipe);
+				mv.setViewName("postmanage/recipeDetail");
+			} catch (Exception e) {
+				e.printStackTrace();
+				mv.addObject("msg","레시피조회 실패").setViewName("common/errorPage");
+			}
+			
+			
+			return mv;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		///////
+		
+		
+		
 }
