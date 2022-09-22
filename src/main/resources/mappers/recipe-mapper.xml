@@ -22,16 +22,18 @@
 		<result property="rCreateDate" column="R_CREATE_DATE" />
  	</resultMap>
  	
- 	<resultMap type="Recipe" id="ingredientResultMap">
+ 	<resultMap type="com.kh.fivechef.recipe.domain.Ingradient" id="ingredientResultMap">
  		<id property="ingNo" column="ING_NUM"/>
 		<result property="recipeNo" column="RECIPE_NO" />
 		<result property="ingBundleName" column="ING_BUNDLE_NAME" />
 		<result property="ingAmount" column="ING_AMOUNT" />
 		<result property="largeCatId" column="LARGE_CAT_ID" />
 		<result property="smallCatId" column="SMALL_CAT_ID" />
+		<result property="smallCatName" column="SMALL_CAT_NAME" />
+		<result property="largeCatName" column="LARGE_CAT_NAME" />
  	</resultMap>
  	
- 	<resultMap type="Recipe" id="orderResultMap">
+ 	<resultMap type="com.kh.fivechef.recipe.domain.Order" id="orderResultMap">
  		<id property="orederNo" column="ORDER_NUM"/>
 		<result property="recipeNo" column="RECIPE_NO" />
 		<result property="recipeContents" column="RECIPE_CONTENTS" />
@@ -40,7 +42,7 @@
 		<result property="orderPhotopath" column="ORDER_PHOTO_PATH" />
  	</resultMap>
  	
- 	<resultMap type="Recipe" id="comPhotoRecultMap">
+ 	<resultMap type="com.kh.fivechef.recipe.domain.ComPhoto" id="comPhotoRecultMap">
  		<id property="comPhotoNo" column="COMPHOTO_NO"/>
 		<result property="recipeNo" column="RECIPE_NO" />
 		<result property="comPhotoName" column="COMPHOTO_NAME" />
@@ -79,6 +81,17 @@
  		<!-- 숫자하나 가져올땐 resultType 으로 처리 -->
  		SELECT COUNT(*) FROM RECIPE_TBL
  	</select>
- 	
+ 	<select id="selectOneByRecipeNo" resultMap="recipeResultMap">
+ 		SELECT * FROM RECIPE_TBL WHERE RECIPE_NO = #{recipeNo}
+ 	</select>
+ 	<select id="selectAllIng" resultMap="ingredientResultMap">
+ 		SELECT * FROM INGRADIENT_TBL A JOIN SMALL_CATEGORY B ON A.SMALL_CAT_ID = B.SMALL_CAT_ID JOIN LARGE_CATEGORY C ON A.LARGE_CAT_ID = C.LARGE_CAT_ID WHERE RECIPE_NO = #{recipeNo}
+ 	</select>
+ 	<select id="selectAllOrder" resultMap="orderResultMap">
+ 		SELECT * FROM ORDER_TBL WHERE RECIPE_NO = #{recipeNo}
+ 	</select>
+ 	<select id="selectAllComPhoto" resultMap="comPhotoRecultMap">
+ 		SELECT * FROM COMPHOTO_TBL WHERE RECIPE_NO = #{recipeNo}
+ 	</select>
  
  </mapper>

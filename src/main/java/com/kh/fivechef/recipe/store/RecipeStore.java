@@ -20,9 +20,18 @@ public interface RecipeStore {
 
 	public int insertComPhoto(SqlSession session, ComPhoto comPhoto);
 
-	public List<Recipe> selectAllRecipe(SqlSession session, String listValue);
+	public List<Recipe> selectAllRecipe(SqlSession session, String listValue, int currentPage, int Limit);
 
 	public int selectCountAllRecipe(SqlSession session);
+
+	public Recipe selectOneByRecipeNo(SqlSession session, Integer recipeNo);
+
+	public List<Ingradient> selectAllIng(SqlSession session, Integer recipeNo);
+
+	public List<Order> selectAllOrder(SqlSession session, Integer recipeNo);
+
+	public List<ComPhoto> selectAllComPhoto(SqlSession session, Integer recipeNo);
+
 
 
 }

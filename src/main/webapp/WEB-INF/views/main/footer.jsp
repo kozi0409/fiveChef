@@ -13,7 +13,7 @@
     
 <!-- Footer Start -->
 
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
 <!-- Footer End -->  
 <!-- Copyright Start -->
   <div class="fixed-bottom center bg-gray" style="background-color: #c0c0c0;">
