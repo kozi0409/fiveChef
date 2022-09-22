@@ -19,7 +19,7 @@
 <header id="header" class="hoc clear"> 
     <section>
         <div>
-            <a href="/admin.kh"><h1 style="font-family:Nanum Gothic;">관리자 페이지</h1></a>
+            <a href="/"><h3 style="font-family:Nanum Gothic;">5Chef Home</h1></a>
          </div>
       <div>
         <h1 id="logo"><a href="/admin.kh"><img src="../resources/images/logo2.png"></a></h1>
@@ -84,8 +84,14 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/notice/list.kh">공지사항관리</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#">게시판관리</a>
+              <li class="nav-item active dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                 게시판관리
+                </a>
+                <ul class="dropdown-menu  active" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="/postmanage/list.kh">커뮤니티 게시판관리</a></li>
+                  <li><a class="dropdown-item" href="/recipemanage/list.kh">레시피 게시판관리</a></li>
+                </ul>
               </li>
               <li class="nav-item active dropdown">
                 <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -102,10 +108,12 @@
                 <a class="nav-link active" href="#">Q&A</a>
               </li>
             </ul>
-            <form class="d-flex">
+            <!-- Search Start  -->
+            <!-- <form class="d-flex">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            </form> -->
+            <!-- Search End -->
           </div>
         </div>
       </nav>

@@ -51,7 +51,7 @@
 		WHERE ADMIN_ID = #{adminId }
 	</update>
 	<!-- 마스터관리자가 삭제 -->
-	<delete id="deleteAdminEver">
+	<delete id="deleteMasterAdmin">
 		DELETE FROM ADMIN_TBL 
 		WHERE ADMIN_ID=#{adminId }
 	</delete>
@@ -73,6 +73,11 @@
 	<select id="selectAllUser" resultMap="userResultMap">
 		SELECT * FROM USER_TBL ORDER BY U_ENROLL_DATE DESC
 	</select>
+	<!-- 마스터관리자가 회원 삭제 -->
+	<delete id="deleteMasterUser">
+		DELETE FROM USER_TBL 
+		WHERE USER_ID=#{userId }
+	</delete>
 	
 	<!-- 관리자 목록 출력 -->
 	<select id="selectTotalCount" resultType="_int">
@@ -96,12 +101,12 @@
 			</where>
 	</select>
 	<!-- 마스터 관리자 수정 -->
-<!-- 	<update id="modifyMaster" parameterType="Admin">
+ 	<update id="modifyMaster" parameterType="Admin">
 		UPDATE ADMIN_TBL
 		SET ADMIN_PWD = #{adminPwd }, ADMIN_EMAIl = #{adminEmail }, ADMIN_PHONE = #{adminPhone}
 		, ADMIN_ADDR = #{adminAddr }, ADMIN_SCOPE = #{adminScope }, ADMIN_CODE =#{adminCode }
 		, UPDATE_DATE = DEFAULT
 		WHERE ADMIN_ID = #{adminId }
-	</update> -->
+	</update>
 	
  </mapper>

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지</title>
+<title>마스터페이지</title>
  <link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
@@ -13,8 +13,9 @@
 <div class="container" style="width: 600px; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
-		    <h2>회원정보 수정</h2>
-			<form action="/admin/modifyAdminFin" method="post">
+		    <h2>마스터 관리자 정보 수정</h2>
+			<form action="/admin/modify.kh" method="post">
+				<input type="hidden" name="page" value="${page }">
 				<table class="table table-boardered">
 					<tr>
 						<th>아이디</th>
@@ -72,8 +73,8 @@
 					
 					<tr>
 						<td colspan="2">
-						<input type="submit" class="btn btn-primary" value="수정하기">
-						<button type="button" class="btn btn-danger" onclick="removeAdmin();">삭제하기</button>
+							<input type="submit" class="btn btn-primary" value="수정하기">
+							<button type="button" class="btn btn-danger" onclick="deleteCheck('${admin.adminId }',${currentPage })">삭제하기</button>
 						</td>
 					</tr>
 					
@@ -90,9 +91,9 @@
 <!-- 실제 데이터가 들어있는 라이브러리 -->
 <script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
 <script>
-	function removeAdmin() {
-		if(confirm("탈퇴하시겠습니까?")) {
-			location.href = "/admin/remove.kh";
+function deleteCheck(adminId, currentPage) {
+	if(confirm("삭제하시겠습니까?")) {
+		location.href = "/admin/delete.kh?adminId="+adminId +"&page="+currentPage;
 		}
 	}
 	$("#postcodify_search_button").postcodifyPopUp();

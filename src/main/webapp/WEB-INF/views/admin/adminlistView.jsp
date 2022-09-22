@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 목록</title>
+<title>관리자회원 목록</title>
 </head>
 <body>
 <jsp:include page="../main/admin_navs.jsp"></jsp:include>
@@ -13,7 +13,7 @@
 <div class="container" style="width: 80%; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
-			<div class="col-sm-12 text-center" ><h1>관리자 목록</h1></div>
+			<div class="col-sm-12 text-center" ><h1>관리자회원 목록</h1></div>
 			<table class="table table-striped table-hover">
 				<tr>
 					<th>번호</th>
@@ -21,7 +21,6 @@
 					<th>비밀번호</th>
 					<th>이름</th>
 					<th>이메일</th>
-					<th>주소</th>
 					<th>등록날짜</th>
 					<th>관리자권한</th>	
 					<th>관리자엄무</th>	
@@ -36,12 +35,11 @@
 						<td>${admin.adminPwd }</td>
 						<td>${admin.adminName }</td>
 						<td>${admin.adminEmail }</td>
-						<td>${admin.adminAddr }</td>
 						<td>${admin.regdate }</td>
 						<td><a href="">${admin.adminCode }</a></td>
 						<td><a href="">${admin.adminScope }</a></td>
 						<td><button type="button" class="btn btn-primary btn-sm" style="background-color: #4d61fb;" onclick ="location.href = '/admin/detail.kh?adminId=${admin.adminId }&page=${currentPage }';">수정</button></td>
-						<td><button type="button" class="btn btn-secondary btn-sm" style="background-color: #fb4d7e;" onclick="location.href = '/admin/delete.kh?adminId=${admin.adminId }&page=${currentPage }';">삭제</button></td>
+						<td><button type="button" class="btn btn-secondary btn-sm" style="background-color: #fb4d7e;" onclick="deleteCheck('${admin.adminId }',${currentPage })">삭제</button></td>
 					</tr>
 				</c:forEach>
 				<tr align="center" height="20">
@@ -92,8 +90,15 @@
 		</div>
 	</div>
 </div>
+<br>
 <!-- copyright -->
 <jsp:include page="../main/footer.jsp"></jsp:include>
-
+<script>
+	function deleteCheck(adminId, currentPage) {
+		if(confirm("삭제하시겠습니까?")) {
+			location.href = "/admin/delete.kh?adminId="+adminId +"&page="+currentPage;
+		}
+	}
+</script>
 </body>
 </html>

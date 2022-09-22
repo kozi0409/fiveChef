@@ -51,8 +51,8 @@ public class AdminServiceImpl implements AdminService{
 
 	//회원관리
 	@Override
-	public List<User> printAllUser() {
-		List<User> uList = aStore.selectAllUser(session);
+	public List<User> printAllUser(int currentPage, int adminLimit)  {
+		List<User> uList = aStore.selectAllUser(session, currentPage, adminLimit);
 		return uList;
 	}
 
@@ -69,24 +69,25 @@ public class AdminServiceImpl implements AdminService{
 		return totalCount;
 	}
 
-	@Override
-	public int removeOneById(String adminId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
-	public int modifyAdminMaster(Admin admin) {
-		int result = aStore.modifyAdminMaster(session, admin);
+	public int removeOneById(String adminId) {
+		int result = aStore.deleteOneById(session, adminId);
 		return result;
 	}
 
-//	@Override
-//	public int removeOneById(String adminId) {
-//		int result = aStore.deleteOneById(session, adminId);
-//		return result;
-//	}
-//
+	@Override
+	public User printOneByUserId(String userId) {
+		User user = aStore.printOneByUserId(session, userId);
+		return user;
+	}
+
+	@Override
+	public int removeOneByUserId(String userId) {
+		int reult = aStore.removeOneByUserId(session, userId);
+		return reult;
+	}
+
 
 	
 

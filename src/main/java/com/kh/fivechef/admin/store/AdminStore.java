@@ -24,15 +24,13 @@ public interface AdminStore {
 	//관리자 
 	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue);
 	//관리자 삭제
-//	public int removeOneById(SqlSession session, String adminId);
 	public int deleteOneById(SqlSession session, String adminId);
 	
-	public List<User> selectAllUser(SqlSession session);
-	
+	//회원 리스트 출력
+	public List<User> selectAllUser(SqlSession session, int currentPage, int adminLimit);
+	public User printOneByUserId(SqlSession session, String userId);
+	public int removeOneByUserId(SqlSession session, String userId);
 
-	public int modifyAdminMaster(SqlSession session, Admin admin);
-	
-	
 
 		
 }

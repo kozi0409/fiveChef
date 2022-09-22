@@ -28,10 +28,11 @@ public interface AdminService {
 	
 	//회원목록 출력=>admin
 	//printAllUser
-	public List<User> printAllUser();
+	public List<User> printAllUser(int currentPage, int adminLimit);
 	//마스터가 관리회원정보 수정
-
-	public int modifyAdminMaster(Admin admin);
+	public User printOneByUserId(String userId);
 	
+	public int removeOneByUserId(String userId);
+
 	
 }
