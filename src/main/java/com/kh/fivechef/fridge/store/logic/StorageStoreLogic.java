@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.fivechef.fridge.domain.Fridge;
 import com.kh.fivechef.fridge.domain.LargeCategory;
 import com.kh.fivechef.fridge.domain.SmallCategory;
+import com.kh.fivechef.fridge.domain.Storage;
 import com.kh.fivechef.fridge.store.StorageStore;
 
 @Repository
@@ -23,6 +24,12 @@ public class StorageStoreLogic implements StorageStore {
 	public List<SmallCategory> selectSmallCat(SqlSession session, String largeCatId) {
 		List<SmallCategory> sList = session.selectList("FridgeMapper.selectSmallCat", largeCatId);
 		return sList;
+	}
+
+	@Override
+	public int insertStorage(SqlSession session, Storage storage) {
+		int result = session.insert("FridgeMapper.insertStorage", storage);
+		return result;
 	}
 
 }

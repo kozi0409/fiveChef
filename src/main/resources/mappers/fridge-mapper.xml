@@ -51,4 +51,8 @@
  		WHERE LARGE_CAT_ID = #{largeCatId}
  	</select>
  	
+ 	<insert id="insertStorage">
+ 		INSERT INTO STORAGE_TBL
+ 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo})
+ 	</insert>
  </mapper>
