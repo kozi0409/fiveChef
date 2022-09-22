@@ -25,7 +25,9 @@
 		</tr>
 		<tr>
 			<td>작성자</td>
-			<td>${recipe.userId }</td>
+			<td>${recipe.userId }
+                <button id="ing-add">sdf</button>
+            </td>
 			
 		</tr>
 		
@@ -134,6 +136,9 @@
             if(likecheck > 0){
             $("#likeup").html("좋아요 취소");
             }
+            	$("#ing-add").on("click",function(){
+			$("#ing-add").append("<div>아하하</div>");
+	});
         });
 
         // $(document).ready(function() {

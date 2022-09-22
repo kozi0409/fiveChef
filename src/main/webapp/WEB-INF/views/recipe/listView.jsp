@@ -35,7 +35,7 @@
 <body class="bg-light vsc-initialized">
 <input type="hidden" name="userId" value="${sessionScope.loginUser.userId }">
 	<div class="wrap">
-		<div><h2> 총 <span style="border: #ccc">${totalCount }</span>${sessionScope.loginUser.userId }개의 레시피가 있습니다.<div class="r">
+		<div><h2> 총 <span style="border: #ccc">${totalCount }</span>개의 레시피가 있습니다.<div class="r">
 			<form action="/recipe/recipeList.kh" method="get">
 				<button class="listView" name="category" value="">전체보기</button>
 				<button class="listView" name="category" value="countView">조회수순</button>
@@ -48,7 +48,8 @@
 		<div class="fixed_img_col" align="center">
 			<ul>
 				<c:forEach items="${rList }" var="recipe" varStatus="i">
-					<li><a href="/recipe/recipeDetailView.kh?recipeNo=${recipe.recipeNo }&page=${currentPage }&category=${listValue }&userId=${sessionScope.loginUser.userId }"><span class="thumb"><img
+				<!-- userId 못불러옴 -->
+					<li><a href="/recipe/recipeDetailView.kh?recipeNo=${recipe.recipeNo }&page=${currentPage }&category=${listValue }"><span class="thumb"><img
 								onerror="this.src='../resources/images/logo.png'"
 								src="/resources/ruploadFiles/${recipe.thumbnailRename }" alt="">
 								<em>Click</em></span><strong>${recipe.recipeTitle }</strong></a>

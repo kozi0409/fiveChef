@@ -5,8 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<jsp:include page="/WEB-INF/views/main/user_navs.jsp"></jsp:include>
 <script src="../../../resources/js/jquery-3.6.1.min.js"></script>
+<jsp:include page="/WEB-INF/views/main/user_navs.jsp"></jsp:include>
 <title>냉장고 셰프 레시피 작성</title>
 <style>
 	
@@ -187,9 +187,8 @@
 				<!-- -- -->
 				<div class="btn-group col-md-3" role="group" aria-label="Basic radio toggle button group">
 			
-					<input type="button" class="btn-check" name="btnradio" id="ing-add1" onclick="" >
-					<label class="btn btn-outline-primary" for="btnradio2">추가</label>
-					<button id="ing-add">sdf</button>
+					<input type="radio" class="btn-check" name="btnradio" id="ing-add" ></input>
+					<label class="btn btn-outline-primary" for="btnradio2" onclick="appendex()">추가</label>
 					<input type="radio" class="btn-check" name="btnradio" id="ing-del" autocomplete="off">
 					<label class="btn btn-outline-primary" for="btnradio3">삭제</label>
 				  </div>
@@ -416,39 +415,48 @@
 		</div>
 	</form>
 	<script>
-	function loadFile(input) {
-		var file = input.files[0];	//선택된 파일 가져오기
+	// 	var $j341 = jQuery.noConflict();
+	// var $j361 = jQuery.noConflict();
+		var ss = ""
 
-	    //미리 만들어 놓은 div에 text(파일 이름) 추가
-	    var name = document.getElementById('fileName');
-	    name.textContent = file.name;
-	  //새로운 이미지 div 추가
-	    var newImage = document.createElement("img");
-	    newImage.setAttribute("class", 'img');
-
-	    //이미지 source 가져오기
-	    newImage.src = URL.createObjectURL(file);   
-
-	    newImage.style.width = "70%";
-	    newImage.style.height = "70%";
-	    newImage.style.visibility = "visible";   //버튼을 누르기 전까지는 이미지를 숨긴다
-	    newImage.style.objectFit = "contain";
-
-	    //이미지를 image-show div에 추가
-	    var container = document.getElementById('image-show');
-	    container.appendChild(newImage);
+	function appendex(){        
+		$("#ing-app").append('');    
+		  
 	}
-
-$(document).ready(function() {
-	//첫 번째 버튼 이벤트
+	$(document).ready(function() {
+	// 첫 번째 버튼 이벤트
 	// $("#firstButton").on("click", function() {
-		// 	var bodyHtml = "<button id='secondButton'>두 번째 버튼</button>";
-		// 	$("#mainDiv").append(bodyHtml);
-		// });
-		$("#ing-add").on("click",function(){
-			$("#ing-app").append("<div>아하하</div>");
+	// 	alert("두 번째 버튼을 클릭했습니다.");
+	// 	});
+			$("#firstButton").on("click",function(){
+				$("#firstButton").append("<div>아하하</div>");
+		});
 	});
 	
+	// function loadFile(input) {
+	// 	var file = input.files[0];	//선택된 파일 가져오기
+
+	//     //미리 만들어 놓은 div에 text(파일 이름) 추가
+	//     var name = document.getElementById('fileName');
+	//     name.textContent = file.name;
+	//   //새로운 이미지 div 추가
+	//     var newImage = document.createElement("img");
+	//     newImage.setAttribute("class", 'img');
+
+	//     //이미지 source 가져오기
+	//     newImage.src = URL.createObjectURL(file);   
+
+	//     newImage.style.width = "70%";
+	//     newImage.style.height = "70%";
+	//     newImage.style.visibility = "visible";   //버튼을 누르기 전까지는 이미지를 숨긴다
+	//     newImage.style.objectFit = "contain";
+
+	//     //이미지를 image-show div에 추가
+	//     var container = document.getElementById('image-show');
+	//     container.appendChild(newImage);
+	// }
+
+
 	</script>
 
 </body>

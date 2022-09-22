@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,7 +26,7 @@ import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.recipe.service.RecipeService;
 import com.kh.fivechef.user.domain.User;
-
+//hms2dd
 @Controller
 public class RecipeController {
 	@Autowired
@@ -208,22 +209,24 @@ public class RecipeController {
 			,@RequestParam(value="category" , required=false) String listValue
 			,@RequestParam(value="page" ,required = false) Integer page
 			,@RequestParam("recipeNo") Integer recipeNo
-			,@ModelAttribute User user
+//			,@ModelAttribute User user
 			,@ModelAttribute Order order
 			,@ModelAttribute ComPhoto comPhoto
 			,@ModelAttribute Ingradient ing
 			,HttpSession session) {
 		try {
+			User user =(User) (session.getAttribute("loginUser"));
 			System.out.println(user);
-			Like like = new Like();
-			like.setUserId(user.getUserId());
-			like.setRecipeNo(recipeNo);
+//			Like like = new Like();
+//			like.setUserId(user.getUserId());
+//			like.setRecipeNo(recipeNo);
 //			System.out.println(recipeid.getUserId());
 			//레시피 좋아요 카운트
-			int result = rService.checkLikeId(like);
+//			int result = rService.checkLikeId(like);
 			//레시피정보 출력
 			Recipe recipe = rService.printOneByNo(recipeNo);
-			session.setAttribute("recipeNo",recipe.getRecipeNo());
+			//삭지하기위해 보드넘버 저장
+//			session.setAttribute("recipeNo",recipe.getRecipeNo());
 			//재료출력
 			List<Ingradient> iList = rService.printAllIng(recipeNo);
 			String bundle = "재료없음";
@@ -235,8 +238,8 @@ public class RecipeController {
 			List<Order> oList = rService.printAllOrder(recipeNo);
 			//완성사진 출력
 			List<ComPhoto> cList = rService.printAllComPhoto(recipeNo);
-			mv.addObject("result",result);
-			mv.addObject("like",like);
+//			mv.addObject("result",result);
+//			mv.addObject("like",like);
 			mv.addObject("urlVal","recipeList");
 			mv.addObject("listValue",listValue);
 			mv.addObject("page", page);
