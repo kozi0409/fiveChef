@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace= "CommunityMapper">
+  	<resultMap type= "Community" id="communityResultMap2">
+  		<id property="communityNo" column="COMMUNITY_NO"/>
+  		<result property="cBoardCode" column="C_BOARD_CODE"/>
+  		<result property="communityTitle" column="COMMUNITY_TITLE"/>
+  		<result property="communityWriter" column="COMMUNITY_WRITER"/>
+  		<result property="communityContents" column="COMMUNITY_CONTENTS"/>
+  		<result property="communityPrice" column="COMMUNITY_PRICE"/>
+  		<result property="communitySalePage" column="COMMUNITY_SALE_PAGE"/>
+  		<result property="communityFileName" column="COMMUNITY_FILE_NAME"/>
+  		<result property="communityFileRename" column="COMMUNITY_FILE_RENAME"/>
+  		<result property="communityFilePath" column="FILE_PATH"/>
+  		<result property="cEnrollDate" column="C_ENROLL_DATE"/>
+  		<result property="cUpdateDate" column="C_UPDATE_DATE"/>
+  		<result property="boardCount" column="BOARD_COUNT"/>
+  	</resultMap>
+  	
+  	<select id="selectTotalPostCount" resultType="_int">
+ 			SELECT COUNT(*) FROM COMMUNITY_TBL
+ 	</select>
+ 	
+  	<select id="selectAllPost" resultMap="communityResultMap2">
+ 			SELECT * FROM COMMUNITY_TBL ORDER BY C_UPDATE_DATE DESC
+ 	</select>
+ 	
+ 	<update id="updatePostCount">
+  		UPDATE COMMUNITY_TBL SET BOARD_COUNT = BOARD_COUNT + 1 WHERE COMMUNITY_NO = #{communityNo}
+  	</update>
+  	
+  	<select id="selectPostOne" resultMap="communityResultMap2">
+ 		SELECT * FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{communityNo}
+ 	</select>
+ 	
+ 	<delete id="deleteOneByPostNo">
+ 		DELETE FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{communityNo}
+ 	</delete>
+ 	
+ 	  </mapper>

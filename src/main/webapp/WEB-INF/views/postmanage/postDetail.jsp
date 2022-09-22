@@ -17,35 +17,46 @@
 	<table align="center" width="500" border="1" class="table table-bordered">
 		<tr>
 			<td align="center" width="150">제목</td>
-			<td>${notice.noticeTitle}</td>
+			<td>${community.communityTitle }</td>
+		</tr>
+		<tr>
+			<td align="center" width="150">게시판</td>
+			<td>
+			<c:if test="${community.cBoardCode eq 'free'}">
+				자유게시판
+			</c:if>
+			<c:if test="${community.cBoardCode eq 'sale'}">
+				할인정보게시판
+			</c:if>
+			</td>
 		</tr>
 		<tr>
 			<td align="center" width="150">작성자</td>
-			<td>${notice.noticeWriter }</td>
+			<td>${community.communityWriter }</td>
 		</tr>
 		<tr>
 			<td align="center" width="150">작성일</td>
-			<td><fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${notice.nCreateDate}"/></td>
+			<td><fmt:formatDate pattern="yyyy-MM-dd" value="${community.cEnrollDate }"/></td>
 		</tr>
 		<tr>
 			<td align="center" width="150">조회수</td>
-			<td>${notice.noticeCount }</td>
+			<td>${community.boardCount }</td>
 		</tr>
 		<tr height="300">
 			<td align="center" width="150">내용</td>
-			<td>${notice.noticeContents }
+			<td>${community.communityContents }
 			</td>
 		</tr>
 		<tr>
 			<td align="center" width="150">첨부파일</td>
 			<td>
-		 		<img alt="본문이미지" src="/resources/nuploadFiles/${notice.noticeFileRename }" width="300" height="300">
+		 		<img alt="본문이미지" src="/resources/cuploadFiles/${community.communityFileRename }" width="300" height="300">
 			</td>
 		</tr>
 		<c:if test="${loginAdmin.adminName eq '관리자'}"> <!-- 관리자만 수정, 삭제 가능 -->
 		<tr>
 			<td colspan="2" align="center">
-				<button onclick="location.href='/notice/modifyView.kh?noticeNo=${notice.noticeNo }&page=${page}';" class="btn btn-info">수정</button>
+				<button onclick="location.href='/postmanage/modifyView.kh?noticeNo=${notice.noticeNo }&page=${page}';" class="btn btn-info">수정</button>
 				<button onclick="noticeRemove(${page});" class="btn btn-danger">삭제</button>
 		</tr>
 		</c:if>
@@ -53,8 +64,8 @@
 	<script>
 		function noticeRemove(page) {
 			event.preventDefault(); // 하이퍼링크 이동 방지
-			if(confirm("공지사항을 삭제하시겠습니까?")) {
-				location.href="/notice/remove.kh?page="+page;
+			if(confirm("해당 게시글을 삭제하시겠습니까?")) {
+				location.href="/postmanage/remove.kh?page="+page;
 			}
 		}
 	</script>

@@ -20,6 +20,7 @@
 		<typeAlias type="com.kh.fivechef.community.domain.Community" alias="Community"/>
 		<typeAlias type="com.kh.fivechef.fridge.domain.LargeCategory" alias="LargeCat"/>
 		<typeAlias type="com.kh.fivechef.fridge.domain.SmallCategory" alias="SmallCat"/>
+		<typeAlias type="com.kh.fivechef.community.domain.CReply" alias="CReply"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="mappers/admin-mapper.xml"></mapper>
@@ -29,5 +30,6 @@
 		<mapper resource="mappers/user-mapper.xml"></mapper>
 		<mapper resource="mappers/qna-mapper.xml"></mapper>
 		<mapper resource="mappers/community-mapper.xml"></mapper>
+		<mapper resource="mappers/postmanage-mapper.xml"></mapper>
 	</mappers>
 </configuration>

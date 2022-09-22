@@ -19,7 +19,7 @@
 <header id="header" class="hoc clear"> 
     <section>
         <div>
-            <a href="/admin.kh"><h1>관리자페이지</h1></a>
+            <a href="/admin.kh"><h1 style="font-family:Nanum Gothic;">관리자 페이지</h1></a>
          </div>
       <div>
         <h1 id="logo"><a href="/admin.kh"><img src="../resources/images/logo2.png"></a></h1>
@@ -82,10 +82,10 @@
                 <a class="nav-link dropdown-toggle active" aria-current="page" href="/admin/userlist.kh" >회원관리</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">공지사항</a>
+                <a class="nav-link active" aria-current="page" href="/notice/list.kh">공지사항관리</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="#">게시판</a>
+                <a class="nav-link active" href="#">게시판관리</a>
               </li>
               <li class="nav-item active dropdown">
                 <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
