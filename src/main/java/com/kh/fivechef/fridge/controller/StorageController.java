@@ -78,7 +78,8 @@ public class StorageController {
 	public ModelAndView listStorageView(ModelAndView mv
 			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
-			,@RequestParam("fridgeName") String fridgeName) {
+			,@RequestParam("fridgeName") String fridgeName
+			,@RequestParam("jNo") Integer jNo) {
 		List<LargeCategory> lList = sService.printLargeCat();
 		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
 		List<Storage> stList = sService.printStorage(fridgeNo);
@@ -88,6 +89,7 @@ public class StorageController {
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
 		mv.addObject("largeCatId", largeCatId);
+		mv.addObject("jNo", jNo);
 		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;
 	}
