@@ -3,14 +3,21 @@ package com.kh.fivechef.admin.store.logic;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.store.AdminStore;
+import com.kh.fivechef.user.domain.User;
+import com.kh.fivechef.user.store.UserStore;
 @Repository
 public class AdminStoreLogic implements AdminStore{
 
+	@Autowired
+	private UserStore uStore;
+	
 	@Override
 	public Admin selectLoginAdmin(SqlSession session, Admin admin) {
 		Admin aOne = session.selectOne("AdminMapper.selectLoginOne", admin);
@@ -42,9 +49,19 @@ public class AdminStoreLogic implements AdminStore{
 	}
 
 	@Override
-	public List<Admin> selectAllAdmin(SqlSession session) {
-		List<Admin> adList = session.selectList("AdminMapper.selectAllAdmin");
-		return adList;
+	public List<Admin> selectAllAdmin(SqlSession session, int currentPage, int adminLimit) {
+		int offset = (currentPage-1)*adminLimit;
+		RowBounds rowBounds = new RowBounds(offset, adminLimit);
+		List<Admin> aList = session.selectList("AdminMapper.selectAllAdmin", null, rowBounds);
+		return aList;
+	}
+	
+	
+	//회원관리
+	@Override
+	public List<User> selectAllUser(SqlSession session) {
+		List<User> uList = session.selectList("AdminMapper.selectAllUser");
+		return uList;
 	}
 
 	@Override
@@ -52,7 +69,22 @@ public class AdminStoreLogic implements AdminStore{
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchValue", searchValue);
-		int totalACount = session.selectOne("AdminMapper.selectTotalCount", paramMap);
-		return totalACount;
+		int totalCount = session.selectOne("AdminMapper.selectTotalCount", paramMap);
+		return totalCount;
 	}
+
+	@Override
+	public int deleteOneById(SqlSession session, String adminId) {
+		int result = session.delete("AdminMapper.deleteAdminEver", adminId);
+		return result;
+	}
+
+
+	@Override
+	public int modifyAdminMaster(SqlSession session, Admin admin) {
+		int result = session.update("AdminMapper.modifyMaster", admin);
+		return result;
+	}
+
+
 }

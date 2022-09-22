@@ -14,8 +14,8 @@
 	<div class="row">
 		<div class="col-sm-12 text-center" >
 		    <h2>회원정보 수정</h2>
-			<form action="/admin/modify.kh" method="post">
-				<table class="table table-boardered">
+			<form action="/admin/Modify.kh" method="post">
+			<input type="hidden" name="page" value="${page }">
 					<tr>
 						<th>아이디</th>
 						<td><input type="text" class="form-control" id="adminId" name="adminId" value="${admin.adminId }"  readonly></td>		
@@ -60,7 +60,6 @@
 							<input type="text" name="address2" class="form-control postcodify_details" value="${addrInfos[2] }">
 						</td>
 					</tr>
-					
 					<tr>
 						<th>관리자코드</th>
 						<td><input type="text" class="form-control" name="adminCode" value="${admin.adminCode }"></td>		
@@ -69,6 +68,7 @@
 						<th>관리자권한</th>
 						<td><input type="text" class="form-control" name="adminScope" value="${admin.adminScope }"></td>		
 					</tr>
+		
 					
 					<tr>
 						<td colspan="2">

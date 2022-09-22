@@ -18,6 +18,21 @@
 		<result property="lastCnt_date" 	column="LASTCNT_DATE"/>
 		<result property="aStatus" 		column="A_STATUS"/>	
 	</resultMap>
+	
+	<resultMap type="User" id="userResultMap">
+		<id property="userId" column="USER_ID"/>
+		<result property="userPwd" column="USER_PWD"/>
+		<result property="userName" column="USER_NAME"/>
+		<result property="userPhone" column="USER_PHONE"/>
+		<result property="userEmail" column="USER_EMAIL"/>
+		<result property="userBirth" column="USER_BIRTH"/>
+		<result property="userPhotoName" column="USER_PHOTO_NAME"/>
+		<result property="userPhotoRename" column="USER_PHOTO_RENAME"/>
+		<result property="userPhotoPath" column="USER_PHOTO_PATH"/>
+		<result property="uEnrollDate" column="U_ENROLL_DATE"/>
+		<result property="uStatus" column="U_STATUS"/>
+	</resultMap>
+	
 	<!-- 회원가입 -->
  	<insert id="insertAdmin" parameterType="Admin">
  		INSERT INTO ADMIN_TBL
@@ -27,7 +42,7 @@
  	<update id="updateAdmin" parameterType="Admin">
 		UPDATE ADMIN_TBL
 		SET ADMIN_PWD = #{adminPwd }, ADMIN_EMAIl = #{adminEmail }, ADMIN_PHONE = #{adminPhone}
-		, ADMIN_ADDR = #{adminAddr }, UPDATE_DATE = DEFAULT
+		, ADMIN_ADDR = #{adminAddr }, ADMIN_SCOPE = #{adminScope }, ADMIN_CODE =#{adminCode }, UPDATE_DATE = DEFAULT
 		WHERE ADMIN_ID = #{adminId }
 	</update>
 	<update id="deleteAdmin" parameterType="string">
@@ -35,6 +50,11 @@
 		SET A_STATUS = 'N'
 		WHERE ADMIN_ID = #{adminId }
 	</update>
+	<!-- 마스터관리자가 삭제 -->
+	<delete id="deleteAdminEver">
+		DELETE FROM ADMIN_TBL 
+		WHERE ADMIN_ID=#{adminId }
+	</delete>
  	<!-- 로그인 -->
  	<select id="selectLoginOne" resultMap="adminResultMap">
  		SELECT ADMIN_ID, ADMIN_NAME FROM ADMIN_TBL
@@ -48,4 +68,40 @@
 	<select id="selectAllAdmin" resultMap="adminResultMap">
 		SELECT * FROM ADMIN_TBL ORDER BY REG_DATE DESC
 	</select>
+	
+	<!-- admin에서 회원목록 출력합니다. -->
+	<select id="selectAllUser" resultMap="userResultMap">
+		SELECT * FROM USER_TBL ORDER BY U_ENROLL_DATE DESC
+	</select>
+	
+	<!-- 관리자 목록 출력 -->
+	<select id="selectTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM ADMIN_TBL
+		<where>
+				<if test="searchCondition.toString() == 'title'">
+					ADMIN_NAME LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'contents'">
+					ADMIN_ID LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'writer'">
+					ADMIN_ADDR LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'all'">
+					ADMIN_NAME LIKE '%'||#{searchValue}||'%'
+					OR ADMIN_ID LIKE '%'||#{searchValue}||'%'
+					OR ADMIN_ADDR LIKE '%'||#{searchValue}||'%'
+				</if>
+				 
+			</where>
+	</select>
+	<!-- 마스터 관리자 수정 -->
+<!-- 	<update id="modifyMaster" parameterType="Admin">
+		UPDATE ADMIN_TBL
+		SET ADMIN_PWD = #{adminPwd }, ADMIN_EMAIl = #{adminEmail }, ADMIN_PHONE = #{adminPhone}
+		, ADMIN_ADDR = #{adminAddr }, ADMIN_SCOPE = #{adminScope }, ADMIN_CODE =#{adminCode }
+		, UPDATE_DATE = DEFAULT
+		WHERE ADMIN_ID = #{adminId }
+	</update> -->
+	
  </mapper>

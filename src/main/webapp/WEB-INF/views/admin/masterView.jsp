@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-sm-12 text-center" >
 		    <h2>회원정보 수정</h2>
-			<form action="/admin/modify.kh" method="post">
+			<form action="/admin/modifyAdminFin" method="post">
 				<table class="table table-boardered">
 					<tr>
 						<th>아이디</th>
@@ -22,7 +22,7 @@
 					</tr>
 					<tr>
 						<th>패스워드</th>
-						<td><input type="password" class="form-control" name="AdminPwd" placeholder="비밀번호는 영문만 넣어주세요"></td>		
+						<td><input type="password" class="form-control" name="AdminPwd" value="${admin.adminPwd }"></td>		
 					</tr>
 					<tr>
 						<th>이름</th>
@@ -73,7 +73,7 @@
 					<tr>
 						<td colspan="2">
 						<input type="submit" class="btn btn-primary" value="수정하기">
-						<button type="button" class="btn btn-danger" onclick="removeAdmin();">탈퇴하기</button>
+						<button type="button" class="btn btn-danger" onclick="removeAdmin();">삭제하기</button>
 						</td>
 					</tr>
 					

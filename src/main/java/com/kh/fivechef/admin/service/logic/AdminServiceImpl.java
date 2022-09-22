@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
 import com.kh.fivechef.admin.store.AdminStore;
+import com.kh.fivechef.user.domain.User;
+
 @Service
 public class AdminServiceImpl implements AdminService{
 	
@@ -47,19 +49,44 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
+	//회원관리
 	@Override
-	public List<Admin> printAllAdmin() {
-		List<Admin> adList = aStore.selectAllAdmin(session);
-		return adList;
+	public List<User> printAllUser() {
+		List<User> uList = aStore.selectAllUser(session);
+		return uList;
+	}
+
+	//관리자회원 목록 - 페이징처리 포함
+	@Override
+	public List<Admin> printAllAdmin(int currentPage, int adminLimit) {
+		List<Admin> aList = aStore.selectAllAdmin(session, currentPage, adminLimit);
+		return aList;
 	}
 
 	@Override
-	public int getTotalAdminCount(String searchCondition, String searchValue) {
-		int totCcount = aStore.selectTotalCount(session, searchCondition,searchValue);
-		return totCcount;
+	public int getTotalCount(String searchCondition, String searchValue) {
+		int totalCount = aStore.selectTotalCount(session, searchCondition, searchValue);
+		return totalCount;
 	}
 
+	@Override
+	public int removeOneById(String adminId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
+	@Override
+	public int modifyAdminMaster(Admin admin) {
+		int result = aStore.modifyAdminMaster(session, admin);
+		return result;
+	}
+
+//	@Override
+//	public int removeOneById(String adminId) {
+//		int result = aStore.deleteOneById(session, adminId);
+//		return result;
+//	}
+//
 
 	
 
