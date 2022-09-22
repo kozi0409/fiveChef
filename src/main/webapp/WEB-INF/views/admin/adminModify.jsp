@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>마이페이지</title>
+<title>관리자 정보 수정</title>
  <link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
@@ -13,8 +13,8 @@
 <div class="container" style="width: 600px; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
-		    <h2>회원정보 수정</h2>
-			<form action="/admin/Modify.kh" method="post">
+		    <h2>관리자 정보 수정</h2>
+			<form action="/admin/MasterModify.kh" method="post">
 			<input type="hidden" name="page" value="${page }">
 					<tr>
 						<th>아이디</th>

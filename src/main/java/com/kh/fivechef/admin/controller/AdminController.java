@@ -143,7 +143,7 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/myPage.kh", method=RequestMethod.GET)
-	public ModelAndView showMypage(HttpServletRequest request
+	public ModelAndView adminMypage(HttpServletRequest request
 			, ModelAndView mv) {
 		try {
 			HttpSession session = request.getSession();
@@ -170,18 +170,23 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/modify.kh", method=RequestMethod.POST)
-	public ModelAndView modifyAdmin(
+	public ModelAndView adminModify(
 			@ModelAttribute Admin admin
 			, @RequestParam("post") String post
 			, @RequestParam("address1") String address1
 			, @RequestParam("address2") String address2
-	//		, @RequestParam(value="page", required=false) Integer page)
+			, @RequestParam(value="page", required=false) Integer page
 			, ModelAndView mv) {
 		try {
 			admin.setAdminAddr(post + "," + address1 + "," + address2);
 			int result = aService.modifyAdmin(admin);
 			if(result > 0) {
-				mv.setViewName("redirect:/admin.kh");
+				if(page != null) {
+					mv.setViewName("redirect:/admin/adminlist.kh?page="+page);
+				}else {
+					mv.setViewName("redirect:/admin.kh");
+				}
+				
 			}else {
 				mv.addObject("msg", "회원 정보 수정 실패!");
 				mv.setViewName("common/errorPage");
@@ -198,7 +203,7 @@ public class AdminController {
 	 * @return
 	 */
 	@RequestMapping(value="/admin/remove.kh", method=RequestMethod.GET)
-	public ModelAndView removeMember(HttpSession session
+	public ModelAndView adminRemove(HttpSession session
 			, ModelAndView mv) {
 		try {
 			Admin admin = (Admin)session.getAttribute("loginAdmin");
@@ -213,31 +218,14 @@ public class AdminController {
 	}
 	
 
-	//관리자 목록 출력하기
-//	@RequestMapping(value="/admin/adminlist.kh", method=RequestMethod.GET) //관리자 목록 요청
-//	public ModelAndView adminListView(ModelAndView mv) {
-//		List<Admin> aList = aService.printAllAdmin();
-//		if(!aList.isEmpty()) {
-//			mv.addObject("aList", aList);
-//		}
-//		mv.setViewName("admin/adminlistView");
-//		return mv;
-//	}
 	
-	//어드민에서 회원목록 요청합니다.
-	@RequestMapping(value="/admin/userlist.kh", method=RequestMethod.GET) //회원목록 요청
-	public ModelAndView userListView(ModelAndView mv) {
-		List<User> uList = aService.printAllUser();
-		if(!uList.isEmpty()) {
-			mv.addObject("uList", uList);
-		}
-		mv.setViewName("admin/userlistView");
-		return mv;
-	}
+	
+
+	
 	
 	//관리자 목록 출력하기
 	@RequestMapping(value="/admin/adminlist.kh", method=RequestMethod.GET) //관리자 목록 요청
-	public ModelAndView adminListView(
+	public ModelAndView masterAdminList(
 			ModelAndView mv
 			, @RequestParam(value="page", required=false) Integer page) {
 		/////////////////////////////////////////////////////////////////////////
@@ -269,9 +257,10 @@ public class AdminController {
 		return mv;
 	}
 	
+	
 //	관리자 목록에서 삭제하기
 	@RequestMapping(value="/admin/delete.kh", method=RequestMethod.GET)
-	public String adminRemove(
+	public String masterAdminDelete(
 			HttpSession session
 			, Model model
 			, @RequestParam("page") Integer page
@@ -288,22 +277,10 @@ public class AdminController {
 			return "common/errorPage";
 		}
 	}
-	/*
-	 * //관리자정보 수정
-	 * 
-	 * @RequestMapping(value="/admin/adminModify.kh", method=RequestMethod.POST)
-	 * public ModelAndView boardModify( HttpSession session , @ModelAttribute Admin
-	 * admin , ModelAndView mv ,@RequestParam("adminId") String adminId
-	 * ,@RequestParam("page") Integer page ,HttpServletRequest request) { try {
-	 * Admin admin = (Admin)session.getAttribute("adminId"); int result =
-	 * aService.modifyAdmin(adminId);
-	 * mv.setViewName("redirect:/board/list.kh?page="+page); } catch (Exception e) {
-	 * mv.addObject("msg", e.toString()).setViewName("common/errorPage"); } return
-	 * mv; }
-	 */
+
 	
 	@RequestMapping(value="/admin/detail.kh", method=RequestMethod.GET)
-	public ModelAndView masterView(HttpServletRequest request
+	public ModelAndView masterAdminView(HttpServletRequest request
 			, ModelAndView mv
 			, @RequestParam("adminId") String adminId
 			, @RequestParam("page") Integer page) {
@@ -311,29 +288,95 @@ public class AdminController {
 			Admin aOne = aService.printOneById(adminId);
 			String aAddr = aOne.getAdminAddr();
 			String [] addrInfos = aAddr.split(",");
-			mv.addObject("admin", aOne).addObject("addrInfos", addrInfos);
-			mv.setViewName("admin/masterView");
+			mv.addObject("admin", aOne).addObject("addrInfos", addrInfos).addObject("page", page);
+			mv.setViewName("admin/masterAdminView");
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
 		}
 		return mv;		
 	}
+
+	//어드민 회원정보 보기
+	@RequestMapping(value="/admin/userDetail.kh", method=RequestMethod.GET)
+	public ModelAndView masterUserView(HttpServletRequest request
+			, ModelAndView mv
+			, @RequestParam("userId") String userId
+			, @RequestParam("page") Integer page
+			, HttpSession session) {
+		try {
+			User uOne = aService.printOneByUserId(userId);
+			mv.addObject("user", uOne).addObject("page", page);
+			mv.setViewName("admin/masterUserView");
+			System.out.println(mv.toString());;
+		} catch (Exception e) {
+			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+		}
+		return mv;		
+	}
+
+	//어드민에서 회원목록 요청
+	@RequestMapping(value="/admin/userlist.kh", method=RequestMethod.GET) //회원목록 요청
+	public ModelAndView masterUserList(
+			ModelAndView mv
+			, @RequestParam(value="page", required=false) Integer page) {
+		/////////////////////////////////////////////////////////////////////////
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = aService.getTotalCount("","");
+		int adminLimit = 10;
+		int naviLimit = 5;
+		int maxPage;
+		int startNavi;
+		int endNavi;
+		// 23/5 = 4.8 + 0.9 = 5(.7)
+		maxPage = (int)((double)totalCount/adminLimit + 0.9);
+		startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+		endNavi = startNavi + naviLimit - 1;
+		if(maxPage < endNavi) {
+		endNavi = maxPage;
+		}
+		//////////////////////////////////////////////////////////////////////////		
+		
+		List<User> uList = aService.printAllUser(currentPage, adminLimit);
+		if(!uList.isEmpty()) {
+			mv.addObject("uList", uList);
+			mv.addObject("urlVal", "userlist");
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+		}
+		mv.setViewName("admin/userlistView");
+		return mv;
+	}
 	
-//	@RequestMapping(value="/admin/MasterModify.kh", method=RequestMethod.POST)
-//	public ModelAndView modifyAdminFin(
-//			@ModelAttribute Admin admin
-//			, @RequestParam("post") String post
-//			, @RequestParam("address1") String address1
-//			, @RequestParam("address2") String address2
-//			, @RequestParam("adminId") String adminId
-//			, @RequestParam("page") Integer page
-//			, ModelAndView mv
-//			,HttpServletRequest request) {
+//	관리자 목록에서 회원 삭제하기
+	@RequestMapping(value="/admin/deleteUser.kh", method=RequestMethod.GET)
+	public String masterUserDelete(
+			HttpSession session
+			, Model model
+			, @RequestParam("page") Integer page
+			, @RequestParam("userId") String userId) {
+		try {
+			User user = (User)session.getAttribute("userId");
+			int result = aService.removeOneByUserId(userId);
+			if(result > 0) {
+				session.removeAttribute("userId");
+			}
+			return "redirect:/admin/userlistView.kh?page="+page;
+		} catch (Exception e) {
+			model.addAttribute("msg", e.toString());
+			return "common/errorPage";
+		}
+	}
+//
+//	@RequestMapping(value="/admin/userModify.kh", method=RequestMethod.POST)
+//	public ModelAndView mastUserModify(
+//			@ModelAttribute User user
+//			,@RequestParam("userId") String userId
+//			, @RequestParam(value="page", required=false) Integer page
+//			, ModelAndView mv) {
 //		try {
-//			admin.setAdminAddr(post + "," + address1 + "," + address2);
-//			int result = aService.modifyAdminMaster(admin);
-////			mv.addObject("adminId", adminId);
-////			mv.addObject("page", page);
+//			User user = aService.modifyUser(userId);
 //			if(result > 0) {
 //				mv.setViewName("redirect:/admin/adminlist.kh?page="+page);
 //			}else {
