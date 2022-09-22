@@ -14,7 +14,7 @@
 	<div class="row">
 		<div class="col-sm-12 text-center" >
 		    <h2>회원정보 수정</h2>
-			<form action="/admin/MasterModify.kh" method="post">
+			<form action="/admin/Modify.kh" method="post">
 			<input type="hidden" name="page" value="${page }">
 					<tr>
 						<th>아이디</th>
