@@ -2,27 +2,35 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 	html,body{
 		width:100%;height: 100%;
+		!important
 	}
 	body,p,h1,h2,h3,h4,h5,h6,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{
 		margin: 0;padding: 0;
+		!important
 	}
 	body,input,textarea,select,button,table{
 		font-family: '돋움',Dotum,AppleGothic,sans-serif;font-size: 12px;
+		!important
 	}
 	img,fieldset{
 		border: 0;
+		!important
 	}
 	ul,ol{
 		list-style: none;
+		!important
 	}
 	em,address{
 		font-style: normal;
+		!important
 	}
 	a{
 		text-decoration: none;
+		!important
 	}
 	a:hover,a:active,a:focus{
 		text-decoration: underline;
+		!important
 	}
 	.wrap{
 		text-align: left;
@@ -34,6 +42,8 @@
 		margin-top: 5%;
 		margin-left: 10%;
 		margin-right: 10%;
+		/* border:1px solid #333; */
+		!important
 
 	}
 	.r {
@@ -42,15 +52,18 @@
 		width: initial;
 		margin: 0 auto;
 		/* margin: 10%; */
+		!important
 	}
 	.wrap h2{
 		padding: 10px 0 4px;
 		border-bottom: 1px solid #aaa;
+		!important
 	}
 	.wrap h2 >span {
 		padding: 10px 0 4px;
 		font-size: 1.3em;
 		color: rgba(179, 125, 10, 0.87);
+		!important
 	}
 	/* .fixed_img_col ul{
 		border-bottom: 1px solid #aaa;
@@ -59,17 +72,20 @@
 	
 	.fixed_img_col{
 		align-content: center;
+		!important
 	}
 	.fixed_img_col li{
 		float: left;
-		width: 225px;
-		height:300px;
+		width: 240px;
+		height:370px;
 		padding: 20px 15px;
 		margin-bottom: -1px;
 		border-bottom: 1px solid #aaa;
+		!important
 	}
 	.fixed_img_col li a{
 		display: block;
+		!important
 	}
 
 	/* 이미지 틀 크기 */
@@ -77,12 +93,13 @@
 		position: relative;
 		display: block;
 		/* background-color: #ccc; */
-		height: 225px;
+		height: 240px;
 		/* border-radius: 5%; */
 		/* color:#666; */
 		text-align: center;
 		line-height: 120px;
 		border: .5px solid #aaa;/* rgba(179, 125, 10, 0.87) */
+		!important
 	}
 	/* 이미지크기 */
 	.fixed_img_col li a .thumb > img{
@@ -94,11 +111,12 @@
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%,-50%);
+		!important
 	}
 
 	.fixed_img_col li a .thumb em{
 		display: none;
-		position: absolute;
+		position: relative;
 		left: 0;
 		top: 0;
 		width: 100%;
@@ -109,9 +127,11 @@
 		font-weight: bold;
 		text-align: center;
 		line-height: 220px;
+		!important
 	}
 	.fixed_img_col li a:hover .thumb em{
 		display: block;
+		!important
 	}
 	.fixed_img_col li a strong{
 		display: block;
@@ -120,24 +140,27 @@
 		/* font-size: 1.3em; */
 		font-weight: bold;
 		line-height: 1.4;
+		!important
 	}
 	.fixed_img_col li a:hover {
 		text-decoration: none;
+		!important
 	}
 	.fixed_img_col li p{
 		color: #767676;
 		font-size: .9em;
+		!important
 	}
 
 
 	/********** 버튼디자인 ************/
-	button {
+	.listView {
 		color: #444444;
 		background: #F3F3F3;
 		border: 1px #DADADA solid;
 		zoom: 1;
 		padding: 10px 20px;
-		
+		float:left;
 		/* margin: 0; */
 		border-radius: 2px;
 		font-weight: bold;
@@ -145,20 +168,22 @@
 		outline: none;
 		position: relative;
 		bottom: 5px;
-		
+		!important
 		
 		
 	}
 	
-	button:hover {
+	.listView:hover {
 		border: 1px #C6C6C6 solid;
 		box-shadow: 1px 1px 1px #EAEAEA;
 		color: #333333;
 		background: #F7F7F7;
+		!important
 	}
 	
-	button:active {
+	.listView:active {
 		box-shadow: inset 1px 1px 1px #DFDFDF;   
+		!important
 	}
 
 	

@@ -7,12 +7,28 @@ public class Ingradient {
 	private String ingAmount;
 	private String largeCatId;
 	private String smallCatId;
+	private String largeCatName;
+	private String smallCatName;
+	
 	
 	
 	@Override
 	public String toString() {
 		return "Ingradient [ingNo=" + ingNo + ", recipeNo=" + recipeNo + ", ingBundleName=" + ingBundleName
-				+ ", ingAmount=" + ingAmount + ", largeCatId=" + largeCatId + ", smallCatId=" + smallCatId + "]";
+				+ ", ingAmount=" + ingAmount + ", largeCatId=" + largeCatId + ", smallCatId=" + smallCatId
+				+ ", largeCatName=" + largeCatName + ", smallCatName=" + smallCatName + "]";
+	}
+	public String getLargeCatName() {
+		return largeCatName;
+	}
+	public void setLargeCatName(String largeCatName) {
+		this.largeCatName = largeCatName;
+	}
+	public String getSmallCatName() {
+		return smallCatName;
+	}
+	public void setSmallCatName(String smallCatName) {
+		this.smallCatName = smallCatName;
 	}
 	public int getIngNo() {
 		return ingNo;

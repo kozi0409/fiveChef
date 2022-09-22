@@ -11,12 +11,17 @@
 /* #chooseFile {
     visibility: hidden;
 } */
-
+.regist {
+	position: relative;
+	width: fit-content;
+	margin: auto;
+}
 </style>
 </head>
-
+<script src="../../../resources/js/jquery-3.6.1.min.js"></script>
+<link rel="stylesheet" href="../resources/rcss/listView.css">
 <body>
-
+<div class="regist">
 <h2 align="center">레시피 등록</h2>
 	<form action="/recipe/recipeRegister.kh" method="post" enctype="multipart/form-data">
 		<table align="center" border="1"  width="900">
@@ -176,6 +181,6 @@
 	    container.appendChild(newImage);
 	}
 	</script>
-
+</div>
 </body>
 </html>

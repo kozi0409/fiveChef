@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +31,7 @@ public class RecipeController {
 	
 	@RequestMapping(value="/recipe/writeView.kh", method = RequestMethod.GET)
 	public String showRecipeWrite() {
-		return "recipe/recipeWriteForm";
+		return "recipe/recipeWriteFormcopy";
 	}
 	
 	@RequestMapping(value="/recipe/recipeRegister.kh" , method= RequestMethod.POST)
@@ -163,26 +164,122 @@ public class RecipeController {
 	public ModelAndView recipeAllListView(
 			ModelAndView mv
 			,@RequestParam(value="category" , required=false) String listValue
+			,@RequestParam(value="page",required = false) Integer page 
 			) {
-		System.out.println(listValue);
+		int currentPage = (page != null) ? page : 1;
 		int totalCount = rService.countAllRecipe(); 
-		List<Recipe> rList = rService.printAllRecipe(listValue);
+		int recipeLimit=18;
+		int naviLimit = 5;
+		int maxPage;
+		int startNavi;
+		int endNavi;
+		maxPage = (int)((double)totalCount/recipeLimit +0.9);
+		startNavi = ((int)((double)currentPage/naviLimit + 0.9)-1) * naviLimit+1;
+		endNavi = startNavi + naviLimit -1;
+		if(maxPage < endNavi) {
+			endNavi = maxPage;
+		}
+		List<Recipe> rList = rService.printAllRecipe(listValue,currentPage,recipeLimit);
+		//store에서 hashmap사용하면 데이터 정상 반영됨
 //		System.out.println(totalCount);
 		if(!rList.isEmpty()) {
 			mv.addObject("rList",rList);
 		}
-		mv.addObject("totalCount",totalCount);
+		mv.addObject("startNavi",startNavi);
+		mv.addObject("endNavi",endNavi);
+		mv.addObject("maxPage",maxPage);
+		mv.addObject("currentPage",currentPage);
+		mv.addObject("urlVal","recipeList");
 		mv.addObject("listValue",listValue);
-		
+		mv.addObject("totalCount",totalCount);
 		mv.setViewName("recipe/listView");
 		
 		return mv;
 	}
 	
-	@RequestMapping(value="/recipe/recipeValueList.kh",method =RequestMethod.GET)
-	public ModelAndView recipeAllListByvalue(
+	@RequestMapping(value="/recipe/recipeDetailView.kh",method =RequestMethod.GET)
+	public ModelAndView recipeDetailView(
 			ModelAndView mv
-			,@RequestParam("listValue") String listValue) {
+			,@RequestParam(value="category" , required=false) String listValue
+			,@RequestParam(value="page" ,required = false) Integer page
+			,@RequestParam("recipeNo") Integer recipeNo
+			,@ModelAttribute Order order
+			,@ModelAttribute ComPhoto comPhoto
+			,@ModelAttribute Ingradient ing
+			,HttpSession session) {
+		try {
+			
+			Recipe recipe = rService.printOneByNo(recipeNo);
+			session.setAttribute("recipeNo",recipe.getRecipeNo());
+			List<Ingradient> iList = rService.printAllIng(recipeNo);
+			String bundle = iList.get(0).getIngBundleName();
+			List<Order> oList = rService.printAllOrder(recipeNo);
+			List<ComPhoto> cList = rService.printAllComPhoto(recipeNo);
+			
+			mv.addObject("urlVal","recipeList");
+			mv.addObject("listValue",listValue);
+			mv.addObject("page", page);
+			mv.addObject("cList",cList);
+			mv.addObject("oList",oList);
+			mv.addObject("iList",iList);
+			mv.addObject("bundle",bundle);
+			mv.addObject("recipe",recipe);
+			mv.setViewName("recipe/recipeDetailView");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.addObject("msg","레시피조회 실패").setViewName("common/errorPage");
+		}
+		
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/recipe/recipeModifyView.kh",method =RequestMethod.GET)
+	public ModelAndView recipeModifyView(
+			ModelAndView mv
+			,@ModelAttribute Recipe recipe
+			,@ModelAttribute Order order
+			,@ModelAttribute ComPhoto comPhoto
+			,@ModelAttribute Ingradient ing) {
+		
+		
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/recipe/recipeModify.kh",method =RequestMethod.GET)
+	public ModelAndView recipeModify(
+			ModelAndView mv
+			,@ModelAttribute Recipe recipe
+			,@ModelAttribute Order order
+			,@ModelAttribute ComPhoto comPhoto
+			,@ModelAttribute Ingradient ing) {
+		
+		
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/recipe/recipeRemove.kh",method =RequestMethod.POST)
+	public ModelAndView recipeRemove(
+			ModelAndView mv
+			,@ModelAttribute Recipe recipe
+			,@ModelAttribute Order order
+			,@ModelAttribute ComPhoto comPhoto
+			,@ModelAttribute Ingradient ing) {
+		
+		
+		
+		return mv;
+	}
+	
+	@RequestMapping(value="/recipe/addRecipe.kh",method =RequestMethod.POST)
+	public ModelAndView addRecipeReply(
+			ModelAndView mv
+			,@ModelAttribute Recipe recipe
+			,@ModelAttribute Order order
+			,@ModelAttribute ComPhoto comPhoto
+			,@ModelAttribute Ingradient ing) {
 		
 		
 		

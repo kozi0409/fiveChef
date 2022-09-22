@@ -44,8 +44,8 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 
 	@Override
-	public List<Recipe> printAllRecipe(String listValue) {
-		List<Recipe> rList=rStore.selectAllRecipe(session, listValue);
+	public List<Recipe> printAllRecipe(String listValue, int currentPage, int limit) {
+		List<Recipe> rList=rStore.selectAllRecipe(session, listValue,currentPage,limit);
 		return rList;
 	}
 
@@ -54,5 +54,30 @@ public class RecipeServiceImpl implements RecipeService{
 		int count = rStore.selectCountAllRecipe(session);
 		return count;
 	}
+
+	@Override
+	public Recipe printOneByNo(Integer recipeNo) {
+		Recipe recipe = rStore.selectOneByRecipeNo(session, recipeNo);
+		return recipe;
+	}
+
+	@Override
+	public List<Ingradient> printAllIng(Integer recipeNo) {
+		List<Ingradient> iList = rStore.selectAllIng(session,recipeNo);
+		return iList;
+	}
+
+	@Override
+	public List<Order> printAllOrder(Integer recipeNo) {
+		List<Order> oList = rStore.selectAllOrder(session,recipeNo);
+		return oList;
+	}
+
+	@Override
+	public List<ComPhoto> printAllComPhoto(Integer recipeNo) {
+		List<ComPhoto> cList = rStore.selectAllComPhoto(session,recipeNo);
+		return cList;
+	}
+
 
 }

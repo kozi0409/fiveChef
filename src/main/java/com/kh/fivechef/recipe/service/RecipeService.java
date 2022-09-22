@@ -17,9 +17,18 @@ public interface RecipeService {
 
 	public int registerComPhoto(ComPhoto comPhoto);
 
-	public List<Recipe> printAllRecipe(String listValue);
+	public List<Recipe> printAllRecipe(String listValue, int currentPage, int limit);
 
 	public int countAllRecipe();
+
+	public Recipe printOneByNo(Integer recipeNo);
+
+	public List<Ingradient> printAllIng(Integer recipeNo);
+
+	public List<Order> printAllOrder(Integer recipeNo);
+
+	public List<ComPhoto> printAllComPhoto(Integer recipeNo);
+
 
 
 }

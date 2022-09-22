@@ -10,7 +10,6 @@
 <!-- navs bar -->
 <jsp:include page="./main/user_navs.jsp"></jsp:include>
 
-
 <!-- copyright -->
 <jsp:include page="./main/footer.jsp"></jsp:include>
 </body>
