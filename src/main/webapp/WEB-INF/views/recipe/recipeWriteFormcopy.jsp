@@ -41,7 +41,7 @@
 	
 				<div class="col-md-3">
 				  <label for="lastName" class="form-label">작성자 아이디</label>
-				  <input type="text" class="form-control" id="lastName" placeholder="" value="userId" required="" readonly>
+				  <input type="text" class="form-control" id="lastName" placeholder="" value="${loginUser.userId }" required="" readonly>
 				  <div class="invalid-feedback">
 					Valid last name is required.
 				  </div>
