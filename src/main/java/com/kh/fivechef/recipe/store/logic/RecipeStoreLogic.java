@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
+import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.recipe.store.RecipeStore;
@@ -77,6 +78,44 @@ public class RecipeStoreLogic implements RecipeStore{
 	public List<ComPhoto> selectAllComPhoto(SqlSession session, Integer recipeNo) {
 		List<ComPhoto> cList = session.selectList("RecipeMapper.selectAllComPhoto",recipeNo);
 		return cList;
+	}
+
+	@Override
+	public int updateBoardCount(SqlSession session, Integer recipeNo) {
+		int result = session.update("RecipeMapper.updateBoardCount",recipeNo);
+		return result;
+	}
+
+	@Override
+	public int selectCheckLikeId(SqlSession session, Like like) {
+		int result = session.selectOne("RecipeMapper.selectCheckLikeId",like);
+		return result;
+	}
+	
+	//좋아요 데이터 등록
+	@Override
+	public int insertLike(SqlSession session, Like like) {
+		int result = session.insert("RecipeMapper.insertLike",like);
+		return result;
+	}
+	//좋아요 카운트 업 -> 아이디당1 좋아요이기 때문에 갯수늘리기 노가다 귀찮아서 만듦
+	@Override
+	public int updateLikeCount(SqlSession session, Like like) {
+		int result = session.update("RecipeMapper.updateLikeCount",like);
+		return result;
+	}
+	
+	//좋아요 삭제
+	@Override
+	public int deleteLike(SqlSession session, Like like) {
+		int result = session.insert("RecipeMapper.deleteLike",like);
+		return result;
+	}
+	//좋아요 카운트 다운
+	@Override
+	public int updateDLikeCount(SqlSession session, Like like) {
+		int result = session.delete("RecipeMapper.updateDLikeCount",like);
+		return result;
 	}
 
 }

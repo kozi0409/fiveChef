@@ -93,5 +93,30 @@
  	<select id="selectAllComPhoto" resultMap="comPhotoRecultMap">
  		SELECT * FROM COMPHOTO_TBL WHERE RECIPE_NO = #{recipeNo}
  	</select>
+ 	
+ 	<!-- 조회수 -->
+	<update id="updateBoardCount">
+		UPDATE RECIPE_TBL SET RECIPE_COUNT = RECIPE_COUNT+1 WHERE RECIPE_NO = #{recipeNo }
+	</update>
+	<!-- 좋아요 버튼구동용 -->
+	<select id="selectCheckLikeId" resultType="_int">
+		SELECT COUNT(*) FROM R_LIKE_TBL WHERE RECIPE_NO = #{recipeNo} AND USER_ID = #{userId}
+	</select>
+	<!-- 좋아요 등록 -->
+	<insert id="insertLike">
+		INSERT INTO R_LIKE_TBL VALUES(LIKE_NO.NEXTVAL,#{recipeNo},#{userId},DEFAULT)
+	</insert>
+	<!-- 좋아요 갯수 업뎃 -->
+	<update id="updateLikeCount">
+		UPDATE RECIPE_TBL SET RECIPE_LIKE_COUNT = RECIPE_LIKE_COUNT +1 WHERE RECIPE_NO=#{recipeNo}
+	</update>
+	<!-- 좋아요 삭제 -->
+ 	<delete id="deleteLike">
+ 		DELETE FROM R_LIKE_TBL WHERE RECIPE_NO = #{recipeNo} AND USER_ID = #{userId}
+ 	</delete>
+ 	<!-- 좋아요 갯수 다운 -->
+	<update id="updateDLikeCount">
+		UPDATE RECIPE_TBL SET RECIPE_LIKE_COUNT = RECIPE_LIKE_COUNT -1 WHERE RECIPE_NO=#{recipeNo}
+	</update>
  
  </mapper>

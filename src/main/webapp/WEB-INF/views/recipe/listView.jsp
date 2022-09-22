@@ -47,7 +47,7 @@
 		<div class="fixed_img_col" align="center">
 			<ul>
 				<c:forEach items="${rList }" var="recipe" varStatus="i">
-					<li><a href="/recipe/recipeDetailView.kh?recipeNo=${recipe.recipeNo }&page=${currentPage }&category=${listValue }"><span class="thumb"><img
+					<li><a href="/recipe/recipeDetailView.kh?recipeNo=${recipe.recipeNo }&page=${currentPage }&category=${listValue }&userId=${recipe.userId}"><span class="thumb"><img
 								onerror="this.src='../resources/images/logo.png'"
 								src="/resources/ruploadFiles/${recipe.thumbnailRename }" alt="">
 								<em>Click</em></span><strong>${recipe.recipeTitle }</strong></a>
