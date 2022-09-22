@@ -27,7 +27,7 @@
 	</select>
 	
 	<select id="selectOneUser" resultMap="userResultMap"> 
-		SELECT USER_ID, USER_PWD, USER_NAME, USER_PHONE, USER_EMAIL, USER_BIRTH FROM USER_TBL WHERE USER_ID = #{userId} 
+		SELECT * FROM USER_TBL WHERE USER_ID = #{userId} 
 	</select>
 	
 	<update id="deleteUser"> 	
