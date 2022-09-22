@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fivechef.community.domain.CReply;
 import com.kh.fivechef.community.domain.Community;
 import com.kh.fivechef.community.store.CommunityStore;
 
@@ -71,6 +72,30 @@ public class CommunityStoreLogic implements CommunityStore{
 		paramMap.put("searchValue", searchValue);
 		List<Community> cList = session.selectList("CommunityMapper.selectAllByValue", paramMap, rowBounds);
 		return cList;
+	}
+
+	@Override
+	public int insertReply(SqlSessionTemplate session, CReply cReply) {
+		int result =session.insert("CommunityMapper.insertReply", cReply);
+		return result;
+	}
+
+	@Override
+	public int updateReply(SqlSessionTemplate session, CReply cReply) {
+		int result = session.update("CommunityMapper.updateReply", cReply);
+		return result;
+	}
+
+	@Override
+	public int deleteReply(SqlSessionTemplate session, Integer replyNo) {
+		int result = session.delete("CommunityMapper.deleteReply", replyNo);
+		return result;
+	}
+
+	@Override
+	public List<CReply> selectAllReply(SqlSessionTemplate session, Integer refCommunityNo) {
+		List<CReply> rList = session.selectList("CommunityMapper.selectAllReply", refCommunityNo);
+		return rList;
 	}
 	
 }

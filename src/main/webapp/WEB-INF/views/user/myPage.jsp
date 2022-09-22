@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body>	
 	<h1 align="center">
 	 <a href="/home.kh">냉장고 Chef</a></h1>
 	<h3>${sessionScope.loginUser.userId }님 환영합니다.</h3>
