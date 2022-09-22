@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
+import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.recipe.service.RecipeService;
@@ -58,6 +59,10 @@ public class RecipeServiceImpl implements RecipeService{
 	@Override
 	public Recipe printOneByNo(Integer recipeNo) {
 		Recipe recipe = rStore.selectOneByRecipeNo(session, recipeNo);
+		int result = 0;
+		if(recipe != null) {
+			result = rStore.updateBoardCount(session,recipeNo);
+		}
 		return recipe;
 	}
 
@@ -77,6 +82,26 @@ public class RecipeServiceImpl implements RecipeService{
 	public List<ComPhoto> printAllComPhoto(Integer recipeNo) {
 		List<ComPhoto> cList = rStore.selectAllComPhoto(session,recipeNo);
 		return cList;
+	}
+
+	@Override
+	public int checkLikeId(Like like) {
+		int result = rStore.selectCheckLikeId(session,like);
+		return result;
+	}
+
+	@Override
+	public int likeUp(Like like) {
+		int result = rStore.insertLike(session,like);
+		int result2 = rStore.updateLikeCount(session,like);
+		return result;
+	}
+
+	@Override
+	public int likeDown(Like like) {
+		int result = rStore.deleteLike(session,like);
+		int result2 = rStore.updateDLikeCount(session,like);
+		return result;
 	}
 
 

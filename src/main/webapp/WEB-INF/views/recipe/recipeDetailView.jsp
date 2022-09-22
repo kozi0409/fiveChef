@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시글 조회</title>
+<script src="../../../resources/js/jquery-3.6.1.min.js"></script>
 <style type="text/css">
 
 </style>
@@ -34,8 +35,16 @@
 			
 		</tr>
 		<tr>
-			<td>조회수</td>
-			<td colspan="">${recipe.recipeCount }</td>
+			<td>조회수 **${result }**${like.userId }</td>
+			<td colspan="">${recipe.recipeCount }
+			<form method="post" name="form">
+				<input type="hidden" name="recipeNo" value="${recipe.recipeNo }">
+				<!-- 아이디 session으로 바꿔줘야함 -->
+				<input type="hidden" name="userId" value="${like.userId }">
+				<button type="submit" id="likeup" onclick="javascript: form.action='/recipe/recipeLike.kh'">좋아요</button>
+			
+			</form>
+			</td>
 		</tr>
 		<tr>
 			<td>좋아요수</td>
@@ -111,5 +120,34 @@
 			</td>
 		</tr>
 	</table>
+	<script type="text/javascript">
+        var likecheck = ${result}
+        $(document).ready(function() {
+            if(likecheck > 0){
+                $("#likeup").attr("onclick","javascript: form.action='/recipe/recipeLikeDel.kh'")
+            }
+        });
+
+        $(document).ready(function() {
+            if(likecheck > 0){
+            $("#likeup").html("좋아요 취소");
+            }
+        });
+
+        // $(document).ready(function() {
+        //     alert('Hello Dexter!');
+        // });
+	// window.onload=function(){
+    //     // 페이지 로딩시 접근한 아이디가 좋아요를 누른적이 있다면 1출력 delete페이지로 
+	// 	var likecheck = ${result}
+    //     // console.log(document.getElementById("likeup").getAttribute("onclick"));
+    //     // console.log(document.getElementById("likeup").getAttribute("onclick"));
+	// 	if(likecheck < 1){
+    //         document.querySelector("likeup").innerHTML ="좋아요 취소";
+	// 		// document.getElementById("likeup").setAttribute("onclick","javascript: form.action='/add'");
+	// 	}
+	// }
+	
+	</script>
 </body>
 </html>

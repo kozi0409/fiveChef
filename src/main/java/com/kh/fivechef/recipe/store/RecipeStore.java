@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
+import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 
@@ -31,6 +32,18 @@ public interface RecipeStore {
 	public List<Order> selectAllOrder(SqlSession session, Integer recipeNo);
 
 	public List<ComPhoto> selectAllComPhoto(SqlSession session, Integer recipeNo);
+
+	public int updateBoardCount(SqlSession session, Integer recipeNo);
+
+	public int selectCheckLikeId(SqlSession session, Like like);
+
+	public int insertLike(SqlSession session, Like like);
+
+	public int updateLikeCount(SqlSession session, Like like);
+
+	public int deleteLike(SqlSession session, Like like);
+
+	public int updateDLikeCount(SqlSession session, Like like);
 
 
 

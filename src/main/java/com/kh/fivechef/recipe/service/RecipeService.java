@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
+import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 
@@ -29,6 +30,11 @@ public interface RecipeService {
 
 	public List<ComPhoto> printAllComPhoto(Integer recipeNo);
 
+	public int checkLikeId(Like like);
+
+	public int likeUp(Like like);
+
+	public int likeDown(Like like);
 
 
 }
