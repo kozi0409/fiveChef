@@ -37,12 +37,7 @@
 									 
 								</div>
 								<div class="col">
-								<c:if test="${checkYn == true }">
-									<button class="w-100 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge">냉장고 생성</button>
-								</c:if>
-								<c:if test="${checkYn == false }">
-									<button class="w-100 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge" disabled>냉장고 생성</button>
-								</c:if>
+									<button class="w-100 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge"<c:if test="${checkYn == false }">disabled</c:if> >냉장고 생성</button>
 								</div>
 							</div>
 						</div>
@@ -52,9 +47,11 @@
 					<div class="row">
 						<c:forEach items="${fList }" var="fridge" varStatus="i">
 								<div class="col">
-									<div class="card col-sm-4" style="width: 18rem; cursor : pointer;" onclick="location.href='/fridge/storage.kh?fridgeNo=${fridge.fridgeNo}&fridgeName=${fridge.fridgeName }'">
-										<img src=<c:if test="${not empty fridge.fridgeFileRename }">"/resources/fuploadFiles/${fridge.fridgeFileRename }"</c:if><c:if test="${empty fridge.fridgeFileRename }">"/resources/images/defaultImages.jpg"</c:if> class="card-img-top" alt="...">
-										<hr style="border-width:3px;">
+									<div class="card col-sm-4" style="width: 18rem;" >
+										<div style="cursor : pointer;" onclick="location.href='/fridge/storage.kh?fridgeNo=${fridge.fridgeNo}&fridgeName=${fridge.fridgeName }'">
+											<img src=<c:if test="${not empty fridge.fridgeFileRename }">"/resources/fuploadFiles/${fridge.fridgeFileRename }"</c:if><c:if test="${empty fridge.fridgeFileRename }">"/resources/images/defaultImages.jpg"</c:if> class="card-img-top" alt="...">
+											<hr style="border-width:1px;">
+										</div>
 										<div class="card-body text-center">
 											<h5 class="card-title">${fridge.fridgeName }</h5>
 <!-- 											<p class="card-text"></p> -->
@@ -103,9 +100,9 @@
 					</div>
 				</c:if>
 				<c:if test="${empty fList }">
-					<tr>
-						<td colspan="6" align="center"><b>데이터가 존재하지 않습니다.</b></td>
-					</tr>
+					<div>
+						<div colspan="6" align="center"><h3><b>냉장고를 생성해 주세요.</b></h3></div>
+					</div>
 				</c:if>
 			</div>
 		</div>

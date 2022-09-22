@@ -47,8 +47,12 @@
  		SELECT LARGE_CAT_ID, LARGE_CAT_NAME FROM LARGE_CATEGORY
  	</select>
  	<select id="selectSmallCat" resultMap="smallResultMap">
- 		SELECT SMALL_CAT_NAME FROM SMALL_CATEGORY
+ 		SELECT SMALL_CAT_ID, SMALL_CAT_NAME FROM SMALL_CATEGORY
  		WHERE LARGE_CAT_ID = #{largeCatId}
  	</select>
  	
+ 	<insert id="insertStorage">
+ 		INSERT INTO STORAGE_TBL
+ 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo})
+ 	</insert>
  </mapper>

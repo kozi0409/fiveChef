@@ -105,6 +105,7 @@
 		height : 50px;
 		width : 100px;
 	}
+<<<<<<< HEAD
     </style>
 
     
@@ -122,7 +123,43 @@
     <div class="form-floating-center">
       <input type="text" class="form-control" id="floatingInput"  name="user-id" placeholder="ID">
 
+</style>
+</head>
+<body>
+
+   <div class="login-area">
+   	<div class = "header">
+	   <h1 align="center">
+	   <br><br>
+	      <a href="home.kh">냉장고 Chef</a>
+	   </h1>
+   	</div>
+   	<div class = "body" align="center" width="300">
+      <form action="/user/login.kh" method="post">
+          <div class="login_box">
+             <div>
+                <div><input type="text" name="user-id" placeholder="아이디"></div>
+             </div>
+             <div>
+                <div><input type="password" name="user-pwd" placeholder="비밀번호"></div>
+             </div>
+          </div>
+                <div>
+                	<button type="submit" class="btn" id="login">로그인</button>
+                	<button type="button" class="btn" id="join" onclick="joinUser()">회원가입</button>
+                </div>
+      </form>
+      <ul class="find_wrap">
+      	<li>
+      		<a target="_blank" href="/user/findIdView.kh" class="find_id" id ="find_id">아이디 찾기</a>
+      	</li>
+      	<li>
+      		<a target="_blank" href="#" class="find_pwd" id ="find_pwd">비밀번호 찾기</a>
+      	</li>
+      </ul>
+
     </div>
+
     <div class="form-floating-center">
       <input type="password" class="form-control" id="floatingPassword" name="user-pwd" placeholder="Password">
     </div>
@@ -146,4 +183,14 @@
 	   location.href = "/user/userJoinView.kh";
 	}
  </script>
+
+   </div>
+   <script>
+      function joinUser() {
+         location.href = "/user/userJoinView.kh";
+      }
+      
+   </script>
+</body>
+
 </html>

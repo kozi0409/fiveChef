@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.fivechef.fridge.domain.Fridge;
 import com.kh.fivechef.fridge.domain.LargeCategory;
 import com.kh.fivechef.fridge.domain.SmallCategory;
+import com.kh.fivechef.fridge.domain.Storage;
 import com.kh.fivechef.fridge.service.StorageService;
 import com.kh.fivechef.fridge.store.StorageStore;
 
@@ -31,6 +32,13 @@ public class StorageServiceImpl implements StorageService {
 	public List<SmallCategory> printSmallCat(String largeCatId) {
 		List<SmallCategory> sList = sStore.selectSmallCat(session, largeCatId);
 		return sList;
+	}
+
+
+	@Override
+	public int registStorage(Storage storage) {
+		int result = sStore.insertStorage(session, storage);
+		return result;
 	}
 
 		

@@ -8,7 +8,7 @@
 </head>
 <body>
 <!-- nevi bar -->
-<%-- <jsp:include page="../main/nevi.jsp"></jsp:include> --%>
+<jsp:include page="../main/user_navs.jsp"></jsp:include>
 
 <jsp:include page="./myStorage.jsp"></jsp:include>
 <br><br><br><br><br>

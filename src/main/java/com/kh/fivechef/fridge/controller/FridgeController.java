@@ -78,6 +78,8 @@ public class FridgeController {
 		boolean checkYn = false;
 		if(fList.size() <= 3) {
 			checkYn = true;
+		} else if(fList.size() == 0) {
+			checkYn = true;
 		}
 		if(!fList.isEmpty()) {
 			mv.addObject("fList", fList);
