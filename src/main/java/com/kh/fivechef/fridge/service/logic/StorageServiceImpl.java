@@ -41,6 +41,20 @@ public class StorageServiceImpl implements StorageService {
 		return result;
 	}
 
+
+	@Override
+	public List<Storage> printStorage(Integer fridgeNo) {
+		List<Storage> storage = sStore.selectStorage(session, fridgeNo);
+		return storage;
+	}
+
+
+	@Override
+	public int removeStorage(List<Storage> stList) {
+		int result = sStore.deleteStorage(session, stList);
+		return result;
+	}
+
 		
 	
 	

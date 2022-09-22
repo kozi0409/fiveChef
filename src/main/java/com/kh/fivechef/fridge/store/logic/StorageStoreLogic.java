@@ -32,4 +32,16 @@ public class StorageStoreLogic implements StorageStore {
 		return result;
 	}
 
+	@Override
+	public List<Storage> selectStorage(SqlSession session,Integer fridgeNo) {
+		List<Storage> storage = session.selectList("FridgeMapper.selectStorage", fridgeNo);
+		return storage;
+	}
+
+	@Override
+	public int deleteStorage(SqlSession session, List<Storage> stList) {
+		int result = session.delete("FridgeMapper.deleteStorage", stList);
+		return result;
+	}
+
 }
