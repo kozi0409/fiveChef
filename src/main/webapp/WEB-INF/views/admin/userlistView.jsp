@@ -34,7 +34,12 @@
 						<td>${user.userEmail }</td>
 						<td>주소</td>
 						<td>${user.uEnrollDate }</td>
-						<td>${user.uStatus }</td>
+						<c:if test="${user.uStatus eq 'Y'}">
+						<td>가입</td>
+						</c:if>
+						<c:if test="${user.uStatus eq 'N'}">
+						<td>탈퇴</td>
+						</c:if>
 					</tr>
 				</c:forEach>
 			</table>

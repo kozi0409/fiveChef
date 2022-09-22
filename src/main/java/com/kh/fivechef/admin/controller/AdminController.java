@@ -1,5 +1,8 @@
 package com.kh.fivechef.admin.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,21 +10,28 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
+import com.kh.fivechef.user.domain.User;
+import com.kh.fivechef.user.service.UserService;
 
+import oracle.sql.DATE;
 
 
 @Controller
 public class AdminController {
 	@Autowired
 	private AdminService aService;
+	@Autowired
+	private UserService uService;
 	
 	@RequestMapping(value="/admin.kh", method=RequestMethod.GET)
 	private String adminpage() {
@@ -165,6 +175,7 @@ public class AdminController {
 			, @RequestParam("post") String post
 			, @RequestParam("address1") String address1
 			, @RequestParam("address2") String address2
+	//		, @RequestParam(value="page", required=false) Integer page)
 			, ModelAndView mv) {
 		try {
 			admin.setAdminAddr(post + "," + address1 + "," + address2);
@@ -203,13 +214,35 @@ public class AdminController {
 	
 
 	//관리자 목록 출력하기
+//	@RequestMapping(value="/admin/adminlist.kh", method=RequestMethod.GET) //관리자 목록 요청
+//	public ModelAndView adminListView(ModelAndView mv) {
+//		List<Admin> aList = aService.printAllAdmin();
+//		if(!aList.isEmpty()) {
+//			mv.addObject("aList", aList);
+//		}
+//		mv.setViewName("admin/adminlistView");
+//		return mv;
+//	}
+	
+	//어드민에서 회원목록 요청합니다.
+	@RequestMapping(value="/admin/userlist.kh", method=RequestMethod.GET) //회원목록 요청
+	public ModelAndView userListView(ModelAndView mv) {
+		List<User> uList = aService.printAllUser();
+		if(!uList.isEmpty()) {
+			mv.addObject("uList", uList);
+		}
+		mv.setViewName("admin/userlistView");
+		return mv;
+	}
+	
+	//관리자 목록 출력하기
 	@RequestMapping(value="/admin/adminlist.kh", method=RequestMethod.GET) //관리자 목록 요청
 	public ModelAndView adminListView(
 			ModelAndView mv
 			, @RequestParam(value="page", required=false) Integer page) {
 		/////////////////////////////////////////////////////////////////////////
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = aService.getTotalAdminCount("","");
+		int totalCount = aService.getTotalCount("","");
 		int adminLimit = 10;
 		int naviLimit = 5;
 		int maxPage;
@@ -223,20 +256,93 @@ public class AdminController {
 		endNavi = maxPage;
 		}
 		//////////////////////////////////////////////////////////////////////////
-//		List<Admin> adList = aService.printAllAdmin(currentPage, adminLimit);
-//		if(!adList.isEmpty()) {
-//			mv.addObject("aList", adList);
-//			mv.addObject("urlVal", "list");
-//			mv.addObject("maxPage", maxPage);
-//			mv.addObject("currentPage", currentPage);
-//			mv.addObject("startNavi", startNavi);
-//			mv.addObject("endNavi", endNavi);
-//		}
-		mv.setViewName("board/listView");
+		List<Admin> aList = aService.printAllAdmin(currentPage, adminLimit);
+		if(!aList.isEmpty()) {
+			mv.addObject("urlVal", "adminlist");
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+			mv.addObject("aList", aList);
+		}
+		mv.setViewName("admin/adminlistView");
 		return mv;
-
 	}
 	
-    
+//	관리자 목록에서 삭제하기
+	@RequestMapping(value="/admin/delete.kh", method=RequestMethod.GET)
+	public String adminRemove(
+			HttpSession session
+			, Model model
+			, @RequestParam("page") Integer page
+			, @RequestParam("adminId") String adminId) {
+		try {
+			Admin admin = (Admin)session.getAttribute("adminId");
+			int result = aService.removeOneById(adminId);
+			if(result > 0) {
+				session.removeAttribute("adminId");
+			}
+			return "redirect:/admin/adminlist.kh?page="+page;
+		} catch (Exception e) {
+			model.addAttribute("msg", e.toString());
+			return "common/errorPage";
+		}
+	}
+	/*
+	 * //관리자정보 수정
+	 * 
+	 * @RequestMapping(value="/admin/adminModify.kh", method=RequestMethod.POST)
+	 * public ModelAndView boardModify( HttpSession session , @ModelAttribute Admin
+	 * admin , ModelAndView mv ,@RequestParam("adminId") String adminId
+	 * ,@RequestParam("page") Integer page ,HttpServletRequest request) { try {
+	 * Admin admin = (Admin)session.getAttribute("adminId"); int result =
+	 * aService.modifyAdmin(adminId);
+	 * mv.setViewName("redirect:/board/list.kh?page="+page); } catch (Exception e) {
+	 * mv.addObject("msg", e.toString()).setViewName("common/errorPage"); } return
+	 * mv; }
+	 */
 	
+	@RequestMapping(value="/admin/detail.kh", method=RequestMethod.GET)
+	public ModelAndView masterView(HttpServletRequest request
+			, ModelAndView mv
+			, @RequestParam("adminId") String adminId
+			, @RequestParam("page") Integer page) {
+		try {
+			Admin aOne = aService.printOneById(adminId);
+			String aAddr = aOne.getAdminAddr();
+			String [] addrInfos = aAddr.split(",");
+			mv.addObject("admin", aOne).addObject("addrInfos", addrInfos);
+			mv.setViewName("admin/masterView");
+		} catch (Exception e) {
+			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+		}
+		return mv;		
+	}
+	
+//	@RequestMapping(value="/admin/MasterModify.kh", method=RequestMethod.POST)
+//	public ModelAndView modifyAdminFin(
+//			@ModelAttribute Admin admin
+//			, @RequestParam("post") String post
+//			, @RequestParam("address1") String address1
+//			, @RequestParam("address2") String address2
+//			, @RequestParam("adminId") String adminId
+//			, @RequestParam("page") Integer page
+//			, ModelAndView mv
+//			,HttpServletRequest request) {
+//		try {
+//			admin.setAdminAddr(post + "," + address1 + "," + address2);
+//			int result = aService.modifyAdminMaster(admin);
+////			mv.addObject("adminId", adminId);
+////			mv.addObject("page", page);
+//			if(result > 0) {
+//				mv.setViewName("redirect:/admin/adminlist.kh?page="+page);
+//			}else {
+//				mv.addObject("msg", "회원 정보 수정 실패!");
+//				mv.setViewName("common/errorPage");
+//			}
+//		} catch (Exception e) {
+//			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+//		}
+//		return mv;
+//	}
 }
