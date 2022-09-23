@@ -66,7 +66,9 @@
  	</resultMap>
  	
  	
- 	
+<!--  	<insert id = "insertPost"> -->
+<!--   		INSERT INTO COMMUNITY_TBL VALUES(SEQ_COMMUNITY_NO.NEXTVAL, #{cBoardCode}, #{communityTitle}, #{communityWriter}, #{communityContents}, #{communityPrice}, #{communitySalePage}, #{communityFileName}, #{communityFileRename}, #{communityFilePath}, DEFAULT, DEFAULT, DEFAULT) -->
+<!--   	</insert> -->
  	
   	<select id="selectTotalPostCount" resultType="_int">
  			SELECT COUNT(*) FROM COMMUNITY_TBL
@@ -127,6 +129,10 @@
  			</if>
  		</where>
  	</select>
+	
+	<update id="updatePost">
+ 		UPDATE COMMUNITY_TBL SET COMMUNITY_TITLE = #{communityTitle}, COMMUNITY_CONTENTS = #{communityContents}, C_UPDATE_DATE = DEFAULT WHERE COMMUNITY_NO = #{communityNo}
+ 	</update>
  	
  	
  	
@@ -169,4 +175,7 @@
  		SELECT * FROM COMPHOTO_TBL WHERE RECIPE_NO = #{recipeNo}
  	</select>
  	
+ 	<select id="selectCheckLikeId" resultType="_int">
+		SELECT COUNT(*) FROM R_LIKE_TBL WHERE RECIPE_NO = #{recipeNo} AND USER_ID = #{userId}
+	</select>
 </mapper>

@@ -11,6 +11,7 @@ import com.kh.fivechef.postManage.service.PostManageService;
 import com.kh.fivechef.postManage.store.PostManageStore;
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
+import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 
@@ -22,6 +23,12 @@ public class PostManageServiceImpl implements PostManageService{
 	
 	@Autowired
 	private SqlSession session;
+	
+//	@Override
+//	public int registPost(Community community) {
+//		int result = pStore.insertPost(session, community);
+//		return result;
+//	}
 	
 	@Override
 	public List<Community> printAllPost(int currentPage, int communityLimit) {
@@ -58,7 +65,12 @@ public class PostManageServiceImpl implements PostManageService{
 		return clist;
 	}
 
-	
+
+	@Override
+	public int modifyPost(Community community) {
+		int result = pStore.updatePost(session, community);
+		return result;
+	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// 레시피 관리 코드
@@ -104,4 +116,11 @@ public class PostManageServiceImpl implements PostManageService{
 		List<ComPhoto> cList = pStore.selectAllComPhoto(session,recipeNo);
 		return cList;
 	}
+	// 상세 조회
+	@Override
+	public int checkLikeId(Like like) {
+		int result = pStore.selectCheckLikeId(session,like);
+		return result;
+	}
+
 }

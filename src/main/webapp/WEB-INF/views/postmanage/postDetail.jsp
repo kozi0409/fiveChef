@@ -47,22 +47,22 @@
 			<td>${community.communityContents }
 			</td>
 		</tr>
-		<tr>
-			<td align="center" width="150">첨부파일</td>
-			<td>
-		 		<img alt="본문이미지" src="/resources/cuploadFiles/${community.communityFileRename }" width="300" height="300">
-			</td>
-		</tr>
+<!-- 		<tr> -->
+<!-- 			<td align="center" width="150">첨부파일</td> -->
+<!-- 			<td> -->
+<%-- 		 		<img alt="본문이미지" src="/resources/cuploadFiles/${community.communityFileRename }" width="300" height="300"> --%>
+<!-- 			</td> -->
+<!-- 		</tr> -->
 		<c:if test="${loginAdmin.adminName eq '관리자'}"> <!-- 관리자만 수정, 삭제 가능 -->
 		<tr>
 			<td colspan="2" align="center">
-				<button onclick="location.href='/postmanage/modifyView.kh?noticeNo=${notice.noticeNo }&page=${page}';" class="btn btn-info">수정</button>
-				<button onclick="noticeRemove(${page});" class="btn btn-danger">삭제</button>
+				<button onclick="location.href='/postmanage/modifyView.kh?communityNo=${community.communityNo }&page=${page}';" class="btn btn-info">수정</button>
+				<button onclick="communityRemove(${page});" class="btn btn-danger">삭제</button>
 		</tr>
 		</c:if>
 	</table>
 	<script>
-		function noticeRemove(page) {
+		function communityRemove(page) {
 			event.preventDefault(); // 하이퍼링크 이동 방지
 			if(confirm("해당 게시글을 삭제하시겠습니까?")) {
 				location.href="/postmanage/remove.kh?page="+page;

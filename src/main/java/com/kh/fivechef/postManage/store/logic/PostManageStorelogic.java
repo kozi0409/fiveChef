@@ -5,19 +5,24 @@ import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
-import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.fivechef.community.domain.Community;
-import com.kh.fivechef.notice.domain.Notice;
 import com.kh.fivechef.postManage.store.PostManageStore;
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
+import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 @Repository
 public class PostManageStorelogic implements PostManageStore{
 
+//	@Override
+//	public int insertPost(SqlSession session, Community community) {
+//		int result = session.insert("CommunityMapper.insertPost", community);
+//		return result;
+//	}
+	
 	@Override
 	public int selectPostTotalCount(SqlSession session, String searchCondition, String searchValue) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
@@ -42,7 +47,7 @@ public class PostManageStorelogic implements PostManageStore{
 	}
 
 	@Override
-	public int updatePostCount(SqlSession session, Integer communityNo) {
+	public int updatePostCount(SqlSession session, int communityNo) {
 		int result = session.update("CommunityMapper.updatePostCount", communityNo);
 		return result;
 	}
@@ -66,7 +71,11 @@ public class PostManageStorelogic implements PostManageStore{
 		return cList;
 	}
 
-	
+	@Override
+	public int updatePost(SqlSession session, Community community) {
+		int result = session.update("CommunityMapper.updatePost", community);
+		return result;
+	}
 
 	
 
@@ -120,4 +129,13 @@ public class PostManageStorelogic implements PostManageStore{
 		return cList;
 	}
 
+	@Override
+	public int selectCheckLikeId(SqlSession session, Like like) {
+		int result = session.selectOne("RecipeMapper.selectCheckLikeId",like);
+		return result;
+	}
+
+
+
+	
 }
