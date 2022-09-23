@@ -25,7 +25,8 @@
 		</tr>
 		<tr>
 			<td>작성자</td>
-			<td>${recipe.userId }</td>
+			<td>${recipe.userId }
+            </td>
 			
 		</tr>
 		
@@ -37,18 +38,20 @@
 		<tr>
 			<td>조회수 **${result }**${like.userId }</td>
 			<td colspan="">${recipe.recipeCount }
-			<form method="post" name="form">
-				<input type="hidden" name="recipeNo" value="${recipe.recipeNo }">
-				<!-- 아이디 session으로 바꿔줘야함 -->
-				<input type="hidden" name="userId" value="${like.userId }">
-				<button type="submit" id="likeup" onclick="javascript: form.action='/recipe/recipeLike.kh'">좋아요</button>
 			
-			</form>
 			</td>
 		</tr>
 		<tr>
 			<td>좋아요수</td>
-			<td colspan="">${recipe.recipeLikeCount }</td>
+			<td colspan="">${recipe.recipeLikeCount }
+			<form method="post" name="form">
+				<input type="hidden" name="category" value="${listValue }">
+				<input type="hidden" name="page" value="${page }">
+				<input type="hidden" name="recipeNo" value="${recipe.recipeNo }">
+				<!-- 아이디 session으로 바꿔줘야함 -->
+				<input type="hidden" name="userId" value="${like.userId }">
+				<button type="submit" id="likeup" onclick="javascript: form.action='/recipe/recipeLike.kh'">좋아요</button>
+			</form></td>
 			
 		</tr>
 		<tr>
@@ -132,22 +135,23 @@
             if(likecheck > 0){
             $("#likeup").html("좋아요 취소");
             }
+	});
         });
 
         // $(document).ready(function() {
         //     alert('Hello Dexter!');
         // });
-	// window.onload=function(){
-    //     // 페이지 로딩시 접근한 아이디가 좋아요를 누른적이 있다면 1출력 delete페이지로 
-	// 	var likecheck = ${result}
-    //     // console.log(document.getElementById("likeup").getAttribute("onclick"));
-    //     // console.log(document.getElementById("likeup").getAttribute("onclick"));
-	// 	if(likecheck < 1){
-    //         document.querySelector("likeup").innerHTML ="좋아요 취소";
-	// 		// document.getElementById("likeup").setAttribute("onclick","javascript: form.action='/add'");
-	// 	}
-	// }
-	
+	 //window.onload=function(){
+         // 페이지 로딩시 접근한 아이디가 좋아요를 누른적이 있다면 1출력 delete페이지로 
+	 	/* var likecheck = ${result}
+          console.log(document.getElementById("likeup").getAttribute("onclick"));
+          console.log(document.getElementById("likeup").getAttribute("onclick"));
+	 	if(likecheck < 1){
+             document.querySelector("likeup").innerHTML ="좋아요 취소";
+	 		 document.getElementById("likeup").setAttribute("onclick","javascript: form.action='/add'");
+	 	}
+	 }
+	 */
 	</script>
 </body>
 </html>

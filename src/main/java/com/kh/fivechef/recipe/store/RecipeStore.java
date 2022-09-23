@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.fivechef.fridge.domain.SmallCategory;
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
@@ -44,6 +45,8 @@ public interface RecipeStore {
 	public int deleteLike(SqlSession session, Like like);
 
 	public int updateDLikeCount(SqlSession session, Like like);
+
+	public List<SmallCategory> selectAllSmallCat(SqlSession session);
 
 
 

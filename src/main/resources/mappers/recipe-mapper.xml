@@ -20,6 +20,7 @@
 		<result property="recipeTime" column="RECIPE_TIME" />
 		<result property="recipePerson" column="RECIPE_PERSON" />
 		<result property="rCreateDate" column="R_CREATE_DATE" />
+		<result property="rStatus" column="R_STATUS" />
  	</resultMap>
  	
  	<resultMap type="com.kh.fivechef.recipe.domain.Ingradient" id="ingredientResultMap">
@@ -49,9 +50,18 @@
 		<result property="comPhotoRename" column="COMPHOTO_RENAME" />
 		<result property="comPhotopath" column="COMPHOTO_PATH" />
  	</resultMap>
+ 	<resultMap type="LargeCat" id="largeResultMap">
+ 		<id property="largeCatId" 				column="LARGE_CAT_ID" />
+ 		<result property="largeCatName" 			column="LARGE_CAT_NAME" />
+ 	</resultMap>
+ 	<resultMap type="SmallCat" id="smallResultMap">
+ 		<id property="smallCatId" 				column="SMALL_CAT_ID" />
+ 		<result property="largeCatId" 			column="LARGE_CAT_ID" />
+ 		<result property="smallCatName" 			column="SMALL_CAT_NAME" />
+ 	</resultMap>
  	
  	<insert id="insertRecipe">
-		INSERT INTO RECIPE_TBL VALUES(RECIPE_NO_SEQ.NEXTVAL,#{recipeTitle},#{recipeIntro},#{thumbnailName},#{thumbnailRename},#{thumbnailpath},#{typeCategory},#{wayCategory},0,0,#{userId},#{recipeLevel},#{recipeTime},#{recipePerson},DEFAULT)
+		INSERT INTO RECIPE_TBL VALUES(RECIPE_NO_SEQ.NEXTVAL,#{recipeTitle},#{recipeIntro},#{thumbnailName},#{thumbnailRename},#{thumbnailpath},#{typeCategory},#{wayCategory},0,0,#{userId},#{recipeLevel},#{recipeTime},#{recipePerson},DEFAULT,DEFAULT)
  	</insert>
  	<insert id="insertIngradient">
  		INSERT INTO INGRADIENT_TBL VALUES(ING_NUM_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{ingBundleName},#{ingAmount},#{largeCatId},#{smallCatId})
@@ -118,5 +128,9 @@
 	<update id="updateDLikeCount">
 		UPDATE RECIPE_TBL SET RECIPE_LIKE_COUNT = RECIPE_LIKE_COUNT -1 WHERE RECIPE_NO=#{recipeNo}
 	</update>
+	
+	<select id="selectAllSmallCat" resultMap="smallResultMap">
+ 		SELECT * FROM SMALL_CATEGORY
+ 	</select>
  
  </mapper>

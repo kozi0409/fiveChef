@@ -15,24 +15,41 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.fivechef.fridge.domain.LargeCategory;
+import com.kh.fivechef.fridge.domain.SmallCategory;
+import com.kh.fivechef.fridge.domain.Storage;
+import com.kh.fivechef.fridge.service.StorageService;
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.recipe.service.RecipeService;
-
+import com.kh.fivechef.user.domain.User;
+//hms2dd
 @Controller
 public class RecipeController {
 	@Autowired
 	private RecipeService rService;
+	@Autowired
+	private StorageService sService;
 	
 	@RequestMapping(value="/recipe/writeView.kh", method = RequestMethod.GET)
-	public String showRecipeWrite() {
-		return "recipe/recipeWriteFormcopy";
+	public ModelAndView showRecipeWrite(
+			ModelAndView mv
+			,@ModelAttribute LargeCategory lCate
+			,@ModelAttribute SmallCategory sCate) {
+			List<LargeCategory> lList = sService.printLargeCat();
+			List<SmallCategory> sList = rService.printSmallCat();
+			System.out.println(sList);
+			mv.addObject("lList", lList);
+			mv.addObject("sList", sList);
+			mv.setViewName("recipe/recipeWriteFormcopy");
+		return mv;
 	}
 	
 	//레시피 등록
@@ -151,7 +168,7 @@ public class RecipeController {
 			
 			request.setAttribute("msg", "레시피 등록이 완료되었습니다.");
 			//성공시 메인페이지로 이동하도록 변경
-			request.setAttribute("url", "/recipe/writeView.kh");
+			request.setAttribute("url", "/");
 			mv.setViewName("common/alert");
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -207,29 +224,28 @@ public class RecipeController {
 			,@RequestParam(value="category" , required=false) String listValue
 			,@RequestParam(value="page" ,required = false) Integer page
 			,@RequestParam("recipeNo") Integer recipeNo
-			,@ModelAttribute Recipe recipeid
+//			,@ModelAttribute User user
 			,@ModelAttribute Order order
 			,@ModelAttribute ComPhoto comPhoto
 			,@ModelAttribute Ingradient ing
 			,HttpSession session) {
 		try {
-			Like like = new Like();
-			like.setUserId(recipeid.getUserId());
-			like.setRecipeNo(recipeNo);
+			User user =(User) (session.getAttribute("loginUser"));
+			System.out.println(user);
+//			Like like = new Like();
+//			like.setUserId(user.getUserId());
+//			like.setRecipeNo(recipeNo);
 //			System.out.println(recipeid.getUserId());
 			//레시피 좋아요 카운트
-			int result = rService.checkLikeId(like);
+//			int result = rService.checkLikeId(like);
 			//레시피정보 출력
 			Recipe recipe = rService.printOneByNo(recipeNo);
-			session.setAttribute("recipeNo",recipe.getRecipeNo());
-			
+			//삭지하기위해 보드넘버 저장
+//			session.setAttribute("recipeNo",recipe.getRecipeNo());
 			//재료출력
 			List<Ingradient> iList = rService.printAllIng(recipeNo);
 			String bundle = "재료없음";
 			//로그인 구현되면 세션에 있는 아이디로 바꿔줘야함
-			
-			
-			
 			if(!iList.isEmpty()) {
 				bundle = iList.get(0).getIngBundleName();
 			}
@@ -237,9 +253,8 @@ public class RecipeController {
 			List<Order> oList = rService.printAllOrder(recipeNo);
 			//완성사진 출력
 			List<ComPhoto> cList = rService.printAllComPhoto(recipeNo);
-			
-			mv.addObject("result",result);
-			mv.addObject("like",like);
+//			mv.addObject("result",result);
+//			mv.addObject("like",like);
 			mv.addObject("urlVal","recipeList");
 			mv.addObject("listValue",listValue);
 			mv.addObject("page", page);
@@ -260,44 +275,47 @@ public class RecipeController {
 	
 	//좋아요 등록
 	@RequestMapping(value="/recipe/recipeLike.kh",method =RequestMethod.POST)
-	public ModelAndView recipeLikeUpdate(
+	public String recipeLikeUpdate(
 			ModelAndView mv
 			,@RequestParam(value="userId", required = false) String userId
-			,@RequestParam(value="recipeNo",required=false) Integer recipeNo) {
-		Like like = new Like();
-		like.setUserId(userId);
-		like.setRecipeNo(recipeNo);
-		
-		int result = rService.likeUp(like);
-		
-		mv.setViewName("recipe/recipeDetailView");
-		return mv;
+			,@RequestParam(value="recipeNo",required=false) Integer recipeNo
+			,@RequestParam(value="category" , required=false) String listValue
+			,@RequestParam(value="page" ,required = false) Integer page
+			,HttpServletRequest request) {
+		try {
+			Like like = new Like();
+			like.setUserId(userId);
+			like.setRecipeNo(recipeNo);
+			int result = rService.likeUp(like);
+			return "redirect:/recipe/recipeDetailView.kh?recipeNo="+recipeNo+"&page="+page+"&category="+listValue+"&userId="+userId;
+		} catch (Exception e) {
+			// TODO: handle exception
+			request.setAttribute("msg", "로그인을 해주세요");
+			request.setAttribute("url", "/recipe/recipeDetailView.kh?recipeNo="+recipeNo+"&page="+page+"&category="+listValue+"&userId="+userId);
+			return "common/alert";
+		}
 	}
 	
 	//좋아요 삭제
 	@RequestMapping(value="/recipe/recipeLikeDel.kh",method =RequestMethod.POST)
-	public ModelAndView recipeLikeRemove(
+	public String recipeLikeRemove(
 			ModelAndView mv
 			,@RequestParam(value="userId", required = false) String userId
-			,@RequestParam(value="recipeNo",required=false) Integer recipeNo) {
-		
+			,@RequestParam(value="recipeNo",required=false) Integer recipeNo
+			,@RequestParam(value="category" , required=false) String listValue
+			,@RequestParam(value="page" ,required = false) Integer page
+			,HttpServletRequest request) {
 		try {
-			if(userId == null) {
-			}
 			Like like = new Like();
 			like.setUserId(userId);
 			like.setRecipeNo(recipeNo);
-			
 			int result = rService.likeDown(like);
-			
-			mv.setViewName("recipe/recipeDetailView");
+			return "redirect:/recipe/recipeDetailView.kh?recipeNo="+recipeNo+"&page="+page+"&category="+listValue+"&userId="+userId;
 		} catch (Exception e) {
-			// TODO: handle exception
+			request.setAttribute("msg", "로그인을 해주세요");
+			request.setAttribute("url", "/recipe/recipeDetailView.kh?recipeNo="+recipeNo+"&page="+page+"&category="+listValue+"&userId="+userId);
+			return "common/alert";
 		}
-			
-		
-		
-		return mv;
 	}
 	
 	@RequestMapping(value="/recipe/recipeModifyView.kh",method =RequestMethod.GET)
