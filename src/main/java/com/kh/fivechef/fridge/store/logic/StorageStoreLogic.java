@@ -44,4 +44,10 @@ public class StorageStoreLogic implements StorageStore {
 		return result;
 	}
 
+	@Override
+	public int insertSelectBox(SqlSession session, String largeCatId) {
+		int result = session.update("FridgeMapper.updateSelectBox", largeCatId);
+		return result;
+	}
+
 }

@@ -55,6 +55,13 @@ public class StorageServiceImpl implements StorageService {
 		return result;
 	}
 
+
+	@Override
+	public int registSelectBox(String largeCatId) {
+		int result = sStore.insertSelectBox(session, largeCatId);
+		return result;
+	}
+
 		
 	
 	

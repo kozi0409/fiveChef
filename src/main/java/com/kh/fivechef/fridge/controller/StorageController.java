@@ -44,6 +44,7 @@ public class StorageController {
 			,@RequestParam("jNo") Integer jNo){
 		List<LargeCategory> lList = sService.printLargeCat();
 		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
+		int result = sService.registSelectBox(largeCatId);
 		List<Storage> stList = sService.printStorage(fridgeNo);
 		mv.addObject("sList", sList);
 		mv.addObject("lList", lList);
@@ -56,8 +57,9 @@ public class StorageController {
 		return mv;
 	}
 	
+	//칸 생성
 	@RequestMapping(value="/fridge/createStorage.kh", method=RequestMethod.POST)
-	public ModelAndView createStorage(ModelAndView mv
+	public ModelAndView storageCreate(ModelAndView mv
 			,@ModelAttribute Storage storage
 			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
@@ -73,9 +75,9 @@ public class StorageController {
 		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;
 	}
-	
+	//칸 삭제
 	@RequestMapping(value="/fridge/deleteStorage.kh", method=RequestMethod.POST)
-	public ModelAndView listStorageView(ModelAndView mv
+	public ModelAndView storageRemove(ModelAndView mv
 			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName
