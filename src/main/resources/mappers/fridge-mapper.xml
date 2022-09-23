@@ -53,7 +53,7 @@
  		SELECT LARGE_CAT_ID, LARGE_CAT_NAME FROM LARGE_CATEGORY
  	</select>
  	<select id="selectSmallCat" resultMap="smallResultMap">
- 		SELECT SMALL_CAT_ID, SMALL_CAT_NAME FROM SMALL_CATEGORY
+ 		SELECT * FROM SMALL_CATEGORY
  		WHERE LARGE_CAT_ID = #{largeCatId}
  	</select>
  	
@@ -63,11 +63,15 @@
  	</insert>
  	
  	<select id="selectStorage" resultMap="storageResultMap">
- 		SELECT STORAGE_NO, STORAGE_NAME FROM STORAGE_TBL
+ 		SELECT * FROM STORAGE_TBL
  		WHERE FRIDGE_NO = #{fridgeNo}
  	</select>
  	<delete id="deleteStorage">
  		DELETE FROM STORAGE_TBL
  		WHERE STORAGE_NO = #{storageNo} AND STORAGE_NAME = #{storageName}
  	</delete>
+ 	<update id="updateSelectBox">
+ 		UPDATE STORAGE_TBL SET LARGE_CAT_ID = #{largeCatId}
+ 		WHERE FRIDGE_NO = #{fridgeNo}
+ 	</update>
  </mapper>

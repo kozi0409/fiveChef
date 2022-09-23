@@ -15,4 +15,5 @@ public interface StorageStore {
 	public int insertStorage(SqlSession session, Storage storage);
 	public List<Storage> selectStorage(SqlSession session, Integer fridgeNo);
 	public int deleteStorage(SqlSession session, List<Storage> stList);
+	public int insertSelectBox(SqlSession session, String largeCatId);
 }

@@ -17,13 +17,13 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 	
 	<header>
-		<hr style="border-width:2px;">
-		<div class="mt-5" align="center">
-			<h1>MY 냉장고</h1>
-		</div>
 	</header>
 	<section>
 		<div class="container" >
+		<hr>
+		<div class="mt-3" align="center">
+			<h1>MY 냉장고</h1>
+		</div>
 			<div class="card-body" style="width:100%; background-color:gray; padding: 20px; border-radius: 10px;">
 				<div align="right">
 					<div class="row">

@@ -8,6 +8,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 	<script src="../../../resources/js/jquery-3.6.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="${_.contextPath}/resources/lib/jquery-sumoselect/sumoselect.min.css"/>
+	<script src="${_.contextPath}/resources/lib/jquery-sumoselect/jquery.sumoselect.min.js"></script>
+	
 	<title>냉장고 칸 페이지</title>
 </head>
 
@@ -16,8 +19,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 	<div class="container">
 	<header>
-		<hr style="border-width:2px;">
-		<div class="mt-5" align="center">
+		<hr style="border-width:1px;">
+		<div class="mt-3" align="center">
 			<h1 align="center" >${fridgeName } 페이지</h1>
 		</div>
 	</header>
@@ -25,22 +28,22 @@
 		<div class="row">
 			<div class="col" align="left">
 				<button class="btn btn-secondary" onclick="location.href='/'">이전 페이지</button>
-				<button class="btn btn-info" onclick="#">검색</button>
+				<button class="btn btn-info" onclick="console.log('검색');">검색</button>
 			</div>
 			<div class="col" align="right">
 				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage">칸 생성</button>
-				<button class="btn btn-danger" onclick="deleteStorage(this.value, ${jNo});">칸 삭제</button>
+				<button class="btn btn-danger" onclick="deleteStorage(this);">칸 삭제</button>
 			</div>
 		</div>
-		<hr style="border-width:2px;">
 			<c:if test="${not empty stList }">
 				<c:forEach items="${stList }" var="storage" varStatus="j">
+					<hr style="border-width:2px;">
 					<div class="row mb-2 mt-2">
 						<div class="col-3" style="background-color:green;">
 							<br>
 							<div class="row">
 								<div class="col-2">
-									<input type="checkbox" id="storageCheck${j.index }">
+									<input type="checkbox" name="storageBoxCheck" id="storageCheck${j.index }">
 								</div>
 								<div class="col">
 									<h3>${storage.storageName }</h3>
@@ -55,9 +58,9 @@
 									<h6><b>대분류</b></h6>
 								</div>
 								<div class="col">
-									<select id="selLarge" style="width: 150px;" onchange="selectLargeBox(this.value, ${fridgeNo}, '${fridgeName }',${j.index });">
+									<select id="selLarge${j.index }" style="width: 150px;" onchange="selectLargeBox(this.value, ${fridgeNo}, '${fridgeName }',${j.index });">
 										<c:forEach items="${lList }" var="largeCat"  varStatus="i">
-											<option id="largeCatOpt" value="${largeCat.largeCatId }" <c:if test="${largeCat.largeCatId eq largeCatId && j.index eq jNo}">selected</c:if>>${largeCat.largeCatName }</option>
+											<option id="largeCatOpt${i.index }" value="${largeCat.largeCatId }" <c:if test="${largeCat.largeCatId eq largeCatId && j.index eq jNo}">selected</c:if>>,${largeCat.largeCatName }</option>
 										</c:forEach>
 									</select>
 								</div>
@@ -68,9 +71,11 @@
 									<h6><b>소분류</b></h6>
 								</div>
 								<div class="col">
-									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);">
+									<select id="selSmall${j.index }" style="width: 150px; height:100px;" multiple onchange="list_selected(this);" >
 										<c:forEach items="${sList }" var="smallCat"  varStatus="i">
-											<option value="${smallCat.smallCatId }">${smallCat.smallCatName }</option>
+<%-- 											<c:if test="${j.index eq jNo}"> --%>
+											<option id="smallCatOpt${i.index }" value="${smallCat.smallCatId }" >${j.index},${jNo }${smallCat.smallCatName }</option>
+<%-- 											</c:if> --%>
 										</c:forEach>
 									</select>
 								</div>
@@ -164,35 +169,59 @@
 		}
 		
 		
-		function deleteStorage(){
-			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
-			$form.attr("action", "/fridge/deleteStorage.kh");
-			$form.attr("method", "post");
-			$form.append("<input type='hidden' value='"+value+"'name='largeCatId''>");
-			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo''>");
-			$form.append("<input type='hidden' value='"+fName+"' name='fridgeName''>");
-			$form.append("<input type='hidden' value='"+jNo+"' name='jNo''>");
-			$form.appendTo("body");
-			$form.submit();
+		function deleteStorage(value){
+			if ($("#storageCheck${j.index }").is(":checked")){
+				alert($("#storageCheck${j.index }")+"클릭");
+			} else {
+				alert("아무것도 선택하지 않음");
+			}
+			
+// 			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+// 			$form.attr("action", "/fridge/deleteStorage.kh");
+// 			$form.attr("method", "post");
+// 			$form.append("<input type='hidden' value='"+value+"'name='largeCatId''>");
+// 			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo''>");
+// 			$form.append("<input type='hidden' value='"+fName+"' name='fridgeName''>");
+// 			$form.append("<input type='hidden' value='"+jNo+"' name='jNo''>");
+// 			$form.appendTo("body");
+// 			$form.submit();
 			
 		}
 		
-// 		function list_selected(e) {
-// 			const values = [];
-// 			const texts = [];
+		function list_selected(e) {
+			const values = [];
+			const texts = [];
 			
-// 			// options에서 selected 된 element 찾기
-// 			for(let i=0; i < e.options.length; i++) {
-// 				const option = e.options[i];
-// 			  	if(option.selected) {
-// 				    values.push(option.value);
-// 				    texts.push(option.text);
-// 			  	}
-// 			}
-// 			// 선택된 데이터 출력
-// 			document.getElementById('values').innerText = values;
-// 			document.getElementById('texts').innerText = texts;
-// 		}
+			// options에서 selected 된 element 찾기
+			for(let i=0; i < e.options.length; i++) {
+				const option = e.options[i];
+			  	if(option.selected) {
+				    values.push(option.value);
+				    texts.push(option.text);
+			  	}
+			}
+			// 선택된 데이터 출력
+			document.getElementById('values').innerText = values;
+			document.getElementById('texts').innerText = texts;
+		}
+		
+		
+		
+		
+		
+		
+		
+// 		$(document).ready(function() {
+// 		    $('#submit').click(function() {
+// 		        if ($('#storageCheck${j.index }').is(":checked")) {
+// 		            alert(storageCheck${j.index }+"선택");
+// 		        } else {
+// 		            alert("선택하지 않음");
+// 		        }
+// 		    })
+// 		});
+		
+		
 		
 // 		var i = 1;
 // 		function createStorage(){

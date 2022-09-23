@@ -12,4 +12,5 @@ public interface StorageService {
 	public int registStorage(Storage storage);
 	public List<Storage> printStorage(Integer fridgeNo);
 	public int removeStorage(List<Storage> stList);
+	public int registSelectBox(String largeCatId);
 }
