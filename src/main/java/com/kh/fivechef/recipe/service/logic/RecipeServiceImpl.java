@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fivechef.fridge.domain.SmallCategory;
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
@@ -102,6 +103,12 @@ public class RecipeServiceImpl implements RecipeService{
 		int result = rStore.deleteLike(session,like);
 		int result2 = rStore.updateDLikeCount(session,like);
 		return result;
+	}
+
+	@Override
+	public List<SmallCategory> printSmallCat() {
+		List<SmallCategory> sList = rStore.selectAllSmallCat(session);
+		return sList;
 	}
 
 

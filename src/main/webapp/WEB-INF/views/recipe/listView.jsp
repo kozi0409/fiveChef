@@ -15,26 +15,47 @@
 <style type="text/css">
 
 .page_bar {
-	width: fit-content;
-	height: 10px;
+	position:relative;
+	float:left;
+	/* width: fit-content;
+	height: 10px; */
 	/* /* font-size: 20px; */
-	margin: auto;
+	margin: 0;
 	/* position: relative; */
 	/* position: absolute; */ 
 	/* padding-bottom: 1%; */
 	/* padding-top: 20%; */
 	/* border:1px solid #ccc; */
+	/* border: 1px solid #333; */
 }
 #bar-bar {
 	visibility: hidden;
+	
 	padding-bottom: 1%;
+
 }
+.btn-primary{
+color:#fff;
+background-color:rgb(209, 24, 79);
+border-color:rgb(209, 24, 79)
+}
+.btn-primary:hover{
+color:#fff;
+background-color:rgb(216, 50, 100);
+border-color:rgb(216, 50, 100)
+}
+.btn-primary1{
+color:rgb(o,o,o);
+background-color:rgb(209, 24, 79);
+border-color:rgb(209, 24, 79)
+}
+
 
 </style>
 </head>
 <body class="bg-light vsc-initialized">
 <input type="hidden" name="userId" value="${sessionScope.loginUser.userId }">
-	<div class="wrap">
+	<div class="wrap row">
 		<div><h2> 총 <span style="border: #ccc">${totalCount }</span>개의 레시피가 있습니다.<div class="r">
 			<form action="/recipe/recipeList.kh" method="get">
 				<button class="listView" name="category" value="">전체보기</button>
@@ -48,7 +69,7 @@
 		<div class="fixed_img_col" align="center">
 			<ul>
 				<c:forEach items="${rList }" var="recipe" varStatus="i">
-				<!-- userId 못불러옴 -->
+				<!-- ${sessionScope.loginUser.userId } 불러는 오는데 500에러 뜸 -->
 					<li><a href="/recipe/recipeDetailView.kh?recipeNo=${recipe.recipeNo }&page=${currentPage }&category=${listValue }"><span class="thumb"><img
 								onerror="this.src='../resources/images/logo.png'"
 								src="/resources/ruploadFiles/${recipe.thumbnailRename }" alt="">
@@ -61,18 +82,23 @@
 			</ul>
 		</div>
 		<hr id="bar-bar">
-		<div class="page_bar">
+		<div class="row">
+		<div class="page_bar col-md-12" align="center">
 				<c:if test="${currentPage > 1 }">
-						<a class="btn btn-primary1" href="/recipe/${urlVal }.kh?page=${currentPage -1 }&category=${listValue }"><</a>
+						<a class="btn btn-primary" href="/recipe/${urlVal }.kh?page=${currentPage -1 }&category=${listValue }"><</a>
 				</c:if>
 				<c:forEach var="p" begin="${startNavi }" end="${endNavi}">
-				
-						<a class="btn btn-primary1" href="/recipe/${urlVal }.kh?page=${p }&category=${listValue }">${p }</a>
-
+					<c:if test="${currentPage eq p }">
+						<a class="btn btn-primary1" href="/recipe/${urlVal }.kh?page=${p }&category=${listValue }"><b>${p }</b></a>
+					</c:if>
+					<c:if test="${currentPage ne p and currentPage ne null}">
+						<a class="btn btn-primary" href="/recipe/${urlVal }.kh?page=${p }&category=${listValue }">${p }</a>
+						</c:if>
 				</c:forEach>
 				<c:if test="${currentPage < maxPage }">
-						<a class="btn btn-primary1" href="/recipe/${urlVal }.kh?page=${currentPage +1 }&category=${listValue }">></a>
+						<a class="btn btn-primary" href="/recipe/${urlVal }.kh?page=${currentPage +1 }&category=${listValue }">></a>
 				</c:if>
+		</div>
 		</div>
 		<br><br><br>
 	</div>

@@ -19,10 +19,7 @@ public class Recipe {
 	private String recipeTime;
 	private String recipePerson;
 	private Date rCreateDate;
-
-	
-	
-	
+	private String rStatus;
 	@Override
 	public String toString() {
 		return "Recipe [recipeNo=" + recipeNo + ", recipeTitle=" + recipeTitle + ", recipeIntro=" + recipeIntro
@@ -30,7 +27,7 @@ public class Recipe {
 				+ thumbnailpath + ", typeCategory=" + typeCategory + ", wayCategory=" + wayCategory
 				+ ", recipeLikeCount=" + recipeLikeCount + ", recipeCount=" + recipeCount + ", userId=" + userId
 				+ ", recipeLevel=" + recipeLevel + ", recipeTime=" + recipeTime + ", recipePerson=" + recipePerson
-				+ ", rCreateDate=" + rCreateDate + "]";
+				+ ", rCreateDate=" + rCreateDate + ", rStatus=" + rStatus + "]";
 	}
 	public int getRecipeNo() {
 		return recipeNo;
@@ -122,6 +119,14 @@ public class Recipe {
 	public void setrCreateDate(Date rCreateDate) {
 		this.rCreateDate = rCreateDate;
 	}
+	public String getrStatus() {
+		return rStatus;
+	}
+	public void setrStatus(String rStatus) {
+		this.rStatus = rStatus;
+	}
+	
+	
 	
 	
 }

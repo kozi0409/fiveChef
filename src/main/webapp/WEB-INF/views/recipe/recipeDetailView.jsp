@@ -26,7 +26,6 @@
 		<tr>
 			<td>작성자</td>
 			<td>${recipe.userId }
-                <button id="ing-add">sdf</button>
             </td>
 			
 		</tr>
@@ -136,25 +135,23 @@
             if(likecheck > 0){
             $("#likeup").html("좋아요 취소");
             }
-            	$("#ing-add").on("click",function(){
-			$("#ing-add").append("<div>아하하</div>");
 	});
         });
 
         // $(document).ready(function() {
         //     alert('Hello Dexter!');
         // });
-	// window.onload=function(){
-    //     // 페이지 로딩시 접근한 아이디가 좋아요를 누른적이 있다면 1출력 delete페이지로 
-	// 	var likecheck = ${result}
-    //     // console.log(document.getElementById("likeup").getAttribute("onclick"));
-    //     // console.log(document.getElementById("likeup").getAttribute("onclick"));
-	// 	if(likecheck < 1){
-    //         document.querySelector("likeup").innerHTML ="좋아요 취소";
-	// 		// document.getElementById("likeup").setAttribute("onclick","javascript: form.action='/add'");
-	// 	}
-	// }
-	
+	 //window.onload=function(){
+         // 페이지 로딩시 접근한 아이디가 좋아요를 누른적이 있다면 1출력 delete페이지로 
+	 	/* var likecheck = ${result}
+          console.log(document.getElementById("likeup").getAttribute("onclick"));
+          console.log(document.getElementById("likeup").getAttribute("onclick"));
+	 	if(likecheck < 1){
+             document.querySelector("likeup").innerHTML ="좋아요 취소";
+	 		 document.getElementById("likeup").setAttribute("onclick","javascript: form.action='/add'");
+	 	}
+	 }
+	 */
 	</script>
 </body>
 </html>

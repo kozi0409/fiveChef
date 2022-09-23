@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fivechef.fridge.domain.SmallCategory;
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
@@ -116,6 +117,12 @@ public class RecipeStoreLogic implements RecipeStore{
 	public int updateDLikeCount(SqlSession session, Like like) {
 		int result = session.delete("RecipeMapper.updateDLikeCount",like);
 		return result;
+	}
+
+	@Override
+	public List<SmallCategory> selectAllSmallCat(SqlSession session) {
+		List<SmallCategory> sList = session.selectList("RecipeMapper.selectAllSmallCat");
+		return sList;
 	}
 
 }

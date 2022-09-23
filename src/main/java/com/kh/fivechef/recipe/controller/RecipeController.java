@@ -19,6 +19,10 @@ import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.fivechef.fridge.domain.LargeCategory;
+import com.kh.fivechef.fridge.domain.SmallCategory;
+import com.kh.fivechef.fridge.domain.Storage;
+import com.kh.fivechef.fridge.service.StorageService;
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
@@ -31,10 +35,21 @@ import com.kh.fivechef.user.domain.User;
 public class RecipeController {
 	@Autowired
 	private RecipeService rService;
+	@Autowired
+	private StorageService sService;
 	
 	@RequestMapping(value="/recipe/writeView.kh", method = RequestMethod.GET)
-	public String showRecipeWrite() {
-		return "recipe/recipeWriteFormcopy";
+	public ModelAndView showRecipeWrite(
+			ModelAndView mv
+			,@ModelAttribute LargeCategory lCate
+			,@ModelAttribute SmallCategory sCate) {
+			List<LargeCategory> lList = sService.printLargeCat();
+			List<SmallCategory> sList = rService.printSmallCat();
+			System.out.println(sList);
+			mv.addObject("lList", lList);
+			mv.addObject("sList", sList);
+			mv.setViewName("recipe/recipeWriteFormcopy");
+		return mv;
 	}
 	
 	//레시피 등록
