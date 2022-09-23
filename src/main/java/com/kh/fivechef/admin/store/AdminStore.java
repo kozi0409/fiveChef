@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kh.fivechef.admin.domain.Admin;
+import com.kh.fivechef.qna.domain.QnA;
 import com.kh.fivechef.user.domain.User;
 
 public interface AdminStore {   
@@ -27,10 +28,30 @@ public interface AdminStore {
 	public int deleteOneById(SqlSession session, String adminId);
 	
 	//회원 리스트 출력
-	public List<User> selectAllUser(SqlSession session, int currentPage, int adminLimit);
+	public List<User> selectAllUser(SqlSession session, int currentPage, int userLimit);
+	
 	public User printOneByUserId(SqlSession session, String userId);
+	
 	public int removeOneByUserId(SqlSession session, String userId);
+	
+	public int modifyUser(SqlSession session, User user);
+	
+	public List<Admin> selectAllByAdminValue(
+			SqlSession session
+			, String searchCondition
+			, String searchValue
+			, int currentPage
+			, int adminLimit);
+	
 
+	//관리자 1:1문의관리
+	public List<QnA> printAllQna(SqlSession session, int currentPage, int qnaLimit);
+	
+	public List<User> selectAllByUserValue(
+			SqlSession session
+			, String searchCondition
+			, String searchValue
+			, int currentPage
+			, int userLimit);
 
-		
 }

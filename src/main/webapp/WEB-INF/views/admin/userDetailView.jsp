@@ -24,7 +24,7 @@
 					</tr>
 					<tr>
 						<th>패스워드</th>
-						<td><input type="password" class="form-control" name="userPwd" value="${user.userPwd }"></td>		
+						<td><input type="text" class="form-control" name="userPwd" value="${user.userPwd }"></td>		
 					</tr>
 					<tr>
 						<th>이름</th>
@@ -44,12 +44,18 @@
 					</tr>
 					<tr>
 						<th>회원상태</th>
+						<td>
+						<select name="uStatus">
 						<c:if test="${user.uStatus eq 'Y'}">
-							<td><input type="text" class="form-control" name="" value="가입" readonly></td>
+							<option value="Y" selected>가입</option>
+							<option value="N">탈퇴</option>
 						</c:if>
 						<c:if test="${user.uStatus eq 'N'}">
-							<td><input type="text" class="form-control" name="" value="탈퇴" readonly></td>	
+							<option value="Y" selected>탈퇴</option>
+							<option value="Y">가입</option>	
 						</c:if>	
+						</select>
+						</td>
 					</tr>
 					<tr>
 						<th>등록날짜</th>
@@ -57,8 +63,8 @@
 					</tr>		
 					<tr>
 						<td colspan="2">
-							<input type="submit" class="btn btn-primary" value="수정하기">
-							<button type="button" class="btn btn-danger" onclick="deleteCheck('${user.userId }',${currentPage })">삭제하기</button>
+							<input type="submit" class="btn btn-primary" style="background-color: #4d61fb;" value="수정하기">
+							<button type="button" class="btn btn-danger" style="background-color: #fb4d7e;" onclick="location.href='/admin/userlist.kh?page=${page}'">목록</button>
 						</td>
 					</tr>
 					

@@ -33,6 +33,22 @@
 		<result property="uStatus" column="U_STATUS"/>
 	</resultMap>
 	
+	<resultMap type="QnA" id="qnaResultMap">
+ 		<id property="questionNo" column="QUESTION_NO"/>
+ 		<result property="questionWriter" column="QUESTION_WRITER"/>
+ 		<result property="questionTitle" column="QUESTION_TITLE"/>
+ 		<result property="questionContents" column="QUESTION_CONTENTS"/>
+ 		<result property="qFileName" column="QUESTION_FILE_NAME"/>
+ 		<result property="qFileReName" column="QUESTION_FILE_RENAME"/>
+ 		<result property="qFilePath" column="QUESTION_FILE_PATH"/>
+ 		<result property="answerStatus" column="ANSWER_STATUS"/>
+ 		<result property="answerContents" column="ANSWER_CONTENTS"/>
+ 		<result property="answerWriter" column="ANSWER_WRITER"/>
+ 		<result property="qEnrollDate" column="Q_ENROLL_DATE"/>
+ 		<result property="qUpdateDate" column="Q_UPDATE_DATE"/>
+ 	</resultMap>
+	
+	 	
 	<!-- 회원가입 -->
  	<insert id="insertAdmin" parameterType="Admin">
  		INSERT INTO ADMIN_TBL
@@ -64,49 +80,107 @@
 		SELECT * FROM ADMIN_TBL
 		WHERE ADMIN_ID = #{adminId } AND A_STATUS = 'Y'
 	</select>
-	<!-- admin에서 관리자목록 출력합니다. -->
+	<!--  관리자목록 출력합니다. -->
 	<select id="selectAllAdmin" resultMap="adminResultMap">
 		SELECT * FROM ADMIN_TBL ORDER BY REG_DATE DESC
 	</select>
+	<!-- 관리자 목록 출력 -->
+	<select id="selectTotalCount" resultType="_int">
+		SELECT COUNT(*) FROM ADMIN_TBL
+		<where>
+				<if test="searchCondition.toString() == 'Name'">
+					ADMIN_NAME LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'Id'">
+					ADMIN_ID LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'all'">
+					ADMIN_NAME LIKE '%'||#{searchValue}||'%'
+					OR ADMIN_ID LIKE '%'||#{searchValue}||'%'
+				</if>
+				 
+			</where>
+	</select>
+	<select id="selectAllByAdminValue" resultMap="adminResultMap">
+		SELECT * FROM ADMIN_TBL 
+		<where>
+			<if test="searchCondition.toString() == 'Id'">
+				ADMIN_ID LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'Name'">
+				ADMIN_NAME LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				ADMIN_ID LIKE '%'||#{searchValue}||'%'
+				OR ADMIN_NAME LIKE '%'||#{searchValue}||'%'
+			</if>
+			
+		</where>
+	</select>
 	
-	<!-- admin에서 회원목록 출력합니다. -->
+	
+	<!-- 유저 회원목록 -->
+	<select id="selectOneUser" resultMap="userResultMap">
+		SELECT * FROM USER_TBL WHERE USER_ID =#{userId}
+	</select>
+	
 	<select id="selectAllUser" resultMap="userResultMap">
 		SELECT * FROM USER_TBL ORDER BY U_ENROLL_DATE DESC
 	</select>
+	<!-- 유저 검색 출력 -->
+	<select id="selectTotalUserCount" resultType="_int">
+		SELECT COUNT(*) FROM USER_TBL
+		<where>
+				<if test="searchCondition.toString() == 'Name'">
+					USER_NAME LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'Id'">
+					USER_ID LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'Phone'">
+					USER_PHONE LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'all'">
+					USER_NAME LIKE '%'||#{searchValue}||'%'
+					OR USER_ID LIKE '%'||#{searchValue}||'%'
+					OR USER_PHONE LIKE '%'||#{searchValue}||'%'
+				</if>
+				 
+			</where>
+	</select>
+	<select id="selectAllByUserValue" resultMap="userResultMap">
+		SELECT * FROM USER_TBL 
+		<where>
+			<if test="searchCondition.toString() == 'Id'">
+				USER_ID LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'Name'">
+				USER_ID LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'Phone'">
+				USER_PHONE LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test="searchCondition.toString() == 'all'">
+				USER_ID LIKE '%'||#{searchValue}||'%'
+				OR USER_ID LIKE '%'||#{searchValue}||'%'
+				OR USER_PHONE LIKE '%'||#{searchValue}||'%'
+			</if>
+			
+		</where>
+	</select>
+	
+	
+	<!-- 마스터 회원 수정 -->
+ 	<update id="modifyUser" parameterType="User">
+		UPDATE USER_TBL
+		SET USER_PWD = #{userPwd }, USER_NAME = #{userName }, USER_PHONE = #{userPhone }, USER_EMAIl = #{userEmail }
+		<!-- , U_STATUS =#{uStatus } -->
+		WHERE USER_ID = #{userId }		
+	</update>
+	
 	<!-- 마스터관리자가 회원 삭제 -->
 	<delete id="deleteMasterUser">
 		DELETE FROM USER_TBL 
 		WHERE USER_ID=#{userId }
 	</delete>
-	
-	<!-- 관리자 목록 출력 -->
-	<select id="selectTotalCount" resultType="_int">
-		SELECT COUNT(*) FROM ADMIN_TBL
-		<where>
-				<if test="searchCondition.toString() == 'title'">
-					ADMIN_NAME LIKE '%'||#{searchValue}||'%'
-				</if>
-				<if test="searchCondition.toString() == 'contents'">
-					ADMIN_ID LIKE '%'||#{searchValue}||'%'
-				</if>
-				<if test="searchCondition.toString() == 'writer'">
-					ADMIN_ADDR LIKE '%'||#{searchValue}||'%'
-				</if>
-				<if test="searchCondition.toString() == 'all'">
-					ADMIN_NAME LIKE '%'||#{searchValue}||'%'
-					OR ADMIN_ID LIKE '%'||#{searchValue}||'%'
-					OR ADMIN_ADDR LIKE '%'||#{searchValue}||'%'
-				</if>
-				 
-			</where>
-	</select>
-	<!-- 마스터 관리자 수정 -->
- 	<update id="modifyMaster" parameterType="Admin">
-		UPDATE ADMIN_TBL
-		SET ADMIN_PWD = #{adminPwd }, ADMIN_EMAIl = #{adminEmail }, ADMIN_PHONE = #{adminPhone}
-		, ADMIN_ADDR = #{adminAddr }, ADMIN_SCOPE = #{adminScope }, ADMIN_CODE =#{adminCode }
-		, UPDATE_DATE = DEFAULT
-		WHERE ADMIN_ID = #{adminId }
-	</update>
-	
  </mapper>
