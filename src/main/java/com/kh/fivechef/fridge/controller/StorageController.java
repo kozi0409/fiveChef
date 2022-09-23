@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.fridge.domain.LargeCategory;
+import com.kh.fivechef.fridge.domain.SelectBox;
 import com.kh.fivechef.fridge.domain.SmallCategory;
 import com.kh.fivechef.fridge.domain.Storage;
 import com.kh.fivechef.fridge.service.StorageService;
@@ -20,6 +21,7 @@ public class StorageController {
 	@Autowired
 	private StorageService sService;
 	// 민석님 공유
+	// 칸 페이지
 	@RequestMapping(value="/fridge/storage.kh", method=RequestMethod.GET)
 	public ModelAndView showStoragePage(ModelAndView mv
 			,@RequestParam("fridgeNo") Integer fridgeNo
@@ -36,15 +38,18 @@ public class StorageController {
 		return mv;
 	}
 	// 민석님 공유
+	// 칸 페이지 소분류
 	@RequestMapping(value="/fridge/changeSmall.kh", method=RequestMethod.GET)
 	public ModelAndView showSmallCat(ModelAndView mv
 			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName
-			,@RequestParam("jNo") Integer jNo){
+			,@RequestParam("selectBoxNo") Integer selectBoxNo
+			,@RequestParam("storageNo") Integer storageNo){
 		List<LargeCategory> lList = sService.printLargeCat();
 		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
-		int result = sService.registSelectBox(largeCatId);
+		SelectBox selectBox = new SelectBox(storageNo, largeCatId, selectBoxNo);
+		int result = sService.registSelectValue(selectBox);
 		List<Storage> stList = sService.printStorage(fridgeNo);
 		mv.addObject("sList", sList);
 		mv.addObject("lList", lList);
@@ -52,7 +57,8 @@ public class StorageController {
 		mv.addObject("largeCatId", largeCatId);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
-		mv.addObject("jNo", jNo);
+		mv.addObject("selectBoxNo", selectBoxNo);
+		mv.addObject("selectBox", selectBox);
 		mv.setViewName("fridge/myMain");
 		return mv;
 	}

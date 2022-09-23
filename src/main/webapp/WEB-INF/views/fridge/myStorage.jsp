@@ -8,8 +8,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 	<script src="../../../resources/js/jquery-3.6.1.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="${_.contextPath}/resources/lib/jquery-sumoselect/sumoselect.min.css"/>
-	<script src="${_.contextPath}/resources/lib/jquery-sumoselect/jquery.sumoselect.min.js"></script>
 	
 	<title>냉장고 칸 페이지</title>
 </head>
@@ -58,24 +56,27 @@
 									<h6><b>대분류</b></h6>
 								</div>
 								<div class="col">
-									<select id="selLarge${j.index }" style="width: 150px;" onchange="selectLargeBox(this.value, ${fridgeNo}, '${fridgeName }',${j.index });">
+									<select id="selLarge" style="width: 150px;" onchange="selectLargeBox(this.value, ${fridgeNo}, '${fridgeName }',${j.index }, ${storage.storageNo });">
 										<c:forEach items="${lList }" var="largeCat"  varStatus="i">
-											<option id="largeCatOpt${i.index }" value="${largeCat.largeCatId }" <c:if test="${largeCat.largeCatId eq largeCatId && j.index eq jNo}">selected</c:if>>,${largeCat.largeCatName }</option>
+											<option id="largeCatOpt" value="${largeCat.largeCatId }" <c:if test="${largeCat.largeCatId  eq storage.largeCatId }">selected</c:if>>${largeCat.largeCatName }</option>
 										</c:forEach>
 									</select>
 								</div>
 							</div>
 							<br>
 							<div class="row">
+							${storage.largeCatId }
+								${storage.storageSelectNo}
+								${j.index }
+								${selectBoxNo }
+								${selectBox.selectBoxNo }
 								<div class="col-3 text-centered">
 									<h6><b>소분류</b></h6>
 								</div>
 								<div class="col">
-									<select id="selSmall${j.index }" style="width: 150px; height:100px;" multiple onchange="list_selected(this);" >
+									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);" >
 										<c:forEach items="${sList }" var="smallCat"  varStatus="i">
-<%-- 											<c:if test="${j.index eq jNo}"> --%>
-											<option id="smallCatOpt${i.index }" value="${smallCat.smallCatId }" >${j.index},${jNo }${smallCat.smallCatName }</option>
-<%-- 											</c:if> --%>
+											<option id="smallCatOpt" value="${smallCat.smallCatId }" ><c:if test="${smallCat.largeCatId eq storage.largeCatId }">${j.index},${selectBoxNo},${smallCat.smallCatName }</c:if></option>
 										</c:forEach>
 									</select>
 								</div>
@@ -152,10 +153,9 @@
 		</div>	
 		
 		
-	
+		
 	<script>
-	
-		function selectLargeBox(value, fNo, fName, jNo){
+		function selectLargeBox(value, fNo, fName, jNo, sNo){
 // 			value.preventDefault();
 			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
 			$form.attr("action", "/fridge/changeSmall.kh");
@@ -163,7 +163,8 @@
 			$form.append("<input type='hidden' value='"+value+"'name='largeCatId''>");
 			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo''>");
 			$form.append("<input type='hidden' value='"+fName+"' name='fridgeName''>");
-			$form.append("<input type='hidden' value='"+jNo+"' name='jNo''>");
+			$form.append("<input type='hidden' value='"+jNo+"' name='selectBoxNo'>");
+			$form.append("<input type='hidden' value='"+sNo+"' name='storageNo''>");
 			$form.appendTo("body");
 			$form.submit();
 		}
@@ -171,7 +172,7 @@
 		
 		function deleteStorage(value){
 			if ($("#storageCheck${j.index }").is(":checked")){
-				alert($("#storageCheck${j.index }")+"클릭");
+				alert($("#storageCheck${j.index}")+"클릭");
 			} else {
 				alert("아무것도 선택하지 않음");
 			}

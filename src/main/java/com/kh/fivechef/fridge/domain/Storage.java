@@ -6,6 +6,7 @@ public class Storage {
 	private String storageName;
 	private int fridgeNo;
 	private String largeCatId;
+	private String storageSelectNo;
 	
 	public Storage() {}
 		
@@ -21,6 +22,7 @@ public class Storage {
 		this.storageNo = storageNo;
 		this.storageName = storageName;
 	}
+	
 
 	public int getStorageNo() {
 		return storageNo;
@@ -60,6 +62,21 @@ public class Storage {
 	public void setLargeCatId(String largeCatId) {
 		this.largeCatId = largeCatId;
 	}
+	
+	public String getStorageSelectNo() {
+		return storageSelectNo;
+	}
 
+	public void setStorageSelectNo(String storageSelectNo) {
+		this.storageSelectNo = storageSelectNo;
+	}
 
+	
+	@Override
+	public String toString() {
+		return "Storage [storageNo=" + storageNo + ", storageName=" + storageName + ", fridgeNo=" + fridgeNo
+				+ ", largeCatId=" + largeCatId + ", storageSelectNo=" + storageSelectNo + "]";
+	}
+
+	
 }

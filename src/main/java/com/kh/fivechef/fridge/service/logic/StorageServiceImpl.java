@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.fivechef.fridge.domain.Fridge;
 import com.kh.fivechef.fridge.domain.LargeCategory;
+import com.kh.fivechef.fridge.domain.SelectBox;
 import com.kh.fivechef.fridge.domain.SmallCategory;
 import com.kh.fivechef.fridge.domain.Storage;
 import com.kh.fivechef.fridge.service.StorageService;
@@ -57,8 +58,8 @@ public class StorageServiceImpl implements StorageService {
 
 
 	@Override
-	public int registSelectBox(String largeCatId) {
-		int result = sStore.insertSelectBox(session, largeCatId);
+	public int registSelectValue(SelectBox selectBox) {
+		int result = sStore.updateSelectValue(session, selectBox);
 		return result;
 	}
 
