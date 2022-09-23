@@ -9,7 +9,7 @@ public interface CommunityService {
 
 	int registCommunity(Community community);
 
-	int getTotalCount(String searchCondition, String searchValue);
+	int getTotalFCount(String searchCondition, String searchValue);
 
 	List<Community> printAllCommunity(int currentPage, int communityLimit);
 
@@ -28,5 +28,12 @@ public interface CommunityService {
 	int removeReply(Integer replyNo);
 
 	List<CReply> printAllReply(Integer refCommunityNo);
+
+	List<Community> printAllSaleBoard(int currentPage, int communityLimit);
+
+	int getTotalSCount(String searchCondition, String searchValue);
+
+	List<Community> printSaleBoardByValue(String searchCondition, String searchValue, int currentPage,
+			int communityLimit);
 
 }

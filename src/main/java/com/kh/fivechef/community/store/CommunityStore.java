@@ -11,7 +11,7 @@ public interface CommunityStore {
 
 	int insertCommunity(SqlSessionTemplate session, Community community);
 
-	int selectTotalCount(SqlSessionTemplate session, String searchCondition, String searchValue);
+	int selectTotalFCount(SqlSessionTemplate session, String searchCondition, String searchValue);
 
 	List<Community> selectAllCommunity(SqlSessionTemplate session, int currentPage, int communityLimit);
 
@@ -33,5 +33,12 @@ public interface CommunityStore {
 	int deleteReply(SqlSessionTemplate session, Integer replyNo);
 
 	List<CReply> selectAllReply(SqlSessionTemplate session, Integer refCommunityNo);
+
+	List<Community> selectAllSaleBoard(SqlSessionTemplate session, int currentPage, int communityLimit);
+
+	int selectTotalSCount(SqlSessionTemplate session, String searchCondition, String searchValue);
+
+	List<Community> selectSaleBoardByValue(SqlSessionTemplate session, String searchCondition, String searchValue,
+			int currentPage, int communityLimit);
 
 }

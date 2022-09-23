@@ -47,7 +47,7 @@ public class CommunityController {
 	@RequestMapping(value="/community/communityList.kh", method=RequestMethod.GET)
 	public ModelAndView printCommunityList(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = cService.getTotalCount("", "");
+		int totalCount = cService.getTotalFCount("", "");
 		int communityLimit = 10;
 		int naviLimit = 5;
 		int maxPage;
@@ -69,6 +69,33 @@ public class CommunityController {
 			mv.addObject("cList", cList);
 		}
 		mv.setViewName("community/commList");
+		return mv;
+	}
+	@RequestMapping(value="/community/saleBoardList.kh", method=RequestMethod.GET)
+	public ModelAndView printSaleBoardList(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = cService.getTotalSCount("", "");
+		int communityLimit = 10;
+		int naviLimit = 5;
+		int maxPage;
+		int startNavi;
+		int endNavi;
+		maxPage = (int)((double)totalCount/communityLimit + 0.9);
+		startNavi = ((int)((double)currentPage/naviLimit + 0.9)-1) * naviLimit + 1;
+		endNavi = startNavi + naviLimit - 1;
+		if(maxPage < endNavi) {
+			endNavi = maxPage;
+		}
+		List<Community> cList = cService.printAllSaleBoard(currentPage, communityLimit);
+		if(!cList.isEmpty()) {
+			mv.addObject("urlVal", "saleBoardList");
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+			mv.addObject("cList", cList);
+		}
+		mv.setViewName("community/saleBoardList");
 		return mv;
 	}
 	
@@ -147,7 +174,7 @@ public class CommunityController {
 			@RequestParam(value="page", required=false) Integer page) {
 		try {
 			int currentPage = (page != null) ? page : 1;
-			int totalCount = cService.getTotalCount(searchCondition, searchValue);
+			int totalCount = cService.getTotalFCount(searchCondition, searchValue);
 			int communityLimit = 10;
 			int naviLimit = 5;
 			int maxPage;
@@ -173,6 +200,45 @@ public class CommunityController {
 			mv.addObject("startNavi", startNavi);
 			mv.addObject("endNavi", endNavi);
 			mv.setViewName("community/commList");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	@RequestMapping(value="/community/saleBoardSearch.kh" , method=RequestMethod.GET)
+	public ModelAndView saleBoardSearchList(ModelAndView mv, 
+			@RequestParam("searchCondition") String searchCondition, 
+			@RequestParam("searchValue") String searchValue, 
+			@RequestParam(value="page", required=false) Integer page) {
+		try {
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = cService.getTotalSCount(searchCondition, searchValue);
+			int communityLimit = 10;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int)((double)totalCount/communityLimit + 0.9);
+			startNavi = ((int)((double)currentPage/naviLimit + 0.9)-1) * naviLimit + 1;
+			endNavi = startNavi + naviLimit - 1;
+			if(maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			
+			List<Community> cList = cService.printSaleBoardByValue(searchCondition, searchValue, currentPage, communityLimit);
+			if(!cList.isEmpty()) {
+				mv.addObject("cList", cList);
+			} else {
+				mv.addObject("cList", null);
+			}
+			mv.addObject("urlVal", "search");
+			mv.addObject("searchCondition", searchCondition);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+			mv.setViewName("community/saleBoardList");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}
