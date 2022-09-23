@@ -6,11 +6,29 @@
 <head>
 <meta charset="UTF-8">
 <title>내 문의글</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<style>
+  .btn-1 {
+        border : 0;
+        color: white;
+        background-color:  rgb(209, 24, 79);
+        border-radius : 10px;
+		height : 50px;
+		width : 150px;
+   }
+</style>
+
 </head>
 <body>
-	<h1>${loginUser.userId}님의 문의 글</h1>
-	<h2 align="center">게시글 목록</h2><br><br>
-	<table align = "center" border="1">
+
+<!-- navs bar -->
+<jsp:include page="../main/user_navs.jsp"></jsp:include>
+<br><br><br>
+<h1 align="center">MY PAGE</h1>
+<br><br>
+	<h3 align="center">${loginUser.userId}님의 문의 글</h3>
+	<br><br>
+	<table align ="center" border="1" class="table table-boardered">
 		<tr>
 			<th>번호</th>
 			<th>제목</th>
@@ -42,12 +60,15 @@
 			</c:forEach>
 		</c:if>
 	</table>
-	<button id="write_btn" onclick="qnaWrite()">글쓰기</button>
+	<button class="btn-1" onclick="qnaWrite()">글쓰기</button>
 	
 	<script>
 		function qnaWrite() {
 			location.href = "/qna/qnaWriteView.kh";
 		}
 	</script>
+	
+	 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+	
 </body>
 </html>

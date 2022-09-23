@@ -22,11 +22,11 @@ public class CommunityStoreLogic implements CommunityStore{
 	}
 
 	@Override
-	public int selectTotalCount(SqlSessionTemplate session, String searchCondition, String searchValue) {
+	public int selectTotalFCount(SqlSessionTemplate session, String searchCondition, String searchValue) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchValud", searchValue);
-		int totalCount = session.selectOne("CommunityMapper.selectTotalCount", paramMap);
+		int totalCount = session.selectOne("CommunityMapper.selectTotalFCount", paramMap);
 		return totalCount;
 	}
 
@@ -96,6 +96,35 @@ public class CommunityStoreLogic implements CommunityStore{
 	public List<CReply> selectAllReply(SqlSessionTemplate session, Integer refCommunityNo) {
 		List<CReply> rList = session.selectList("CommunityMapper.selectAllReply", refCommunityNo);
 		return rList;
+	}
+
+	@Override
+	public List<Community> selectAllSaleBoard(SqlSessionTemplate session, int currentPage, int communityLimit) {
+		int offset = (currentPage - 1) * communityLimit;
+		RowBounds rowBounds = new RowBounds(offset, communityLimit);
+		List<Community> cList = session.selectList("CommunityMapper.selectAllSaleBoard", null, rowBounds);
+		return cList;
+	}
+
+	@Override
+	public int selectTotalSCount(SqlSessionTemplate session, String searchCondition, String searchValue) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchValud", searchValue);
+		int totalCount = session.selectOne("CommunityMapper.selectTotalSCount", paramMap);
+		return totalCount;
+	}
+
+	@Override
+	public List<Community> selectSaleBoardByValue(SqlSessionTemplate session, String searchCondition,
+			String searchValue, int currentPage, int communityLimit) {
+		int offset = (currentPage - 1) * communityLimit;
+		RowBounds rowBounds = new RowBounds(offset, communityLimit);
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchValue", searchValue);
+		List<Community> cList = session.selectList("CommunityMapper.selectSaleBoardByValue", paramMap, rowBounds);
+		return cList;
 	}
 	
 }

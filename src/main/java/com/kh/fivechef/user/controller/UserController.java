@@ -94,11 +94,17 @@ public class UserController {
 	public ModelAndView showMyPage(ModelAndView mv, HttpServletRequest request) {
 		try {
 			HttpSession session = request.getSession();
-			User user = (User)session.getAttribute("loginUser");
-			String userId = user.getUserId();
-			User uOne = uService.printOneUser(userId);
-			mv.addObject("user", uOne);
-			mv.setViewName("user/myPage");
+				User user = (User)session.getAttribute("loginUser");
+				if(user != null) {
+				String userId = user.getUserId();
+				User uOne = uService.printOneUser(userId);
+				mv.addObject("user", uOne);
+				mv.setViewName("user/myPage");	
+			} else {
+				request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+				request.setAttribute("url", "/user/loginView.kh");
+				mv.setViewName("common/alert");
+			}
 		} catch (Exception e){
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}

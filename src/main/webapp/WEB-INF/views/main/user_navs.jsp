@@ -31,7 +31,7 @@
             &nbsp;&nbsp;&nbsp;
           </div>
       <div>
-        <h1 id="logo"><a href="#"><img src="../resources/images/logo.png"></a></h1>
+        <h1 id="logo"><a href="/"><img src="../resources/images/logo.png"></a></h1>
       </div>
       <div>
          <div>
@@ -74,7 +74,7 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="/community/communityList.kh">자유 게시판</a></li>
-                  <li><a class="dropdown-item" href="#">할인정보 게시판</a></li>
+                  <li><a class="dropdown-item" href="/community/saleBoardList.kh">할인정보 게시판</a></li>
                 </ul>
               </li>
             </ul>
