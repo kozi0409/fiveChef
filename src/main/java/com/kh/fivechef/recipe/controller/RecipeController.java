@@ -317,7 +317,7 @@ public class RecipeController {
 			return "common/alert";
 		}
 	}
-	
+	//
 	@RequestMapping(value="/recipe/recipeModifyView.kh",method =RequestMethod.GET)
 	public ModelAndView recipeModifyView(
 			ModelAndView mv
