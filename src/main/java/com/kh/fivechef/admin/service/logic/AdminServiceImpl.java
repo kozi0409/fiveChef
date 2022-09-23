@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
 import com.kh.fivechef.admin.store.AdminStore;
+import com.kh.fivechef.qna.domain.QnA;
+import com.kh.fivechef.qna.store.QnAStore;
 import com.kh.fivechef.user.domain.User;
 
 @Service
@@ -51,8 +53,8 @@ public class AdminServiceImpl implements AdminService{
 
 	//회원관리
 	@Override
-	public List<User> printAllUser(int currentPage, int adminLimit)  {
-		List<User> uList = aStore.selectAllUser(session, currentPage, adminLimit);
+	public List<User> printAllUser(int currentPage, int userLimit)  {
+		List<User> uList = aStore.selectAllUser(session, currentPage, userLimit);
 		return uList;
 	}
 
@@ -67,6 +69,18 @@ public class AdminServiceImpl implements AdminService{
 	public int getTotalCount(String searchCondition, String searchValue) {
 		int totalCount = aStore.selectTotalCount(session, searchCondition, searchValue);
 		return totalCount;
+	}
+	
+	@Override
+	public int getTotalUserCount(String searchUCondition, String searchUValue) {
+		int totalUserCount = aStore.selectTotalCount(session, searchUCondition, searchUValue);
+		return totalUserCount;
+	}
+	
+	@Override
+	public int getTotalQnaCount(String searchQCondition, String searchQValue) {
+		int totalQnaCount = aStore.selectTotalCount(session, searchQCondition, searchQValue);
+		return totalQnaCount;
 	}
 
 
@@ -86,6 +100,46 @@ public class AdminServiceImpl implements AdminService{
 	public int removeOneByUserId(String userId) {
 		int reult = aStore.removeOneByUserId(session, userId);
 		return reult;
+	}
+
+	@Override
+	public int modifyUser(User user) {
+		int reult = aStore.modifyUser(session, user);
+		return reult;
+	}
+
+	@Override
+	public List<QnA> printAllQna(int currentPage, int qnaLimit) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Admin> printAllByAdminValue(
+			String searchCondition, String searchValue
+			, int currentPage,int adminLimit) {
+		List<Admin> aList 
+		= aStore.selectAllByAdminValue(
+				session
+				, searchCondition
+				, searchValue
+				, currentPage
+				, adminLimit);
+		return aList;
+	}
+
+	@Override
+	public List<User> printAllByUserValue(
+			String searchCondition, String searchValue
+			, int currentPage, int userLimit) {
+		List<User> uList 
+		= aStore.selectAllByUserValue(
+				session
+				, searchCondition
+				, searchValue
+				, currentPage
+				, userLimit);
+		return uList;
 	}
 
 

@@ -61,7 +61,10 @@
 							<input type="text" name="address2" class="form-control postcodify_details" value="${addrInfos[2] }">
 						</td>
 					</tr>
-					
+					<tr>
+						<th>최종수정일</th>
+						<td><input type="text" class="form-control" name="updateDate" value="${admin.updateDate }"></td>		
+					</tr>
 					<tr>
 						<th>관리자코드</th>
 						<td><input type="text" class="form-control" name="adminCode" value="${admin.adminCode }"></td>		
@@ -73,8 +76,8 @@
 					
 					<tr>
 						<td colspan="2">
-							<input type="submit" class="btn btn-primary" value="수정하기">
-							<button type="button" class="btn btn-danger" onclick="deleteCheck('${admin.adminId }',${currentPage })">삭제하기</button>
+							<input type="submit" class="btn btn-primary" style="background-color: #4d61fb;" value="수정">
+							<button type="button" class="btn btn-danger" style="background-color: #fb4d7e;" onclick="location.href='/admin/adminlist.kh?page=${page}'">목록</button>
 						</td>
 					</tr>
 					

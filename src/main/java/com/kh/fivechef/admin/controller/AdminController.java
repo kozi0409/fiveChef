@@ -1,8 +1,5 @@
 package com.kh.fivechef.admin.controller;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
+import com.kh.fivechef.admin.store.AdminStore;
+import com.kh.fivechef.qna.domain.QnA;
 import com.kh.fivechef.user.domain.User;
-import com.kh.fivechef.user.service.UserService;
 
 import oracle.sql.DATE;
 
@@ -30,8 +28,7 @@ import oracle.sql.DATE;
 public class AdminController {
 	@Autowired
 	private AdminService aService;
-	@Autowired
-	private UserService uService;
+
 	
 	@RequestMapping(value="/admin.kh", method=RequestMethod.GET)
 	private String adminpage() {
@@ -153,7 +150,7 @@ public class AdminController {
 			String aAddr = aOne.getAdminAddr();
 			String [] addrInfos = aAddr.split(",");
 			mv.addObject("admin", aOne).addObject("addrInfos", addrInfos);
-			mv.setViewName("admin/myPage");
+			mv.setViewName("admin/adminMyPage");
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
 		}
@@ -184,7 +181,7 @@ public class AdminController {
 				if(page != null) {
 					mv.setViewName("redirect:/admin/adminlist.kh?page="+page);
 				}else {
-					mv.setViewName("redirect:/admin.kh");
+					mv.setViewName("redirect:/mypage.kh");
 				}
 				
 			}else {
@@ -217,15 +214,15 @@ public class AdminController {
 		return mv;
 	}
 	
-
 	
-	
-
-	
-	
-	//관리자 목록 출력하기
+	/**
+	 * 전체 관리자 조회
+	 * @param mv
+	 * @param page
+	 * @return
+	 */
 	@RequestMapping(value="/admin/adminlist.kh", method=RequestMethod.GET) //관리자 목록 요청
-	public ModelAndView masterAdminList(
+	public ModelAndView adminList(
 			ModelAndView mv
 			, @RequestParam(value="page", required=false) Integer page) {
 		/////////////////////////////////////////////////////////////////////////
@@ -260,7 +257,7 @@ public class AdminController {
 	
 //	관리자 목록에서 삭제하기
 	@RequestMapping(value="/admin/delete.kh", method=RequestMethod.GET)
-	public String masterAdminDelete(
+	public String adminDelete(
 			HttpSession session
 			, Model model
 			, @RequestParam("page") Integer page
@@ -279,8 +276,8 @@ public class AdminController {
 	}
 
 	
-	@RequestMapping(value="/admin/detail.kh", method=RequestMethod.GET)
-	public ModelAndView masterAdminView(HttpServletRequest request
+	@RequestMapping(value="/admin/adminDetail.kh", method=RequestMethod.GET)
+	public ModelAndView adminView(HttpServletRequest request
 			, ModelAndView mv
 			, @RequestParam("adminId") String adminId
 			, @RequestParam("page") Integer page) {
@@ -289,7 +286,7 @@ public class AdminController {
 			String aAddr = aOne.getAdminAddr();
 			String [] addrInfos = aAddr.split(",");
 			mv.addObject("admin", aOne).addObject("addrInfos", addrInfos).addObject("page", page);
-			mv.setViewName("admin/masterAdminView");
+			mv.setViewName("admin/adminDetailView");
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
 		}
@@ -298,7 +295,7 @@ public class AdminController {
 
 	//어드민 회원정보 보기
 	@RequestMapping(value="/admin/userDetail.kh", method=RequestMethod.GET)
-	public ModelAndView masterUserView(HttpServletRequest request
+	public ModelAndView userView(HttpServletRequest request
 			, ModelAndView mv
 			, @RequestParam("userId") String userId
 			, @RequestParam("page") Integer page
@@ -306,8 +303,8 @@ public class AdminController {
 		try {
 			User uOne = aService.printOneByUserId(userId);
 			mv.addObject("user", uOne).addObject("page", page);
-			mv.setViewName("admin/masterUserView");
-			System.out.println(mv.toString());;
+			mv.setViewName("admin/userDetailView");
+			System.out.println(mv.toString());
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
 		}
@@ -316,19 +313,19 @@ public class AdminController {
 
 	//어드민에서 회원목록 요청
 	@RequestMapping(value="/admin/userlist.kh", method=RequestMethod.GET) //회원목록 요청
-	public ModelAndView masterUserList(
+	public ModelAndView userList(
 			ModelAndView mv
 			, @RequestParam(value="page", required=false) Integer page) {
 		/////////////////////////////////////////////////////////////////////////
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = aService.getTotalCount("","");
-		int adminLimit = 10;
+		int totalCount = aService.getTotalUserCount("","");
+		int userLimit = 10;
 		int naviLimit = 5;
 		int maxPage;
 		int startNavi;
 		int endNavi;
 		// 23/5 = 4.8 + 0.9 = 5(.7)
-		maxPage = (int)((double)totalCount/adminLimit + 0.9);
+		maxPage = (int)((double)totalCount/userLimit + 0.9);
 		startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
 		endNavi = startNavi + naviLimit - 1;
 		if(maxPage < endNavi) {
@@ -336,7 +333,7 @@ public class AdminController {
 		}
 		//////////////////////////////////////////////////////////////////////////		
 		
-		List<User> uList = aService.printAllUser(currentPage, adminLimit);
+		List<User> uList = aService.printAllUser(currentPage, userLimit);
 		if(!uList.isEmpty()) {
 			mv.addObject("uList", uList);
 			mv.addObject("urlVal", "userlist");
@@ -351,41 +348,179 @@ public class AdminController {
 	
 //	관리자 목록에서 회원 삭제하기
 	@RequestMapping(value="/admin/deleteUser.kh", method=RequestMethod.GET)
-	public String masterUserDelete(
+	public String userDelete(
 			HttpSession session
 			, Model model
 			, @RequestParam("page") Integer page
 			, @RequestParam("userId") String userId) {
+		System.out.println(userId);
+		System.out.println(model.toString());
 		try {
 			User user = (User)session.getAttribute("userId");
+			System.out.println(user);
 			int result = aService.removeOneByUserId(userId);
 			if(result > 0) {
 				session.removeAttribute("userId");
 			}
-			return "redirect:/admin/userlistView.kh?page="+page;
+			return "redirect:/admin/userlist.kh?page="+page;
 		} catch (Exception e) {
 			model.addAttribute("msg", e.toString());
 			return "common/errorPage";
 		}
 	}
-//
-//	@RequestMapping(value="/admin/userModify.kh", method=RequestMethod.POST)
-//	public ModelAndView mastUserModify(
-//			@ModelAttribute User user
-//			,@RequestParam("userId") String userId
-//			, @RequestParam(value="page", required=false) Integer page
-//			, ModelAndView mv) {
-//		try {
-//			User user = aService.modifyUser(userId);
-//			if(result > 0) {
-//				mv.setViewName("redirect:/admin/adminlist.kh?page="+page);
-//			}else {
-//				mv.addObject("msg", "회원 정보 수정 실패!");
-//				mv.setViewName("common/errorPage");
-//			}
-//		} catch (Exception e) {
-//			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
-//		}
-//		return mv;
-//	}
+
+	//마스터 회원정보 수정
+	@RequestMapping(value="/admin/userModify.kh", method=RequestMethod.POST)
+	public ModelAndView userModify(
+			@ModelAttribute User user
+			, @RequestParam(value="page", required=false) Integer page
+			, ModelAndView mv) {
+		 System.out.println(mv.toString());
+		try {
+			int result = aService.modifyUser(user);
+			if(result > 0) {
+				mv.setViewName("redirect:/admin/userlist.kh?page="+page);
+			}else {
+				mv.addObject("msg", "회원 정보 수정 실패!");
+				mv.setViewName("common/errorPage");
+			}
+		} catch (Exception e) {
+			mv.addObject("msg", e.getMessage()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	
+	/**
+	 * 관리자 검색
+	 * @param mv
+	 * @param searchCondition
+	 * @param searchValue
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="/admin/searchAdmin.kh", method=RequestMethod.GET)
+	public ModelAndView adminSearchList(
+			ModelAndView mv
+			, @RequestParam("searchCondition") String searchCondition
+			, @RequestParam("searchValue") String searchValue
+			, @RequestParam(value="page", required=false) Integer page) {
+		try {
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = aService.getTotalCount(searchCondition, searchValue);
+			int adminLimit = 10;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int)((double)totalCount/adminLimit + 0.9);
+			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+			endNavi = startNavi + naviLimit - 1;
+			if(maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			List<Admin> aList = aService.printAllByAdminValue(
+					searchCondition, searchValue, currentPage, adminLimit);
+			if(!aList.isEmpty()) {
+				mv.addObject("aList", aList);
+			}else {
+				mv.addObject("aList", null);
+			}
+			mv.addObject("urlVal", "searchadmin");
+			mv.addObject("searchCondition", searchCondition);
+			mv.addObject("searchValue", searchValue);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+			mv.setViewName("admin/adminlistView");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
+	
+	/**
+	 * 회원 검색
+	 * @param mv
+	 * @param searchCondition
+	 * @param searchValue
+	 * @param page
+	 * @return
+	 */
+	@RequestMapping(value="/admin/searchUser.kh", method=RequestMethod.GET)
+	public ModelAndView userSearchList(
+			ModelAndView mv
+			, @RequestParam("searchCondition") String searchCondition
+			, @RequestParam("searchValue") String searchValue
+			, @RequestParam(value="page", required=false) Integer page) {
+		try {
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = aService.getTotalUserCount(searchCondition, searchValue);
+			int userLimit = 10;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int)((double)totalCount/userLimit + 0.9);
+			startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+			endNavi = startNavi + naviLimit - 1;
+			if(maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			List<User> uList = aService.printAllByUserValue(
+					searchCondition, searchValue, currentPage, userLimit);
+			if(!uList.isEmpty()) {
+				mv.addObject("uList", uList);
+			}else {
+				mv.addObject("uList", null);
+			}
+			mv.addObject("urlVal", "searchuser");
+			mv.addObject("searchCondition", searchCondition);
+			mv.addObject("searchValue", searchValue);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+			mv.setViewName("admin/userlistView");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
+
+	//Qna 목록 출력하기
+	@RequestMapping(value="/admin/qnalist.kh", method=RequestMethod.GET) //관리자 목록 요청
+	public ModelAndView qnaList(
+			ModelAndView mv
+			, @RequestParam(value="page", required=false) Integer page) {
+		/////////////////////////////////////////////////////////////////////////
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = aService.getTotalQnaCount("","");
+		int qnaLimit = 10;
+		int naviLimit = 5;
+		int maxPage;
+		int startNavi;
+		int endNavi;
+		// 23/5 = 4.8 + 0.9 = 5(.7)
+		maxPage = (int)((double)totalCount/qnaLimit + 0.9);
+		startNavi = ((int)((double)currentPage/naviLimit+0.9)-1)*naviLimit+1;
+		endNavi = startNavi + naviLimit - 1;
+		if(maxPage < endNavi) {
+		endNavi = maxPage;
+		}
+		//////////////////////////////////////////////////////////////////////////
+		List<QnA> qList = aService.printAllQna(currentPage, qnaLimit);
+		if(!qList.isEmpty()) {
+			mv.addObject("urlVal", "qnalist");
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+			mv.addObject("qList", qList);
+		}
+		mv.setViewName("admin/qnalistView");
+		return mv;
+	}
 }

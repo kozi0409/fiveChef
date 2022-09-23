@@ -66,7 +66,6 @@
       </div>
     </section>
 </header>
-
 <!-- header End -->
 
 <!-- NavBar Start -->
@@ -105,7 +104,7 @@
                 </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="#">Q&A</a>
+                <a class="nav-link active" href="/admin/qnalist.kh">Q&A</a>
               </li>
             </ul>
             <!-- Search Start  -->
@@ -117,7 +116,8 @@
           </div>
         </div>
       </nav>
-
+<!-- NavBar End -->
+<!-- slide image Start -->
       <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>

@@ -15,13 +15,34 @@
 		<div class="col-sm-12 text-center" >
 			<div class="col-sm-12 text-center" ><h1>관리자회원 목록</h1></div>
 			<table class="table table-striped table-hover">
+				<!--  검색 바 Start -->
+				<tr>
+					<td colspan="11" align="center">
+						<form action="/admin/searchAdmin.kh" method="get">
+							<div style= "display: inline-block">
+							<select name="searchCondition">
+								<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
+								<option value="Id" <c:if test="${searchCondition eq 'Id' }">selected</c:if>>아이디</option>
+								<option value="Name" <c:if test="${searchCondition eq 'Name' }">selected</c:if>>이름</option>
+							</select>
+							</div>
+							<div style= "display: inline-block">
+							<input type="text" name="searchValue" value="${searchValue }">
+							</div>
+							<div style= "display: inline-block">
+							<input type="submit" value="검색">
+							</div>
+						</form>
+					</td>
+				</tr>
+				<!--  검색 바 End -->
 				<tr>
 					<th>번호</th>
 					<th>아이디</th>
 					<th>비밀번호</th>
 					<th>이름</th>
-					<th>이메일</th>
 					<th>등록날짜</th>
+					<th>최종수정일</th>
 					<th>관리자권한</th>	
 					<th>관리자엄무</th>	
 					<th>수정</th>
@@ -31,14 +52,14 @@
 				<c:forEach items="${aList }" var="admin" varStatus="i">
 					<tr>
 						<td>${i.count }</td>
-						<td><a href="/admin/detail.kh?adminId=${admin.adminId }&page=${currentPage }">${admin.adminId }</a></td>
+						<td><a href="/admin/adminDetail.kh?adminId=${admin.adminId }&page=${currentPage }">${admin.adminId }</a></td>
 						<td>${admin.adminPwd }</td>
 						<td>${admin.adminName }</td>
-						<td>${admin.adminEmail }</td>
 						<td>${admin.regdate }</td>
-						<td><a href="">${admin.adminCode }</a></td>
-						<td><a href="">${admin.adminScope }</a></td>
-						<td><button type="button" class="btn btn-primary btn-sm" style="background-color: #4d61fb;" onclick ="location.href = '/admin/detail.kh?adminId=${admin.adminId }&page=${currentPage }';">수정</button></td>
+						<td>${admin.updateDate }</td>
+						<td>${admin.adminCode }</td>
+						<td>${admin.adminScope }</td>
+						<td><button type="button" class="btn btn-primary btn-sm" style="background-color: #4d61fb;" onclick ="location.href = '/admin/adminDetail.kh?adminId=${admin.adminId }&page=${currentPage }';">수정</button></td>
 						<td><button type="button" class="btn btn-secondary btn-sm" style="background-color: #fb4d7e;" onclick="deleteCheck('${admin.adminId }',${currentPage })">삭제</button></td>
 					</tr>
 				</c:forEach>
@@ -66,26 +87,7 @@
 				<td colspan="11" align="center"><b>데이터가 존재하지 않습니다.</b></td>
 			</tr>
 			</c:if>
-			<tr>
-				<td colspan="11" align="center">
-					<form action="/admin/search.kh" method="get">
-						<div div style= "display: inline-block">
-						<select name="searchCondition">
-							<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
-							<option value="adminId" <c:if test="${searchCondition eq 'adminId' }">selected</c:if>>아이디</option>
-							<option value="adminName" <c:if test="${searchCondition eq 'adminName' }">selected</c:if>>이름</option>
-							<option value="adminAddr" <c:if test="${searchCondition eq 'adminAddr' }">selected</c:if>>주소</option>
-						</select>
-						</div>
-						<div div style= "display: inline-block">
-						<input type="text" name="searchValue" value="${searchValue }">
-						</div>
-						<div div style= "display: inline-block">
-						<input type="submit" value="검색">
-						</div>
-					</form>
-				</td>
-			</tr>
+			
 		</table>
 		</div>
 	</div>

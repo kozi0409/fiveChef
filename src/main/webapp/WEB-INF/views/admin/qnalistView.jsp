@@ -17,32 +17,26 @@
 			<table class="table table-striped table-hover">
 				<tr>
 					<th>번호</th>
-					<th>아이디</th>
-					<th>비밀번호</th>
-					<th>이름</th>
-					<th>전화번호</th>
+					<th>글번호</th>
+					<th>작성자</th>
+					<th>제목</th>
 					<th>등록날짜</th>
 					<th>상태</th>	
+					<th>이름</th>
 					<th>수정</th>
-					<th>삭제</th>			
 				</tr>
-				<c:if test="${!empty uList }">
-					<c:forEach items="${uList }" var="user" varStatus="i">
+				<c:if test="${!empty qList }">
+					<c:forEach items="${qList }" var="user" varStatus="i">
 						<tr>
 							<td>${i.count }</td>
-							<td><a href="/admin/userDetail.kh?userId=${user.userId }&page=${currentPage }">${user.userId }</a></td>
-							<td>${user.userPwd }</td>
-							<td>${user.userName }</td>
-							<td>${user.userPhone }</td>
-							<td>${user.uEnrollDate }</td>
-							<c:if test="${user.uStatus eq 'Y'}">
-							<td>가입</td>
-							</c:if>
-							<c:if test="${user.uStatus eq 'N'}">
-							<td>탈퇴</td>
-							</c:if>
+							<td><a href="/admin/qnaDetail.kh?userId=${qna.questionNo }&page=${currentPage }">${qna.questionNo }</a></td>
+							<td>${qna.questionWriter }</td>
+							<td>${qna.questionTitle }</td>
+							<td>${qna.userEmail }</td>
+							<td>${qna.uEnrollDate }</td>
+							<td>${qna.answerStatus }</td>
+							<td>${qna.qEnrollDate }</td>
 							<td><button type="button" class="btn btn-primary btn-sm" style="background-color: #4d61fb;" onclick ="location.href = '/admin/userDetail.kh?userId=${user.userId }&page=${currentPage }';">수정</button></td>
-							<td><button type="button" class="btn btn-secondary btn-sm" style="background-color: #fb4d7e;" onclick="deleteCheck('${user.userId }',${currentPage })">삭제</button></td>
 						</tr>
 					</c:forEach>
 							<tr align="center" height="20">
@@ -71,13 +65,13 @@
 			</c:if>
 			<tr>
 				<td colspan="10" align="center">
-					<form action="/admin/searchUser.kh" method="get">
+					<form action="/admin/search.kh" method="get">
 						<div style= "display: inline-block">
 						<select name="searchCondition">
 							<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
-							<option value="Id" <c:if test="${searchCondition eq 'Id' }">selected</c:if>>아이디</option>
-							<option value="Name" <c:if test="${searchCondition eq 'Name' }">selected</c:if>>이름</option>
-							<option value="Phone" <c:if test="${searchCondition eq 'Phone' }">selected</c:if>>전화번호</option>
+							<option value="userId" <c:if test="${searchCondition eq 'userId' }">selected</c:if>>아이디</option>
+							<option value="userName" <c:if test="${searchCondition eq 'userName' }">selected</c:if>>이름</option>
+							<option value="userPhone" <c:if test="${searchCondition eq 'userAddr' }">selected</c:if>>전화번호</option>
 						</select>
 						</div>
 						<div style= "display: inline-block">
