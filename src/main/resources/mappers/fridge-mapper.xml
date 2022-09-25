@@ -61,7 +61,7 @@
  	
  	<insert id="insertStorage">
  		INSERT INTO STORAGE_TBL
- 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo}, 'A1')
+ 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo}, 'A1', 0)
  	</insert>
  	
  	<select id="selectStorage" resultMap="storageResultMap">

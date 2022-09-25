@@ -26,15 +26,20 @@ public class StorageController {
 	public ModelAndView showStoragePage(ModelAndView mv
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName) {
-		List<LargeCategory> lList = sService.printLargeCat();
-		List<SmallCategory> sList = sService.printSmallCat("A1");
-		List<Storage> stList = sService.printStorage(fridgeNo);
-		mv.addObject("fridgeNo", fridgeNo);
-		mv.addObject("fridgeName", fridgeName);
-		mv.addObject("lList", lList);
-		mv.addObject("sList", sList);
-		mv.addObject("stList", stList);
-		mv.setViewName("fridge/myMain");
+		try {
+			List<LargeCategory> lList = sService.printLargeCat();
+			List<SmallCategory> sList = sService.printSmallCat("A1");
+			List<Storage> stList = sService.printStorage(fridgeNo);
+			mv.addObject("fridgeNo", fridgeNo);
+			mv.addObject("fridgeName", fridgeName);
+			mv.addObject("lList", lList);
+			mv.addObject("sList", sList);
+			mv.addObject("stList", stList);
+			mv.setViewName("fridge/myMain");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("redirect:/fridge/errorPage.jsp");
+		}
 		return mv;
 	}
 	// 민석님 공유
@@ -84,19 +89,19 @@ public class StorageController {
 	//칸 삭제
 	@RequestMapping(value="/fridge/deleteStorage.kh", method=RequestMethod.POST)
 	public ModelAndView storageRemove(ModelAndView mv
-			,@RequestParam("largeCatId") String largeCatId
+//			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName
 			,@RequestParam("jNo") Integer jNo) {
 		List<LargeCategory> lList = sService.printLargeCat();
-		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
+//		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
 		List<Storage> stList = sService.printStorage(fridgeNo);
 		int result = sService.removeStorage(stList);
-		mv.addObject("sList", sList);
+//		mv.addObject("sList", sList);
 		mv.addObject("lList", lList);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
-		mv.addObject("largeCatId", largeCatId);
+//		mv.addObject("largeCatId", largeCatId);
 		mv.addObject("jNo", jNo);
 		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;

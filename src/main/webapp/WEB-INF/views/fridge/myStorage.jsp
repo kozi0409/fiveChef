@@ -22,6 +22,7 @@
 			<h1 align="center" >${fridgeName } 페이지</h1>
 		</div>
 	</header>
+		${stList }
 		<div class="card-body" style="background-color:gold; padding: 30px;">
 		<div class="row">
 			<div class="col" align="left">
@@ -30,7 +31,7 @@
 			</div>
 			<div class="col" align="right">
 				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage">칸 생성</button>
-				<button class="btn btn-danger" onclick="deleteStorage(this);">칸 삭제</button>
+				<button class="btn btn-danger" onclick="deleteStorage();">칸 삭제</button>
 			</div>
 		</div>
 			<c:if test="${not empty stList }">
@@ -170,11 +171,17 @@
 		}
 		
 		
-		function deleteStorage(value){
-			if ($("#storageCheck${j.index }").is(":checked")){
-				alert($("#storageCheck${j.index}")+"클릭");
+		function deleteStorage(val){
+			if ($('input:checkbox[name="storageBoxCheck"]').is(':checked') == true){
+				console.log($('input:checkbox[name="storageBoxCheck"]').attr("id"));
+				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+				$form.attr("action", "/fridge/deleteStorage.kh");
+				$form.attr("method", "post");
+// 				$form.append("<input type='hidden' value='"+sNo+"'name='storageNo'>");
+				$form.appendTo("body");
+// 				$form.submit();
 			} else {
-				alert("아무것도 선택하지 않음");
+				alert("아무것도 없음");
 			}
 			
 // 			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
