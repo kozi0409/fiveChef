@@ -31,5 +31,6 @@
 		<mapper resource="mappers/qna-mapper.xml"></mapper>
 		<mapper resource="mappers/community-mapper.xml"></mapper>
 		<mapper resource="mappers/postmanage-mapper.xml"></mapper>
+		<mapper resource="mappers/replymanage-mapper.xml"></mapper>
 	</mappers>
 </configuration>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import com.kh.fivechef.community.domain.CReply;
 import com.kh.fivechef.community.domain.Community;
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
@@ -12,8 +13,6 @@ import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
 
 public interface PostManageStore {
-
-//	public int insertPost(SqlSession session, Community community);
 
 	public	List<Community> selectAllPost(SqlSession session, int currentPage, int communityLimit);
 
@@ -32,6 +31,8 @@ public interface PostManageStore {
 	// 수정
 	public int updatePost(SqlSession session, Community community);
 
+	public List<CReply> selectAllReply(SqlSession session, Integer refCommunityNo);
+
 	////////////////////////////////////////////////////////////////////////
 	// 레시피 관리 코드
 	
@@ -49,6 +50,7 @@ public interface PostManageStore {
 	public List<ComPhoto> selectAllComPhoto(SqlSession session, Integer recipeNo);
 	// 상세 조회
 	public int selectCheckLikeId(SqlSession session, Like like);
+	public int updateBoardCount(SqlSession session, Integer recipeNo);
 
 
 }

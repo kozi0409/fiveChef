@@ -7,6 +7,9 @@
 <meta charset="UTF-8">
 <title>공지사항 작성</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+	#cl { background-color: #F9FFFF; }
+</style>
 </head>
 <body>
 <div class="container">
@@ -14,19 +17,19 @@
 	<form action="/notice/register.kh" method="post" enctype="multipart/form-data">
 		<table align="center" border="1" class="table table-bordered">
 			<tr>
-				<td align="center" width="500">제목</td>
-				<td><input type="text" name="noticeTitle" style="width:950px; border:none"></td>
+				<td id="cl" align="center" width="500">제목</td>
+				<td><input type="text" name="noticeTitle" style="width:950px; border:none" placeholder="제목을 입력하세요"></td>
 			</tr>
 			<tr>
-				<td align="center" width="500">작성자</td>
+				<td id="cl" align="center" width="500">작성자</td>
 				<td><input type="text" name="noticeWriter" value="${loginAdmin.adminName }" style="width:950px; border:none" readonly></td>
 			</tr>
 			<tr>
-				<td align="center" width="500">내용</td>
-				<td><textarea cols="140" rows="20" name="noticeContents" style="border:none"></textarea></td>
+				<td id="cl" align="center" width="500">내용</td>
+				<td><textarea cols="140" rows="20" name="noticeContents" style="border:none" placeholder="내용을 입력하세요"></textarea></td>
 			</tr>
 			<tr>
-				<td align="center" width="500">첨부파일</td>
+				<td id="cl" align="center" width="500">첨부파일</td>
 				<td><input type="file" name="uploadFile"></td>
 			</tr>
 			<tr>

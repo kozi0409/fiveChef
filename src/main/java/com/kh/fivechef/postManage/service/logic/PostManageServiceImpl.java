@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fivechef.community.domain.CReply;
 import com.kh.fivechef.community.domain.Community;
 import com.kh.fivechef.postManage.service.PostManageService;
 import com.kh.fivechef.postManage.store.PostManageStore;
@@ -23,12 +24,6 @@ public class PostManageServiceImpl implements PostManageService{
 	
 	@Autowired
 	private SqlSession session;
-	
-//	@Override
-//	public int registPost(Community community) {
-//		int result = pStore.insertPost(session, community);
-//		return result;
-//	}
 	
 	@Override
 	public List<Community> printAllPost(int currentPage, int communityLimit) {
@@ -72,6 +67,11 @@ public class PostManageServiceImpl implements PostManageService{
 		return result;
 	}
 	
+	@Override
+	public List<CReply> printAllReply(Integer refCommunityNo) {
+		List<CReply> rList = pStore.selectAllReply(session, refCommunityNo);
+		return rList;
+	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// 레시피 관리 코드
 	
@@ -93,6 +93,10 @@ public class PostManageServiceImpl implements PostManageService{
 	@Override
 	public Recipe printOneByNo(Integer recipeNo) {
 		Recipe recipe = pStore.selectOneByRecipeNo(session, recipeNo);
+		int result = 0;
+		if(recipe != null) {
+			result = pStore.updateBoardCount(session,recipeNo);
+		}
 		return recipe;
 	}
 	
@@ -122,5 +126,7 @@ public class PostManageServiceImpl implements PostManageService{
 		int result = pStore.selectCheckLikeId(session,like);
 		return result;
 	}
+
+
 
 }

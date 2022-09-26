@@ -9,11 +9,12 @@
 <meta charset="UTF-8">
 <title>게시판 관리 페이지</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="/resources/js/jquery-3.6.1.min.js"></script>
 </head>
+<c:if test="${not empty loginAdmin}">
 <body>
 	<div class="container">
 	<div class="table-responsive">
+	<p align="center" style="color: #46D2D2; font-size:34px; font-family:malgun gothic;">[ 레시피 게시판 관리 ]<p>
 	<table align="center" border="1" width="" class="table table-hover">
 		<tr> <!-- class="table-info" -->
 			<td colspan="6" align="center">
@@ -52,7 +53,7 @@
 			
 			<td>레시피 게시판</td>
 			
-			<td><a href="/recipemanage/detail.kh?communityNo=${recipe.recipeNo }&page=${currentPage }">${recipe.recipeTitle }</a></td>
+			<td><a href="/recipemanage/detail.kh?recipeNo=${recipe.recipeNo }&page=${currentPage }&category=${listValue }">${recipe.recipeTitle }</a></td>
 			<td>${recipe.userId }</td>
 			<td><fmt:formatDate pattern="yyyy-MM-dd" value="${recipe.rCreateDate }"/> </td>
 			<td>${recipe.recipeCount }</td>
@@ -85,6 +86,7 @@
 	</table>
 	</div>
 	</div>
+	</c:if>
 	<jsp:include page="../main/footer.jsp"></jsp:include>
 </body>
 </html>

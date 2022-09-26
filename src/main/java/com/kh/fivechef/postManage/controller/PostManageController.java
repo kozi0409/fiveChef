@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.fivechef.community.domain.CReply;
 import com.kh.fivechef.community.domain.Community;
 import com.kh.fivechef.postManage.service.PostManageService;
 import com.kh.fivechef.recipe.domain.ComPhoto;
@@ -21,6 +22,7 @@ import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
+import com.kh.fivechef.user.domain.User;
 
 @Controller
 public class PostManageController {
@@ -29,24 +31,8 @@ public class PostManageController {
 	private PostManageService pService;
 
 	
-	// community 에 대한 코드 먼저
-	
-	
-//	@RequestMapping(value="/postmanage/regist.kh", method=RequestMethod.POST)
-//	public ModelAndView registCommunity(
-//			ModelAndView mv,
-//			@ModelAttribute Community community, HttpServletRequest request) {
-//		try {
-//			int result = pService.registPost(community);
-//			request.setAttribute("msg","게시글 등록이 완료되었습니다.");
-//			request.setAttribute("url","/postmanage/list.kh");
-//			mv.setViewName("/common/alert");
-//		} catch (Exception e){
-//			mv.addObject("msg", "게시글 등록 실패");
-//			mv.setViewName("/common/errorPage");
-//		}
-//		return mv;
-//	}
+	// 커뮤니티 관리 코드
+
 	
 	// 전체 게시글 리스트
 	@RequestMapping(value = "/postmanage/list.kh", method = RequestMethod.GET)
@@ -87,7 +73,9 @@ public class PostManageController {
 			, HttpSession session) {
 		try {
 			Community community = pService.printOneByPostNo(communityNo);
+			List<CReply> rList = pService.printAllReply(communityNo);
 			session.setAttribute("communityNo", communityNo);
+			mv.addObject("rList", rList);
 			mv.addObject("community", community);
 			mv.addObject("page", page);
 			mv.setViewName("postmanage/postDetail");
@@ -164,7 +152,7 @@ public class PostManageController {
 			int result = pService.modifyPost(community);
 			if(result > 0) {
 				request.setAttribute("msg", "(관리자) 게시글 수정이 완료되었습니다.");
-				request.setAttribute("url", "/postmanage/postlist.kh");
+				request.setAttribute("url", "/postmanage/list.kh");
 				mv.setViewName("common/alert");	
 			} else {
 				mv.addObject("msg", "수정 오류");
@@ -183,33 +171,35 @@ public class PostManageController {
 	public String postmanageRemove(
 			HttpSession session
 			, Model model
+			, HttpServletRequest request
 			, @RequestParam("page") Integer page) {
 		try {
 			int communityNo = (Integer)session.getAttribute("communityNo");
 			int result = pService.removeOneByPostNo(communityNo);
 			if(result > 0) {
 				session.removeAttribute("communityNo");
+				request.setAttribute("msg", "(관리자) 게시글 삭제가 완료되었습니다.");
+				request.setAttribute("url", "/postmanage/list.kh?page"+page);
 			}
-			return "redirect:/postmanage/list.kh?page="+page;
+			return "common/alert";
 		} catch (Exception e) {
 			model.addAttribute("msg", e.toString());
 			return "common/errorPage";
 		}
 	}
-	
+
 	
 	///////////////////////////////////////////////////////////////////////////////
 	
 	
-	// 레시피에 대한 코드
+	// 레시피 관리 코드
 	
 	// 리스트
 		@RequestMapping(value = "/recipemanage/list.kh", method = RequestMethod.GET)
 		public ModelAndView recipeManageView(
 				ModelAndView mv
 				,@RequestParam(value="category" , required=false) String listValue
-				,@RequestParam(value="page",required = false) Integer page 
-				) {
+				,@RequestParam(value="page",required = false) Integer page) {
 			int currentPage = (page != null) ? page : 1;
 			int totalCount = pService.countAllRecipe();
 			int recipeLimit = 10;
@@ -247,29 +237,28 @@ public class PostManageController {
 				,@RequestParam(value="category" , required=false) String listValue
 				,@RequestParam(value="page" ,required = false) Integer page
 				,@RequestParam("recipeNo") Integer recipeNo
-				,@ModelAttribute Recipe recipeid
+//				,@ModelAttribute User user
 				,@ModelAttribute Order order
 				,@ModelAttribute ComPhoto comPhoto
 				,@ModelAttribute Ingradient ing
 				,HttpSession session) {
 			try {
-				Like like = new Like();
-				like.setUserId(recipeid.getUserId());
-				like.setRecipeNo(recipeNo);
+				User user =(User) (session.getAttribute("loginUser"));
+				System.out.println(user);
+//				Like like = new Like();
+//				like.setUserId(user.getUserId());
+//				like.setRecipeNo(recipeNo);
 //				System.out.println(recipeid.getUserId());
 				//레시피 좋아요 카운트
-				int result = pService.checkLikeId(like);
+//				int result = rService.checkLikeId(like);
 				//레시피정보 출력
 				Recipe recipe = pService.printOneByNo(recipeNo);
-				session.setAttribute("recipeNo",recipe.getRecipeNo());
-				
+				//삭지하기위해 보드넘버 저장
+//				session.setAttribute("recipeNo",recipe.getRecipeNo());
 				//재료출력
 				List<Ingradient> iList = pService.printAllIng(recipeNo);
 				String bundle = "재료없음";
 				//로그인 구현되면 세션에 있는 아이디로 바꿔줘야함
-				
-				
-				
 				if(!iList.isEmpty()) {
 					bundle = iList.get(0).getIngBundleName();
 				}
@@ -277,10 +266,9 @@ public class PostManageController {
 				List<Order> oList = pService.printAllOrder(recipeNo);
 				//완성사진 출력
 				List<ComPhoto> cList = pService.printAllComPhoto(recipeNo);
-				
-				mv.addObject("result",result);
-				mv.addObject("like",like);
-				mv.addObject("urlVal","detail");
+//				mv.addObject("result",result);
+//				mv.addObject("like",like);
+				mv.addObject("urlVal","recipeList");
 				mv.addObject("listValue",listValue);
 				mv.addObject("page", page);
 				mv.addObject("cList",cList);
@@ -297,10 +285,6 @@ public class PostManageController {
 			
 			return mv;
 		}
-		
-		
-		
-		
 		
 		
 		

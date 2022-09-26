@@ -18,64 +18,9 @@
   		<result property="cUpdateDate" column="C_UPDATE_DATE"/>
   		<result property="boardCount" column="BOARD_COUNT"/>
   	</resultMap>
-  	
- 	<resultMap type="Recipe" id="recipeManageResultMap">
- 		<id property="recipeNo" column="RECIPE_NO"/>
-		<result property="recipeTitle" column="RECIPE_TITLE" />
-		<result property="recipeIntro" column="RECIPE_INTRO" />
-		<result property="thumbnailName" column="THUMBNAIL_NAME" />
-		<result property="thumbnailRename" column="THUMBNAIL_RENAME" />
-		<result property="thumbnailpath" column="THUMBNAIL_PATH" />
-		<result property="typeCategory" column="TYPE_CATEGORY" />
-		<result property="wayCategory" column="WAY_CATEGORY" />
-		<result property="recipeLikeCount" column="RECIPE_LIKE_COUNT" />
-		<result property="recipeCount" column="RECIPE_COUNT" />
-		<result property="userId" column="USER_ID" />
-		<result property="recipeLevel" column="RECIPE_LEVEL" />
-		<result property="recipeTime" column="RECIPE_TIME" />
-		<result property="recipePerson" column="RECIPE_PERSON" />
-		<result property="rCreateDate" column="R_CREATE_DATE" />
- 	</resultMap>
- 	
- 	<resultMap type="com.kh.fivechef.recipe.domain.Ingradient" id="ingredientResultMap2">
- 		<id property="ingNo" column="ING_NUM"/>
-		<result property="recipeNo" column="RECIPE_NO" />
-		<result property="ingBundleName" column="ING_BUNDLE_NAME" />
-		<result property="ingAmount" column="ING_AMOUNT" />
-		<result property="largeCatId" column="LARGE_CAT_ID" />
-		<result property="smallCatId" column="SMALL_CAT_ID" />
-		<result property="smallCatName" column="SMALL_CAT_NAME" />
-		<result property="largeCatName" column="LARGE_CAT_NAME" />
- 	</resultMap>
- 	
- 	<resultMap type="com.kh.fivechef.recipe.domain.Order" id="orderResultMap2">
- 		<id property="orederNo" column="ORDER_NUM"/>
-		<result property="recipeNo" column="RECIPE_NO" />
-		<result property="recipeContents" column="RECIPE_CONTENTS" />
-		<result property="orderPhotoName" column="ORDER_PHOTO_NAME" />
-		<result property="orderPhotoRename" column="ORDER_PHOTO_RENAME" />
-		<result property="orderPhotopath" column="ORDER_PHOTO_PATH" />
- 	</resultMap>
- 	
- 	<resultMap type="com.kh.fivechef.recipe.domain.ComPhoto" id="comPhotoRecultMap2">
- 		<id property="comPhotoNo" column="COMPHOTO_NO"/>
-		<result property="recipeNo" column="RECIPE_NO" />
-		<result property="comPhotoName" column="COMPHOTO_NAME" />
-		<result property="comPhotoRename" column="COMPHOTO_RENAME" />
-		<result property="comPhotopath" column="COMPHOTO_PATH" />
- 	</resultMap>
- 	
- 	
-<!--  	<insert id = "insertPost"> -->
-<!--   		INSERT INTO COMMUNITY_TBL VALUES(SEQ_COMMUNITY_NO.NEXTVAL, #{cBoardCode}, #{communityTitle}, #{communityWriter}, #{communityContents}, #{communityPrice}, #{communitySalePage}, #{communityFileName}, #{communityFileRename}, #{communityFilePath}, DEFAULT, DEFAULT, DEFAULT) -->
-<!--   	</insert> -->
- 	
-  	<select id="selectTotalPostCount" resultType="_int">
- 			SELECT COUNT(*) FROM COMMUNITY_TBL
- 	</select>
  	
   	<select id="selectAllPost" resultMap="postManageResultMap">
- 			SELECT * FROM COMMUNITY_TBL ORDER BY C_UPDATE_DATE DESC
+ 			SELECT * FROM COMMUNITY_TBL ORDER BY C_ENROLL_DATE DESC
  	</select>
  	
  	<update id="updatePostCount">
@@ -134,11 +79,91 @@
  		UPDATE COMMUNITY_TBL SET COMMUNITY_TITLE = #{communityTitle}, COMMUNITY_CONTENTS = #{communityContents}, C_UPDATE_DATE = DEFAULT WHERE COMMUNITY_NO = #{communityNo}
  	</update>
  	
+ 	<resultMap type="cReply" id="replyManageResultMap">
+  		<id property ="replyNo" column="REPLY_NO"/>
+  		<result property ="refCommunityNo" column="REF_COMMUNITY_NO"/>
+  		<result property ="replyContents" column="REPLY_CONTENTS"/>
+  		<result property ="replyWriter" column="REPLY_WRITER"/>
+  		<result property ="rCreateDate" column="R_CREATE_DATE"/>
+  		<result property ="rUpdateDate" column="R_UPDATE_DATE"/>
+  	</resultMap>
+  	
+ 	<select id="selectAllReplyManage" resultMap="replyManageResultMap">
+ 		SELECT * FROM C_REPLY_TBL WHERE REF_COMMUNITY_NO = #{refCommunityNo}
+ 	</select>
  	
  	
- 	<!-- 여기서부터는 레시피 게시판 관리 코드 -->
+ 	<!-- 레시피 관리 코드 --> 	  	
+ 	<resultMap type="Recipe" id="recipeResultMap2">
+ 		<id property="recipeNo" column="RECIPE_NO"/>
+		<result property="recipeTitle" column="RECIPE_TITLE" />
+		<result property="recipeIntro" column="RECIPE_INTRO" />
+		<result property="thumbnailName" column="THUMBNAIL_NAME" />
+		<result property="thumbnailRename" column="THUMBNAIL_RENAME" />
+		<result property="thumbnailpath" column="THUMBNAIL_PATH" />
+		<result property="typeCategory" column="TYPE_CATEGORY" />
+		<result property="wayCategory" column="WAY_CATEGORY" />
+		<result property="recipeLikeCount" column="RECIPE_LIKE_COUNT" />
+		<result property="recipeCount" column="RECIPE_COUNT" />
+		<result property="userId" column="USER_ID" />
+		<result property="recipeLevel" column="RECIPE_LEVEL" />
+		<result property="recipeTime" column="RECIPE_TIME" />
+		<result property="recipePerson" column="RECIPE_PERSON" />
+		<result property="rCreateDate" column="R_CREATE_DATE" />
+ 	</resultMap>
  	
- 	<select id="selectAllRecipe" resultMap="recipeManageResultMap">
+ 	<resultMap type="com.kh.fivechef.recipe.domain.Ingradient" id="ingredientResultMap2">
+ 		<id property="ingNo" column="ING_NUM"/>
+		<result property="recipeNo" column="RECIPE_NO" />
+		<result property="ingBundleName" column="ING_BUNDLE_NAME" />
+		<result property="ingAmount" column="ING_AMOUNT" />
+		<result property="largeCatId" column="LARGE_CAT_ID" />
+		<result property="smallCatId" column="SMALL_CAT_ID" />
+		<result property="smallCatName" column="SMALL_CAT_NAME" />
+		<result property="largeCatName" column="LARGE_CAT_NAME" />
+ 	</resultMap>
+ 	
+ 	<resultMap type="com.kh.fivechef.recipe.domain.Order" id="orderResultMap2">
+ 		<id property="orederNo" column="ORDER_NUM"/>
+		<result property="recipeNo" column="RECIPE_NO" />
+		<result property="recipeContents" column="RECIPE_CONTENTS" />
+		<result property="orderPhotoName" column="ORDER_PHOTO_NAME" />
+		<result property="orderPhotoRename" column="ORDER_PHOTO_RENAME" />
+		<result property="orderPhotopath" column="ORDER_PHOTO_PATH" />
+ 	</resultMap>
+ 	
+ 	<resultMap type="com.kh.fivechef.recipe.domain.ComPhoto" id="comPhotoRecultMap2">
+ 		<id property="comPhotoNo" column="COMPHOTO_NO"/>
+		<result property="recipeNo" column="RECIPE_NO" />
+		<result property="comPhotoName" column="COMPHOTO_NAME" />
+		<result property="comPhotoRename" column="COMPHOTO_RENAME" />
+		<result property="comPhotopath" column="COMPHOTO_PATH" />
+ 	</resultMap>
+ 	
+ 	<resultMap type="LargeCat" id="largeResultMap2">
+ 		<id property="largeCatId" 				column="LARGE_CAT_ID" />
+ 		<result property="largeCatName" 			column="LARGE_CAT_NAME" />
+ 	</resultMap>
+ 	
+ 	<resultMap type="SmallCat" id="smallResultMap2">
+ 		<id property="smallCatId" 				column="SMALL_CAT_ID" />
+ 		<result property="largeCatId" 			column="LARGE_CAT_ID" />
+ 		<result property="smallCatName" 			column="SMALL_CAT_NAME" />
+ 	</resultMap>
+ 	
+ 	 	<insert id="insertRecipe">
+		INSERT INTO RECIPE_TBL VALUES(RECIPE_NO_SEQ.NEXTVAL,#{recipeTitle},#{recipeIntro},#{thumbnailName},#{thumbnailRename},#{thumbnailpath},#{typeCategory},#{wayCategory},0,0,#{userId},#{recipeLevel},#{recipeTime},#{recipePerson},DEFAULT,DEFAULT)
+ 	</insert>
+ 	<insert id="insertIngradient">
+ 		INSERT INTO INGRADIENT_TBL VALUES(ING_NUM_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{ingBundleName},#{ingAmount},#{largeCatId},#{smallCatId})
+ 	</insert>
+ 	<insert id="insertOrder">
+ 		INSERT INTO ORDER_TBL VALUES(ORDER_NUM_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{recipeContents},#{orderPhotoName},#{orderPhotoRename},#{orderPhotopath})
+ 	</insert>
+ 	<insert id="insertComPhoto">
+ 		INSERT INTO COMPHOTO_TBL VALUES(COMPHOTO_NO_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{comPhotoName},#{comPhotoRename},#{comPhotopath})
+ 	</insert>
+ 	<select id="selectAllRecipe" resultMap="recipeResultMap2">
  		SELECT * FROM RECIPE_TBL
  			
  			<choose>
@@ -153,29 +178,50 @@
  				</otherwise>
  			</choose>		
  	</select>
- 	
  	<select id="selectCountAllRecipe" resultType="_int">
  		<!-- 숫자하나 가져올땐 resultType 으로 처리 -->
  		SELECT COUNT(*) FROM RECIPE_TBL
  	</select>
- 	
- 	<select id="selectOneByRecipeNo" resultMap="recipeManageResultMap">
+ 	<select id="selectOneByRecipeNo" resultMap="recipeResultMap2">
  		SELECT * FROM RECIPE_TBL WHERE RECIPE_NO = #{recipeNo}
  	</select>
- 	
  	<select id="selectAllIng" resultMap="ingredientResultMap2">
  		SELECT * FROM INGRADIENT_TBL A JOIN SMALL_CATEGORY B ON A.SMALL_CAT_ID = B.SMALL_CAT_ID JOIN LARGE_CATEGORY C ON A.LARGE_CAT_ID = C.LARGE_CAT_ID WHERE RECIPE_NO = #{recipeNo}
  	</select>
- 	
  	<select id="selectAllOrder" resultMap="orderResultMap2">
  		SELECT * FROM ORDER_TBL WHERE RECIPE_NO = #{recipeNo}
  	</select>
- 	
  	<select id="selectAllComPhoto" resultMap="comPhotoRecultMap2">
  		SELECT * FROM COMPHOTO_TBL WHERE RECIPE_NO = #{recipeNo}
  	</select>
  	
- 	<select id="selectCheckLikeId" resultType="_int">
+ 	<!-- 조회수 -->
+	<update id="updateBoardCount">
+		UPDATE RECIPE_TBL SET RECIPE_COUNT = RECIPE_COUNT+1 WHERE RECIPE_NO = #{recipeNo }
+	</update>
+	<!-- 좋아요 버튼구동용 -->
+	<select id="selectCheckLikeId" resultType="_int">
 		SELECT COUNT(*) FROM R_LIKE_TBL WHERE RECIPE_NO = #{recipeNo} AND USER_ID = #{userId}
 	</select>
-</mapper>
+	<!-- 좋아요 등록 -->
+	<insert id="insertLike">
+		INSERT INTO R_LIKE_TBL VALUES(LIKE_NO_SEQ.NEXTVAL,#{recipeNo},#{userId},DEFAULT)
+	</insert>
+	<!-- 좋아요 갯수 업뎃 -->
+	<update id="updateLikeCount">
+		UPDATE RECIPE_TBL SET RECIPE_LIKE_COUNT = RECIPE_LIKE_COUNT +1 WHERE RECIPE_NO=#{recipeNo}
+	</update>
+	<!-- 좋아요 삭제 -->
+ 	<delete id="deleteLike">
+ 		DELETE FROM R_LIKE_TBL WHERE RECIPE_NO = #{recipeNo} AND USER_ID = #{userId}
+ 	</delete>
+ 	<!-- 좋아요 갯수 다운 -->
+	<update id="updateDLikeCount">
+		UPDATE RECIPE_TBL SET RECIPE_LIKE_COUNT = RECIPE_LIKE_COUNT -1 WHERE RECIPE_NO=#{recipeNo}
+	</update>
+	
+	<select id="selectAllSmallCat" resultMap="smallResultMap2">
+ 		SELECT * FROM SMALL_CATEGORY
+ 	</select>
+ 
+ </mapper>

@@ -9,14 +9,12 @@
 <meta charset="UTF-8">
 <title>공지사항</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<!-- <link href="resources/css/파일이름.css" rel="stylesheet"> -->
-<script src="/resources/js/jquery-3.6.1.min.js"></script>
-<!-- <style> -->
-<!-- </style> -->
 </head>
+<c:if test="${not empty loginAdmin}">
 <body>
 	<div class="container">
 	<div class="table-responsive">
+	<p align="center" style="color: #46D2D2; font-size:34px; font-family:malgun gothic;">[ 공지사항 관리 ]<p>
 	<table align="center" border="1" width="" class="table table-hover">
 		<tr>
 			<td colspan="5" align="center">
@@ -30,7 +28,7 @@
 						</select>
 					</div>
 					<div style="display:inline-block;">
-						<input style="width:300px;" type="text" name="searchValue" value="${searchValue}">
+						<input style="width:300px; height:33px;" type="text" name="searchValue" value="${searchValue}">
 					</div>	
 					<div style="display:inline-block;">
 						<input type="submit" value="검색" class="btn btn-info">
@@ -97,6 +95,7 @@
 	</table>
 	</div>
 	</div>
+	</c:if>
 <jsp:include page="../main/footer.jsp"></jsp:include>
 </body>
 </html>

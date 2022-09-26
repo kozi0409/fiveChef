@@ -13,8 +13,6 @@ import com.kh.fivechef.recipe.domain.Recipe;
 public interface PostManageService {
 
 	// 커뮤니티 게시판 관리 코드
-	
-//	public int registPost(Community community);
 
 	public List<Community> printAllPost(int currentPage, int communityLimit);
 
@@ -30,6 +28,8 @@ public interface PostManageService {
 			int communityLimit);
 
 	public int modifyPost(Community community);
+
+	public List<CReply> printAllReply(Integer refCommunityNo);
 
 	
 	////////////////////////////////////////

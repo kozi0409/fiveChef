@@ -7,6 +7,7 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fivechef.community.domain.CReply;
 import com.kh.fivechef.community.domain.Community;
 import com.kh.fivechef.postManage.store.PostManageStore;
 import com.kh.fivechef.recipe.domain.ComPhoto;
@@ -17,11 +18,6 @@ import com.kh.fivechef.recipe.domain.Recipe;
 @Repository
 public class PostManageStorelogic implements PostManageStore{
 
-//	@Override
-//	public int insertPost(SqlSession session, Community community) {
-//		int result = session.insert("CommunityMapper.insertPost", community);
-//		return result;
-//	}
 	
 	@Override
 	public int selectPostTotalCount(SqlSession session, String searchCondition, String searchValue) {
@@ -77,8 +73,11 @@ public class PostManageStorelogic implements PostManageStore{
 		return result;
 	}
 
-	
-
+	@Override
+	public List<CReply> selectAllReply(SqlSession session, Integer refCommunityNo) {
+		List<CReply> rList = session.selectList("CommunityMapper.selectAllReplyManage", refCommunityNo);
+		return rList;
+	}
 	////////////////////////////////////////////////////////////////////////
 	// 레시피 관리 코드
 	
@@ -136,6 +135,9 @@ public class PostManageStorelogic implements PostManageStore{
 	}
 
 
-
-	
+	@Override
+	public int updateBoardCount(SqlSession session, Integer recipeNo) {
+		int result = session.update("RecipeMapper.updateBoardCount",recipeNo);
+		return result;
+	}
 }
