@@ -39,7 +39,7 @@
         <c:forEach items="${cList}" var="community" varStatus="i">
             <tr>
                 <td>${i.count}</td>      
-                <td><a href="/community/saleBoardList.kh?communityNo=${community.communityNo }&page=${currentPage }">${community.communityTitle}</a></td>
+                <td><a href="/community/communityDetail.kh?communityNo=${community.communityNo }&page=${currentPage }">${community.communityTitle}</a></td>
                 <td>${community.communityWriter}</td>
                 <td>${community.communityPrice }</td>
                 <td>${community.cEnrollDate}</td>
@@ -62,31 +62,35 @@
 <%--                     <c:if test="${currentPage eq p}">
                         <b>${p}</b> 
                     </c:if> --%>
-                    <c:if test="${cuurentPage ne p}">
+                    <c:if test="${currentPage ne p}">
                         <a href = "/community/${urlVal }.kh?page=${p }&searchCondition=${searchCondition }&searchValue=${searchValue }">${p}</a>
                     </c:if>
                 </c:forEach>
-            <c:if test = "${currentPage < maxPage}">
+            <c:if test = "${currentPage < maxFPage}">
                 <a href = "/community/${urlVal}.kh?page=${currentPage + 1}">[다음]</a>
             </c:if>
             </td>
         </tr>
-    <tr>
-       <td colspan="4" align="center">
-        <form action = "/community/saleBoardSearch.kh" method="get">
-            
+
+</table>
+<form action = "/community/saleBoardSearch.kh" method="get">
+	<div align="center">
+		<div style="display : inline-block">    
             <select name = "searchCondition">
                 <option value="all" <c:if test="${searchCondition eq 'all'}">select</c:if>>전체</option>
                 <option value="writer" <c:if test="${searchCondition eq 'all'}">select</c:if>>작성자</option>
                 <option value="title" <c:if test="${searchCondition eq 'all'}">select</c:if>>제목</option>
                 <option value="contents" <c:if test="${searchCondition eq 'all'}">select</c:if>>내용</option>
-            </select>		
+            </select>
+        </div> 		
+        <div style="display : inline-block">
             <input type="text" name="searchValue" value="${searchValue}">
+        </div>
+        <div style="display : inline-block">
             <input type="submit" value="검색">
-        </form>
-       </td>
-    </tr>
-</table>
+        </div>
+	</div>
+</form>
     <div align="right">
 	<button  type="button" class="btn-1" onclick="communityWrite();">글쓰기</button>
 	</div>

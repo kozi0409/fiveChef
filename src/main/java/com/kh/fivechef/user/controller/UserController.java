@@ -1,5 +1,8 @@
 package com.kh.fivechef.user.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.user.domain.User;
@@ -27,17 +31,49 @@ public class UserController {
 		return "user/join";
 	}
 	
+	@RequestMapping(value="/user/myPage.kh", method=RequestMethod.GET)
+	public ModelAndView userMyPageView(ModelAndView mv, HttpServletRequest request) {
+		try {
+			HttpSession session = request.getSession();
+			User user = (User)session.getAttribute("loginUser");
+			if(user != null) {
+				String userId = user.getUserId();
+				User uOne = uService.printOneUser(userId);
+				mv.addObject("user", uOne);
+				mv.setViewName("user/myPageMain");
+			} else {
+				request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+				request.setAttribute("url", "/user/loginView.kh");
+				mv.setViewName("common/alert");
+			}
+		} catch(Exception e) {
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
+		}
+		return mv;
+	}
+	
 	@RequestMapping(value="/user/register.kh", method=RequestMethod.POST) //회원가입
 	public ModelAndView userJoin(ModelAndView mv,
 			@ModelAttribute User user,
-			@RequestParam("userId") String userId,
-			@RequestParam("userPwd") String userPwd,
-			@RequestParam("userName") String userName,
-			@RequestParam("userPhone") String userPhone,
-			@RequestParam("userEmail") String userEmail,
-			@RequestParam("userBirth") String userBirth,
-			Model model) {
+			@RequestParam(value = "uploadFile", required = false) MultipartFile uploadFile,
+			HttpServletRequest request) {
 		try {
+			String userPhotoName = uploadFile.getOriginalFilename();
+			if(!uploadFile.getOriginalFilename().equals("")) {
+				String root = request.getSession().getServletContext().getRealPath("resources");
+				String savePath = root + "//userProfile";
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMDDHHmmss");
+				String userPhotoRename = sdf.format(new Date(System.currentTimeMillis())) + "." + userPhotoName.substring(userPhotoName.lastIndexOf(".") + 1);
+				File file = new File(savePath);
+				if(!file.exists()) {
+					file.mkdir();
+				}
+				uploadFile.transferTo(new File(savePath + "\\" + userPhotoRename));
+				String userPhotoPath = savePath + "\\" + userPhotoRename;
+				user.setUserPhotoName(userPhotoName);
+				user.setUserPhotoRename(userPhotoRename);
+				user.setUserPhotoPath(userPhotoPath);
+			}
 			int result = uService.registerUser(user);
 			if(result > 0) {
 				mv.setViewName("/user/login");
@@ -90,7 +126,7 @@ public class UserController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/user/myPage.kh", method=RequestMethod.GET) //회원정보 보기
+	@RequestMapping(value="/user/modifyView.kh", method=RequestMethod.GET) //회원정보 보기
 	public ModelAndView showMyPage(ModelAndView mv, HttpServletRequest request) {
 		try {
 			HttpSession session = request.getSession();
@@ -136,14 +172,24 @@ public class UserController {
 	public ModelAndView modifyUser(ModelAndView mv,
 			@ModelAttribute User user,
 			HttpServletRequest request,
-			@RequestParam("userId") String userId,
-			@RequestParam("userPwd") String userPwd,
-			@RequestParam("userName") String userName,
-			@RequestParam("userPhone") String userPhone,
-			@RequestParam("userEmail") String userEmail,
-			@RequestParam("userBirth") String userBirth,
-			Model model) {
+			@RequestParam(value="reloadFile", required=false) MultipartFile reloadFile) {
 		try {
+			String userPhotoName = reloadFile.getOriginalFilename();
+			if(reloadFile != null && !userPhotoName.equals("")) {
+				String root = request.getSession().getServletContext().getRealPath("resources");
+				String savePath = root + "\\userProfile";
+				File file = new File(savePath + "\\" + user.getUserPhotoRename());
+				if(file.exists()) {
+					file.delete();
+				}
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+				String userPhotoRename = sdf.format(new Date(System.currentTimeMillis())) + "." + userPhotoName.substring(userPhotoName.lastIndexOf(".")+1);
+				String userPhotoPath = savePath + "\\" + userPhotoRename;
+				reloadFile.transferTo(new File(userPhotoPath));
+				user.setUserPhotoName(userPhotoName);
+				user.setUserPhotoRename(userPhotoRename);
+				user.setUserPhotoPath(userPhotoPath);
+			}
 			int result = uService.modifyUser(user);
 			if(result > 0) {
 				request.setAttribute("msg", "회원님의 정보가 수정되었습니다.");

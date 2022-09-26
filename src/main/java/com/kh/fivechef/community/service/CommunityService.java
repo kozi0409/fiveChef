@@ -36,4 +36,8 @@ public interface CommunityService {
 	List<Community> printSaleBoardByValue(String searchCondition, String searchValue, int currentPage,
 			int communityLimit);
 
+	List<Community> printAllMyCommunity(String communityWriger, int currentPage, int communityLimit);
+
+	int getTotalCount(String searchCondition, String searchValue);
+
 }

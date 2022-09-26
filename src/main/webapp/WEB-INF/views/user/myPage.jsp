@@ -80,6 +80,12 @@
 		height : 50px;
 		width : 150px;
       }
+      
+      	#img-tag {
+		width : 300px;
+		height :300px;
+		border-radius: 100%;
+	}
     </style>
 
     
@@ -97,7 +103,7 @@
     </div>
       <div class="col-md-6 col-md-12">
         <h4 class="mb-3 ">My Information</h4>
-        <form name="userInfo" method="post" action="/user/register.kh">
+        <form name="userInfo" method="post" action="/user/modify.kh" enctype="multipart/form-data">
           <div class="row g-3">
             <div class="col-12 col-md-5">
               <label for="username" class="form-label">아이디</label>
@@ -128,16 +134,21 @@
             <div class="col-12 col-md-5" >
                 <label for="userpwd" class="form-label">생년월일</label>
                   <input type="text" class="form-control" name="userBirth" id="userbirth"value="${user.userBirth}" readonly>
-              </div>
+            </div>
+            <div class="col-12 col-md-5">
+            	<label for="userPhotoRename" class="form-label">프로필사진</label>
+            	<input type="file" name="reloadFile"><a href="#">${user.userPhotoName }</a><br>
+                <img id="img-tag" alt="본문이미지" src="/resources/userProfile/${user.userPhotoRename }">
+             </div>
 
-            
-				<span>
+            <br><br><br>
+				<div style="display : inline-block">
                   <input type="submit"  class="btn-1" value="수정하기">
-                </span>
-                <span>
+               	</div>
+                <div style="display : inline-block">
                   <button type="button" id="btn-2" onclick="removeMember()">탈퇴하기</button>
                   <!--  button에 type을 적어줘야 오류가 나지 않음!! -->
-                </span>
+                </div>
 
 
           

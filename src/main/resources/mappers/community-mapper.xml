@@ -35,23 +35,46 @@
   		UPDATE COMMUNITY_TBL SET BOARD_COUNT = BOARD_COUNT + 1 WHERE COMMUNITY_NO = #{communityNo}
   	</update>
   	
+  	<select id="selectTotalCount" resultType="_int">
+  		SELECT COUNT(*) FROM COMMUNITY_TBL
+  			<where>
+  			COMMUNITY_WRITER = #{communityWriter}
+		 		<if test = "searchCondition.toString() == 'title'">
+		 			AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+		 		</if>
+		 		<if test = "searchCondition.toString() == 'contents'">
+		 			AND COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+		 		</if>
+		 		<if test = "searchCondition.toString() == 'writer'">
+		 			AND COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+		 		</if>
+		 		<if test = "searchCondition.toString() == 'all'">
+		 			AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+		 			OR COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
+		 			OR COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
+		 			
+		 		</if>
+	 		</where>
+  	</select>
+  	
   	<select id="selectTotalFCount" resultType="_int">
  		SELECT COUNT(*) FROM COMMUNITY_TBL
  			<where>
+ 			C_BOARD_CODE = 'free'
 	 			<if test = "searchCondition.toString() == 'title'">
-	 				COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'free'
+	 				AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%' 
 	 			</if>
 	 			<if test = "searchCondition.toString() == 'contents'">
-	 				COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'free'
+	 				AND COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
 	 			</if>
 	 			<if test = "searchCondition.toString() == 'writer'">
-	 				COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'free'
+	 				AND COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
 	 			</if>
 	 			<if test = "searchCondition.toString() == 'all'">
-	 				COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+	 				AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
 	 				OR COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
 	 				OR COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
-	 				AND C_BOARD_CODE = 'free'
+	 				
 	 			</if>
  		</where>
  	</select>
@@ -59,20 +82,20 @@
  	<select id="selectTotalSCount" resultType="_int">
  		SELECT COUNT(*) FROM COMMUNITY_TBL
  			<where>
+ 			C_BOARD_CODE = 'sale'
 	 			<if test = "searchCondition.toString() == 'title'">
-	 				COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'sale'
+	 				AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%' 
 	 			</if>
 	 			<if test = "searchCondition.toString() == 'contents'">
-	 				COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'sale'
+	 				AND COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
 	 			</if>
 	 			<if test = "searchCondition.toString() == 'writer'">
-	 				COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'sale'
+	 				AND COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
 	 			</if>
 	 			<if test = "searchCondition.toString() == 'all'">
-	 				COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+	 				AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
 	 				OR COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
 	 				OR COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
-	 				AND C_BOARD_CODE = 'sale'
 	 			</if>
  		</where>
  	</select>
@@ -85,6 +108,9 @@
  		SELECT * FROM COMMUNITY_TBL WHERE C_BOARD_CODE = 'sale' ORDER BY COMMUNITY_NO DESC
  	</select>
  	
+ 	<select id="selectAllMyCommunity" resultMap="communityResultMap">
+ 		SELECT * FROM COMMUNITY_TBL WHERE COMMUNITY_WRITER = #{communityWriter} ORDER BY COMMUNITY_NO DESC
+ 	</select>
  	<select id="selectOne" resultMap="communityResultMap">
  		SELECT * FROM COMMUNITY_TBL WHERE COMMUNITY_NO = #{communityNo}
  	</select>
@@ -100,20 +126,20 @@
  	<select id="selectAllByValue" resultMap="communityResultMap">
  		SELECT * FROM COMMUNITY_TBL
  		<where>
+ 		C_BOARD_CODE = 'free'
  			<if test = "searchCondition.toString() == 'title'">
- 			COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+ 			AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
  			</if>
  			<if test = "searchCondition.toString() == 'contents'">
- 			COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'free'
+ 			AND COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
  			</if>
  			<if test = "searchCondition.toString() == 'writer'">
- 			COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'free'
+ 			AND COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
  			</if>
  			<if test = "searchCondition.toString() == 'all'">
- 			COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+ 			AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
  			OR COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
  			OR COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
- 			AND C_BOARD_CODE = 'free'
  			</if>
  		</where>
  	</select>
@@ -121,20 +147,20 @@
  	<select id="selectSaleBoardByValue" resultMap="communityResultMap">
  		SELECT * FROM COMMUNITY_TBL
  		<where>
+ 		C_BOARD_CODE = 'sale'
  			<if test = "searchCondition.toString() == 'title'">
- 			COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'sale'
+ 			AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%' 
  			</if>
  			<if test = "searchCondition.toString() == 'contents'">
- 			COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'sale'
+ 			AND COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
  			</if>
  			<if test = "searchCondition.toString() == 'writer'">
- 			COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%' AND C_BOARD_CODE = 'sale'
+ 			COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
  			</if>
  			<if test = "searchCondition.toString() == 'all'">
- 			COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
+ 			AND COMMUNITY_TITLE LIKE '%'||#{searchValue}||'%'
  			OR COMMUNITY_CONTENTS LIKE '%'||#{searchValue}||'%'
  			OR COMMUNITY_WRITER LIKE '%'||#{searchValue}||'%'
- 			AND C_BOARD_CODE = 'sale'
  			</if>
  		</where>
  	</select>
