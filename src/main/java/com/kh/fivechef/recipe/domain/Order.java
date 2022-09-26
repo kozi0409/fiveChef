@@ -1,7 +1,7 @@
 package com.kh.fivechef.recipe.domain;
 
 public class Order {
-	private int orederNo;
+	private String orederNo;
 	private int recipeNo;
 	private String recipeContents;
 	private String orderPhotoName;
@@ -13,10 +13,10 @@ public class Order {
 				+ ", orderPhotoName=" + orderPhotoName + ", orderPhotoRename=" + orderPhotoRename + ", orderPhotopath="
 				+ orderPhotopath + "]";
 	}
-	public int getOrederNo() {
+	public String getOrederNo() {
 		return orederNo;
 	}
-	public void setOrederNo(int orederNo) {
+	public void setOrederNo(String orederNo) {
 		this.orederNo = orederNo;
 	}
 	public int getRecipeNo() {
@@ -37,10 +37,10 @@ public class Order {
 	public void setOrderPhotoName(String orderPhotoName) {
 		this.orderPhotoName = orderPhotoName;
 	}
-	public String getorderPhotoRename() {
+	public String getOrderPhotoRename() {
 		return orderPhotoRename;
 	}
-	public void setorderPhotoRename(String orderPhotoRename) {
+	public void setOrderPhotoRename(String orderPhotoRename) {
 		this.orderPhotoRename = orderPhotoRename;
 	}
 	public String getOrderPhotopath() {
@@ -49,6 +49,5 @@ public class Order {
 	public void setOrderPhotopath(String orderPhotopath) {
 		this.orderPhotopath = orderPhotopath;
 	}
-
 	
 }

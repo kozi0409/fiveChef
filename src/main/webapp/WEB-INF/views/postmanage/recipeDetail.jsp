@@ -103,9 +103,9 @@
 		<tr>
 			<td colspan="2" align="center">
 				<%-- ${sessionScope.loginUser.memberId } --%> <c:if
-					test="${board.boardWriter eq sessionScope.loginUser.memberName }"></c:if>
+					test="${board.boardWriter eq sessionScope.loginUser.userId }"></c:if>
 				<a
-				href="/board/modifyView.kh?boardNo=${board.boardNo }&page=${page}">수정페이지로</a>
+				href="/recipe/recipeModifyView.kh?boardNo=${recipe.recipeNo }&page=${page}">수정페이지로</a>
 				<a href="#" onclick="boardRemove(${page})">삭제하기</a> <a
 				href="/recipe/${urlVal }.kh?page=${page }&category=${listValue }">리스트</a>
 			</td>

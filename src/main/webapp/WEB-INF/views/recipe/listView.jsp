@@ -17,16 +17,8 @@
 .page_bar {
 	position:relative;
 	float:left;
-	/* width: fit-content;
-	height: 10px; */
-	/* /* font-size: 20px; */
 	margin: 0;
-	/* position: relative; */
-	/* position: absolute; */ 
-	/* padding-bottom: 1%; */
-	/* padding-top: 20%; */
-	/* border:1px solid #ccc; */
-	/* border: 1px solid #333; */
+	/* border: 1px solid #ccc; */
 }
 #bar-bar {
 	visibility: hidden;
@@ -49,28 +41,32 @@ color:rgb(o,o,o);
 background-color:rgb(209, 24, 79);
 border-color:rgb(209, 24, 79)
 }
-
+#titlediv {
+	border-bottom: 1px solid #aaa;
+}
 
 </style>
 </head>
 <body class="bg-light vsc-initialized">
-<input type="hidden" name="userId" value="${sessionScope.loginUser.userId }">
+<%-- <input type="hidden" name="userId" value="${sessionScope.loginUser.userId }"> --%>
 	<div class="wrap row">
-		<div><h2> 총 <span style="border: #ccc">${totalCount }</span>개의 레시피가 있습니다.<div class="r">
+		<div class="row" id="titlediv">
+		<div class="col-md-8">
+		<h2> 총 <span style="border: #ccc">${totalCount }</span>개의 레시피가 있습니다.</h2>
+		</div>
+		<div class="r col-md-4" id="gogo">
 			<form action="/recipe/recipeList.kh" method="get">
 				<button class="listView" name="category" value="">전체보기</button>
 				<button class="listView" name="category" value="countView">조회수순</button>
 				<button class="listView" name="category" value="likeView">좋아요순 </button>
 			</form>
-			
-		</div></h2>
 		</div>
-		</span>
+	</div>	
 		<div class="fixed_img_col" align="center">
 			<ul>
 				<c:forEach items="${rList }" var="recipe" varStatus="i">
 				<!-- ${sessionScope.loginUser.userId } 불러는 오는데 500에러 뜸 -->
-					<li><a href="/recipe/recipeDetailView.kh?recipeNo=${recipe.recipeNo }&page=${currentPage }&category=${listValue }"><span class="thumb"><img
+					<li><a onclick="" href="/recipe/recipeDetailView.kh?recipeNo=${recipe.recipeNo }&page=${currentPage }&category=${listValue }"><span class="thumb"><img
 								onerror="this.src='../resources/images/logo.png'"
 								src="/resources/ruploadFiles/${recipe.thumbnailRename }" alt="">
 								<em>Click</em></span><strong>${recipe.recipeTitle }</strong></a>
@@ -103,6 +99,9 @@ border-color:rgb(209, 24, 79)
 		<br><br><br>
 	</div>
 <!-- class="btn btn-primary" -->
+<footer>
+<jsp:include page="/WEB-INF/views/main/footer.jsp"></jsp:include>
+</footer>
 
 </body>
 </html>

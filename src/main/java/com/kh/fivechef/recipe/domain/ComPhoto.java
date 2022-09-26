@@ -1,7 +1,7 @@
 package com.kh.fivechef.recipe.domain;
 
 public class ComPhoto {
-	private int comPhotoNo;
+	private String comPhotoNo;
 	private int recipeNo;
 	private String comPhotoName;
 	private String comPhotoRename;
@@ -11,10 +11,10 @@ public class ComPhoto {
 		return "ComPhoto [comPhotoNo=" + comPhotoNo + ", recipeNo=" + recipeNo + ", comPhotoName=" + comPhotoName
 				+ ", comPhotoRename=" + comPhotoRename + ", comPhotopath=" + comPhotopath + "]";
 	}
-	public int getComPhotoNo() {
+	public String getComPhotoNo() {
 		return comPhotoNo;
 	}
-	public void setComPhotoNo(int comPhotoNo) {
+	public void setComPhotoNo(String comPhotoNo) {
 		this.comPhotoNo = comPhotoNo;
 	}
 	public int getRecipeNo() {

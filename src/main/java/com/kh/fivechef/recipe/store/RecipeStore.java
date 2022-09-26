@@ -11,6 +11,7 @@ import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
+import com.kh.fivechef.recipe.domain.WhatRecipe;
 
 public interface RecipeStore {
 
@@ -47,6 +48,24 @@ public interface RecipeStore {
 	public int updateDLikeCount(SqlSession session, Like like);
 
 	public List<SmallCategory> selectAllSmallCat(SqlSession session);
+
+	public Recipe selectRecipeByRNo(SqlSession session, int recipeNo);
+
+	public List<Ingradient> selectIngByRNo(SqlSession session, int recipeNo);
+
+	public List<Order> selectOrderByRNo(SqlSession session, int recipeNo);
+
+	public List<ComPhoto> selectComByRNo(SqlSession session, int recipeNo);
+
+	public List<WhatRecipe> selectWhatRecipe(SqlSession session);
+
+	public int updateRecipe(SqlSession session, Recipe recipe);
+
+	public int updateIng(SqlSession session, Ingradient ingradient);
+
+	public int updateOrder(SqlSession session, Order order);
+
+	public int updateCom(SqlSession session, ComPhoto comPhoto);
 
 
 

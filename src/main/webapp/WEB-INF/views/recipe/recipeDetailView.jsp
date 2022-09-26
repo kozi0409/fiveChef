@@ -7,11 +7,85 @@
 <meta charset="UTF-8">
 <title>게시글 조회</title>
 <script src="../../../resources/js/jquery-3.6.1.min.js"></script>
+<jsp:include page="/WEB-INF/views/main/user_navs.jsp"></jsp:include>
 <style type="text/css">
+#main-form {
+	margin-left: 10%;
+	margin-right: 10%;
+}
 
+#recipe-main{
+	/* position: relative; */
+	height: 400px;
+
+}
+#recipe-main div{
+	/* position: relative; */
+	/* height: 100%; */
+
+}
+div{
+	border: 1px solid #ccc;
+}
+#thumbnailzone{
+	
+width: 400px;
+height: 400px;
+
+}
+#thumbnailzone img{
+	position: relative;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	/* border-radius: 5%; */
+	/* top: 50%;
+	left: 50%; */
+	/* margin-top: 0; */
+	/* transform: translate(-50%, -50%); */
+	
+	}
+	#likezone{
+		height: 10%;
+		padding: 2%;
+		
+	}
+/* #title-zone{
+	height: 100px;
+} */
 </style>
 </head>
-<body>
+<body class="bg-light vsc-initialized">
+	<main>	
+		<div class="row g-5" id="main-form">
+			<div class="col-md-12 col-lg-12" >
+				<div class="row" id="recipe-main">
+					<div class="col-md-7 ">
+						<div class="row align-items-center justify-content-center">
+							
+							<div class="col-md-12" id="thumbnailzone">
+								<img alt="본문이미지"
+				src="/resources/ruploadFiles/${recipe.thumbnailRename }">
+							</div>
+							
+						</div>
+					</div>
+					<div class="col-md-5" >
+						
+						<div class="col-12" id="likezone">
+							<span>ddfdf</span>
+						</div>
+						<div class="col-12" height="50%">
+							df	
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+
 	<h1 align="center">${recipe.recipeNo }번게시글상세보기</h1>
 	<br>
 	<br>
@@ -83,8 +157,8 @@
 			<td>${bundle }재료</td>
 			<td colspan="2"><c:forEach items="${iList }" var="ingradient" varStatus="i">
 			<p>
-			<input type="text" value="${ingradient.largeCatName }" readonly="readonly">
-			<input type="text" value="${ingradient.smallCatName }" readonly="readonly">
+			<input type="text" name="largeCatName" value="${ingradient.largeCatName }" readonly="readonly">
+			<input type="text" name="smallCatName" value="${ingradient.smallCatName }" readonly="readonly">
 			<input type="text" value="${ingradient.ingAmount }" readonly="readonly">
 			</p>
 			</c:forEach></td>
@@ -115,9 +189,9 @@
 		<tr>
 			<td colspan="2" align="center">
 				<%-- ${sessionScope.loginUser.memberId } --%> <c:if
-					test="${board.boardWriter eq sessionScope.loginUser.memberName }"></c:if>
+					test=""></c:if>
 				<a
-				href="/board/modifyView.kh?boardNo=${board.boardNo }&page=${page}">수정페이지로</a>
+				href="/recipe/recipeModifyView.kh?recipeNo=${recipe.recipeNo }&page=${page}">수정페이지로</a>
 				<a href="#" onclick="boardRemove(${page})">삭제하기</a> <a
 				href="/recipe/${urlVal }.kh?page=${page }&category=${listValue }">리스트</a>
 			</td>
@@ -136,7 +210,7 @@
             $("#likeup").html("좋아요 취소");
             }
 	});
-        });
+        
 
         // $(document).ready(function() {
         //     alert('Hello Dexter!');
@@ -153,5 +227,9 @@
 	 }
 	 */
 	</script>
+	<footer>
+
+		<jsp:include page="/WEB-INF/views/main/footer.jsp"></jsp:include>
+	</footer>
 </body>
 </html>
