@@ -12,6 +12,7 @@ import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
+import com.kh.fivechef.recipe.domain.WhatRecipe;
 import com.kh.fivechef.recipe.service.RecipeService;
 import com.kh.fivechef.recipe.store.RecipeStore;
 @Service
@@ -109,6 +110,61 @@ public class RecipeServiceImpl implements RecipeService{
 	public List<SmallCategory> printSmallCat() {
 		List<SmallCategory> sList = rStore.selectAllSmallCat(session);
 		return sList;
+	}
+
+	@Override
+	public Recipe printRecipeByRNo(int recipeNo) {
+		Recipe rList = rStore.selectRecipeByRNo(session,recipeNo);
+		
+		return rList;
+	}
+
+	@Override
+	public List<Ingradient> printIngByRNo(int recipeNo) {
+		List<Ingradient> iList = rStore.selectIngByRNo(session,recipeNo);
+		return iList;
+	}
+
+	@Override
+	public List<Order> printOrderByRNo(int recipeNo) {
+		List<Order> oList = rStore.selectOrderByRNo(session,recipeNo);
+		return oList;
+	}
+
+	@Override
+	public List<ComPhoto> printComByRNo(int recipeNo) {
+		List<ComPhoto> cList = rStore.selectComByRNo(session,recipeNo);
+		return cList;
+	}
+
+	@Override
+	public List<WhatRecipe> printWhat() {
+		List<WhatRecipe> wList = rStore.selectWhatRecipe(session);
+		return wList;
+	}
+
+	@Override
+	public int modifyRecipe(Recipe recipe) {
+		int result = rStore.updateRecipe(session,recipe);
+		return result;
+	}
+
+	@Override
+	public int modifyIng(Ingradient ingradient) {
+		int result = rStore.updateIng(session,ingradient);
+		return result;
+	}
+
+	@Override
+	public int modifyOrder(Order order) {
+		int result = rStore.updateOrder(session,order);
+		return result;
+	}
+
+	@Override
+	public int modifyCom(ComPhoto comPhoto) {
+		int result = rStore.updateCom(session,comPhoto);
+		return result;
 	}
 
 

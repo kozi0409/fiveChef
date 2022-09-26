@@ -13,6 +13,7 @@ import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
+import com.kh.fivechef.recipe.domain.WhatRecipe;
 import com.kh.fivechef.recipe.store.RecipeStore;
 @Repository
 public class RecipeStoreLogic implements RecipeStore{
@@ -37,7 +38,16 @@ public class RecipeStoreLogic implements RecipeStore{
 
 	@Override
 	public int insertComPhoto(SqlSession session, ComPhoto comPhoto) {
-		int result = session.insert("RecipeMapper.insertComPhoto",comPhoto);
+		int result;
+		//왜 실행이 안되었는데 저장이 되는것?
+		System.out.println(comPhoto.getComPhotoName());
+		if(comPhoto.getComPhotoName() == null) {
+			System.out.println("실패");
+			return 0;
+		}else {
+			result = session.insert("RecipeMapper.insertComPhoto",comPhoto);
+			System.out.println("성공");
+		}
 		return result;
 	}
 
@@ -118,11 +128,76 @@ public class RecipeStoreLogic implements RecipeStore{
 		int result = session.delete("RecipeMapper.updateDLikeCount",like);
 		return result;
 	}
-
+	// 재료찾기
 	@Override
 	public List<SmallCategory> selectAllSmallCat(SqlSession session) {
 		List<SmallCategory> sList = session.selectList("RecipeMapper.selectAllSmallCat");
 		return sList;
+	}
+	
+	//modyfyview 
+	@Override
+	public Recipe selectRecipeByRNo(SqlSession session, int recipeNo) {
+		Recipe rList = session.selectOne("RecipeMapper.selectRecipeByRNo",recipeNo);
+		return rList;
+	}
+	
+	
+	@Override
+	public List<Ingradient> selectIngByRNo(SqlSession session, int recipeNo) {
+		List<Ingradient> iList = session.selectList("RecipeMapper.selectIngByRNo",recipeNo);
+		return iList;
+	}
+
+	@Override
+	public List<Order> selectOrderByRNo(SqlSession session, int recipeNo) {
+		List<Order> oList = session.selectList("RecipeMapper.selectOrderByRNo",recipeNo);
+		return oList;
+	}
+
+	@Override
+	public List<ComPhoto> selectComByRNo(SqlSession session, int recipeNo) {
+		List<ComPhoto> cList = session.selectList("RecipeMapper.selectComByRNo",recipeNo);
+		return cList;
+	}
+
+	@Override
+	public List<WhatRecipe> selectWhatRecipe(SqlSession session) {
+		List<WhatRecipe> wList = session.selectList("RecipeMapper.selectWhatRecipe");
+		return wList;
+	}
+
+	@Override
+	public int updateRecipe(SqlSession session, Recipe recipe) {
+		int result = session.update("RecipeMapper.updateRecipe",recipe);
+		return result;
+	}
+
+	@Override
+	public int updateIng(SqlSession session, Ingradient ingradient) {
+		int result = session.update("RecipeMapper.updateIng",ingradient);
+		return result;
+	}
+
+	@Override
+	public int updateOrder(SqlSession session, Order order) {
+//		System.out.println(order.getOrderPhotoName());
+		int result;
+		if(order.getOrderPhotoName() ==null) {
+			result = session.update("RecipeMapper.updateOrderNull",order);
+		}else {
+			result = session.update("RecipeMapper.updateOrder",order);
+		}
+		return result;
+	}
+
+	@Override
+	public int updateCom(SqlSession session, ComPhoto comPhoto) {
+		if(comPhoto.getComPhotoName() == null) {
+			return 0;
+		}
+		int result = session.update("RecipeMapper.updateCom",comPhoto);
+		return result;
 	}
 
 }

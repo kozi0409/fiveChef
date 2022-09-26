@@ -46,18 +46,25 @@
 		!important
 
 	}
-	.r {
-		
+	.wrap h2{
+		padding: 10px 0 4px;
+		/* border-bottom: 1px solid #aaa; */
+		!important
+	}
+	
+	#gogo {
+		position: relative;
+		margin: 0;
+		padding: 14px 0px 4px 50px;
+
 		float: right;
-		width: initial;
-		margin: 0 auto;
 		/* margin: 10%; */
 		!important
 	}
-	.wrap h2{
-		padding: 10px 0 4px;
-		border-bottom: 1px solid #aaa;
-		!important
+
+	#gogo .listView {
+		
+		align-items: center;
 	}
 	.wrap h2 >span {
 		padding: 10px 0 4px;
