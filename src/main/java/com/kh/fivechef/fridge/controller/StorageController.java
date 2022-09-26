@@ -1,5 +1,6 @@
 package com.kh.fivechef.fridge.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class StorageController {
 	@RequestMapping(value="/fridge/storage.kh", method=RequestMethod.GET)
 	public ModelAndView showStoragePage(ModelAndView mv
 			,@RequestParam("fridgeNo") Integer fridgeNo
-			,@RequestParam("fridgeName") String fridgeName) {
+			,@RequestParam("fridgeName") String fridgeName){
 		try {
 			List<LargeCategory> lList = sService.printLargeCat();
 			List<SmallCategory> sList = sService.printSmallCat("A1");
@@ -38,7 +39,7 @@ public class StorageController {
 			mv.setViewName("fridge/myMain");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
-			mv.setViewName("redirect:/fridge/errorPage.jsp");
+			mv.setViewName("fridge/errorPage");
 		}
 		return mv;
 	}
@@ -96,7 +97,6 @@ public class StorageController {
 			,@RequestParam("storageName") String storageName) {
 		Storage storage = new Storage(storageNo, storageName);
 		int result = sService.modifyStorage(storage);
-		mv.addObject("storage", storage);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
 		mv.setViewName("redirect:/fridge/storage.kh");
@@ -106,20 +106,21 @@ public class StorageController {
 	//칸 삭제
 	@RequestMapping(value="/fridge/deleteStorage.kh", method=RequestMethod.POST)
 	public ModelAndView storageRemove(ModelAndView mv
-//			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName
-			,@RequestParam("jNo") Integer jNo) {
+			,@RequestParam("storageNo") String storageNo
+//			,@RequestParam("stList") List<Storage> stList
+			,@RequestParam("selectBoxNo") Integer selectBoxNo) {
 		List<LargeCategory> lList = sService.printLargeCat();
-//		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
+		Storage storage = new Storage(fridgeNo,);
+		System.out.println(storage);
 		List<Storage> stList = sService.printStorage(fridgeNo);
-		int result = sService.removeStorage(stList);
-//		mv.addObject("sList", sList);
+		int result = sService.removeStorage(storage);
 		mv.addObject("lList", lList);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
-//		mv.addObject("largeCatId", largeCatId);
-		mv.addObject("jNo", jNo);
+		mv.addObject("storageNo", storageNo);
+//		mv.addObject("storageSelectNo", storageSelectNo);
 		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;
 	}

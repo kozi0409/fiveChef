@@ -10,10 +10,11 @@ public class Storage {
 	
 	public Storage() {}
 		
-	public Storage(String storageName, int fridgeNo) {
+	public Storage(String storageName, int fridgeNo, String storageSelectNo) {
 		super();
 		this.storageName = storageName;
 		this.fridgeNo = fridgeNo;
+		this.storageSelectNo = storageSelectNo;
 	}
 	
 	
@@ -22,6 +23,7 @@ public class Storage {
 		this.storageNo = storageNo;
 		this.storageName = storageName;
 	}
+	
 	
 
 	public int getStorageNo() {

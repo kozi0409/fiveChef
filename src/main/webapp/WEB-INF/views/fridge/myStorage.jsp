@@ -22,7 +22,6 @@
 			<h1 align="center" >${fridgeName } 페이지</h1>
 		</div>
 	</header>
-		${stList }
 		<div class="card-body" style="background-color:gold; padding: 30px;">
 		<div class="row">
 			<div class="col" align="left">
@@ -31,11 +30,13 @@
 			</div>
 			<div class="col" align="right">
 				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage">칸 생성</button>
-				<button class="btn btn-danger" onclick="deleteStorage();">칸 삭제</button>
+				<button class="btn btn-danger" onclick="deleteStorage(${fridgeNo }, '${fridgeName }', ${storageNo });">칸 삭제</button>
 			</div>
 		</div>
 			<c:if test="${not empty stList }">
 				<c:forEach items="${stList }" var="storage" varStatus="j">
+					<input type="hidden" name="storageSelectNo" value="${storage.storageSelectNo }">
+					<input type="hidden" name="storageNo" value="${storage.storageNo }">
 					<hr style="border-width:2px;">
 					<div class="row mb-2 mt-2">
 						<div class="col-3" style="background-color:green;">
@@ -124,9 +125,9 @@
 												<div class="form-floating mb-3">
 													<input type="hidden" name="fridgeNo" value="${fridgeNo}">
 													<input type="hidden" name="fridgeName" value="${fridgeName}">
-													<input type="hidden" name="stList" value="${stList}">
+													<input type="hidden" name="stList" value="${storage}">
 													<input type="hidden" name="storageNo" value="${storage.storageNo}">
-													<input type="hidden" name="storageName" value="${storage.storageName}">
+<%-- 													<input type="hidden" name="storageName" value="${storage.storageName}"> --%>
 													<input type="text" class="form-control rounded-4" id="storageName" placeholder="칸 이름 입력" name="storageName" value="${storage.storageName }" required>
 													<label for="floatingInput">칸 이름</label>
 												</div>
@@ -200,21 +201,36 @@
 		
 		
 		
-		function deleteStorage(){
-			var chkArray = new Array();
+		function deleteStorage(fNo, fName, sNo){
+// 			console.log();
+			var checkedList = new Array();
 			$(".chkBox:checked").each(function(index, item){
-				console.log(this.id);
-				if ($(this.id).is(':checked') == true){
-					var tmpVal = $(this).val(); 
-				    chkArray.push(tmpVal);
-					alert(this.id);
-				} else {
-					alert("값을 선택해주시기 바랍니다.");
-				    return;
-// 					alert("아무것도 없음");
-				}
-				console.log(chkArray);
-				})
+				checkedList.push(this.value);
+			});
+
+			if (checkedList == ''){
+				alert("체크박스를 선택해주시기 바랍니다.");
+			} else {
+				$.each(checkedList, function(index, item){
+					var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+	 				$form.attr("action", "/fridge/deleteStorage.kh");
+	 				$form.attr("method", "post");
+	 				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
+	 				$form.append("<input type='hidden' value='"+fName+"' name='fridgeName'>");
+	 				$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
+// 	 				$form.append("<input type='hidden' value='"+${stList }+"' name='stList'>");
+	 				$form.appendTo("body");
+					$form.submit();
+				});
+			}
+// 			console.log(checkedList);
+				
+// // 				console.log(checkedList);
+// // 				if ($("this.id:checked") == true){
+// // 					alert(this.id);
+// // 				} 
+				
+				
 // 			if ($('input:checkbox[name="storageBoxCheck"]').is(':checked') == true){
 // 				alert($('input:checkbox[name="storageBoxCheck"]').attr("value"));
 // 				console.log($('input:checkbox[name="storageBoxCheck"]').attr("id"));
