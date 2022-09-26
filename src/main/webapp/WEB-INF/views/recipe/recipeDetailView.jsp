@@ -48,6 +48,7 @@ height: 400px;
 	#likezone{
 		height: 10%;
 		padding: 2%;
+		border-bottom: 1px solid #ccc;
 		
 	}
 /* #title-zone{
