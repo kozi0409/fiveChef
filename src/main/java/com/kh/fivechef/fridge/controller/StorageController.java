@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.fridge.domain.LargeCategory;
+import com.kh.fivechef.fridge.domain.SelectBox;
 import com.kh.fivechef.fridge.domain.SmallCategory;
 import com.kh.fivechef.fridge.domain.Storage;
 import com.kh.fivechef.fridge.service.StorageService;
@@ -20,31 +21,40 @@ public class StorageController {
 	@Autowired
 	private StorageService sService;
 	// 민석님 공유
+	// 칸 페이지
 	@RequestMapping(value="/fridge/storage.kh", method=RequestMethod.GET)
 	public ModelAndView showStoragePage(ModelAndView mv
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName) {
-		List<LargeCategory> lList = sService.printLargeCat();
-		List<SmallCategory> sList = sService.printSmallCat("A1");
-		List<Storage> stList = sService.printStorage(fridgeNo);
-		mv.addObject("fridgeNo", fridgeNo);
-		mv.addObject("fridgeName", fridgeName);
-		mv.addObject("lList", lList);
-		mv.addObject("sList", sList);
-		mv.addObject("stList", stList);
-		mv.setViewName("fridge/myMain");
+		try {
+			List<LargeCategory> lList = sService.printLargeCat();
+			List<SmallCategory> sList = sService.printSmallCat("A1");
+			List<Storage> stList = sService.printStorage(fridgeNo);
+			mv.addObject("fridgeNo", fridgeNo);
+			mv.addObject("fridgeName", fridgeName);
+			mv.addObject("lList", lList);
+			mv.addObject("sList", sList);
+			mv.addObject("stList", stList);
+			mv.setViewName("fridge/myMain");
+		} catch (Exception e) {
+			mv.addObject("msg", e.toString());
+			mv.setViewName("redirect:/fridge/errorPage.jsp");
+		}
 		return mv;
 	}
 	// 민석님 공유
+	// 칸 페이지 소분류
 	@RequestMapping(value="/fridge/changeSmall.kh", method=RequestMethod.GET)
 	public ModelAndView showSmallCat(ModelAndView mv
 			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName
-			,@RequestParam("jNo") Integer jNo){
+			,@RequestParam("selectBoxNo") Integer selectBoxNo
+			,@RequestParam("storageNo") Integer storageNo){
 		List<LargeCategory> lList = sService.printLargeCat();
 		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
-		int result = sService.registSelectBox(largeCatId);
+		SelectBox selectBox = new SelectBox(storageNo, largeCatId, selectBoxNo);
+		int result = sService.registSelectValue(selectBox);
 		List<Storage> stList = sService.printStorage(fridgeNo);
 		mv.addObject("sList", sList);
 		mv.addObject("lList", lList);
@@ -52,7 +62,8 @@ public class StorageController {
 		mv.addObject("largeCatId", largeCatId);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
-		mv.addObject("jNo", jNo);
+		mv.addObject("selectBoxNo", selectBoxNo);
+		mv.addObject("selectBox", selectBox);
 		mv.setViewName("fridge/myMain");
 		return mv;
 	}
@@ -75,22 +86,39 @@ public class StorageController {
 		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;
 	}
+	
+	//칸 이름 수정
+	@RequestMapping(value="/fridge/modifyStorage.kh", method=RequestMethod.POST)
+	public ModelAndView storageModify(ModelAndView mv
+			,@RequestParam("fridgeNo") Integer fridgeNo
+			,@RequestParam("fridgeName") String fridgeName
+			,@RequestParam("storageNo") Integer storageNo
+			,@RequestParam("storageName") String storageName) {
+		Storage storage = new Storage(storageNo, storageName);
+		int result = sService.modifyStorage(storage);
+		mv.addObject("storage", storage);
+		mv.addObject("fridgeNo", fridgeNo);
+		mv.addObject("fridgeName", fridgeName);
+		mv.setViewName("redirect:/fridge/storage.kh");
+		return mv;
+	}
+	
 	//칸 삭제
 	@RequestMapping(value="/fridge/deleteStorage.kh", method=RequestMethod.POST)
 	public ModelAndView storageRemove(ModelAndView mv
-			,@RequestParam("largeCatId") String largeCatId
+//			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName
 			,@RequestParam("jNo") Integer jNo) {
 		List<LargeCategory> lList = sService.printLargeCat();
-		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
+//		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
 		List<Storage> stList = sService.printStorage(fridgeNo);
 		int result = sService.removeStorage(stList);
-		mv.addObject("sList", sList);
+//		mv.addObject("sList", sList);
 		mv.addObject("lList", lList);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
-		mv.addObject("largeCatId", largeCatId);
+//		mv.addObject("largeCatId", largeCatId);
 		mv.addObject("jNo", jNo);
 		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;

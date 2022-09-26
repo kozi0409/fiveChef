@@ -1,5 +1,6 @@
 package com.kh.fivechef.fridge.store.logic;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.fivechef.fridge.domain.Fridge;
 import com.kh.fivechef.fridge.domain.LargeCategory;
+import com.kh.fivechef.fridge.domain.SelectBox;
 import com.kh.fivechef.fridge.domain.SmallCategory;
 import com.kh.fivechef.fridge.domain.Storage;
 import com.kh.fivechef.fridge.store.StorageStore;
@@ -45,8 +47,14 @@ public class StorageStoreLogic implements StorageStore {
 	}
 
 	@Override
-	public int insertSelectBox(SqlSession session, String largeCatId) {
-		int result = session.update("FridgeMapper.updateSelectBox", largeCatId);
+	public int updateSelectValue(SqlSession session, SelectBox selectBox) {
+		int result = session.update("FridgeMapper.updateSelectBox", selectBox);
+		return result;
+	}
+
+	@Override
+	public int updateStorage(SqlSession session, Storage storage) {
+		int result = session.update("FridgeMapper.updateStorage", storage);
 		return result;
 	}
 

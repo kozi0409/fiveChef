@@ -26,6 +26,8 @@
  		<id property="storageNo" 				column="STORAGE_NO" />
  		<result property="storageName" 			column="STORAGE_NAME" />
  		<result property="fridgeNo" 			column="FRIDGE_NO" />
+ 		<result property="largeCatId" 			column="LARGE_CAT_ID" />
+		<result property="storageSelectNo" 		column="STORAGE_SELECT_NO" />
  	</resultMap>
  	
  	<insert id="insertFridge">
@@ -54,12 +56,12 @@
  	</select>
  	<select id="selectSmallCat" resultMap="smallResultMap">
  		SELECT * FROM SMALL_CATEGORY
- 		WHERE LARGE_CAT_ID = #{largeCatId}
+<!--  		WHERE LARGE_CAT_ID = #{largeCatId} -->
  	</select>
  	
  	<insert id="insertStorage">
  		INSERT INTO STORAGE_TBL
- 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo})
+ 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo}, 'A1', 0)
  	</insert>
  	
  	<select id="selectStorage" resultMap="storageResultMap">
@@ -68,10 +70,14 @@
  	</select>
  	<delete id="deleteStorage">
  		DELETE FROM STORAGE_TBL
- 		WHERE STORAGE_NO = #{storageNo} AND STORAGE_NAME = #{storageName}
+ 		WHERE STORAGE_NO = #{storageNo} AND FRIDGE_NO = #{fridgeNo}
  	</delete>
  	<update id="updateSelectBox">
- 		UPDATE STORAGE_TBL SET LARGE_CAT_ID = #{largeCatId}
- 		WHERE FRIDGE_NO = #{fridgeNo}
+ 		UPDATE STORAGE_TBL SET LARGE_CAT_ID = #{largeCatId}, STORAGE_SELECT_NO = #{selectBoxNo}
+ 		WHERE STORAGE_NO = #{storageNo}
+ 	</update>
+ 	<update id="updateStorage">
+ 		UPDATE STORAGE_TBL SET STORAGE_NAME = #{storageName}
+ 		WHERE STORAGE_NO = #{storageNo}
  	</update>
  </mapper>
