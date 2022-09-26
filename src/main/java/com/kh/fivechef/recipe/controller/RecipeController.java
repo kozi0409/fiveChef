@@ -446,7 +446,7 @@ public class RecipeController {
 	@RequestMapping(value = "/recipe/recipeRemove.kh", method = RequestMethod.POST)
 	public ModelAndView recipeRemove(ModelAndView mv
 			, @RequestParam(value = "recipeNo", required = false) Integer recipeNo) {
-		
+		//여기서부터
 		return mv;
 	}
 
