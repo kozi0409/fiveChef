@@ -8,13 +8,108 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-<!-- <link href="../../resources/css/maincss.css" rel="stylesheet"> -->
-<!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"  integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script> -->
+
+<style>
+#main-form {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+textarea.form-controls {
+	min-height: calc(1.5em + 2rem + 2px);
+	border: #333;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+}
+
+.form-controls:focus {
+	color: #212529;
+	background-color: #fff;
+	border-color: #86b7fe;
+	outline: 0;
+	box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
+}
+
+#btn-2 {
+	height: 40px;
+	border: 0;
+	color: white;
+	background-color: rgb(209, 24, 79);
+}
+
+#btn-2 {
+	color: #fff;
+	background-color: rgb(209, 24, 79);
+	border-color: rgb(209, 24, 79)
+}
+
+#btn-2:hover {
+	color: #fff;
+	background-color: rgb(216, 50, 100);
+	border-color: rgb(216, 50, 100)
+}
+
+.btn-outline-primary {
+	color: rgb(209, 24, 79);
+	border-color: rgb(209, 24, 79)
+}
+
+.btn-outline-primary:hover {
+	color: #fff;
+	background-color: rgb(209, 24, 79);
+	border-color: rgb(209, 24, 79)
+}
+
+#cutline {
+	visibility: hidden;
+}
+
+#thumbnailzone {
+	position: relative;
+	width: auto;
+	height: 200px;
+	border: 1px solid #aaa;
+	border-radius: .25rem;
+}
+
+#thumbnailzone img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	/* border-radius: 5%; */
+	top: 50%;
+	left: 50%;
+	margin-top: 0;
+	transform: translate(-50%, -50%);
+	!
+	important
+}
+
+#thumbnailzone .form-label {
+	width: 100%;
+}
+
+#thumbnailzone input {
+	position: relative;
+	width: 100%;
+}
+
+#ingHidden {
+	visibility: hidden;
+	height: 0px;
+	width: 0px;
+}
+</style>
 
 </head>
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+	
+
+<body>
+<!-- navs bar -->
+<jsp:include page="../main/user_navs.jsp"></jsp:include>
 	
 	<header>
 	</header>
@@ -24,7 +119,7 @@
 		<div class="mt-3" align="center">
 			<h1>MY 냉장고</h1>
 		</div>
-			<div class="card-body" style="width:100%; background-color:gray; padding: 20px; border-radius: 10px;">
+			<div class="card-body" style="width:100%; background-color:rgb(255, 198, 198); padding: 20px; border-radius: 10px;">
 				<div align="right">
 					<div class="row">
 						<div class="col">
@@ -37,7 +132,7 @@
 									 
 								</div>
 								<div class="col">
-									<button class="w-100 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge"<c:if test="${checkYn == false }">disabled</c:if> >냉장고 생성</button>
+									<button class="w-100 mb-2 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#createFridge" id="btn-2" <c:if test="${checkYn == false }">disabled</c:if> >냉장고 생성</button>
 								</div>
 							</div>
 						</div>
@@ -71,10 +166,7 @@
 											    <div class="modal-body">
 												    <div class="modal-body p-5 pt-0">
 														<form action="/fridge/modify.kh" method="post" enctype="multipart/form-data">
-<%-- 															<input type="hidden" name="page" value="${page }"> --%>
 															<input type="hidden" name="fridgeNo" value="${fridge.fridgeNo }" required>
-<%-- 															<input type="hidden" name="boardFilename" value="${board.boardFilename }"> --%>
-<%-- 															<input type="hidden" name="boardFileRename" value="${board.boardFileRename }"> --%>
 															<br>
 															<div class="form-floating mb-3">
 															<input type="text" class="form-control rounded-4" id="fridgeName" placeholder="냉장고 이름 입력" name="fridgeName" value="${fridge.fridgeName }">
@@ -143,35 +235,7 @@
 	  </div>
 	</div>
 	
-<!-- 	<!--modify Modal -->
-<!-- 	<div class="modal fade" id="modifyFridge" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
-<!-- 	  <div class="modal-dialog modal-dialog-centered"> -->
-<!-- 	    <div class="modal-content"> -->
-<!-- 	      <div class="modal-header"> -->
-<!-- 	        <h5 class="modal-title" id="exampleModalLabel">냉장고 수정111</h5> -->
-<!-- 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-<!-- 	      </div> -->
-<!-- 	      <div class="modal-body"> -->
-<!-- 	        <div class="modal-body p-5 pt-0"> -->
-<!-- 		        <form action="/fridge/modify.kh" method="post" enctype="multipart/form-data"> -->
-<%-- 		        <input type="hidden" name="fridgeNo" value="${fridge.fridgeNo }"> --%>
-<!-- 		        <br> -->
-<!-- 		          <div class="form-floating mb-3"> -->
-<%-- 		            <input type="text" class="form-control rounded-4" id="fridgeName" placeholder="냉장고 이름 입력" name="modifyFridgeName" value="${mFridge.fridgeName }"> --%>
-<!-- 		            <label for="floatingInput">냉장고 이름</label> -->
-		            
-<!-- 		          </div> -->
-<!-- 		          <div class="mb-3"> -->
-<!-- 					  프로필 사진 등록 -->
-<%-- 					  <input class="form-control" type="file" id="formProfile" name="uploadProfile" value="${mFridge.fridgeFilename }"> --%>
-<!-- 				  </div> -->
-<!-- 		          <button class="w-100 mb-2 btn btn-lg btn-primary" type="submit">수정 완료</button> -->
-<!-- 		        </form> -->
-<!-- 		      </div> -->
-<!-- 	        </div> -->
-<!-- 	     </div> -->
-<!-- 	  </div> -->
-<!-- 	</div> -->
+
 	
 	<script>
 		function removeFridge(fNo){
@@ -182,6 +246,7 @@
 		}
 	</script>
 	
-	
+	<!-- copyright -->
+	<jsp:include page="../main/footer.jsp"></jsp:include>
 </body>
 </html>

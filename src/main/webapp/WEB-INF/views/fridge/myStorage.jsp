@@ -12,6 +12,105 @@
 	<title>냉장고 칸 페이지</title>
 </head>
 
+<style>
+#main-form {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+textarea.form-controls {
+	min-height: calc(1.5em + 2rem + 2px);
+	border: #333;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+}
+
+.form-controls:focus {
+	color: #212529;
+	background-color: #fff;
+	border-color: #86b7fe;
+	outline: 0;
+	box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
+}
+
+#btn-2 {
+	height: 40px;
+	border: 0;
+	color: white;
+	background-color: rgb(209, 24, 79);
+}
+
+#btn-2 {
+	color: #fff;
+	background-color: rgb(209, 24, 79);
+	border-color: rgb(209, 24, 79)
+}
+
+#btn-2:hover {
+	color: #fff;
+	background-color: rgb(216, 50, 100);
+	border-color: rgb(216, 50, 100)
+}
+
+.btn-outline-primary {
+	color: rgb(209, 24, 79);
+	border-color: rgb(209, 24, 79)
+}
+
+.btn-outline-primary:hover {
+	color: #fff;
+	background-color: rgb(209, 24, 79);
+	border-color: rgb(209, 24, 79)
+}
+
+#cutline {
+	visibility: hidden;
+}
+
+#thumbnailzone {
+	position: relative;
+	width: auto;
+	height: 200px;
+	border: 1px solid #aaa;
+	border-radius: .25rem;
+}
+
+#thumbnailzone img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	/* border-radius: 5%; */
+	top: 50%;
+	left: 50%;
+	margin-top: 0;
+	transform: translate(-50%, -50%);
+	!
+	important
+}
+
+#thumbnailzone .form-label {
+	width: 100%;
+}
+
+#thumbnailzone input {
+	position: relative;
+	width: 100%;
+}
+
+#ingHidden {
+	visibility: hidden;
+	height: 0px;
+	width: 0px;
+}
+
+.vertical {
+            border-left: 2px solid black;
+            height: 280px;
+            position:absolute;
+            left: 28.6%;
+        }
+</style>
 
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
@@ -22,15 +121,15 @@
 			<h1 align="center" >${fridgeName } 페이지</h1>
 		</div>
 	</header>
-		<div class="card-body" style="background-color:gold; padding: 30px;">
+		<div class="card-body" style="background-color:rgb(255, 198, 198); border-radius: 10px; padding: 30px;">
 		<div class="row">
 			<div class="col" align="left">
-				<button class="btn btn-secondary" onclick="location.href='/'">이전 페이지</button>
+				<button class="btn btn-secondary" onclick="location.href='/fridge/myFridge.kh'">&#10094; 이전 페이지</button>
 				<button class="btn btn-info" onclick="console.log('검색');">검색</button>
 			</div>
 			<div class="col" align="right">
-				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage">칸 생성</button>
-				<button class="btn btn-danger" onclick="deleteStorage(${fridgeNo }, '${fridgeName }', ${storageNo });">칸 삭제</button>
+				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage" id="btn-2">&#43; 칸 생성</button>
+				<button class="btn btn-danger" onclick="deleteStorage(${fridgeNo }, '${fridgeName }', ${storageNo });" id="btn-2">&#8722;  칸 삭제</button>
 			</div>
 		</div>
 			<c:if test="${not empty stList }">
@@ -39,7 +138,7 @@
 					<input type="hidden" name="storageNo" value="${storage.storageNo }">
 					<hr style="border-width:2px;">
 					<div class="row mb-2 mt-2">
-						<div class="col-3" style="background-color:green;">
+						<div class="col-3" >
 							<br>
 							<div class="row">
 								<div class="col-2">
@@ -93,7 +192,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="col" style="background-color:blue; padding:20px">
+						<div class = "vertical"></div>
+						<div class="col" style="padding:20px">
 							<div class="row row-cols-6">
 								<c:forEach var="i" begin="0" end="50">
 									<div class="col">
@@ -141,13 +241,17 @@
 		
 				</c:forEach>
 			</c:if>
+			<c:if test="${empty stList }">
+				<hr>
+				<br>
+				<div>
+					<div colspan="6" align="center"><h3><b>칸을 생성해 주세요.</b></h3></div>
+				</div>
+				<br>
+				<hr>
+			</c:if>
 		</div>
 	</div>
-		<c:if test="${empty stList }">
-			<div>
-				<div colspan="6" align="center"><h3><b>칸을 생성해 주세요.</b></h3></div>
-			</div>
-		</c:if>
 		
 		
 		<!--Create Storage Modal -->

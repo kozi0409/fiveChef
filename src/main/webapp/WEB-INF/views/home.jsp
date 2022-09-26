@@ -51,6 +51,7 @@
     </div>
 <!-- slide image End -->
 
+
 <!-- copyright -->
 <jsp:include page="./main/footer.jsp"></jsp:include>
 </body>
