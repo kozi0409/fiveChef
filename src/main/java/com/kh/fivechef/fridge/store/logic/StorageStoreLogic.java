@@ -52,4 +52,10 @@ public class StorageStoreLogic implements StorageStore {
 		return result;
 	}
 
+	@Override
+	public int updateStorage(SqlSession session, Storage storage) {
+		int result = session.update("FridgeMapper.updateStorage", storage);
+		return result;
+	}
+
 }

@@ -42,13 +42,13 @@
 							<br>
 							<div class="row">
 								<div class="col-2">
-									<input type="checkbox" name="storageBoxCheck" id="storageCheck${j.index }">
+									<input class="chkBox" type="checkbox" name="storageBoxCheck" id="storageCheck${j.index }" value="${j.index }">
 								</div>
 								<div class="col">
 									<h3>${storage.storageName }</h3>
 								</div>
 								<div class="col">
-									<button class="btn btn-warning" onclick="#">이름 수정</button>
+									<button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modifyStorage${j.index }">이름 수정</button>
 								</div>
 							</div>
 							<br>
@@ -66,18 +66,15 @@
 							</div>
 							<br>
 							<div class="row">
-							${storage.largeCatId }
-								${storage.storageSelectNo}
-								${j.index }
-								${selectBoxNo }
-								${selectBox.selectBoxNo }
 								<div class="col-3 text-centered">
 									<h6><b>소분류</b></h6>
 								</div>
 								<div class="col">
 									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);" >
 										<c:forEach items="${sList }" var="smallCat"  varStatus="i">
-											<option id="smallCatOpt" value="${smallCat.smallCatId }" ><c:if test="${smallCat.largeCatId eq storage.largeCatId }">${j.index},${selectBoxNo},${smallCat.smallCatName }</c:if></option>
+											<c:if test="${smallCat.largeCatId eq storage.largeCatId }">
+												<option id="smallCatOpt" value="${smallCat.smallCatId }" >${smallCat.smallCatName }</option>
+											</c:if>
 										</c:forEach>
 									</select>
 								</div>
@@ -112,6 +109,35 @@
 							</div>
 						</div>
 					</div>
+					<!--Modify Storage Modal -->
+					<div class="modal fade" id="modifyStorage${j.index }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+							<div class="modal-content">
+							 	<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">이름 수정</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								    <div class="modal-body">
+									    <div class="modal-body p-5 pt-0">
+											<form action="/fridge/modifyStorage.kh" method="post">
+												<br>
+												<div class="form-floating mb-3">
+													<input type="hidden" name="fridgeNo" value="${fridgeNo}">
+													<input type="hidden" name="fridgeName" value="${fridgeName}">
+													<input type="hidden" name="stList" value="${stList}">
+													<input type="hidden" name="storageNo" value="${storage.storageNo}">
+													<input type="hidden" name="storageName" value="${storage.storageName}">
+													<input type="text" class="form-control rounded-4" id="storageName" placeholder="칸 이름 입력" name="storageName" value="${storage.storageName }" required>
+													<label for="floatingInput">칸 이름</label>
+												</div>
+												<button class="w-100 mb-2 btn btn-lg btn-primary" type="submit">수정 완료</button>
+											</form>
+										</div>
+							    	</div>
+							</div>
+						</div>
+					</div>
+		
 				</c:forEach>
 			</c:if>
 		</div>
@@ -121,10 +147,6 @@
 				<div colspan="6" align="center"><h3><b>칸을 생성해 주세요.</b></h3></div>
 			</div>
 		</c:if>
-		
-		
-		
-		
 		
 		
 		<!--Create Storage Modal -->
@@ -155,6 +177,11 @@
 		
 		
 		
+		
+		
+		
+		
+		
 	<script>
 		function selectLargeBox(value, fNo, fName, jNo, sNo){
 // 			value.preventDefault();
@@ -171,18 +198,35 @@
 		}
 		
 		
-		function deleteStorage(val){
-			if ($('input:checkbox[name="storageBoxCheck"]').is(':checked') == true){
-				console.log($('input:checkbox[name="storageBoxCheck"]').attr("id"));
-				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
-				$form.attr("action", "/fridge/deleteStorage.kh");
-				$form.attr("method", "post");
-// 				$form.append("<input type='hidden' value='"+sNo+"'name='storageNo'>");
-				$form.appendTo("body");
-// 				$form.submit();
-			} else {
-				alert("아무것도 없음");
-			}
+		
+		
+		function deleteStorage(){
+			var chkArray = new Array();
+			$(".chkBox:checked").each(function(index, item){
+				console.log(this.id);
+				if ($(this.id).is(':checked') == true){
+					var tmpVal = $(this).val(); 
+				    chkArray.push(tmpVal);
+					alert(this.id);
+				} else {
+					alert("값을 선택해주시기 바랍니다.");
+				    return;
+// 					alert("아무것도 없음");
+				}
+				console.log(chkArray);
+				})
+// 			if ($('input:checkbox[name="storageBoxCheck"]').is(':checked') == true){
+// 				alert($('input:checkbox[name="storageBoxCheck"]').attr("value"));
+// 				console.log($('input:checkbox[name="storageBoxCheck"]').attr("id"));
+// 				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+// 				$form.attr("action", "/fridge/deleteStorage.kh");
+// 				$form.attr("method", "post");
+// // 				$form.append("<input type='hidden' value='"+sNo+"'name='storageNo'>");
+// 				$form.appendTo("body");
+// // 				$form.submit();
+// 			} else {
+// 				alert("아무것도 없음");
+// 			}
 			
 // 			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
 // 			$form.attr("action", "/fridge/deleteStorage.kh");

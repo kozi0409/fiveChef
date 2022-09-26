@@ -86,6 +86,23 @@ public class StorageController {
 		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;
 	}
+	
+	//칸 이름 수정
+	@RequestMapping(value="/fridge/modifyStorage.kh", method=RequestMethod.POST)
+	public ModelAndView storageModify(ModelAndView mv
+			,@RequestParam("fridgeNo") Integer fridgeNo
+			,@RequestParam("fridgeName") String fridgeName
+			,@RequestParam("storageNo") Integer storageNo
+			,@RequestParam("storageName") String storageName) {
+		Storage storage = new Storage(storageNo, storageName);
+		int result = sService.modifyStorage(storage);
+		mv.addObject("storage", storage);
+		mv.addObject("fridgeNo", fridgeNo);
+		mv.addObject("fridgeName", fridgeName);
+		mv.setViewName("redirect:/fridge/storage.kh");
+		return mv;
+	}
+	
 	//칸 삭제
 	@RequestMapping(value="/fridge/deleteStorage.kh", method=RequestMethod.POST)
 	public ModelAndView storageRemove(ModelAndView mv

@@ -14,4 +14,5 @@ public interface StorageService {
 	public List<Storage> printStorage(Integer fridgeNo);
 	public int removeStorage(List<Storage> stList);
 	public int registSelectValue(SelectBox selectBox);
+	public int modifyStorage(Storage storage);
 }

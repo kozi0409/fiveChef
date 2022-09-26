@@ -63,6 +63,13 @@ public class StorageServiceImpl implements StorageService {
 		return result;
 	}
 
+
+	@Override
+	public int modifyStorage(Storage storage) {
+		int result = sStore.updateStorage(session, storage);
+		return result;
+	}
+
 		
 	
 	

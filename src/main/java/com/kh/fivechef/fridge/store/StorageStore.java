@@ -9,7 +9,6 @@ import com.kh.fivechef.fridge.domain.SelectBox;
 import com.kh.fivechef.fridge.domain.SmallCategory;
 import com.kh.fivechef.fridge.domain.Storage;
 
-
 public interface StorageStore {
 	public List<LargeCategory> selectLargeCat(SqlSession session);
 	public List<SmallCategory> selectSmallCat(SqlSession session, String largeCatId);
@@ -17,4 +16,5 @@ public interface StorageStore {
 	public List<Storage> selectStorage(SqlSession session, Integer fridgeNo);
 	public int deleteStorage(SqlSession session, List<Storage> stList);
 	public int updateSelectValue(SqlSession session, SelectBox selectBox);
+	public int updateStorage(SqlSession session, Storage storage);
 }
