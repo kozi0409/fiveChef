@@ -41,4 +41,8 @@ public interface CommunityStore {
 	List<Community> selectSaleBoardByValue(SqlSessionTemplate session, String searchCondition, String searchValue,
 			int currentPage, int communityLimit);
 
+	List<Community> selectAllMyCommunity(SqlSessionTemplate session, String communityWriter, int currentPage, int communityLimit);
+
+	int selectTotalCount(SqlSessionTemplate session, String searchCondition, String searchValue);
+
 }

@@ -16,9 +16,17 @@
     <style>
     	.user {
     		font-size : 20px;
+    		padding :10px;
     		text-decoration : none;
 			color : rgb(209, 24, 79);	
     	}
+    	
+    	#img-nav {
+    		width : 50px;
+			height :50px;
+			border-radius: 100%;
+    	}
+    	
     </style>
 </head>
 
@@ -33,12 +41,18 @@
       <div>
         <h1 id="logo"><a href="/"><img src="../resources/images/logo.png"></a></h1>
       </div>
-      <div>
+      <div align="center">
          <div>
         <c:if test="${sessionScope.loginUser eq null }">
       		<a href="/user/loginView.kh" class="user">LOGIN</a>
    		</c:if>
    		<c:if test="${not empty loginUser}">
+      		<c:if test="${loginUser.userPhotoName != null }">
+				<img id="img-nav" alt="본문이미지" src="/resources/userProfile/${loginUser.userPhotoRename }">
+			</c:if>
+			<c:if test="${loginUser.userPhotoName == null }">
+				<img id="img-nav" alt="본문이미지" src="/resources/userProfile/normalProfile.png">
+			</c:if>	
       		<div>${sessionScope.loginUser.userId }</div><br>
       		<span><a href="/user/logout.kh" class="user">LOGOUT</a></span>
       		<span><a href="/recipe/writeView.kh" class="user">WRITE</a></span>

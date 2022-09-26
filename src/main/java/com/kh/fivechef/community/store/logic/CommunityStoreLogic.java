@@ -25,9 +25,9 @@ public class CommunityStoreLogic implements CommunityStore{
 	public int selectTotalFCount(SqlSessionTemplate session, String searchCondition, String searchValue) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
-		paramMap.put("searchValud", searchValue);
-		int totalCount = session.selectOne("CommunityMapper.selectTotalFCount", paramMap);
-		return totalCount;
+		paramMap.put("searchValue", searchValue);
+		int totalFCount = session.selectOne("CommunityMapper.selectTotalFCount", paramMap);
+		return totalFCount;
 	}
 
 	@Override
@@ -111,8 +111,8 @@ public class CommunityStoreLogic implements CommunityStore{
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
 		paramMap.put("searchValud", searchValue);
-		int totalCount = session.selectOne("CommunityMapper.selectTotalSCount", paramMap);
-		return totalCount;
+		int totalSCount = session.selectOne("CommunityMapper.selectTotalSCount", paramMap);
+		return totalSCount;
 	}
 
 	@Override
@@ -125,6 +125,23 @@ public class CommunityStoreLogic implements CommunityStore{
 		paramMap.put("searchValue", searchValue);
 		List<Community> cList = session.selectList("CommunityMapper.selectSaleBoardByValue", paramMap, rowBounds);
 		return cList;
+	}
+
+	@Override
+	public List<Community> selectAllMyCommunity(SqlSessionTemplate session, String communityWriter, int currentPage, int communityLimit) {
+		int offset = (currentPage - 1) * communityLimit;
+		RowBounds rowBounds = new RowBounds(offset, communityLimit);
+		List<Community> cList = session.selectList("CommunityMapper.selectAllMyCommunity", communityWriter, rowBounds);
+		return cList;
+	}
+
+	@Override
+	public int selectTotalCount(SqlSessionTemplate session, String searchCondition, String searchValue) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("searchCondition", searchCondition);
+		paramMap.put("searchValud", searchValue);
+		int totalCount = session.selectOne("CommunityMapper.selectTotalCount", paramMap);
+		return totalCount;
 	}
 	
 }

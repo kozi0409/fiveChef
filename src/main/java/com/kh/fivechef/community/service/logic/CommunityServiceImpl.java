@@ -26,8 +26,8 @@ public class CommunityServiceImpl implements CommunityService{
 
 	@Override
 	public int getTotalFCount(String searchCondition, String searchValue) {
-		int totalCount = cStore.selectTotalFCount(session, searchCondition, searchValue);
-		return totalCount;
+		int totalFCount = cStore.selectTotalFCount(session, searchCondition, searchValue);
+		return totalFCount;
 	}
 
 	@Override
@@ -106,6 +106,18 @@ public class CommunityServiceImpl implements CommunityService{
 			int communityLimit) {
 		List<Community> cList = cStore.selectSaleBoardByValue(session, searchCondition, searchValue, currentPage, communityLimit);
 		return cList;
+	}
+
+	@Override
+	public List<Community> printAllMyCommunity(String communityWriter, int currentPage, int communityLimit) {
+		List<Community> cList = cStore.selectAllMyCommunity(session, communityWriter, currentPage, communityLimit);
+		return cList;
+	}
+
+	@Override
+	public int getTotalCount(String searchCondition, String searchValue) {
+		int totalCount = cStore.selectTotalCount(session, searchCondition, searchValue);
+		return totalCount;
 	}
 	
 	

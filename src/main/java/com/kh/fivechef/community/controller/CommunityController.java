@@ -44,16 +44,47 @@ public class CommunityController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/community/communityList.kh", method=RequestMethod.GET)
+	@RequestMapping(value="/community/myCommunityList.kh", method=RequestMethod.GET) //내 게시글 리스트
+	public ModelAndView myPrintCommunityList(ModelAndView mv, @RequestParam(value="page", required=false) Integer page, HttpSession session) {
+			User user =(User)session.getAttribute("loginUser");
+			String communityWriter = user.getUserId();
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = cService.getTotalCount("", "");
+			int communityLimit = 10;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int)((double)totalCount/communityLimit + 0.9);
+			startNavi = ((int)((double)currentPage/naviLimit + 0.9)-1) * naviLimit + 1;
+			endNavi = startNavi + naviLimit - 1;
+			if(maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			List<Community> cList = cService.printAllMyCommunity(communityWriter, currentPage, communityLimit);
+			if(!cList.isEmpty()) {
+				mv.addObject("communityWriter", communityWriter);
+				mv.addObject("urlVal", "myCommunityList");
+				mv.addObject("currentPage", currentPage);
+				mv.addObject("maxPage", maxPage);
+				mv.addObject("startNavi", startNavi);
+				mv.addObject("endNavi", endNavi);
+				mv.addObject("cList", cList);
+			}
+			mv.setViewName("community/MyCommList");
+			return mv;
+	}
+	
+	@RequestMapping(value="/community/communityList.kh", method=RequestMethod.GET) //자유게시판 리스트
 	public ModelAndView printCommunityList(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = cService.getTotalFCount("", "");
+		int totalFCount = cService.getTotalFCount("", "");
 		int communityLimit = 10;
 		int naviLimit = 5;
 		int maxPage;
 		int startNavi;
 		int endNavi;
-		maxPage = (int)((double)totalCount/communityLimit + 0.9);
+		maxPage = (int)((double)totalFCount/communityLimit + 0.9);
 		startNavi = ((int)((double)currentPage/naviLimit + 0.9)-1) * naviLimit + 1;
 		endNavi = startNavi + naviLimit - 1;
 		if(maxPage < endNavi) {
@@ -71,7 +102,7 @@ public class CommunityController {
 		mv.setViewName("community/commList");
 		return mv;
 	}
-	@RequestMapping(value="/community/saleBoardList.kh", method=RequestMethod.GET)
+	@RequestMapping(value="/community/saleBoardList.kh", method=RequestMethod.GET) //할인정보게시판 리스트
 	public ModelAndView printSaleBoardList(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = cService.getTotalSCount("", "");
@@ -167,20 +198,20 @@ public class CommunityController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/community/communitySearch.kh" , method=RequestMethod.GET)
+	@RequestMapping(value="/community/communitySearch.kh" , method=RequestMethod.GET) //자유게시판 검색
 	public ModelAndView communitySearchList(ModelAndView mv, 
 			@RequestParam("searchCondition") String searchCondition, 
 			@RequestParam("searchValue") String searchValue, 
 			@RequestParam(value="page", required=false) Integer page) {
 		try {
 			int currentPage = (page != null) ? page : 1;
-			int totalCount = cService.getTotalFCount(searchCondition, searchValue);
+			int totalFCount = cService.getTotalFCount(searchCondition, searchValue);
 			int communityLimit = 10;
 			int naviLimit = 5;
 			int maxPage;
 			int startNavi;
 			int endNavi;
-			maxPage = (int)((double)totalCount/communityLimit + 0.9);
+			maxPage = (int)((double)totalFCount/communityLimit + 0.9);
 			startNavi = ((int)((double)currentPage/naviLimit + 0.9)-1) * naviLimit + 1;
 			endNavi = startNavi + naviLimit - 1;
 			if(maxPage < endNavi) {
@@ -193,8 +224,9 @@ public class CommunityController {
 			} else {
 				mv.addObject("cList", null);
 			}
-			mv.addObject("urlVal", "search");
+			mv.addObject("urlVal", "communitySearch");
 			mv.addObject("searchCondition", searchCondition);
+			mv.addObject("searchValue", searchValue);
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("maxPage", maxPage);
 			mv.addObject("startNavi", startNavi);
@@ -206,20 +238,20 @@ public class CommunityController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/community/saleBoardSearch.kh" , method=RequestMethod.GET)
+	@RequestMapping(value="/community/saleBoardSearch.kh" , method=RequestMethod.GET) //할인정보 게시판 검색
 	public ModelAndView saleBoardSearchList(ModelAndView mv, 
 			@RequestParam("searchCondition") String searchCondition, 
 			@RequestParam("searchValue") String searchValue, 
 			@RequestParam(value="page", required=false) Integer page) {
 		try {
 			int currentPage = (page != null) ? page : 1;
-			int totalCount = cService.getTotalSCount(searchCondition, searchValue);
+			int totalSCount = cService.getTotalSCount(searchCondition, searchValue);
 			int communityLimit = 10;
 			int naviLimit = 5;
 			int maxPage;
 			int startNavi;
 			int endNavi;
-			maxPage = (int)((double)totalCount/communityLimit + 0.9);
+			maxPage = (int)((double)totalSCount/communityLimit + 0.9);
 			startNavi = ((int)((double)currentPage/naviLimit + 0.9)-1) * naviLimit + 1;
 			endNavi = startNavi + naviLimit - 1;
 			if(maxPage < endNavi) {
@@ -232,7 +264,7 @@ public class CommunityController {
 			} else {
 				mv.addObject("cList", null);
 			}
-			mv.addObject("urlVal", "search");
+			mv.addObject("urlVal", "saleBoardSearch");
 			mv.addObject("searchCondition", searchCondition);
 			mv.addObject("currentPage", currentPage);
 			mv.addObject("maxPage", maxPage);
@@ -269,4 +301,6 @@ public class CommunityController {
 		int result = cService.removeReply(replyNo);
 		return "redirect:/community/communityList.kh";
 	}
+	
+	
 }
