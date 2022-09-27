@@ -41,8 +41,11 @@ public class StorageStoreLogic implements StorageStore {
 	}
 
 	@Override
-	public int deleteStorage(SqlSession session, Storage storage) {
-		int result = session.delete("FridgeMapper.deleteStorage", storage);
+	public int deleteStorage(SqlSession session, Integer fridgeNo, Integer stSelectNo) {
+		HashMap<String, Integer> paramMap = new HashMap<String, Integer>();
+		paramMap.put("fridgeNo", fridgeNo);
+		paramMap.put("stSelectNo", stSelectNo);
+		int result = session.delete("FridgeMapper.deleteStorage", paramMap);
 		return result;
 	}
 

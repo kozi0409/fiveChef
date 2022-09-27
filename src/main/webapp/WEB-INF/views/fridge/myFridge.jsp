@@ -82,8 +82,7 @@ textarea.form-controls {
 	left: 50%;
 	margin-top: 0;
 	transform: translate(-50%, -50%);
-	!
-	important
+	!important
 }
 
 #thumbnailzone .form-label {
@@ -144,7 +143,7 @@ textarea.form-controls {
 								<div class="col">
 									<div class="card col-sm-4" style="width: 18rem;" >
 										<div style="cursor : pointer;" onclick="location.href='/fridge/storage.kh?fridgeNo=${fridge.fridgeNo}&fridgeName=${fridge.fridgeName }'">
-											<img src=<c:if test="${not empty fridge.fridgeFileRename }">"/resources/fuploadFiles/${fridge.fridgeFileRename }"</c:if><c:if test="${empty fridge.fridgeFileRename }">"/resources/images/defaultImages.jpg"</c:if> class="card-img-top" alt="...">
+											<img class="card-img-top" alt="이미지" src=<c:if test="${not empty fridge.fridgeFileRename }">"/resources/fuploadFiles/${fridge.fridgeFileRename }"</c:if><c:if test="${empty fridge.fridgeFileRename }">"/resources/images/defaultImages.jpg"</c:if>>
 											<hr style="border-width:1px;">
 										</div>
 										<div class="card-body text-center">

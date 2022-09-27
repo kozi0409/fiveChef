@@ -6,11 +6,12 @@ public class Storage {
 	private String storageName;
 	private int fridgeNo;
 	private String largeCatId;
-	private String storageSelectNo;
+	private int storageSelectNo;
+	private String IngredBundle;
 	
 	public Storage() {}
 		
-	public Storage(String storageName, int fridgeNo, String storageSelectNo) {
+	public Storage(String storageName, int fridgeNo, int storageSelectNo) {
 		super();
 		this.storageName = storageName;
 		this.fridgeNo = fridgeNo;
@@ -24,7 +25,13 @@ public class Storage {
 		this.storageName = storageName;
 	}
 	
-	
+	public Storage(int storageNo, int fridgeNo, int storageSelectNo, String ingredBundle) {
+		super();
+		this.storageNo = storageNo;
+		this.fridgeNo = fridgeNo;
+		this.storageSelectNo = storageSelectNo;
+		this.IngredBundle = ingredBundle;
+	}
 
 	public int getStorageNo() {
 		return storageNo;
@@ -65,19 +72,27 @@ public class Storage {
 		this.largeCatId = largeCatId;
 	}
 	
-	public String getStorageSelectNo() {
+	public int getStorageSelectNo() {
 		return storageSelectNo;
 	}
 
-	public void setStorageSelectNo(String storageSelectNo) {
+	public void setStorageSelectNo(int storageSelectNo) {
 		this.storageSelectNo = storageSelectNo;
 	}
+	
+	public String getIngredBundle() {
+		return IngredBundle;
+	}
 
+	public void setIngredBundle(String ingredBundle) {
+		this.IngredBundle = ingredBundle;
+	}
 	
 	@Override
 	public String toString() {
 		return "Storage [storageNo=" + storageNo + ", storageName=" + storageName + ", fridgeNo=" + fridgeNo
-				+ ", largeCatId=" + largeCatId + ", storageSelectNo=" + storageSelectNo + "]";
+				+ ", largeCatId=" + largeCatId + ", storageSelectNo=" + storageSelectNo + ", IngredBundle="
+				+ IngredBundle + "]";
 	}
 
 	

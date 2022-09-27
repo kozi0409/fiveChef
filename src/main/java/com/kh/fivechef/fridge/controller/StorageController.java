@@ -108,20 +108,32 @@ public class StorageController {
 	public ModelAndView storageRemove(ModelAndView mv
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName
-			,@RequestParam("storageNo") String storageNo
-//			,@RequestParam("stList") List<Storage> stList
-			,@RequestParam("selectBoxNo") Integer selectBoxNo) {
+			,@RequestParam("stSelectNo") Integer stSelectNo
+			) {
 		List<LargeCategory> lList = sService.printLargeCat();
-		Storage storage = new Storage(fridgeNo,);
-		System.out.println(storage);
-		List<Storage> stList = sService.printStorage(fridgeNo);
-		int result = sService.removeStorage(storage);
+		int result = sService.removeStorage(fridgeNo, stSelectNo);
 		mv.addObject("lList", lList);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
-		mv.addObject("storageNo", storageNo);
-//		mv.addObject("storageSelectNo", storageSelectNo);
+		mv.addObject("stSelectNo", stSelectNo);
 		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;
 	}
+	
+	@RequestMapping(value="/fridge/registIngred.kh", method=RequestMethod.POST)
+	public ModelAndView IngredRegist(ModelAndView mv
+			,@RequestParam("fridgeNo") Integer fridgeNo
+			,@RequestParam("stSelectNo") Integer stSelectNo
+			,@RequestParam("storageNo") Integer storageNo
+			,@RequestParam("ingredBundle") String ingredBundle) {
+		Storage storage = new Storage(storageNo, fridgeNo, stSelectNo, ingredBundle);
+		int result = sService.registIngred(storage);
+		mv.addObject("fridgeNo", fridgeNo);
+		mv.addObject("stSelectNo", stSelectNo);
+		mv.addObject("storageNo", storageNo);
+		mv.addObject("ingredBundle", ingredBundle);
+		mv.setViewName("redirect:/fridge/storage.kh");
+		return mv;
+	}
+	
 }

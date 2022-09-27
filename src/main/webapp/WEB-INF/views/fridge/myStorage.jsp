@@ -129,7 +129,7 @@ textarea.form-controls {
 			</div>
 			<div class="col" align="right">
 				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage" id="btn-2">&#43; 칸 생성</button>
-				<button class="btn btn-danger" onclick="deleteStorage(${fridgeNo }, '${fridgeName }', ${storageNo });" id="btn-2">&#8722;  칸 삭제</button>
+				<button class="btn btn-danger" onclick="deleteStorage(${fridgeNo }, '${fridgeName }');" id="btn-2">&#8722;  칸 삭제</button>
 			</div>
 		</div>
 			<c:if test="${not empty stList }">
@@ -142,7 +142,7 @@ textarea.form-controls {
 							<br>
 							<div class="row">
 								<div class="col-2">
-									<input class="chkBox" type="checkbox" name="storageBoxCheck" id="storageCheck${j.index }" value="${j.index }">
+									<input class="chkBox" type="checkbox" name="storageBoxCheck" id="storageCheck${j.index }" value="${storage.storageNo }">
 								</div>
 								<div class="col">
 									<h3>${storage.storageName }</h3>
@@ -170,7 +170,7 @@ textarea.form-controls {
 									<h6><b>소분류</b></h6>
 								</div>
 								<div class="col">
-									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);" >
+									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this, ${fridgeNo}, ${j.index },  ${storage.storageNo });" >
 										<c:forEach items="${sList }" var="smallCat"  varStatus="i">
 											<c:if test="${smallCat.largeCatId eq storage.largeCatId }">
 												<option id="smallCatOpt" value="${smallCat.smallCatId }" >${smallCat.smallCatName }</option>
@@ -197,7 +197,7 @@ textarea.form-controls {
 							<div class="row row-cols-6">
 								<c:forEach var="i" begin="0" end="50">
 									<div class="col">
-										<div class="row">
+										<div class="row" id="values">
 											<div class="col-1">
 												<input type="checkbox" id="ingredCheck${i }">
 											</div>
@@ -282,14 +282,8 @@ textarea.form-controls {
 		
 		
 		
-		
-		
-		
-		
-		
 	<script>
 		function selectLargeBox(value, fNo, fName, jNo, sNo){
-// 			value.preventDefault();
 			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
 			$form.attr("action", "/fridge/changeSmall.kh");
 			$form.attr("method", "get");
@@ -303,78 +297,62 @@ textarea.form-controls {
 		}
 		
 		
-		
-		
-		function deleteStorage(fNo, fName, sNo){
-// 			console.log();
+		function deleteStorage(fNo, fName){
 			var checkedList = new Array();
 			$(".chkBox:checked").each(function(index, item){
 				checkedList.push(this.value);
 			});
-
 			if (checkedList == ''){
-				alert("체크박스를 선택해주시기 바랍니다.");
+				alert("삭제할 칸을 선택해주시기 바랍니다.");
 			} else {
-				$.each(checkedList, function(index, item){
-					var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
-	 				$form.attr("action", "/fridge/deleteStorage.kh");
-	 				$form.attr("method", "post");
-	 				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
-	 				$form.append("<input type='hidden' value='"+fName+"' name='fridgeName'>");
-	 				$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
-// 	 				$form.append("<input type='hidden' value='"+${stList }+"' name='stList'>");
-	 				$form.appendTo("body");
-					$form.submit();
-				});
+				event.preventDefault(); // 하이퍼링크 이동 방지
+				if(confirm("다시 복원 할 수 없습니다.\n정말 삭제하시겠습니까?")){
+					$.each(checkedList, function(index, item){
+						var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+		 				$form.attr("action", "/fridge/deleteStorage.kh");
+		 				$form.attr("method", "post");
+		 				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
+		 				$form.append("<input type='hidden' value='"+fName+"' name='fridgeName'>");
+		 				$form.append("<input type='hidden' value='"+checkedList[index]+"' name='stSelectNo'>");
+		 				$form.appendTo("body");
+						$form.submit();
+					});
+				}
 			}
-// 			console.log(checkedList);
-				
-// // 				console.log(checkedList);
-// // 				if ($("this.id:checked") == true){
-// // 					alert(this.id);
-// // 				} 
-				
-				
-// 			if ($('input:checkbox[name="storageBoxCheck"]').is(':checked') == true){
-// 				alert($('input:checkbox[name="storageBoxCheck"]').attr("value"));
-// 				console.log($('input:checkbox[name="storageBoxCheck"]').attr("id"));
-// 				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
-// 				$form.attr("action", "/fridge/deleteStorage.kh");
-// 				$form.attr("method", "post");
-// // 				$form.append("<input type='hidden' value='"+sNo+"'name='storageNo'>");
-// 				$form.appendTo("body");
-// // 				$form.submit();
-// 			} else {
-// 				alert("아무것도 없음");
-// 			}
-			
-// 			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
-// 			$form.attr("action", "/fridge/deleteStorage.kh");
-// 			$form.attr("method", "post");
-// 			$form.append("<input type='hidden' value='"+value+"'name='largeCatId''>");
-// 			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo''>");
-// 			$form.append("<input type='hidden' value='"+fName+"' name='fridgeName''>");
-// 			$form.append("<input type='hidden' value='"+jNo+"' name='jNo''>");
-// 			$form.appendTo("body");
-// 			$form.submit();
-			
 		}
 		
-		function list_selected(e) {
-			const values = [];
-			const texts = [];
+		function list_selected(e, fNo, jNo, sNo) {
+			const selsList = [];
+// 			const texts = [];
 			
 			// options에서 selected 된 element 찾기
 			for(let i=0; i < e.options.length; i++) {
 				const option = e.options[i];
 			  	if(option.selected) {
-				    values.push(option.value);
-				    texts.push(option.text);
+				    selsList.push(option.value);
+// 				    texts.push(option.text);
 			  	}
 			}
+			
+			$.each(selsList, function(index, item){
+				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+ 				$form.attr("action", "/fridge/registIngred.kh");
+ 				$form.attr("method", "post");
+ 				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
+ 				$form.append("<input type='hidden' value='"+jNo+"' name='stSelectNo'>");
+ 				$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
+ 				$form.append("<input type='hidden' value='"+selList[index]+"' name='ingredBundle'>");
+ 				$form.appendTo("body");
+				$form.submit();
+			});
+			
+			console.log(selsList);
 			// 선택된 데이터 출력
-			document.getElementById('values').innerText = values;
-			document.getElementById('texts').innerText = texts;
+// 			for(let i=0; i < e.options.length; i++) {
+// 				console.log(values[i]):
+// 				document.getElementById('values').innerText = values;
+// 			}
+// 			document.getElementById('texts').innerText = texts;
 		}
 		
 		
