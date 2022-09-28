@@ -138,7 +138,7 @@ textarea.form-controls {
 					<input type="hidden" name="storageNo" value="${storage.storageNo }">
 					<hr style="border-width:2px;">
 					<div class="row mb-2 mt-2">
-						<div class="col-3" >
+						<div class="col-3" style="background-color:rgb(255, 230, 230); padding:20px; border-radius:5px;" >
 							<br>
 							<div class="row">
 								<div class="col-2">
@@ -170,7 +170,7 @@ textarea.form-controls {
 									<h6><b>소분류</b></h6>
 								</div>
 								<div class="col">
-									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this, ${fridgeNo}, ${j.index },  ${storage.storageNo });" >
+									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);" >
 										<c:forEach items="${sList }" var="smallCat"  varStatus="i">
 											<c:if test="${smallCat.largeCatId eq storage.largeCatId }">
 												<option id="smallCatOpt" value="${smallCat.smallCatId }" >${smallCat.smallCatName }</option>
@@ -185,14 +185,14 @@ textarea.form-controls {
 							<br>
 							<div class="row justify-content-center">
 								<div class="col-5">
-									<button class="btn btn-primary">재료 저장</button>
+									<button class="btn btn-primary" onclick="saveIngred(this, ${fridgeNo}, ${j.index },  ${storage.storageNo });">재료 저장</button>
 								</div>
 								<div class="col-5">
 									<button class="btn btn-danger">재료 삭제</button>
 								</div>
 							</div>
 						</div>
-						<div class = "vertical"></div>
+<!-- 						<div class = "vertical"></div> -->
 						<div class="col" style="padding:20px">
 							<div class="row row-cols-6">
 								<c:forEach var="i" begin="0" end="50">
@@ -321,7 +321,7 @@ textarea.form-controls {
 			}
 		}
 		
-		function list_selected(e, fNo, jNo, sNo) {
+		function list_selected(e) {
 			const selsList = [];
 // 			const texts = [];
 			
@@ -333,20 +333,19 @@ textarea.form-controls {
 // 				    texts.push(option.text);
 			  	}
 			}
-			
-			$.each(selsList, function(index, item){
-				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
- 				$form.attr("action", "/fridge/registIngred.kh");
- 				$form.attr("method", "post");
- 				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
- 				$form.append("<input type='hidden' value='"+jNo+"' name='stSelectNo'>");
- 				$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
- 				$form.append("<input type='hidden' value='"+selList[index]+"' name='ingredBundle'>");
- 				$form.appendTo("body");
-				$form.submit();
-			});
-			
-			console.log(selsList);
+// 			$.each(selsList, function(index, item){
+// 				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+//  				$form.attr("action", "/fridge/registIngred.kh");
+//  				$form.attr("method", "post");
+//  				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
+//  				$form.append("<input type='hidden' value='"+jNo+"' name='stSelectNo'>");
+//  				$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
+//  				$form.append("<input type='hidden' value='"+selList[index]+"' name='ingredBundle'>");
+//  				$form.appendTo("body");
+// 				$form.submit();
+// 			});
+			return selsList;
+// 			console.log(selsList);
 			// 선택된 데이터 출력
 // 			for(let i=0; i < e.options.length; i++) {
 // 				console.log(values[i]):
@@ -356,7 +355,22 @@ textarea.form-controls {
 		}
 		
 		
-		
+		function saveIngred(fNo, jNo, sNo){
+			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+			$form.attr("action", "/fridge/registIngred.kh");
+			$form.attr("method", "post");
+			$form.attr("name", "save-Ingred"); 	
+			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
+			$form.append("<input type='hidden' value='"+jNo+"' name='stSelectNo'>");
+			$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
+			$form.append("<input type='hidden' value='' name='ingredBundle'>");
+			$form.appendTo("body");
+			console.log(list_selected());
+			console.log(fNo);
+			console.log(jNo);
+			console.log(sNo);
+// 			$form.submit();
+		}
 		
 		
 		
