@@ -320,7 +320,7 @@ public class RecipeController {
 		return mv;
 	}
 
-	// 레시피 뷰어
+	// 레시피 뷰어///
 	@RequestMapping(value = "/recipe/recipeDetailView.kh", method = RequestMethod.GET)
 	public ModelAndView recipeDetailView(ModelAndView mv,
 			@RequestParam(value = "category", required = false) String listValue,
