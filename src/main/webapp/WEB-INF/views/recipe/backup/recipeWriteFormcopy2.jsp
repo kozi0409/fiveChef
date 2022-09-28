@@ -267,11 +267,25 @@ textarea.form-controls {
 
 
 								<!-- 히든존 -->
-								
+								<%-- <div id="ingHidden">
+									<select class="form-select" name="largeCatId" id="largeCatId"
+										onchange="setOpt(this)">
+										<option value="" selected="selected">대분류 선택</option>
+										<c:forEach items="${lList }" var="largeCat" varStatus="i">
+											<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
+										</c:forEach>
+									</select> <select class="form-select" name="smallCatId" id="smallCatId">
+										<option value="" selected>재료선택</option>
+										<c:forEach items="${sList }" var="smallCat" varStatus="i">
+											<option value="${smallCat.smallCatId }"
+												class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
+										</c:forEach>
+									</select>
+								</div> --%>
 								<!-- 여기서부터 append -->
 								<div class="row g-1">
 
-									<div id="" class=" row g-1">
+									<%-- <div id="" class=" row g-1">
 										<div class="col-md-2">
 
 											<select class="form-select" name="largeCatId"
@@ -303,7 +317,9 @@ textarea.form-controls {
 											<div class="invalid-feedback">Please enter your
 												shipping address.</div>
 										</div>
-									</div>
+									</div> --%>
+
+
 
 									<div id="" class=" row g-1">
 										<div class="col-md-2">
@@ -674,6 +690,7 @@ textarea.form-controls {
 			imgid.onload = function() {
 				URL.revokeObjectURL(imgid.src);// free memory
 			}
+			imgCheck()
 		};
 		// function loadFile(input) {
 		// 	var file = input.files[0];	//선택된 파일 가져오기

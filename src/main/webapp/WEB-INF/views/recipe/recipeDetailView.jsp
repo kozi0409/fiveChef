@@ -313,9 +313,10 @@ height: 400px;
 						
 							<div class="list row">
 							 <div class="col-12">
-							 <c:if test="${loginUser.userId eq recipe.userId }">
+							<c:if test="${loginUser.userId eq recipe.userId }">
 							<a class="btn btn-primary btn-lg col-md-4" id="btn-2" href="/recipe/recipeModifyView.kh?recipeNo=${recipe.recipeNo }&page=${page}&loginId=${sessionScope.loginUser.userId}">수정페이지로</a>
-							<a class="btn btn-primary btn-lg col-md-4" id="btn-2" onclick="recipeRemove()" href="/recipe/recipeRemove.kh?recipeNo=${recipe.recipeNo }">삭제하기</a></c:if> 
+							<a class="btn btn-primary btn-lg col-md-4" id="btn-2" onclick="recipeRemove()" href="/recipe/recipeRemove.kh?recipeNo=${recipe.recipeNo }">삭제하기</a>
+							</c:if> 
 							<a class="btn btn-primary btn-lg col-md-4" id="btn-2" href="/recipe/${urlVal }.kh?page=${page }&category=${listValue }">리스트</a>
 							</div>
 							</div>

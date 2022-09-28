@@ -101,7 +101,7 @@ public class RecipeController {
 				ingredient.setSmallCatId(ing.getSmallCatId().split(",")[i]);
 				iList.add(ingredient);
 			}
-//			System.out.println(iList.get(0));
+			System.out.println(iList);
 			for (int i = 0; i < iList.size(); i++) {
 				int result2 = rService.registerIngradient(iList.get(i));
 			}
@@ -185,22 +185,21 @@ public class RecipeController {
 	public ModelAndView recipeAllListView(ModelAndView mv,
 			@RequestParam(value = "category", required = false) String listValue,
 			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "whatRecipe", required = false) String whatRecipe
-			,HttpSession session) {
+			@RequestParam(value = "whatRecipe", required = false) String whatRecipe, HttpSession session) {
 
 		try {
-			System.out.println(listValue);
-			if(session.getAttribute("postingid") != null && (listValue == "" || listValue == null)) {
+			if (session.getAttribute("postingid") != null && (listValue == "" || listValue == null) && page == null) {
 				session.removeAttribute("postingid");
 				System.out.println("세션삭제");
 			}
-			String[] searching=null;
-			if(session.getAttribute("postingid") != null) {
-				searching = ((String) session.getAttribute("postingid")).split(",");;
-			System.out.println(searching);
+			String[] searching = null;
+			if (session.getAttribute("postingid") != null) {
+				searching = ((String) session.getAttribute("postingid")).split(",");
+				;
+				System.out.println(searching);
 			}
 			int currentPage = (page != null) ? page : 1;
-			int totalCount = rService.countAllRecipe(searching,whatRecipe, listValue);
+			int totalCount = rService.countAllRecipe(searching, whatRecipe, listValue);
 			int recipeLimit = 18;
 			int naviLimit = 5;
 			int maxPage;
@@ -213,20 +212,20 @@ public class RecipeController {
 				endNavi = maxPage;
 			}
 			// store에서 hashmap사용하면 데이터 정상 반영됨
-//		System.out.println(totalCount);
+//			System.out.println(totalCount);
 			// 요리방법종류인원난이도시간출력
 			List<WhatRecipe> wList = rService.printWhat();
 			// 재료 카테고리 출력
 			List<LargeCategory> lList = sService.printLargeCat();
 			List<SmallCategory> sList = rService.printSmallCat();
-			List<Recipe> rList = rService.printAllRecipe(searching,whatRecipe, listValue, currentPage, recipeLimit);
+			List<Recipe> rList = rService.printAllRecipe(searching, whatRecipe, listValue, currentPage, recipeLimit);
 			// whatNo 체크
-//		System.out.println(whatRecipe);
+//			System.out.println(whatRecipe);
 			if (!rList.isEmpty()) {
 				mv.addObject("rList", rList);
 			}
-			
-			mv.addObject("searching",searching);
+
+			mv.addObject("searching", searching);
 			mv.addObject("whatRecipe", whatRecipe);
 			mv.addObject("lList", lList);
 			mv.addObject("sList", sList);
@@ -252,30 +251,29 @@ public class RecipeController {
 			@RequestParam(value = "postingid", required = false) String postingid,
 			@RequestParam(value = "category", required = false) String listValue,
 			@RequestParam(value = "page", required = false) Integer page,
-			@RequestParam(value = "whatRecipe", required = false) String whatRecipe, 
-			HttpServletRequest request,
+			@RequestParam(value = "whatRecipe", required = false) String whatRecipe, HttpServletRequest request,
 			HttpSession session) {
 		try {
-			
-			//지호님 레시피 검색 참고
-			
-			//재료목록 null 체크
-//			System.out.println(postingid);
-//			System.out.println(1);
+
+			// 지호님 레시피 검색 참고
+
+			// 재료목록 null 체크
+//				System.out.println(postingid);
+//				System.out.println(1);
 			if (postingid == "") {
 				request.setAttribute("msg", "입력값이 없습니다.");
 				request.setAttribute("url", "/recipe/recipeList.kh");
 				mv.setViewName("common/alert");
 				return mv;
 			}
-			
-//			System.out.println(2);
+
+//				System.out.println(2);
 			String[] searching = postingid.split(",");
-//			System.out.println(3);
+//				System.out.println(3);
 			session.setAttribute("postingid", postingid);
-//			if(session.getAttribute("postingid") == null) {
-//				System.out.println(4);
-//			}
+//				if(session.getAttribute("postingid") == null) {
+//					System.out.println(4);
+//				}
 			int currentPage = (page != null) ? page : 1;
 			int totalCount = rService.countAllRecipe(searching, whatRecipe, listValue);
 			int recipeLimit = 18;
@@ -294,12 +292,12 @@ public class RecipeController {
 			// 재료 카테고리 출력
 			List<LargeCategory> lList = sService.printLargeCat();
 			List<SmallCategory> sList = rService.printSmallCat();
-			List<Recipe> rList = rService.printAllRecipe(searching,whatRecipe, listValue, currentPage, recipeLimit);
-			
+			List<Recipe> rList = rService.printAllRecipe(searching, whatRecipe, listValue, currentPage, recipeLimit);
+
 			if (!rList.isEmpty()) {
 				mv.addObject("rList", rList);
 			}
-			mv.addObject("searching",searching);
+			mv.addObject("searching", searching);
 			mv.addObject("whatRecipe", whatRecipe);
 			mv.addObject("lList", lList);
 			mv.addObject("sList", sList);
@@ -320,7 +318,7 @@ public class RecipeController {
 		return mv;
 	}
 
-	// 레시피 뷰어///
+	// 레시피 뷰어
 	@RequestMapping(value = "/recipe/recipeDetailView.kh", method = RequestMethod.GET)
 	public ModelAndView recipeDetailView(ModelAndView mv,
 			@RequestParam(value = "category", required = false) String listValue,
@@ -331,11 +329,11 @@ public class RecipeController {
 			System.out.println("레시피 디테일창 진입 글번호: " + recipeNo);
 			if (user != null) {
 				String likeUser = user.getUserId();
-//				System.out.println(likeUser);
+//					System.out.println(likeUser);
 				Like like = new Like();
 				like.setUserId(likeUser);
 				like.setRecipeNo(recipeNo);
-//			System.out.println(recipeid.getUserId());
+//				System.out.println(recipeid.getUserId());
 				// 레시피 좋아요 체크
 				int result = rService.checkLikeId(like);
 				mv.addObject("result", result);
@@ -347,7 +345,7 @@ public class RecipeController {
 			session.setAttribute("recipeNo", recipe.getRecipeNo());
 			// 재료출력
 			List<Ingradient> iList = rService.printAllIng(recipeNo);
-//			System.out.println(iList);
+//				System.out.println(iList);
 			String bundle = "이름없음";
 			// 로그인 구현되면 세션에 있는 아이디로 바꿔줘야함
 			if (!iList.isEmpty()) {

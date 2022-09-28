@@ -196,7 +196,7 @@ border-color:rgb(209, 24, 79)
 						</c:forEach>
 
 			</div>
-			<div class="row">
+			<div class="iline row">
 				<div class="cg col-md-1">
 					<p class="sel fs-6"><b>선택재료</b></p>
 				</div>
@@ -207,14 +207,30 @@ border-color:rgb(209, 24, 79)
 				<div class="bb col-md-3">
 					<div class="btn-group" role="group" aria-label="Basic mixed styles example">
 						<form action="/recipe/searchIng.kh" method="post">
-						<button type="button" class="btn btn-danger" onclick="location.href='/recipe/recipeList.kh'">초기화</button>
+						<button type="button" class="btn btn-outline-secondary" onclick="location.href='/recipe/recipeList.kh'">초기화</button>
 						<input type="hidden" value="" id="postingid" name="postingid">
-						<button type="submit" class="btn btn-warning" onclick="ingRecipeSearch()">검색</button>
+						<button type="submit" class="btn btn btn-outline-secondary" onclick="ingRecipeSearch()">검색</button>
 					</form>
 					  </div>
 				</div>
 			</div>
 
+			<div class="row">
+				<div class="col-md-12">
+					<c:if test="${sessionScope.postingid != null}">
+						<p class="sel fs-5"  id="iaddzone">
+						<c:forEach items="${sList }" var="smallCat" varStatus="i">
+							<c:forEach items="${searching }" var="searching" varStatus="k">
+								<c:if test="${searching eq smallCat.smallCatId}">
+									<span><b id="seacolor">${smallCat.smallCatName}</b></span>	
+								</c:if>
+							</c:forEach>
+						</c:forEach>
+						에 대한 검색결과입니다!
+					</p>
+					</c:if>
+				</div>
+			</div>
 
 
 		</div>
