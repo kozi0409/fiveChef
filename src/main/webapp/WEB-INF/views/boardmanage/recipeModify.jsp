@@ -31,33 +31,35 @@ textarea.form-controls {
 }
 
 #btn-2 {
+	width: 200px;
 	height: 40px;
 	border: 0;
 	color: white;
-	background-color: rgb(209, 24, 79);
+	background-color: rgb(63, 138, 236);
+
 }
 
 #btn-2 {
 	color: #fff;
-	background-color: rgb(209, 24, 79);
-	border-color: rgb(209, 24, 79)
+	background-color: rgb(63, 138, 236);
+	border-color: rgb(63, 138, 236);
 }
 
 #btn-2:hover {
 	color: #fff;
-	background-color: rgb(216, 50, 100);
-	border-color: rgb(216, 50, 100)
+	background-color: rgb(30, 117, 216);
+	border-color: rgb(30, 117, 216);
 }
 
 .btn-outline-primary {
-	color: rgb(209, 24, 79);
-	border-color: rgb(209, 24, 79)
+	color: rgb(63, 138, 236);
+	border-color: rgb(63, 138, 236);
 }
 
 .btn-outline-primary:hover {
 	color: #fff;
-	background-color: rgb(209, 24, 79);
-	border-color: rgb(209, 24, 79)
+	background-color: rgb(63, 138, 236);
+	border-color: rgb(63, 138, 236);
 }
 
 #cutline {

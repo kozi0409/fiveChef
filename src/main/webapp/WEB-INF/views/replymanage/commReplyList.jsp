@@ -16,7 +16,7 @@
 	<div class="container">
 	<div class="table-responsive">
 	<p align="center" style="color: #46D2D2; font-size:34px; font-family:malgun gothic;">[ 커뮤니티 댓글 관리 ]<p>
-	<table align="center" border="1" width="" class="table table-hover">
+	<table align="center" border="1" width="" class="table table-striped table-hover">
 		<tr>
 			<td colspan="7" align="center">
 				<form action="/communityreplymanage/search.kh" method="get">
@@ -42,9 +42,9 @@
 			<th width="70">번호</th>
 			<th width="80">게시판</th>
 			<th width="80">원글</th>
-			<th width="150">댓글내용</th>
-			<th width="100">댓글작성자</th>
-			<th width="100">작성일</th>
+			<th width="120">댓글내용</th>
+			<th width="80">댓글작성자</th>
+			<th width="80">작성일</th>
 			<th width="80">댓글삭제</th>
 		</tr>
 	<c:if test="${!empty cList }">

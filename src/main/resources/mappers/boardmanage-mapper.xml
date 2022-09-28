@@ -275,5 +275,10 @@
 			</if>
 		</where>
 	</select>
+	
+	 <select id="selectRecipeByRNo" resultMap="recipeResultMap2">
+		SELECT * FROM
+		RECIPE_TBL WHERE RECIPE_NO = #{recipeNo}
+	</select>
  
  </mapper>

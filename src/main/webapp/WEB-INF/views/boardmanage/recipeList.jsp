@@ -15,8 +15,8 @@
 	<div class="container">
 	<div class="table-responsive">
 	<p align="center" style="color: #46D2D2; font-size:34px; font-family:malgun gothic;">[ 레시피 게시판 관리 ]<p>
-	<table align="center" border="1" width="" class="table table-hover">
-<!-- 		<tr> class="table-info" -->
+	<table align="center" border="1" width="" class="table table-striped table-hover">
+<!-- 		<tr> -->
 <!-- 			<td colspan="6" align="center"> -->
 <!-- 				<form action="/recipemanage/search.kh" method="get"> -->
 <!-- 				<div align="center"> -->

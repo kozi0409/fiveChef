@@ -15,7 +15,7 @@
 	<div class="container">
 	<div class="table-responsive">
 	<p align="center" style="color: #46D2D2; font-size:34px; font-family:malgun gothic;">[ 공지사항 관리 ]<p>
-	<table align="center" border="1" width="" class="table table-hover">
+	<table align="center" border="1" width="" class="table table-striped table-hover">
 		<tr>
 			<td colspan="5" align="center">
 				<form action="/notice/search.kh" method="get">

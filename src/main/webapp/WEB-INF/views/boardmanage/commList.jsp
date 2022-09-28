@@ -15,7 +15,7 @@
 	<div class="container">
 	<div class="table-responsive">
 	<p align="center" style="color: #46D2D2; font-size:34px; font-family:malgun gothic;">[ 커뮤니티 게시판 관리 ]<p>
-	<table align="center" border="1" width="" class="table table-hover">
+	<table align="center" border="1" width="" class="table table-striped table-hover">
 		<tr> <!-- class="table-info" -->
 			<td colspan="6" align="center">
 				<form action="/communitymanage/search.kh" method="get">
