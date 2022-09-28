@@ -156,9 +156,20 @@ public class AdminController {
 		try {
 			Admin admin = new Admin(adminId, adminPwd);
 			Admin loginAdmin = aService.loginAdmin(admin);
+			
 			if(loginAdmin != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("loginAdmin", loginAdmin);
+				List<User> uList = aService.printNewUser();
+				List<Community> cList = aService.printNewCommunity();
+				List<QnA> qList = aService.printNewQna();
+				List<Recipe> rList = aService.printNewRecipe();
+				if(!uList.isEmpty()|| !cList.isEmpty()||!qList.isEmpty()||!rList.isEmpty()) {
+					mv.addObject("uList", uList);
+					mv.addObject("cList", cList);
+					mv.addObject("qList", qList);
+					mv.addObject("rList", rList);
+				}
 				mv.setViewName("/admin/adminHome");
 				System.out.println("로그인성공");
 			}else {
@@ -684,7 +695,7 @@ public class AdminController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/admin/adminHome.kh", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/admin4lists.kh", method=RequestMethod.GET)
 	public ModelAndView adminMainview(
 			ModelAndView mv) {
 		
@@ -697,6 +708,7 @@ public class AdminController {
 			mv.addObject("cList", cList);
 			mv.addObject("qList", qList);
 			mv.addObject("rList", rList);
+			System.out.println(rList);
 		}
 		mv.setViewName("admin/adminHome");
 		return mv;

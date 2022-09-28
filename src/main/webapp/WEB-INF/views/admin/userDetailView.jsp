@@ -11,7 +11,7 @@
 <jsp:include page="../main/admin_navs.jsp"></jsp:include>
 <br>
 <c:if test="${not empty loginAdmin}">
-<div class="container" style="width: 600px; ">
+<div class="container" style="width: 700px; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
 		    <h2>홈페이지회원 정보 수정</h2>
