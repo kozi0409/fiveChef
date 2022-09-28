@@ -12,6 +12,105 @@
 	<title>냉장고 칸 페이지</title>
 </head>
 
+<style>
+#main-form {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+textarea.form-controls {
+	min-height: calc(1.5em + 2rem + 2px);
+	border: #333;
+	border: 1px solid #ced4da;
+	border-radius: .25rem;
+}
+
+.form-controls:focus {
+	color: #212529;
+	background-color: #fff;
+	border-color: #86b7fe;
+	outline: 0;
+	box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25)
+}
+
+#btn-2 {
+	height: 40px;
+	border: 0;
+	color: white;
+	background-color: rgb(209, 24, 79);
+}
+
+#btn-2 {
+	color: #fff;
+	background-color: rgb(209, 24, 79);
+	border-color: rgb(209, 24, 79)
+}
+
+#btn-2:hover {
+	color: #fff;
+	background-color: rgb(216, 50, 100);
+	border-color: rgb(216, 50, 100)
+}
+
+.btn-outline-primary {
+	color: rgb(209, 24, 79);
+	border-color: rgb(209, 24, 79)
+}
+
+.btn-outline-primary:hover {
+	color: #fff;
+	background-color: rgb(209, 24, 79);
+	border-color: rgb(209, 24, 79)
+}
+
+#cutline {
+	visibility: hidden;
+}
+
+#thumbnailzone {
+	position: relative;
+	width: auto;
+	height: 200px;
+	border: 1px solid #aaa;
+	border-radius: .25rem;
+}
+
+#thumbnailzone img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	/* border-radius: 5%; */
+	top: 50%;
+	left: 50%;
+	margin-top: 0;
+	transform: translate(-50%, -50%);
+	!
+	important
+}
+
+#thumbnailzone .form-label {
+	width: 100%;
+}
+
+#thumbnailzone input {
+	position: relative;
+	width: 100%;
+}
+
+#ingHidden {
+	visibility: hidden;
+	height: 0px;
+	width: 0px;
+}
+
+.vertical {
+            border-left: 2px solid black;
+            height: 280px;
+            position:absolute;
+            left: 28.6%;
+        }
+</style>
 
 <body>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
@@ -22,27 +121,28 @@
 			<h1 align="center" >${fridgeName } 페이지</h1>
 		</div>
 	</header>
-		${stList }
-		<div class="card-body" style="background-color:gold; padding: 30px;">
+		<div class="card-body" style="background-color:rgb(255, 198, 198); border-radius: 10px; padding: 30px;">
 		<div class="row">
 			<div class="col" align="left">
-				<button class="btn btn-secondary" onclick="location.href='/'">이전 페이지</button>
+				<button class="btn btn-secondary" onclick="location.href='/fridge/myFridge.kh'">&#10094; 이전 페이지</button>
 				<button class="btn btn-info" onclick="console.log('검색');">검색</button>
 			</div>
 			<div class="col" align="right">
-				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage">칸 생성</button>
-				<button class="btn btn-danger" onclick="deleteStorage();">칸 삭제</button>
+				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage" id="btn-2">&#43; 칸 생성</button>
+				<button class="btn btn-danger" onclick="deleteStorage(${fridgeNo }, '${fridgeName }');" id="btn-2">&#8722;  칸 삭제</button>
 			</div>
 		</div>
 			<c:if test="${not empty stList }">
 				<c:forEach items="${stList }" var="storage" varStatus="j">
+					<input type="hidden" name="storageSelectNo" value="${storage.storageSelectNo }">
+					<input type="hidden" name="storageNo" value="${storage.storageNo }">
 					<hr style="border-width:2px;">
 					<div class="row mb-2 mt-2">
-						<div class="col-3" style="background-color:green;">
+						<div class="col-3" style="background-color:rgb(255, 230, 230); padding:20px; border-radius:5px;" >
 							<br>
 							<div class="row">
 								<div class="col-2">
-									<input class="chkBox" type="checkbox" name="storageBoxCheck" id="storageCheck${j.index }" value="${j.index }">
+									<input class="chkBox" type="checkbox" name="storageBoxCheck" id="storageCheck${j.index }" value="${storage.storageNo }">
 								</div>
 								<div class="col">
 									<h3>${storage.storageName }</h3>
@@ -85,18 +185,19 @@
 							<br>
 							<div class="row justify-content-center">
 								<div class="col-5">
-									<button class="btn btn-primary">재료 저장</button>
+									<button class="btn btn-primary" onclick="saveIngred(this, ${fridgeNo}, ${j.index },  ${storage.storageNo });">재료 저장</button>
 								</div>
 								<div class="col-5">
 									<button class="btn btn-danger">재료 삭제</button>
 								</div>
 							</div>
 						</div>
-						<div class="col" style="background-color:blue; padding:20px">
+<!-- 						<div class = "vertical"></div> -->
+						<div class="col" style="padding:20px">
 							<div class="row row-cols-6">
 								<c:forEach var="i" begin="0" end="50">
 									<div class="col">
-										<div class="row">
+										<div class="row" id="values">
 											<div class="col-1">
 												<input type="checkbox" id="ingredCheck${i }">
 											</div>
@@ -124,9 +225,9 @@
 												<div class="form-floating mb-3">
 													<input type="hidden" name="fridgeNo" value="${fridgeNo}">
 													<input type="hidden" name="fridgeName" value="${fridgeName}">
-													<input type="hidden" name="stList" value="${stList}">
+													<input type="hidden" name="stList" value="${storage}">
 													<input type="hidden" name="storageNo" value="${storage.storageNo}">
-													<input type="hidden" name="storageName" value="${storage.storageName}">
+<%-- 													<input type="hidden" name="storageName" value="${storage.storageName}"> --%>
 													<input type="text" class="form-control rounded-4" id="storageName" placeholder="칸 이름 입력" name="storageName" value="${storage.storageName }" required>
 													<label for="floatingInput">칸 이름</label>
 												</div>
@@ -140,13 +241,17 @@
 		
 				</c:forEach>
 			</c:if>
+			<c:if test="${empty stList }">
+				<hr>
+				<br>
+				<div>
+					<div colspan="6" align="center"><h3><b>칸을 생성해 주세요.</b></h3></div>
+				</div>
+				<br>
+				<hr>
+			</c:if>
 		</div>
 	</div>
-		<c:if test="${empty stList }">
-			<div>
-				<div colspan="6" align="center"><h3><b>칸을 생성해 주세요.</b></h3></div>
-			</div>
-		</c:if>
 		
 		
 		<!--Create Storage Modal -->
@@ -177,14 +282,8 @@
 		
 		
 		
-		
-		
-		
-		
-		
 	<script>
 		function selectLargeBox(value, fNo, fName, jNo, sNo){
-// 			value.preventDefault();
 			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
 			$form.attr("action", "/fridge/changeSmall.kh");
 			$form.attr("method", "get");
@@ -198,67 +297,80 @@
 		}
 		
 		
-		
-		
-		function deleteStorage(){
-			var chkArray = new Array();
+		function deleteStorage(fNo, fName){
+			var checkedList = new Array();
 			$(".chkBox:checked").each(function(index, item){
-				console.log(this.id);
-				if ($(this.id).is(':checked') == true){
-					var tmpVal = $(this).val(); 
-				    chkArray.push(tmpVal);
-					alert(this.id);
-				} else {
-					alert("값을 선택해주시기 바랍니다.");
-				    return;
-// 					alert("아무것도 없음");
+				checkedList.push(this.value);
+			});
+			if (checkedList == ''){
+				alert("삭제할 칸을 선택해주시기 바랍니다.");
+			} else {
+				event.preventDefault(); // 하이퍼링크 이동 방지
+				if(confirm("다시 복원 할 수 없습니다.\n정말 삭제하시겠습니까?")){
+					$.each(checkedList, function(index, item){
+						var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+		 				$form.attr("action", "/fridge/deleteStorage.kh");
+		 				$form.attr("method", "post");
+		 				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
+		 				$form.append("<input type='hidden' value='"+fName+"' name='fridgeName'>");
+		 				$form.append("<input type='hidden' value='"+checkedList[index]+"' name='stSelectNo'>");
+		 				$form.appendTo("body");
+						$form.submit();
+					});
 				}
-				console.log(chkArray);
-				})
-// 			if ($('input:checkbox[name="storageBoxCheck"]').is(':checked') == true){
-// 				alert($('input:checkbox[name="storageBoxCheck"]').attr("value"));
-// 				console.log($('input:checkbox[name="storageBoxCheck"]').attr("id"));
-// 				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
-// 				$form.attr("action", "/fridge/deleteStorage.kh");
-// 				$form.attr("method", "post");
-// // 				$form.append("<input type='hidden' value='"+sNo+"'name='storageNo'>");
-// 				$form.appendTo("body");
-// // 				$form.submit();
-// 			} else {
-// 				alert("아무것도 없음");
-// 			}
-			
-// 			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
-// 			$form.attr("action", "/fridge/deleteStorage.kh");
-// 			$form.attr("method", "post");
-// 			$form.append("<input type='hidden' value='"+value+"'name='largeCatId''>");
-// 			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo''>");
-// 			$form.append("<input type='hidden' value='"+fName+"' name='fridgeName''>");
-// 			$form.append("<input type='hidden' value='"+jNo+"' name='jNo''>");
-// 			$form.appendTo("body");
-// 			$form.submit();
-			
+			}
 		}
-		
+		// 민석님
 		function list_selected(e) {
-			const values = [];
-			const texts = [];
+			const selsList = [];
+// 			const texts = [];
 			
 			// options에서 selected 된 element 찾기
 			for(let i=0; i < e.options.length; i++) {
 				const option = e.options[i];
 			  	if(option.selected) {
-				    values.push(option.value);
-				    texts.push(option.text);
+				    selsList.push(option.value);
+// 				    texts.push(option.text);
 			  	}
 			}
+// 			$.each(selsList, function(index, item){
+// 				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+//  				$form.attr("action", "/fridge/registIngred.kh");
+//  				$form.attr("method", "post");
+//  				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
+//  				$form.append("<input type='hidden' value='"+jNo+"' name='stSelectNo'>");
+//  				$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
+//  				$form.append("<input type='hidden' value='"+selList[index]+"' name='ingredBundle'>");
+//  				$form.appendTo("body");
+// 				$form.submit();
+// 			});
+			return selsList;
+// 			console.log(selsList);
 			// 선택된 데이터 출력
-			document.getElementById('values').innerText = values;
-			document.getElementById('texts').innerText = texts;
+// 			for(let i=0; i < e.options.length; i++) {
+// 				console.log(values[i]):
+// 				document.getElementById('values').innerText = values;
+// 			}
+// 			document.getElementById('texts').innerText = texts;
 		}
 		
 		
-		
+		function saveIngred(fNo, jNo, sNo){
+			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
+			$form.attr("action", "/fridge/registIngred.kh");
+			$form.attr("method", "post");
+			$form.attr("name", "save-Ingred"); 	
+			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
+			$form.append("<input type='hidden' value='"+jNo+"' name='stSelectNo'>");
+			$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
+			$form.append("<input type='hidden' value='' name='ingredBundle'>");
+			$form.appendTo("body");
+			console.log(list_selected());
+			console.log(fNo);
+			console.log(jNo);
+			console.log(sNo);
+// 			$form.submit();
+		}
 		
 		
 		

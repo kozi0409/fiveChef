@@ -1,5 +1,6 @@
 package com.kh.fivechef.fridge.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class StorageController {
 	@RequestMapping(value="/fridge/storage.kh", method=RequestMethod.GET)
 	public ModelAndView showStoragePage(ModelAndView mv
 			,@RequestParam("fridgeNo") Integer fridgeNo
-			,@RequestParam("fridgeName") String fridgeName) {
+			,@RequestParam("fridgeName") String fridgeName){
 		try {
 			List<LargeCategory> lList = sService.printLargeCat();
 			List<SmallCategory> sList = sService.printSmallCat("A1");
@@ -38,7 +39,7 @@ public class StorageController {
 			mv.setViewName("fridge/myMain");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
-			mv.setViewName("redirect:/fridge/errorPage.jsp");
+			mv.setViewName("fridge/errorPage");
 		}
 		return mv;
 	}
@@ -96,7 +97,6 @@ public class StorageController {
 			,@RequestParam("storageName") String storageName) {
 		Storage storage = new Storage(storageNo, storageName);
 		int result = sService.modifyStorage(storage);
-		mv.addObject("storage", storage);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
 		mv.setViewName("redirect:/fridge/storage.kh");
@@ -106,21 +106,34 @@ public class StorageController {
 	//칸 삭제
 	@RequestMapping(value="/fridge/deleteStorage.kh", method=RequestMethod.POST)
 	public ModelAndView storageRemove(ModelAndView mv
-//			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName
-			,@RequestParam("jNo") Integer jNo) {
+			,@RequestParam("stSelectNo") Integer stSelectNo
+			) {
 		List<LargeCategory> lList = sService.printLargeCat();
-//		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
-		List<Storage> stList = sService.printStorage(fridgeNo);
-		int result = sService.removeStorage(stList);
-//		mv.addObject("sList", sList);
+		int result = sService.removeStorage(fridgeNo, stSelectNo);
 		mv.addObject("lList", lList);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
-//		mv.addObject("largeCatId", largeCatId);
-		mv.addObject("jNo", jNo);
+		mv.addObject("stSelectNo", stSelectNo);
 		mv.setViewName("redirect:/fridge/storage.kh");
 		return mv;
 	}
+	
+	@RequestMapping(value="/fridge/registIngred.kh", method=RequestMethod.POST)
+	public ModelAndView IngredRegist(ModelAndView mv
+			,@RequestParam("fridgeNo") Integer fridgeNo
+			,@RequestParam("stSelectNo") Integer stSelectNo
+			,@RequestParam("storageNo") Integer storageNo
+			,@RequestParam("ingredBundle") String ingredBundle) {
+		Storage storage = new Storage(storageNo, fridgeNo, stSelectNo, ingredBundle);
+//		int result = sService.registIngred(storage);
+		mv.addObject("fridgeNo", fridgeNo);
+		mv.addObject("stSelectNo", stSelectNo);
+		mv.addObject("storageNo", storageNo);
+		mv.addObject("ingredBundle", ingredBundle);
+		mv.setViewName("redirect:/fridge/storage.kh");
+		return mv;
+	}
+	
 }

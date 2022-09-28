@@ -36,6 +36,7 @@ public class StorageServiceImpl implements StorageService {
 	}
 
 
+
 	@Override
 	public int registStorage(Storage storage) {
 		int result = sStore.insertStorage(session, storage);
@@ -51,8 +52,8 @@ public class StorageServiceImpl implements StorageService {
 
 
 	@Override
-	public int removeStorage(List<Storage> stList) {
-		int result = sStore.deleteStorage(session, stList);
+	public int removeStorage(Integer fridgeNo, Integer stSelectNo) {
+		int result = sStore.deleteStorage(session, fridgeNo, stSelectNo);
 		return result;
 	}
 

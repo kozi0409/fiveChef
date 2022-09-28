@@ -91,6 +91,7 @@
     </div>
 <!-- slide image End -->
 
+
 <!-- notice Start -->
 	<section class="sec">
 		<div class="sec-title">
@@ -168,7 +169,6 @@
 		</div>	
 	</section>
 <!-- cook tip End -->
-
 
 <!-- copyright -->
 <jsp:include page="./main/footer.jsp"></jsp:include>

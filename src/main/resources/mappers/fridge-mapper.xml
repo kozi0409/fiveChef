@@ -70,7 +70,7 @@
  	</select>
  	<delete id="deleteStorage">
  		DELETE FROM STORAGE_TBL
- 		WHERE STORAGE_NO = #{storageNo} AND FRIDGE_NO = #{fridgeNo}
+ 		WHERE FRIDGE_NO = #{fridgeNo} AND STORAGE_NO = #{stSelectNo}
  	</delete>
  	<update id="updateSelectBox">
  		UPDATE STORAGE_TBL SET LARGE_CAT_ID = #{largeCatId}, STORAGE_SELECT_NO = #{selectBoxNo}

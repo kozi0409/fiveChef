@@ -12,7 +12,7 @@ public interface StorageService {
 	public List<SmallCategory> printSmallCat(String largeCatId);
 	public int registStorage(Storage storage);
 	public List<Storage> printStorage(Integer fridgeNo);
-	public int removeStorage(List<Storage> stList);
+	public int removeStorage(Integer fridgeNo, Integer stSelectNo);
 	public int registSelectValue(SelectBox selectBox);
 	public int modifyStorage(Storage storage);
 }
