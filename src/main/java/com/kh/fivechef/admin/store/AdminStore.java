@@ -28,6 +28,10 @@ public interface AdminStore {
 	public int selectTotalCount(SqlSession session, String searchCondition, String searchValue);
 	//관리자 삭제
 	public int deleteOneById(SqlSession session, String adminId);
+	//관리자 아이디찾기
+	public Admin selectAdminId(SqlSession session, String adminEmail);
+	//관리자 비밀번호찾기
+	public Admin selectAdminPwd(SqlSession session, String adminId, String adminEmail);
 	
 	//회원관리
 	//회원 리스트 출력
@@ -51,6 +55,7 @@ public interface AdminStore {
 			, String searchUCondition
 			, String searchUValue);
 	
+	
 	//관리자 1:1문의관리
 	//qna 게시판 관의
 	public List<QnA> selectAllQna(SqlSession session, int currentPage, int qnaLimit);
@@ -59,8 +64,8 @@ public interface AdminStore {
 	public List<QnA> selectAllbyQnaValue(SqlSession session, String searchCondition, String searchValue,
 			int currentPage, int qnaLimit);
 	public int selectTotalQnaCount(SqlSession session, String searchCondition, String searchValue);
-	public Admin selectAdminId(SqlSession session, String adminEmail);
-	public Admin selectAdminPwd(SqlSession session, String adminId, String adminEmail);
+	
+	//관리자 메인페이지에 게시판 4개 출력
 	public List<User> selectNewUser(SqlSession session);
 	public List<Community> selectNewComm(SqlSession session);
 	public List<QnA> selectNewQna(SqlSession session);
