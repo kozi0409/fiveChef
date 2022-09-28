@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import com.kh.fivechef.admin.domain.Admin;
 import com.kh.fivechef.admin.service.AdminService;
 import com.kh.fivechef.admin.store.AdminStore;
+import com.kh.fivechef.community.domain.Community;
 import com.kh.fivechef.qna.domain.QnA;
-import com.kh.fivechef.qna.store.QnAStore;
+import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.user.domain.User;
 
 @Service
@@ -51,13 +52,6 @@ public class AdminServiceImpl implements AdminService{
 		return result;
 	}
 
-	//회원관리
-	@Override
-	public List<User> printAllUser(int currentPage, int userLimit)  {
-		List<User> uList = aStore.selectAllUser(session, currentPage, userLimit);
-		return uList;
-	}
-
 	//관리자회원 목록 - 페이징처리 포함
 	@Override
 	public List<Admin> printAllAdmin(int currentPage, int adminLimit) {
@@ -72,22 +66,36 @@ public class AdminServiceImpl implements AdminService{
 	}
 	
 	@Override
-	public int getTotalUserCount(String searchUCondition, String searchUValue) {
-		int totalUserCount = aStore.selectTotalCount(session, searchUCondition, searchUValue);
-		return totalUserCount;
+	public List<Admin> printAllByAdminValue(
+			String searchCondition, String searchValue
+			, int currentPage,int adminLimit) {
+		List<Admin> aList 
+		= aStore.selectAllByAdminValue(
+				session
+				, searchCondition
+				, searchValue
+				, currentPage
+				, adminLimit);
+		return aList;
 	}
-	
-	@Override
-	public int getTotalQnaCount(String searchQCondition, String searchQValue) {
-		int totalQnaCount = aStore.selectTotalCount(session, searchQCondition, searchQValue);
-		return totalQnaCount;
-	}
-
 
 	@Override
 	public int removeOneById(String adminId) {
 		int result = aStore.deleteOneById(session, adminId);
 		return result;
+	}
+
+	//회원관리
+	@Override
+	public List<User> printAllUser(int currentPage, int userLimit)  {
+		List<User> uList = aStore.selectAllUser(session, currentPage, userLimit);
+		return uList;
+	}
+
+	@Override
+	public int getTotalUserCount(String searchCondition, String searchValue) {
+		int totalUserCount = aStore.selectTotalUserCount(session, searchCondition, searchValue);
+		return totalUserCount;
 	}
 
 	@Override
@@ -109,26 +117,6 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<QnA> printAllQna(int currentPage, int qnaLimit) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Admin> printAllByAdminValue(
-			String searchCondition, String searchValue
-			, int currentPage,int adminLimit) {
-		List<Admin> aList 
-		= aStore.selectAllByAdminValue(
-				session
-				, searchCondition
-				, searchValue
-				, currentPage
-				, adminLimit);
-		return aList;
-	}
-
-	@Override
 	public List<User> printAllByUserValue(
 			String searchCondition, String searchValue
 			, int currentPage, int userLimit) {
@@ -140,6 +128,77 @@ public class AdminServiceImpl implements AdminService{
 				, currentPage
 				, userLimit);
 		return uList;
+	}
+
+	@Override
+	public List<QnA> printAllQna(int currentPage, int qnaLimit) {
+		List<QnA> aList = aStore.selectAllQna(session, currentPage, qnaLimit);
+		return aList;
+	}
+
+	@Override
+	public int getTotalQnaCount(String searchCondition, String searchValue) {
+		int totalQnaCount = aStore.selectTotalQnaCount(session, searchCondition, searchValue);
+		return totalQnaCount;
+	}
+
+	@Override
+	public QnA printOneByQna(Integer questionNo) {
+		QnA qna = aStore.selectOneByQnaNo(session, questionNo);
+		return qna;
+	}
+
+	@Override
+	public int answerQna(QnA qna) {
+		int result = aStore.insertAnswer(session, qna);
+		return result;
+	}
+
+	@Override
+	public List<QnA> printAllByQnaValue(String searchCondition, String searchValue, int currentPage, int qnaLimit) {
+		List<QnA> qList = aStore.selectAllbyQnaValue(
+				session
+				, searchCondition
+				, searchValue
+				, currentPage
+				, qnaLimit);
+		return qList;
+	}
+
+	@Override
+	public Admin findAdminId(String adminEmail) {
+		Admin findId = aStore.selectAdminId(session, adminEmail);
+		return findId;
+	}
+
+	@Override
+	public Admin findAdminPwd(String adminId, String adminEmail) {
+		Admin findPwd = aStore.selectAdminPwd(session, adminId, adminEmail);
+		return findPwd;
+	}
+
+	@Override
+	public List<User> printNewUser() {
+		List<User> newUser = aStore.selectNewUser(session);
+		return newUser;
+	}
+
+	@Override
+	public List<Community> printNewCommunity() {
+		List<Community> newComm = aStore.selectNewComm(session);
+		return newComm;
+	}
+
+	@Override
+	public List<QnA> printNewQna() {
+		List<QnA> newQna = aStore.selectNewQna(session);
+		return newQna;
+	}
+
+	@Override
+	public List<Recipe> printNewRecipe() {
+		List<Recipe> newRecipe = aStore.selectNewRecipe(session);
+		return newRecipe;
 	}
 
 

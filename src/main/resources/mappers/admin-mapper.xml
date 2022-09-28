@@ -47,6 +47,42 @@
  		<result property="qEnrollDate" column="Q_ENROLL_DATE"/>
  		<result property="qUpdateDate" column="Q_UPDATE_DATE"/>
  	</resultMap>
+
+	<resultMap type= "Community" id="communityResultMap">
+  		<id property="communityNo" column="COMMUNITY_NO"/>
+  		<result property="cBoardCode" column="C_BOARD_CODE"/>
+  		<result property="communityTitle" column="COMMUNITY_TITLE"/>
+  		<result property="communityWriter" column="COMMUNITY_WRITER"/>
+  		<result property="communityContents" column="COMMUNITY_CONTENTS"/>
+  		<result property="communityPrice" column="COMMUNITY_PRICE"/>
+  		<result property="communitySalePage" column="COMMUNITY_SALE_PAGE"/>
+  		<result property="communityFileName" column="COMMUNITY_FILE_NAME"/>
+  		<result property="communityFileRename" column="COMMUNITY_FILE_RENAME"/>
+  		<result property="communityFilePath" column="FILE_PATH"/>
+  		<result property="cEnrollDate" column="C_ENROLL_DATE"/>
+  		<result property="cUpdateDate" column="C_UPDATE_DATE"/>
+  		<result property="boardCount" column="BOARD_COUNT"/>
+  	</resultMap>
+  	
+  	
+  	<resultMap type="Recipe" id="recipeResultMap">
+		<id property="recipeNo" column="RECIPE_NO" />
+		<result property="recipeTitle" column="RECIPE_TITLE" />
+		<result property="recipeIntro" column="RECIPE_INTRO" />
+		<result property="thumbnailName" column="THUMBNAIL_NAME" />
+		<result property="thumbnailRename" column="THUMBNAIL_RENAME" />
+		<result property="thumbnailpath" column="THUMBNAIL_PATH" />
+		<result property="typeCategory" column="TYPE_CATEGORY" />
+		<result property="wayCategory" column="WAY_CATEGORY" />
+		<result property="recipeLikeCount" column="RECIPE_LIKE_COUNT" />
+		<result property="recipeCount" column="RECIPE_COUNT" />
+		<result property="userId" column="USER_ID" />
+		<result property="recipeLevel" column="RECIPE_LEVEL" />
+		<result property="recipeTime" column="RECIPE_TIME" />
+		<result property="recipePerson" column="RECIPE_PERSON" />
+		<result property="rCreateDate" column="R_CREATE_DATE" />
+		<result property="rStatus" column="R_STATUS" />
+	</resultMap>
 	
 	 	
 	<!-- 회원가입 -->
@@ -84,15 +120,24 @@
 	<select id="selectAllAdmin" resultMap="adminResultMap">
 		SELECT * FROM ADMIN_TBL ORDER BY REG_DATE DESC
 	</select>
+	
+	<!-- 관리자 id/pwd찾기 -->
+	<select id="selectAdminId" resultMap="adminResultMap">
+		SELECT ADMIN_ID FROM ADMIN_TBL WHERE ADMIN_EMAIL = #{adminEmail}
+	</select>
+	<select id="selectAdminPwd" resultMap="adminResultMap">
+		SELECT ADMIN_PWD FROM ADMIN_TBL WHERE ADMIN_ID = #{adminId} AND ADMIN_EMAIL = #{adminEmail}
+	</select>
+	
 	<!-- 관리자 목록 출력 -->
 	<select id="selectTotalCount" resultType="_int">
 		SELECT COUNT(*) FROM ADMIN_TBL
 		<where>
-				<if test="searchCondition.toString() == 'Name'">
-					ADMIN_NAME LIKE '%'||#{searchValue}||'%'
-				</if>
 				<if test="searchCondition.toString() == 'Id'">
 					ADMIN_ID LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'Name'">
+					ADMIN_NAME LIKE '%'||#{searchValue}||'%'
 				</if>
 				<if test="searchCondition.toString() == 'all'">
 					ADMIN_NAME LIKE '%'||#{searchValue}||'%'
@@ -131,11 +176,11 @@
 	<select id="selectTotalUserCount" resultType="_int">
 		SELECT COUNT(*) FROM USER_TBL
 		<where>
-				<if test="searchCondition.toString() == 'Name'">
-					USER_NAME LIKE '%'||#{searchValue}||'%'
-				</if>
 				<if test="searchCondition.toString() == 'Id'">
 					USER_ID LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'Name'">
+					USER_NAME LIKE '%'||#{searchValue}||'%'
 				</if>
 				<if test="searchCondition.toString() == 'Phone'">
 					USER_PHONE LIKE '%'||#{searchValue}||'%'
@@ -155,22 +200,24 @@
 				USER_ID LIKE '%'||#{searchValue}||'%'
 			</if>
 			<if test="searchCondition.toString() == 'Name'">
-				USER_ID LIKE '%'||#{searchValue}||'%'
+				USER_NAME LIKE '%'||#{searchValue}||'%'
 			</if>
 			<if test="searchCondition.toString() == 'Phone'">
 				USER_PHONE LIKE '%'||#{searchValue}||'%'
 			</if>
 			<if test="searchCondition.toString() == 'all'">
 				USER_ID LIKE '%'||#{searchValue}||'%'
-				OR USER_ID LIKE '%'||#{searchValue}||'%'
+				OR USER_NAME LIKE '%'||#{searchValue}||'%'
 				OR USER_PHONE LIKE '%'||#{searchValue}||'%'
 			</if>
 			
 		</where>
 	</select>
 	
+
 	
-	<!-- 마스터 회원 수정 -->
+	
+	<!-- 회원 정보 수정 -->
  	<update id="modifyUser" parameterType="User">
 		UPDATE USER_TBL
 		SET USER_PWD = #{userPwd }, USER_NAME = #{userName }, USER_PHONE = #{userPhone }, USER_EMAIl = #{userEmail }
@@ -178,9 +225,83 @@
 		WHERE USER_ID = #{userId }		
 	</update>
 	
-	<!-- 마스터관리자가 회원 삭제 -->
+	<!-- 회원 삭제 -->
 	<delete id="deleteMasterUser">
 		DELETE FROM USER_TBL 
 		WHERE USER_ID=#{userId }
 	</delete>
+	
+	<!-- QNA 관리 -->
+ 	<select id="selectAllQna" resultMap="qnaResultMap">
+		SELECT * FROM QNA_TBL ORDER BY QUESTION_NO DESC
+	</select>
+	
+	<select id="selectOneByQnaNo" resultMap="qnaResultMap">
+		SELECT * FROM QNA_TBL 
+		WHERE QUESTION_NO = #{questionNo }
+	</select>
+	
+	<!-- Qna 검색 출력 -->
+	<select id="selectTotalQnaCount" resultType="_int">
+		SELECT COUNT(*) FROM QNA_TBL
+		<where>
+			<if test="searchCondition.toString() == 'QWriter'">
+					QUESTION_WRITER LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'QTitle'">
+					QUESTION_TITLE LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'QContents'">
+					QUESTION_CONTENTS LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'all'">
+					QUESTION_WRITER LIKE '%'||#{searchValue}||'%'
+					OR QUESTION_TITLE LIKE '%'||#{searchValue}||'%'
+					OR QUESTION_CONTENTS LIKE '%'||#{searchValue}||'%'
+				</if>
+			 
+		</where>
+	</select>
+	<!-- QNA 검색 출력 -->
+	<select id="selectAllByQnaValue" resultMap="qnaResultMap">
+		SELECT * FROM QNA_TBL
+		<where>
+				<if test="searchCondition.toString() == 'QWriter'">
+					QUESTION_WRITER LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'QTitle'">
+					QUESTION_TITLE LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'QContents'">
+					QUESTION_CONTENTS LIKE '%'||#{searchValue}||'%'
+				</if>
+				<if test="searchCondition.toString() == 'all'">
+					QUESTION_WRITER LIKE '%'||#{searchValue}||'%'
+					OR QUESTION_TITLE LIKE '%'||#{searchValue}||'%'
+					OR QUESTION_CONTENTS LIKE '%'||#{searchValue}||'%'
+				</if>
+				 
+			</where>
+	</select>
+	<update id="updateAnswerQna"> 
+		UPDATE QNA_TBL SET ANSWER_STATUS = 'N', ANSWER_CONTENTS = #{answerContents }, ANSWER_WRITER= #{answerWriter }, Q_UPDATE_DATE = DEFAULT 
+		WHERE QUESTION_NO = #{questionNo}
+	</update>
+	
+<!--<select id="selectNewUser" resultMap="userResultMap">
+		SELECT USER_ID, USER_NAME, USER_PHONE, USER_EMAIL, U_ENROLL_DATE FROM USER_TBL WHERE ROWNUM <=10 ORDER BY U_ENROLL_DATE DESC
+	</select>
+	
+	<select id="selectNewQna" resultMap="qnaResultMap">
+		SELECT QUESTION_WRITER, QUESTION_TITLE, ANSWER_STATUS, Q_ENROLL_DATE FROM QNA_TBL WHERE ROWNUM <=10 ORDER BY Q_ENROLL_DATE DESC
+	</select>
+	
+	<select id="selectNewRecipe" resultMap="recipeResultMap">
+		SELECT RECIPE_NO, USER_ID, RECIPE_TITLE, RECIPE_LIKE_COUNT, R_CREATE_DATE FROM RECIPE_TBL WHERE ROWNUM <=10 ORDER BY R_CREATE_DATE DESC
+	</select>
+	
+	<select id="selectNewCommunity" resultMap="communityResultMap">		
+		SELECT COMMUNITY_NO, COMMUNITY_WRITER, COMMUNITY_TITLE, C_ENROLL_DATE FROM COMMUNITY_TBL WHERE ROWNUM <=10 ORDER BY C_ENROLL_DATE DESC
+	</select> -->
+	
  </mapper>

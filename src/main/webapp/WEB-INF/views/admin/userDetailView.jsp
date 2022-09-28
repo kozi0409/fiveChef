@@ -6,11 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>마스터페이지</title>
- <link rel="stylesheet" href="../resources/plugins/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 <jsp:include page="../main/admin_navs.jsp"></jsp:include>
 <br>
+<c:if test="${not empty loginAdmin}">
 <div class="container" style="width: 600px; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
@@ -44,18 +44,12 @@
 					</tr>
 					<tr>
 						<th>회원상태</th>
-						<td>
-						<select name="uStatus">
 						<c:if test="${user.uStatus eq 'Y'}">
-							<option value="Y" selected>가입</option>
-							<option value="N">탈퇴</option>
+						<td><input type="text" name="" value="가입" class="form-control" readonly></td>
 						</c:if>
 						<c:if test="${user.uStatus eq 'N'}">
-							<option value="Y" selected>탈퇴</option>
-							<option value="Y">가입</option>	
-						</c:if>	
-						</select>
-						</td>
+						<td><input type="text" name="" value="탈퇴" class="form-control" readonly></td>
+						</c:if>
 					</tr>
 					<tr>
 						<th>등록날짜</th>
@@ -63,8 +57,8 @@
 					</tr>		
 					<tr>
 						<td colspan="2">
-							<input type="submit" class="btn btn-primary" style="background-color: #4d61fb;" value="수정하기">
-							<button type="button" class="btn btn-danger" style="background-color: #fb4d7e;" onclick="location.href='/admin/userlist.kh?page=${page}'">목록</button>
+							<input type="submit" class="btn btn-dark" style="background-color: #4d61fb;" value="수정">
+							<button type="button" class="btn btn-dark" style="background-color: #fb4d7e;" onclick="location.href='/admin/userlist.kh?page=${page}'">목록</button>
 						</td>
 					</tr>
 					
@@ -74,6 +68,7 @@
 		</div>
 	</div>
 </div>
+</c:if>
 <!-- copyright -->
 <jsp:include page="../main/footer.jsp"></jsp:include>
 

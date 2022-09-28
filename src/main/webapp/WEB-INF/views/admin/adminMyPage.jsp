@@ -10,6 +10,7 @@
 <body>
 <jsp:include page="../main/admin_navs.jsp"></jsp:include>
 <br>
+<c:if test="${not empty loginAdmin}">
 <div class="container" style="width: 600px; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
@@ -83,6 +84,7 @@
 		</div>
 	</div>
 </div>
+</c:if>
 <!-- copyright -->
 <jsp:include page="../main/footer.jsp"></jsp:include>
 
