@@ -59,6 +59,24 @@
 				</tr>
 			</c:forEach>
 		</c:if>
+		 <tr align="center" height="20">
+            <td colspan="6">
+                <c:if test="${currentPage != 1}">
+                    <a href="/qna/${urlVal }.kh?page=${currentPage - 1 }">[이전]</a>
+                </c:if>
+                <c:forEach var="p" begin = "${startNavi }" end="${endNavi }">
+                    <c:if test="${currentPage eq p }">
+                        <b>${p}</b> 
+                    </c:if>
+                    <c:if test="${currentPage ne p }">
+                        <a href = "/qna/${urlVal }.kh?page=${p }&searchCondition=${searchCondition }&searchValue=${searchValue }">${p}</a>
+                    </c:if>
+                </c:forEach>
+            <c:if test = "${currentPage < maxPage }">
+                <a href = "/qna/${urlVal}.kh?page=${currentPage + 1}">[다음]</a>
+            </c:if>
+            </td>
+        </tr>
 	</table>
 	<button class="btn-1" onclick="qnaWrite()">글쓰기</button>
 	

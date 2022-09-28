@@ -5,6 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>1:1문의글 작성</title>
+<jsp:include page="../main/user_navs.jsp"></jsp:include>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
     .btn-1 {
@@ -24,10 +25,11 @@
 		height : 50px;
 		width : 100px;
     }
+
 </style>
 </head>
 <body>
-<jsp:include page="../main/user_navs.jsp"></jsp:include>
+
 <br><br><br>
 <h3 align="center">1:1 문의 작성</h3>
 <br><br><br>
@@ -37,7 +39,7 @@
 		<table align="center" border="1" class="table table-bordered">
 			<tr>
 				<td align="center" width="500">제목</td>
-				<td><input type="text" name="questionTItle" style="width:950px; border:none"></td>
+				<td><input type="text" name="questionTitle" style="width:950px; border:none"></td>
 			</tr>
 			<tr>
 				<td align="center" width="500">작성자</td>
@@ -48,7 +50,7 @@
 				<td><textarea cols="140" rows="20" name="questionContents" style="border:none"></textarea></td>
 			</tr>
 			<tr>
-				<td align="center" width="500">첨부파일</td>
+				<td align="center" width="500" >첨부파일</td>
 				<td><input type="file" name="uploadFile"></td>
 			</tr>
 		</table>

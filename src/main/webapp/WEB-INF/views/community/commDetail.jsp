@@ -25,6 +25,8 @@
 </style>
 </head>
 <body>
+
+	<!-- navs bar -->
 <div class="container">
 <div class="table-responsive">
 	<table align="center" width="500" border="1" class="table table-bordered">
