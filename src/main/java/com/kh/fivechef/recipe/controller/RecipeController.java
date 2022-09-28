@@ -54,7 +54,7 @@ public class RecipeController {
 		mv.setViewName("recipe/recipeWriteFormcopy");
 		return mv;
 	}
-
+//
 	// 레시피 등록
 	@RequestMapping(value = "/recipe/recipeRegister.kh", method = RequestMethod.POST)
 	public ModelAndView recipeRegist(ModelAndView mv, @ModelAttribute Recipe recipe, @ModelAttribute Ingradient ing,
@@ -169,7 +169,7 @@ public class RecipeController {
 
 			request.setAttribute("msg", "레시피 등록이 완료되었습니다.");
 			// 성공시 메인페이지로 이동하도록 변경
-			request.setAttribute("url", "/");
+			request.setAttribute("url", "/recipe/recipeList.kh");
 			mv.setViewName("common/alert");
 		} catch (Exception e) {
 			// TODO: handle exception

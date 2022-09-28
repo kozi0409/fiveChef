@@ -242,7 +242,7 @@ border-color:rgb(209, 24, 79)
 				</div>
 			</div>
 		<div class="col-md-8">
-		<h2> 총 <span style="border: #ccc">${totalCount }</span>개의 레시피가 있습니다.${sessionScope.postingid == null}</h2>
+		<h2> 총 <span style="border: #ccc">${totalCount }</span>개의 레시피가 있습니다.</h2>
 		</div>
 		<div class="r col-md-4" id="gogo">
 			
