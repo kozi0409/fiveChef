@@ -90,7 +90,7 @@
 		</c:if>
 	</table>
 
-   <%--  <form action="/community/addReply.kh" method="post">
+     <form action="/community/addReply.kh" method="post">
         <table align="center" width="500" border="1" class="table table-bordered">
             <c:forEach items="${rList}" var="cReply">
                 <tr>
@@ -111,7 +111,7 @@
             </c:forEach>
         </table>
 
-        <input type="hidden" name="refCommunityno" value="${community.communityNo}">
+        <input type="hidden" name="refCommunityNo" value="${community.communityNo}">
         <input type="hidden" name="page" value="${page}">
         <c:if test="${not empty loginUser }">
 	        <table align="center" width="500" border="1" class="table table-bordered">
@@ -126,7 +126,7 @@
 	        </table>
         </c:if>
 
-    </form> --%>
+    </form>
 	<script>
 		function communityRemove(page) {
 			event.preventDefault(); // 하이퍼링크 이동 방지

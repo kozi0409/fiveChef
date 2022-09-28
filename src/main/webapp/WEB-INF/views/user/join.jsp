@@ -199,7 +199,7 @@
                
                	<div style= "display : inline-block">
                 	<a href="#" class="btn" role="button">
-              			<button type="button" class="btn-1">인증번호 받기</button>
+              			<!-- <button type="button" class="btn-1">인증번호 받기</button>  -->
               		</a>
               	</div>
               </div>
