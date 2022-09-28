@@ -1,6 +1,5 @@
 package com.kh.fivechef.fridge.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +56,8 @@ public class StorageController {
 		SelectBox selectBox = new SelectBox(storageNo, largeCatId, selectBoxNo);
 		int result = sService.registSelectValue(selectBox);
 		List<Storage> stList = sService.printStorage(fridgeNo);
+		
+		
 		mv.addObject("sList", sList);
 		mv.addObject("lList", lList);
 		mv.addObject("stList", stList);
@@ -120,15 +121,18 @@ public class StorageController {
 		return mv;
 	}
 	
+	//재료 등록
 	@RequestMapping(value="/fridge/registIngred.kh", method=RequestMethod.POST)
 	public ModelAndView IngredRegist(ModelAndView mv
 			,@RequestParam("fridgeNo") Integer fridgeNo
+			,@RequestParam("fridgeName") String fridgeName
 			,@RequestParam("stSelectNo") Integer stSelectNo
 			,@RequestParam("storageNo") Integer storageNo
 			,@RequestParam("ingredBundle") String ingredBundle) {
 		Storage storage = new Storage(storageNo, fridgeNo, stSelectNo, ingredBundle);
-//		int result = sService.registIngred(storage);
+		int result = sService.registIngred(storage);
 		mv.addObject("fridgeNo", fridgeNo);
+		mv.addObject("fridgeName", fridgeName);
 		mv.addObject("stSelectNo", stSelectNo);
 		mv.addObject("storageNo", storageNo);
 		mv.addObject("ingredBundle", ingredBundle);

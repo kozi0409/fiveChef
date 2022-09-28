@@ -61,4 +61,16 @@ public class StorageStoreLogic implements StorageStore {
 		return result;
 	}
 
+	@Override
+	public int updateIngred(SqlSession session, Storage storage) {
+		int result = session.update("FridgeMapper.updateIngred", storage);
+		return result;
+	}
+
+	@Override
+	public Storage selectIngred(SqlSession session, Integer fridgeNo) {
+		Storage ibundle = session.selectOne("FridgeMapper.selectIngred", fridgeNo);
+		return ibundle;
+	}
+
 }

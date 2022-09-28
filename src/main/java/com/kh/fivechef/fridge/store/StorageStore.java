@@ -17,4 +17,6 @@ public interface StorageStore {
 	public int deleteStorage(SqlSession session, Integer fridgeNo, Integer stSelectNo);
 	public int updateSelectValue(SqlSession session, SelectBox selectBox);
 	public int updateStorage(SqlSession session, Storage storage);
+	public int updateIngred(SqlSession session, Storage storage);
+	public Storage selectIngred(SqlSession session, Integer fridgeNo);
 }

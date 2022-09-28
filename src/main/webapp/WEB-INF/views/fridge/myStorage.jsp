@@ -170,7 +170,7 @@ textarea.form-controls {
 									<h6><b>소분류</b></h6>
 								</div>
 								<div class="col">
-									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this);" >
+									<select id="selSmall" style="width: 150px; height:100px;" multiple onchange="list_selected(this, ${j.index });" >
 										<c:forEach items="${sList }" var="smallCat"  varStatus="i">
 											<c:if test="${smallCat.largeCatId eq storage.largeCatId }">
 												<option id="smallCatOpt" value="${smallCat.smallCatId }" >${smallCat.smallCatName }</option>
@@ -185,7 +185,14 @@ textarea.form-controls {
 							<br>
 							<div class="row justify-content-center">
 								<div class="col-5">
-									<button class="btn btn-primary" onclick="saveIngred(this, ${fridgeNo}, ${j.index },  ${storage.storageNo });">재료 저장</button>
+									<form action="/fridge/registIngred.kh" method="post">
+										<input type="hidden" id="ingredBundle${j.index }" name="ingredBundle" value="">
+										<input type="hidden" name="fridgeNo" value="${fridgeNo}">
+										<input type="hidden" name="fridgeName" value="${fridgeName}">
+										<input type="hidden" name="stSelectNo" value="${j.index }">
+										<input type="hidden" name="storageNo" value="${storage.storageNo }">
+										<input class="btn btn-primary" type="submit" value="재료 저장"> 
+									</form>
 								</div>
 								<div class="col-5">
 									<button class="btn btn-danger">재료 삭제</button>
@@ -195,17 +202,21 @@ textarea.form-controls {
 <!-- 						<div class = "vertical"></div> -->
 						<div class="col" style="padding:20px">
 							<div class="row row-cols-6">
-								<c:forEach var="i" begin="0" end="50">
-									<div class="col">
-										<div class="row" id="values">
-											<div class="col-1">
-												<input type="checkbox" id="ingredCheck${i }">
-											</div>
-											<div class="col">
-												<label for="ingredCheck${i }">${i }재료명</label>
+								<c:forEach items="${stList }" var="ingred" varStatus="k">
+									<input type="hidden" name="ingred">
+									<c:if test="${ingred.storageSelectNo eq j.index}">
+										<div class="col">
+											<div class="row" id="values">
+												<div class="col-1">
+													<input type="checkbox" id="ingredCheck${k }">
+												</div>
+												<div class="col">
+													<label for="ingredCheck${k }"> ${ingred.ingredBundle }</label>
+												</div>
 											</div>
 										</div>
-									</div>
+									</c:if>
+<%-- 									${ingred.ingredBundle } --%>
 								</c:forEach>
 							</div>
 						</div>
@@ -220,14 +231,13 @@ textarea.form-controls {
 								</div>
 								    <div class="modal-body">
 									    <div class="modal-body p-5 pt-0">
-											<form action="/fridge/modifyStorage.kh" method="post">
+											<form action="/fridge/modifyStorage.kh" name="modifyStorage" method="post">
 												<br>
 												<div class="form-floating mb-3">
 													<input type="hidden" name="fridgeNo" value="${fridgeNo}">
 													<input type="hidden" name="fridgeName" value="${fridgeName}">
 													<input type="hidden" name="stList" value="${storage}">
 													<input type="hidden" name="storageNo" value="${storage.storageNo}">
-<%-- 													<input type="hidden" name="storageName" value="${storage.storageName}"> --%>
 													<input type="text" class="form-control rounded-4" id="storageName" placeholder="칸 이름 입력" name="storageName" value="${storage.storageName }" required>
 													<label for="floatingInput">칸 이름</label>
 												</div>
@@ -321,7 +331,7 @@ textarea.form-controls {
 			}
 		}
 		// 민석님
-		function list_selected(e) {
+		function list_selected(e, jNo) {
 			const selsList = [];
 // 			const texts = [];
 			
@@ -329,84 +339,14 @@ textarea.form-controls {
 			for(let i=0; i < e.options.length; i++) {
 				const option = e.options[i];
 			  	if(option.selected) {
-				    selsList.push(option.value);
-// 				    texts.push(option.text);
+				    selsList.push(option.text);
+// 				    texts.push(option.value);
 			  	}
 			}
-// 			$.each(selsList, function(index, item){
-// 				var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
-//  				$form.attr("action", "/fridge/registIngred.kh");
-//  				$form.attr("method", "post");
-//  				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
-//  				$form.append("<input type='hidden' value='"+jNo+"' name='stSelectNo'>");
-//  				$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
-//  				$form.append("<input type='hidden' value='"+selList[index]+"' name='ingredBundle'>");
-//  				$form.appendTo("body");
-// 				$form.submit();
-// 			});
-			return selsList;
-// 			console.log(selsList);
-			// 선택된 데이터 출력
-// 			for(let i=0; i < e.options.length; i++) {
-// 				console.log(values[i]):
-// 				document.getElementById('values').innerText = values;
-// 			}
-// 			document.getElementById('texts').innerText = texts;
-		}
-		
-		
-		function saveIngred(fNo, jNo, sNo){
-			var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
-			$form.attr("action", "/fridge/registIngred.kh");
-			$form.attr("method", "post");
-			$form.attr("name", "save-Ingred"); 	
-			$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
-			$form.append("<input type='hidden' value='"+jNo+"' name='stSelectNo'>");
-			$form.append("<input type='hidden' value='"+sNo+"' name='storageNo'>");
-			$form.append("<input type='hidden' value='' name='ingredBundle'>");
-			$form.appendTo("body");
-			console.log(list_selected());
-			console.log(fNo);
-			console.log(jNo);
-			console.log(sNo);
-// 			$form.submit();
-		}
-		
-		
-		
-		
-// 		$(document).ready(function() {
-// 		    $('#submit').click(function() {
-// 		        if ($('#storageCheck${j.index }').is(":checked")) {
-// 		            alert(storageCheck${j.index }+"선택");
-// 		        } else {
-// 		            alert("선택하지 않음");
-// 		        }
-// 		    })
-// 		});
-		
-		
-		
-// 		var i = 1;
-// 		function createStorage(){
-// 			var $form = $("<form>");
-// // 			$form.attr("action", "/fridge/changeSmall.kh");
-// // 			$form.attr("method", "get");
-// 			$form.append("<div class='col mt-3 mb-3'>");
-// 			$form.append("<div style='height:400px; background-color: gray; padding:20px;'><input type='checkbox"+i+"' id='storage'><label for='storage'>재료 칸</label><hr style='border-width:2px;'></div>");
-// 			$form.append("<input type='hidden' value='values' name='values'>");
-// 			$form.append("<input type='hidden' value='texts' name='texts'>");
-// 			$form.append("<input type='hidden' value='texts' name='texts'>");
-// 			$form.append("<div id='values"+i+"'></div>");
-// 			$form.append("<div id='texts"+i+'></div>");
-// 			$form.appendTo("#gridDiv");
-// // 			$form.submit();
-// 			i++;
 			
-// 		}
-		
-		
-		
+			$('#ingredBundle'+jNo+'').val(selsList);
+			
+		}
 		
 		
 // 		$.ajax({

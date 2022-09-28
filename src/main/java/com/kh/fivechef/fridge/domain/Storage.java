@@ -7,7 +7,7 @@ public class Storage {
 	private int fridgeNo;
 	private String largeCatId;
 	private int storageSelectNo;
-	private String IngredBundle;
+	private String ingredBundle;
 	
 	public Storage() {}
 		
@@ -30,7 +30,7 @@ public class Storage {
 		this.storageNo = storageNo;
 		this.fridgeNo = fridgeNo;
 		this.storageSelectNo = storageSelectNo;
-		this.IngredBundle = ingredBundle;
+		this.ingredBundle = ingredBundle;
 	}
 
 	public int getStorageNo() {
@@ -81,18 +81,18 @@ public class Storage {
 	}
 	
 	public String getIngredBundle() {
-		return IngredBundle;
+		return ingredBundle;
 	}
 
 	public void setIngredBundle(String ingredBundle) {
-		this.IngredBundle = ingredBundle;
+		this.ingredBundle = ingredBundle;
 	}
 	
 	@Override
 	public String toString() {
 		return "Storage [storageNo=" + storageNo + ", storageName=" + storageName + ", fridgeNo=" + fridgeNo
-				+ ", largeCatId=" + largeCatId + ", storageSelectNo=" + storageSelectNo + ", IngredBundle="
-				+ IngredBundle + "]";
+				+ ", largeCatId=" + largeCatId + ", storageSelectNo=" + storageSelectNo + ", ingredBundle="
+				+ ingredBundle + "]";
 	}
 
 	

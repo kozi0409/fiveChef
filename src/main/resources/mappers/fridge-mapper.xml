@@ -28,6 +28,7 @@
  		<result property="fridgeNo" 			column="FRIDGE_NO" />
  		<result property="largeCatId" 			column="LARGE_CAT_ID" />
 		<result property="storageSelectNo" 		column="STORAGE_SELECT_NO" />
+		<result property="ingredBundle" 		column="INGRED_BUNDLE" />
  	</resultMap>
  	
  	<insert id="insertFridge">
@@ -40,7 +41,7 @@
  	</update>
  	<select id="selectAllFridge" resultMap="fridgeResultMap">
  		SELECT * FROM MY_FRIDGE_TBL
- 		ORDER BY FRIDGE_NO DESC
+ 		WHERE USER_ID = #{userId} ORDER BY USER_ID DESC
  	</select>
  	<select id="selectOneByFridgeNo" resultMap="fridgeResultMap">
  		SELECT * FROM MY_FRIDGE_TBL
@@ -61,7 +62,7 @@
  	
  	<insert id="insertStorage">
  		INSERT INTO STORAGE_TBL
- 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo}, 'A1', 0)
+ 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo}, 'A1', 0, null)
  	</insert>
  	
  	<select id="selectStorage" resultMap="storageResultMap">
@@ -79,5 +80,14 @@
  	<update id="updateStorage">
  		UPDATE STORAGE_TBL SET STORAGE_NAME = #{storageName}
  		WHERE STORAGE_NO = #{storageNo}
+ 	</update>
+ 		
+ 	<select id="selectIngred" resultMap="storageResultMap">
+ 		SELECT * FROM STORAGE_TBL
+ 		WHERE FRIDGE_NO = #{fridgeNo}
+ 	</select>
+ 	<update id="updateIngred">
+		UPDATE STORAGE_TBL SET INGRED_BUNDLE = INGRED_BUNDLE||','||#{ingredBundle}
+ 		WHERE FRIDGE_NO = #{fridgeNo} AND STORAGE_NO = #{storageNo} AND STORAGE_SELECT_NO = #{storageSelectNo}
  	</update>
  </mapper>

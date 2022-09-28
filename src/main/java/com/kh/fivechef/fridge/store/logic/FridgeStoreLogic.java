@@ -24,8 +24,8 @@ public class FridgeStoreLogic implements FridgeStore{
 	}
 
 	@Override
-	public List<Fridge> selectAllFridge(SqlSession session) {
-		List<Fridge> fList = session.selectList("FridgeMapper.selectAllFridge");
+	public List<Fridge> selectAllFridge(SqlSession session, String userId) {
+		List<Fridge> fList = session.selectList("FridgeMapper.selectAllFridge", userId);
 		return fList;
 	}
 
