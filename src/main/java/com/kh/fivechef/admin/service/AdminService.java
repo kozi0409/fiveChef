@@ -3,7 +3,9 @@ package com.kh.fivechef.admin.service;
 import java.util.List;
 
 import com.kh.fivechef.admin.domain.Admin;
+import com.kh.fivechef.community.domain.Community;
 import com.kh.fivechef.qna.domain.QnA;
+import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.user.domain.User;
 
 public interface AdminService {
@@ -39,10 +41,6 @@ public interface AdminService {
 	//관리자가 회원정보 수정
 	public int modifyUser(User user);
 	
-	//관리자 1:1문의관리
-	public List<QnA> printAllQna(int currentPage, int qnaLimit);
-	//1:1문의관리 페이징처리
-	public int getTotalQnaCount(String searchQCondition, String searchQValue);
 	
 	//관리자 검색
 	public List<Admin> printAllByAdminValue(
@@ -56,6 +54,22 @@ public interface AdminService {
 			, String searchValue
 			, int currentPage
 			, int userLimit);
+	
+	//관리자 1:1문의관리
+	public List<QnA> printAllQna(int currentPage, int qnaLimit);
+	//1:1문의관리 페이징처리
+	public int getTotalQnaCount(String searchCondition, String searchValue);
+	//1:1문의관리 아이디찾기
+	public QnA printOneByQna(Integer questionNo);
+	public int answerQna(QnA qna);
+	public List<QnA> printAllByQnaValue(String searchCondition, String searchValue, int currentPage, int qnaLimit);
+	public Admin findAdminId(String adminEmail);
+	public Admin findAdminPwd(String adminId, String adminEmail);
+	public List<User> printNewUser();
+	public List<Community> printNewCommunity();
+	public List<QnA> printNewQna();
+	public List<Recipe> printNewRecipe();
+	
 	
 	
 

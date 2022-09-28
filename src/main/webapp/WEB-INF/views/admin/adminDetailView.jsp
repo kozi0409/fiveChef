@@ -10,13 +10,17 @@
 <body>
 <jsp:include page="../main/admin_navs.jsp"></jsp:include>
 <br>
+<c:if test="${not empty loginAdmin}">
 <div class="container" style="width: 600px; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
-		    <h2>마스터 관리자 정보 수정</h2>
+		    <p style="color: #a57625; font-size:34px; font-family:malgun gothic;">[ 마스터 관리자 정보 수정 ]</p>
 			<form action="/admin/modify.kh" method="post">
 				<input type="hidden" name="page" value="${page }">
 				<table class="table table-boardered">
+					<tr>
+						<th colspan=2 height="1px"></th>
+					</tr>
 					<tr>
 						<th>아이디</th>
 						<td><input type="text" class="form-control" id="adminId" name="adminId" value="${admin.adminId }"  readonly></td>		
@@ -76,8 +80,8 @@
 					
 					<tr>
 						<td colspan="2">
-							<input type="submit" class="btn btn-primary" style="background-color: #4d61fb;" value="수정">
-							<button type="button" class="btn btn-danger" style="background-color: #fb4d7e;" onclick="location.href='/admin/adminlist.kh?page=${page}'">목록</button>
+							<input type="submit" class="btn btn-dark" style="background-color: #e79327;" value="수정">
+							<button type="button" class="btn btn-dark" style="background-color: #386a94;" onclick="location.href='/admin/adminlist.kh?page=${page}'">목록</button>
 						</td>
 					</tr>
 					
@@ -87,6 +91,7 @@
 		</div>
 	</div>
 </div>
+</c:if>
 <!-- copyright -->
 <jsp:include page="../main/footer.jsp"></jsp:include>
 

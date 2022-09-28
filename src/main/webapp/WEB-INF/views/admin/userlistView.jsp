@@ -10,11 +10,37 @@
 <body>
 <jsp:include page="../main/admin_navs.jsp"></jsp:include>
 <br>
+<c:if test="${not empty loginAdmin}">
 <div class="container" style="width: 80%; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
-		<h1>홈페이지회원 목록</h1>
+		<p style="color: #965298; font-size:34px; font-family:malgun gothic;">[ 홈페이지회원 목록 ]</p></h1>
 			<table class="table table-striped table-hover">
+			<!--  검색 Start -->
+				<tr>
+					<td colspan="10" align="center">
+						<form action="/admin/searchUser.kh" method="get">
+							<div style= "display: inline-block">
+							<select name="searchCondition">
+								<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
+								<option value="Id" <c:if test="${searchCondition eq 'Id' }">selected</c:if>>아이디</option>
+								<option value="Name" <c:if test="${searchCondition eq 'Name' }">selected</c:if>>이름</option>
+								<option value="Phone" <c:if test="${searchCondition eq 'Phone' }">selected</c:if>>전화번호</option>
+							</select>
+							</div>
+							<div style= "display: inline-block">
+							<input type="text" name="searchValue" value="${searchValue }">
+							</div>
+							<div style= "display: inline-block">
+							<input type="submit" value="검색">
+							</div>
+							<div style= "display: inline-block">
+							<input type="button" value="전체목록" onclick="location = '/admin/userlist.kh?page=${page}'">
+							</div>
+						</form>
+					</td>
+				</tr>
+			<!--  검색 End -->
 				<tr>
 					<th>번호</th>
 					<th>아이디</th>
@@ -32,7 +58,7 @@
 							<td>${i.count }</td>
 							<td><a href="/admin/userDetail.kh?userId=${user.userId }&page=${currentPage }">${user.userId }</a></td>
 							<td>${user.userPwd }</td>
-							<td>${user.userName }</td>
+							<td><a href="/admin/userDetail.kh?userId=${user.userId }&page=${currentPage }">${user.userName }</a></td>
 							<td>${user.userPhone }</td>
 							<td>${user.uEnrollDate }</td>
 							<c:if test="${user.uStatus eq 'Y'}">
@@ -41,8 +67,8 @@
 							<c:if test="${user.uStatus eq 'N'}">
 							<td>탈퇴</td>
 							</c:if>
-							<td><button type="button" class="btn btn-primary btn-sm" style="background-color: #4d61fb;" onclick ="location.href = '/admin/userDetail.kh?userId=${user.userId }&page=${currentPage }';">수정</button></td>
-							<td><button type="button" class="btn btn-secondary btn-sm" style="background-color: #fb4d7e;" onclick="deleteCheck('${user.userId }',${currentPage })">삭제</button></td>
+							<td><button type="button" class="btn btn-dark btn-sm" style="background-color: #4d61fb;" onclick ="location.href = '/admin/userDetail.kh?userId=${user.userId }&page=${currentPage }';">수정</button></td>
+							<td><button type="button" class="btn btn-dark btn-sm" style="background-color: #fb4d7e;" onclick="deleteCheck('${user.userId }',${currentPage })">삭제</button></td>
 						</tr>
 					</c:forEach>
 							<tr align="center" height="20">
@@ -69,30 +95,12 @@
 				<td colspan="10" align="center"><b>데이터가 존재하지 않습니다.</b></td>
 			</tr>
 			</c:if>
-			<tr>
-				<td colspan="10" align="center">
-					<form action="/admin/searchUser.kh" method="get">
-						<div style= "display: inline-block">
-						<select name="searchCondition">
-							<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
-							<option value="Id" <c:if test="${searchCondition eq 'Id' }">selected</c:if>>아이디</option>
-							<option value="Name" <c:if test="${searchCondition eq 'Name' }">selected</c:if>>이름</option>
-							<option value="Phone" <c:if test="${searchCondition eq 'Phone' }">selected</c:if>>전화번호</option>
-						</select>
-						</div>
-						<div style= "display: inline-block">
-						<input type="text" name="searchValue" value="${searchValue }">
-						</div>
-						<div style= "display: inline-block">
-						<input type="submit" value="검색">
-						</div>
-					</form>
-				</td>
-			</tr>
+			
 		</table>
 		</div>
 	</div>
 </div>
+</c:if>
 <!-- copyright -->
 <jsp:include page="../main/footer.jsp"></jsp:include>
 <script>

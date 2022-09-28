@@ -13,10 +13,11 @@
     
 <!-- Footer Start -->
 
-<br><br><br><br>
+<br><br><br>
 <!-- Footer End -->  
+<!-- <div style="text-align:right";><a href="#Top">TOP</a></div> -->
 <!-- Copyright Start -->
-  <div class="fixed-bottom center bg-gray" style="background-color: #c0c0c0;">
+  <div class="fixed-bottom center bg-gray" style="background-color: #1d1d1d; color: #d21853; font-size:15px; font-weight: bold;">
     <div>
     	<table align="center" height="50px">
     		<tr>
@@ -27,7 +28,6 @@
     </div>
   </div>
 <!-- Copyright End -->
-
 
   </body>
   </html>
