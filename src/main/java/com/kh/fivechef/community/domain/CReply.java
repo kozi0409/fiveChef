@@ -9,6 +9,8 @@ public class CReply {
 	private String replyWriter;
 	private Date rCreateDate;
 	private Date rUpdateDate;
+	private String cBoardCode;
+	
 	public int getReplyNo() {
 		return replyNo;
 	}
@@ -45,10 +47,18 @@ public class CReply {
 	public void setrUpdateDate(Date rUpdateDate) {
 		this.rUpdateDate = rUpdateDate;
 	}
+	public String getcBoardCode() {
+		return cBoardCode;
+	}
+	public void setcBoardCode(String cBoardCode) {
+		this.cBoardCode = cBoardCode;
+	}
+	
 	@Override
 	public String toString() {
 		return "CReply [replyNo=" + replyNo + ", refCommunityNo=" + refCommunityNo + ", replyContents=" + replyContents
 				+ ", replyWriter=" + replyWriter + ", rCreateDate=" + rCreateDate + ", rUpdateDate=" + rUpdateDate
-				+ "]";
+				+ ", cBoardCode=" + cBoardCode + "]";
 	}
+	
 }

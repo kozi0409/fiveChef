@@ -39,12 +39,14 @@
 			<td>${notice.noticeContents }
 			</td>
 		</tr>
+		<c:if test="${notice.noticeFilename ne null}"> <!-- 첨부파일 있을 때만 보이게 -->
 		<tr>
 			<td id="cl" align="center" width="150">첨부파일</td>
 			<td>
 		 		<img alt="본문이미지" src="/resources/nuploadFiles/${notice.noticeFileRename }" width="300" height="300">
 			</td>
 		</tr>
+		</c:if>
 		<c:if test="${loginAdmin.adminName eq '관리자'}"> <!-- 관리자만 수정, 삭제 가능 -->
 		<tr>
 			<td colspan="2" align="center">

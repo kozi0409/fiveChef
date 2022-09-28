@@ -22,7 +22,8 @@
 		<table align="center" border="1" class="table table-bordered">
 			<tr>
 				<td id="cl" align="center" width="200">제목</td>
-				<td><input type="text" name="noticeTitle" value="${notice.noticeTitle }" style="width:100%;"></td>
+				<td><input type="text" name="noticeTitle" value="${notice.noticeTitle }" style="width:100%;" required
+				oninvalid="this.setCustomValidity('제목을 입력하세요')" oninput = "setCustomValidity('')"/></td>
 			</tr>
 			<tr>
 				<td id="cl" align="center" width="200">작성자</td>
@@ -30,7 +31,8 @@
 			</tr>
 			<tr>
 				<td id="cl" align="center" width="200">내용</td>
-				<td><textarea cols="140" rows="20" name="noticeContents">${notice.noticeContents }</textarea></td>
+				<td><textarea cols="140" rows="20" name="noticeContents" required
+				oninvalid="this.setCustomValidity('내용을 입력하세요')" oninput = "setCustomValidity('')">${notice.noticeContents }</textarea></td>
 			</tr>
 			<tr>
 				<td id="cl" align="center" width="200">첨부파일</td>

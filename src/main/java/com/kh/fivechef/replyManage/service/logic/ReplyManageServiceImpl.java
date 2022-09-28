@@ -6,9 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fivechef.boardManage.store.BoardManageStore;
 import com.kh.fivechef.community.domain.CReply;
 import com.kh.fivechef.community.domain.Community;
-import com.kh.fivechef.postManage.store.PostManageStore;
 import com.kh.fivechef.replyManage.service.ReplyManageService;
 import com.kh.fivechef.replyManage.store.ReplyManageStore;
 

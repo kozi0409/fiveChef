@@ -67,7 +67,9 @@ public class NoticeController {
 				notice.setNoticeFilepath(noticeFilepath); 
 			}
 			int result = nService.registerNotice(notice);
-			mv.setViewName("redirect:/notice/list.kh");
+			request.setAttribute("msg","(관리자) 공지사항이 등록되었습니다.");
+			request.setAttribute("url","/notice/list.kh");
+			mv.setViewName("/common/alert");
 		} catch (Exception e) {
 			e.printStackTrace();
 			mv.addObject("msg", e.getMessage());

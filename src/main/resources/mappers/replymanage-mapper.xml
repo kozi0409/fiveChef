@@ -10,6 +10,7 @@
   		<result property ="replyWriter" column="REPLY_WRITER"/>
   		<result property ="rCreateDate" column="R_CREATE_DATE"/>
   		<result property ="rUpdateDate" column="R_UPDATE_DATE"/>
+  		<result property ="cBoardCode" column="C_BOARD_CODE"/>
   	</resultMap>
   	
   	<resultMap type= "Community" id="communityResultMap2">
@@ -61,7 +62,11 @@
 	</select>
 	
 	 	<select id="selectAllCommReply" resultMap="cReplyManageResultMap">
- 		SELECT * FROM C_REPLY_TBL ORDER BY R_CREATE_DATE DESC
+<!--  		SELECT * FROM C_REPLY_TBL ORDER BY R_CREATE_DATE DESC -->
+			SELECT C_BOARD_CODE, REPLY_NO, REF_COMMUNITY_NO, REPLY_CONTENTS, REPLY_WRITER, R_CREATE_DATE, R_UPDATE_DATE FROM C_REPLY_TBL JOIN COMMUNITY_TBL ON C_REPLY_TBL.REF_COMMUNITY_NO = COMMUNITY_TBL.COMMUNITY_NO
+			ORDER BY R_CREATE_DATE DESC
+<!-- 			SELECT COMMUNITY_TITLE FROM COMMUNITY_TBL JOIN C_REPLY_TBL ON COMMUNITY_TBL.COMMUNITY_NO = C_REPLY_TBL.REF_COMMUNITY_NO -->
+			
  	</select>
  	
 	<select id="selectOneByCReplyNo" resultMap="communityResultMap2">

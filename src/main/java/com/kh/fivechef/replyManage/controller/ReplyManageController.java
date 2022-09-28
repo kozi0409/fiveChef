@@ -24,7 +24,7 @@ public class ReplyManageController {
 	private ReplyManageService rService;
 	
 	// 댓글 목록
-	@RequestMapping(value="/postreplymanage/list.kh", method=RequestMethod.GET)
+	@RequestMapping(value="/communityreplymanage/list.kh", method=RequestMethod.GET)
 	public ModelAndView printCommunityReplyList(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
 		int currentPage = (page != null) ? page : 1;
 		int totalCount = rService.getTotalCommCount("", "");
@@ -48,12 +48,12 @@ public class ReplyManageController {
 			mv.addObject("endNavi", endNavi);
 			mv.addObject("cList", cList);
 		}
-		mv.setViewName("replymanage/postReplyList");
+		mv.setViewName("replymanage/commReplyList");
 		return mv;
 	}
 	
 	// 댓글 검색
-	@RequestMapping(value="/postreplymanage/search.kh", method=RequestMethod.GET)
+	@RequestMapping(value="/communityreplymanage/search.kh", method=RequestMethod.GET)
 	public ModelAndView communityReplySearchList(
 			ModelAndView mv
 			, @RequestParam("searchCondition") String searchCondition
@@ -87,7 +87,7 @@ public class ReplyManageController {
 				mv.addObject("currentPage", currentPage);
 				mv.addObject("startNavi", startNavi);
 				mv.addObject("endNavi", endNavi);
-				mv.setViewName("replymanage/postReplyList");
+				mv.setViewName("replymanage/commReplyList");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}
@@ -95,7 +95,7 @@ public class ReplyManageController {
 	}
 	
 	// 댓글 보기(원글 본문과 같이)
-	@RequestMapping(value="/postreplymanage/detail.kh", method=RequestMethod.GET)
+	@RequestMapping(value="/communityreplymanage/detail.kh", method=RequestMethod.GET)
 	public ModelAndView CommunityreplyDetail(
 			ModelAndView mv
 			, @RequestParam("communityNo") Integer communityNo
@@ -109,7 +109,7 @@ public class ReplyManageController {
 			mv.addObject("cList", cList);
 			mv.addObject("community", community);
 			mv.addObject("page", page);
-			mv.setViewName("replymanage/postReplyDetail");
+			mv.setViewName("replymanage/commReplyDetail");
 		} catch(Exception e) {
 			mv.addObject("msg", e.toString());
 			mv.setViewName("/common/errorPage");
@@ -118,7 +118,7 @@ public class ReplyManageController {
 	}
 	
 	// 댓글
-		@RequestMapping(value="postreplymanage/addReply.kh", method= RequestMethod.POST)
+		@RequestMapping(value="communityreplymanage/addReply.kh", method= RequestMethod.POST)
 		public ModelAndView addCommunityReply(
 				ModelAndView mv
 				, @ModelAttribute CReply cReply
@@ -130,20 +130,20 @@ public class ReplyManageController {
 			cReply.setReplyWriter(replyWriter);
 			int result = rService.registCommunityReply(cReply);
 			if (result > 0) {
-				mv.setViewName("redirect:/postreplymanage/detail.kh?communityNo=" + communityNo + "&page=" + page);
+				mv.setViewName("redirect:/communityreplymanage/detail.kh?communityNo=" + communityNo + "&page=" + page);
 			}
 			return mv;
 		}
 		
-		@RequestMapping(value="/postreplymanage/modifyReply.kh", method=RequestMethod.POST)
+		@RequestMapping(value="/communityreplymanage/modifyReply.kh", method=RequestMethod.POST)
 		public String modifyCommunityReply(@ModelAttribute CReply cReply) {
 			int result = rService.modifyCommunityReply(cReply);
-			return "redirect:/postreplymanage/list.kh";
+			return "redirect:/communityreplymanage/list.kh";
 		}
 		
-		@RequestMapping(value="/postreplymanage/removeReply.kh", method=RequestMethod.POST)
+		@RequestMapping(value="/communityreplymanage/removeReply.kh", method=RequestMethod.POST)
 		public String removeReplyByManager(@RequestParam("replyNo") Integer replyNo) {
 			int result = rService.deleteCommunityReply(replyNo);
-			return "redirect:/postreplymanage/list.kh";
+			return "redirect:/communityreplymanage/list.kh";
 		}
 }
