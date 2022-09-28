@@ -45,7 +45,7 @@
             &nbsp;&nbsp;&nbsp;
           </div>
       <div>
-        <h1 id="logo"><a href="/"><img src="../resources/images/logo.png"></a></h1>
+        <h1 id="logo"><a href="/home.kh"><img src="../resources/images/logo.png"></a></h1>
       </div>
       <div align="center">
          <div>

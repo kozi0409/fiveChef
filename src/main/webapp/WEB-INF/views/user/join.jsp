@@ -160,7 +160,7 @@
 <div class="container">
   <main>
     <div class="py-5 text-center">
-    <a href="/"><img class="mb-4" src="../../../resources/images/logo1.png" alt="" width="200" height="160"></a>
+    <a href="/home.kh"><img class="mb-4" src="../../../resources/images/logo1.png" alt="" width="200" height="160"></a>
     <br><br><br>
       <h2>회원가입</h2>
     </div>

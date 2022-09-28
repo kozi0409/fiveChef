@@ -43,7 +43,7 @@
 	<div align="center">
 		<a href="/user/modifyView.kh" id="user"> 정보수정</a>
 		<a href="/qna/list.kh" id="user">1:1 문의</a>
-		<a href="#" id="user">내 레시피</a>
+		<a href="/recipe/myRecipeList.kh" id="user">내 레시피</a>
 		<a href="/community/myCommunityList.kh" id="user">내 게시글</a>
 	</div>
 </body>

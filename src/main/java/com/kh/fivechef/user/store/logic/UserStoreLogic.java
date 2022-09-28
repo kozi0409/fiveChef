@@ -3,10 +3,12 @@ package com.kh.fivechef.user.store.logic;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.user.domain.User;
 import com.kh.fivechef.user.store.UserStore;
 
@@ -56,5 +58,22 @@ public class UserStoreLogic implements UserStore{
 		paramMap.put("userEmail", userEmail);
 		User searchPwd = session.selectOne("UserMapper.selectUserPwd", paramMap);
 		return searchPwd;
+	}
+
+	@Override
+	public List<Recipe> selectMyRecipe(SqlSessionTemplate session, String userId,  String listValue, int currentPage, int recipeLimit) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("userId", userId);
+		paramMap.put("category", listValue);
+		int offset=(currentPage-1)*recipeLimit;
+		RowBounds rowBounds = new RowBounds(offset,recipeLimit);
+		List<Recipe> rList = session.selectList("UserMapper.selectMyRecipe",paramMap,rowBounds);
+		return rList;
+	}
+
+	@Override
+	public int selectCountMyRecipe(SqlSessionTemplate session) {
+		int count = session.selectOne("UserMapper.selectCountMyRecipe");
+		return count;
 	}
 }
