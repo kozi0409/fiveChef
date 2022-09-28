@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <title>공지사항 상세 조회</title>
 <script src="/resources/js/jquery-3.6.1.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style>
 	#btn-1 {
 		border : 0;
@@ -53,6 +52,16 @@
 			<td align="center" width="150">작성일</td>
 			<td><fmt:formatDate pattern="yyyy-MM-dd" value="${community.cEnrollDate }"/></td>
 		</tr>
+		<c:if test="${community.cBoardCode eq 'sale' }">
+			<tr>
+				<td align="center" width="150">가격</td>
+				<td>${community.communityPrice }</td>
+			</tr>
+			<tr>
+				<td align="center" width="150">할인페이지</td>
+				<td>${community.communitySalePage }</td>
+			</tr>
+		</c:if>
 		<tr>
 			<td align="center" width="150">조회수</td>
 			<td>${community.boardCount }</td>
@@ -81,7 +90,7 @@
 		</c:if>
 	</table>
 
-    <form action="/community/addReply.kh" metohd="post">
+   <%--  <form action="/community/addReply.kh" method="post">
         <table align="center" width="500" border="1" class="table table-bordered">
             <c:forEach items="${rList}" var="cReply">
                 <tr>
@@ -117,7 +126,7 @@
 	        </table>
         </c:if>
 
-    </form>
+    </form> --%>
 	<script>
 		function communityRemove(page) {
 			event.preventDefault(); // 하이퍼링크 이동 방지

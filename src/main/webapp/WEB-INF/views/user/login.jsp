@@ -107,7 +107,7 @@
   <br><br><br><br>
 	<main class="form-signin w-100 m-auto">
   	<form action="/user/login.kh" method="post" >
-    <a href="/"><img class="mb-4" src="../../../resources/images/logo1.png" alt="" width="200" height="160"></a>
+    <a href="/home.kh"><img class="mb-4" src="../../../resources/images/logo1.png" alt="" width="200" height="160"></a>
     <br><br><br>
     <h1 class="h3 mb-3 fw-normal">로그인</h1>
 

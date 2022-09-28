@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.user.domain.User;
 import com.kh.fivechef.user.service.UserService;
 
@@ -99,7 +100,7 @@ public class UserController {
 			if(loginUser != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("loginUser", loginUser);
-				mv.setViewName("/home");
+				mv.setViewName("redirect:/home.kh");
 			} else {
 				request.setAttribute("msg", "로그인 실패");
 				request.setAttribute("url", "/user/loginView.kh");
@@ -118,7 +119,7 @@ public class UserController {
 		if(session != null) {
 			session.invalidate();
 			request.setAttribute("msg", "로그아웃이 완료되었습니다.");
-			request.setAttribute("url", "/");
+			request.setAttribute("url", "/home.kh");
 			mv.setViewName("/common/alert");
 		} else {
 			mv.addObject("msg", "로그아웃 실패").setViewName("common/errorPage");
@@ -242,6 +243,44 @@ public class UserController {
 			request.setAttribute("url", "/user/loginView.kh");
 			mv.setViewName("common/alert");
 		}
+		return mv;
+	}
+	
+	@RequestMapping(value = "/recipe/myRecipeList.kh", method = RequestMethod.GET)
+	public ModelAndView MyRecipeView(
+			ModelAndView mv
+			,@RequestParam(value="category" , required=false) String listValue
+			,@RequestParam(value="page",required = false) Integer page
+			,HttpSession session) {
+		User user =(User)session.getAttribute("loginUser");
+		String userId = user.getUserId();
+		int currentPage = (page != null) ? page : 1;
+		int totalCount = uService.countMyRecipe();
+		int recipeLimit = 10;
+		int naviLimit = 5;
+		int maxPage;
+		int startNavi;
+		int endNavi;
+		maxPage = (int) ((double) totalCount / recipeLimit + 0.9);
+		startNavi = ((int) ((double) currentPage / naviLimit + 0.9) - 1) * naviLimit + 1;
+		endNavi = startNavi + naviLimit - 1;
+		if (maxPage < endNavi) {
+			endNavi = maxPage;
+		}
+		List<Recipe> rList = uService.printMyRecipe(userId, listValue, currentPage, recipeLimit);
+		if(!rList.isEmpty()) {
+			mv.addObject("rList",rList);
+		}
+		mv.addObject("userId", userId);
+		mv.addObject("startNavi",startNavi);
+		mv.addObject("endNavi",endNavi);
+		mv.addObject("maxPage",maxPage);
+		mv.addObject("currentPage",currentPage);
+		mv.addObject("urlVal","myRecipeList");
+		mv.addObject("listValue",listValue);
+		mv.addObject("totalCount",totalCount);
+		mv.setViewName("user/myRecipeList");
+		
 		return mv;
 	}
 }

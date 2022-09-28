@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 
+import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.user.domain.User;
 
 public interface UserStore {
@@ -22,4 +23,8 @@ public interface UserStore {
 	public User selectUserId(SqlSessionTemplate session, String userEmail);
 
 	public User selectUserPwd(SqlSessionTemplate session, String userId, String userEmail);
+
+	public List<Recipe> selectMyRecipe(SqlSessionTemplate session, String userId, String listValue, int currentPage, int recipeLimit);
+
+	public int selectCountMyRecipe(SqlSessionTemplate session);
 }

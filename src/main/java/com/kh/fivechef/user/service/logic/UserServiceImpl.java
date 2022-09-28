@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.fivechef.recipe.domain.Recipe;
 import com.kh.fivechef.user.domain.User;
 import com.kh.fivechef.user.service.UserService;
 import com.kh.fivechef.user.store.UserStore;
@@ -64,5 +65,19 @@ public class UserServiceImpl implements UserService{
 	public User findUserPwd(String userId, String userEmail) {
 		User searchPwd = uStore.selectUserPwd(session, userId, userEmail);
 		return searchPwd;
+	}
+
+
+	@Override
+	public List<Recipe> printMyRecipe(String userId, String listValue, int currentPage, int recipeLimit) {
+		List<Recipe> rList = uStore.selectMyRecipe(session, userId, listValue,currentPage, recipeLimit);
+		return rList;
+	}
+
+
+	@Override
+	public int countMyRecipe() {
+		int count = uStore.selectCountMyRecipe(session);
+		return count;
 	}
 }

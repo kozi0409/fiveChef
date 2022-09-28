@@ -279,13 +279,19 @@ public class CommunityController {
 	
 	@RequestMapping(value="community/addReply.kh", method= RequestMethod.POST)
 	public ModelAndView addCommunityReply(ModelAndView mv, @ModelAttribute CReply cReply, @RequestParam("page")int page, HttpSession session, HttpServletRequest request) {
-		User user = (User)session.getAttribute("loginUser");
-		String replyWriter = user.getUserId();
-		cReply.setReplyWriter(replyWriter);
-		int communityNo = cReply.getRefCommunityNo();
-		int result = cService.registReply(cReply);
-		if (result > 0) {
-			mv.setViewName("redirect:/community/communityDetail.kh?communityNo=" + communityNo + "&page=" + page);
+		try {
+			User user = (User)session.getAttribute("loginUser");
+			String replyWriter = user.getUserId();
+			cReply.setReplyWriter(replyWriter);
+			int communityNo = cReply.getRefCommunityNo();
+			int result = cService.registReply(cReply);
+			if (result > 0) {
+				mv.setViewName("redirect:/community/communityDetail.kh?communityNo=" + communityNo + "&page=" + page);
+			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}
 		return mv;
 	}
