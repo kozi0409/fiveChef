@@ -40,7 +40,7 @@
 <header id="header" class="hoc clear"> 
     <section>
 		<div>
-		    <a href="/" style="text-decoration-line: none;"><p style="color: #ed436d; font-size:20px; font-weight: bold;" "font-family:malgun gothic;">냉장고Chef Home</p></a>
+		    <a href="/home.kh" style="text-decoration-line: none;"><p style="color: #ed436d; font-size:20px; font-weight: bold;" "font-family:malgun gothic;">냉장고Chef Home</p></a>
 		</div>
 	<c:if test="${sessionScope.loginAdmin eq null }">
 		<div>
@@ -52,7 +52,7 @@
    	</c:if>
    	<c:if test="${not empty loginAdmin}" >
    		<div>
-		  <a href="/home.kh"><img src="../resources/images/logo2.png"></a>
+		  <a href="/adminHome.kh"><img src="../resources/images/logo2.png"></a>
 		</div>
 		<div>
       		<div><p p style="color: #202c87; font-size:20px; font-weight: bold;" "font-family:malgun gothic;">${sessionScope.loginAdmin.adminId } 님이 로그인하셨습니다.</p></div><br>

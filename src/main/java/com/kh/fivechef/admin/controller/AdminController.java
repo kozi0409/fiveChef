@@ -27,7 +27,7 @@ public class AdminController {
 	@Autowired
 	private AdminService aService;
 	
-	@RequestMapping(value="/home.kh", method=RequestMethod.GET)
+	@RequestMapping(value="/adminHome.kh", method=RequestMethod.GET)
 	private String adminHome() {
 		return "/admin/adminHome";
 	}
