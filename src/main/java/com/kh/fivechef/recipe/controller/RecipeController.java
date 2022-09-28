@@ -353,7 +353,7 @@ public class RecipeController {
 		}
 		return mv;
 	}
-
+	//레시피수정
 	@RequestMapping(value = "/recipe/recipeModify.kh", method = RequestMethod.POST)
 	public ModelAndView recipeModify(ModelAndView mv,
 			@RequestParam(value = "recipeNo", required = false) Integer recipeNo,
