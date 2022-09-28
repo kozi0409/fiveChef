@@ -101,7 +101,7 @@ public class RecipeController {
 				ingredient.setSmallCatId(ing.getSmallCatId().split(",")[i]);
 				iList.add(ingredient);
 			}
-//			System.out.println(iList.get(0));
+			System.out.println(iList);
 			for (int i = 0; i < iList.size(); i++) {
 				int result2 = rService.registerIngradient(iList.get(i));
 			}

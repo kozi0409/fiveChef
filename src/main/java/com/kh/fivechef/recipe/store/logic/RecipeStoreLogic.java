@@ -181,6 +181,9 @@ public class RecipeStoreLogic implements RecipeStore{
 
 	@Override
 	public int updateIng(SqlSession session, Ingradient ingradient) {
+//		int result;
+//		System.out.println(ingradient.getIngNo());
+		
 		int result = session.update("RecipeMapper.updateIng",ingradient);
 		return result;
 	}
