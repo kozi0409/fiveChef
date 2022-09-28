@@ -44,7 +44,7 @@
 		</div>
 	<c:if test="${sessionScope.loginAdmin eq null }">
 		<div>
-		  <a href="/admin.kh"><img src="../resources/images/logo2.png"></a>
+		  <a href="/adminHome.kh"><img src="../resources/images/logo2.png"></a>
 		</div>
 		<div>
          <div>
@@ -52,7 +52,7 @@
    	</c:if>
    	<c:if test="${not empty loginAdmin}" >
    		<div>
-		  <a href="/adminHome.kh"><img src="../resources/images/logo2.png"></a>
+		  <a href="/admin/admin4lists.kh"><img src="../resources/images/logo2.png"></a>
 		</div>
 		<div>
       		<div><p p style="color: #202c87; font-size:20px; font-weight: bold;" "font-family:malgun gothic;">${sessionScope.loginAdmin.adminId } 님이 로그인하셨습니다.</p></div><br>
@@ -125,22 +125,28 @@
 		<div class="carousel-item active">
 	         <img src="../resources/images/slider/slider-4.jpg" class="d-block w-100" alt="..." >
 	          <div class="carousel-caption d-none d-md-block">
-	              <h1>First slide label</h1>
-	              <p>Some representative placeholder content for the first slide.</p>
+	          	<div style= "text-align: right";>
+	              <p style="color: white; font-size:90px; font-family:malgun gothic;">냉장고Chef</p>
+	              <b>냉장고에 있는 재료로 나만의 요리를 완성할 수 있습니다.</b>
+	            </div>
 	          </div>
         </div>
         <div class="carousel-item">
-	         <img src="../resources/images/slider/slider-5.jpg" class="d-block w-100" alt="...">
+	         <img src="../resources/images/slider/slider-2.jpg" class="d-block w-100" alt="...">
 	          <div class="carousel-caption d-none d-md-block">
-	              <h1>Second slide label</h1>
-	              <p>Some representative placeholder content for the second slide.</p>
+	          	<div style= "text-align: left";>
+	              <p style="color: white; font-size:90px; font-family : TmonMonsori, "GodoB", "굴림";>냉장고Chef</p>
+	              <b>냉장고에 있는 재료로 나만의 요리를 완성할 수 있습니다.</b>
+	            </div>
 	          </div>
         </div>
         <div class="carousel-item">
 	         <img src="../resources/images/slider/slider-6.jpg" class="d-block w-100" alt="...">
 	          <div class="carousel-caption d-none d-md-block">
-	              <h1>Third slide label</h1>
-	              <p>Some representative placeholder content for the third slide.</p>
+	          	<div style= "text-align: right";>
+	              <p style="color: white; font-size:90px; font-family:malgun gothic;">냉장고Chef</p>
+	              <p style="color: white; font-size:20px; font-weight: bold;">요리조리팀 그동안 수고 많으셨습니다.</p>
+	            </div>
 	          </div>
         </div>
     </div>

@@ -11,12 +11,12 @@
 <jsp:include page="../main/admin_navs.jsp"></jsp:include>
 <br>
 <c:if test="${not empty loginAdmin}">
-<div class="container" style="width: 80%; ">
+<div class="container" style="width: 700px; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
 		    <h2 style="color: #8ba525;">${qna.questionNo }번 문의글 상세 보기</h2>
 			<input type="hidden" name="page" value="${page }">
-			<table class="table table-boardered" border="1" width="700px">
+			<table class="table table-boardered" border="1">
  				<tr>
 					<td width="100px">제목</td>
 					<td><input type="text" class="form-control" id="questionTitle" name="questionTitle" value="${qna.questionTitle }"  readonly></td>

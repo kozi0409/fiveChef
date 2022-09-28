@@ -11,7 +11,7 @@
 <jsp:include page="../main/admin_navs.jsp"></jsp:include>
 <br>
 <c:if test="${not empty loginAdmin}">
-<div class="container" style="width: 600px; ">
+<div class="container" style="width: 700px; ">
 	<div class="row">
 		<div class="col-sm-12 text-center" >
 		    <p style="color: #a57625; font-size:34px; font-family:malgun gothic;">[ 마스터 관리자 정보 수정 ]</p>
