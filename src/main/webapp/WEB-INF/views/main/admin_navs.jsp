@@ -89,15 +89,17 @@
                   <li><a class="dropdown-item" href="/recipemanage/list.kh">레시피 게시판관리</a></li>
                 </ul>
               </li>
-              <li class="nav-item active dropdown">
-                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  댓글관리
-                </a>
-                <ul class="dropdown-menu  active" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="/communityreplymanage/list.kh">커뮤니티 댓글관리</a></li>
-                  <li><a class="dropdown-item" href="/recipereplymanage/list.kh">레시피 댓글관리</a></li>
-                </ul>
-              </li>
+              
+<!--               <li class="nav-item active dropdown"> -->
+<!--                 <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> -->
+<!--                   댓글관리 -->
+<!--                 </a> -->
+<!--                 <ul class="dropdown-menu  active" aria-labelledby="navbarDropdown"> -->
+<!--                   <li><a class="dropdown-item" href="/communityreplymanage/list.kh">커뮤니티 댓글관리</a></li> -->
+<!--                   <li><a class="dropdown-item" href="/recipereplymanage/list.kh">레시피 댓글관리</a></li> -->
+<!--                 </ul> -->
+<!--               </li> -->
+
 				<li class="nav-item">
 					<a class="nav-link active" href="/admin/qnalist.kh">Q&A</a>
 				</li>

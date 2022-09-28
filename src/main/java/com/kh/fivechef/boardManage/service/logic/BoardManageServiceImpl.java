@@ -10,11 +10,13 @@ import com.kh.fivechef.boardManage.service.BoardManageService;
 import com.kh.fivechef.boardManage.store.BoardManageStore;
 import com.kh.fivechef.community.domain.CReply;
 import com.kh.fivechef.community.domain.Community;
+import com.kh.fivechef.fridge.domain.SmallCategory;
 import com.kh.fivechef.recipe.domain.ComPhoto;
 import com.kh.fivechef.recipe.domain.Ingradient;
 import com.kh.fivechef.recipe.domain.Like;
 import com.kh.fivechef.recipe.domain.Order;
 import com.kh.fivechef.recipe.domain.Recipe;
+import com.kh.fivechef.recipe.domain.WhatRecipe;
 
 @Service
 public class BoardManageServiceImpl implements BoardManageService{
@@ -77,15 +79,15 @@ public class BoardManageServiceImpl implements BoardManageService{
 	
 	// 리스트
 	@Override
-	public int countAllRecipe() {
-		int count = pStore.selectCountAllRecipe(session);
-		return count;
+	public int countAllRecipe(String searchCondition, String searchValue) {
+		int totalCount = pStore.selectCountAllRecipe(session, searchCondition, searchValue);
+		return totalCount;
 	}
 	
 	// 리스트
 	@Override
-	public List<Recipe> printAllRecipe(String listValue, int currentPage, int limit) {
-		List<Recipe> rList = pStore.selectAllRecipe(session, listValue,currentPage,limit);
+	public List<Recipe> printAllRecipe(int currentPage, int limit) {
+		List<Recipe> rList = pStore.selectAllRecipe(session,currentPage,limit);
 		return rList;
 	}
 
@@ -127,6 +129,75 @@ public class BoardManageServiceImpl implements BoardManageService{
 		return result;
 	}
 
+	@Override
+	public List<Recipe> printAllByRecipeValue(String searchCondition, String searchValue, int currentPage, int recipeLimit) {
+		List<Recipe> clist = pStore.selectAllByRecipeValue(session,searchCondition, searchValue, currentPage, recipeLimit);
+		return clist;
+	}
+	@Override
+	public List<SmallCategory> printSmallCat() {
+		List<SmallCategory> sList = pStore.selectAllSmallCat(session);
+		return sList;
+	}
+
+	@Override
+	public Recipe printRecipeByRNo(int recipeNo) {
+		Recipe rList = pStore.selectRecipeByRNo(session,recipeNo);
+		return rList;
+	}
+
+	@Override
+	public List<Ingradient> printIngByRNo(int recipeNo) {
+		List<Ingradient> iList = pStore.selectIngByRNo(session,recipeNo);
+		return iList;
+	}
+
+	@Override
+	public List<Order> printOrderByRNo(int recipeNo) {
+		List<Order> oList = pStore.selectOrderByRNo(session,recipeNo);
+		return oList;
+	}
+
+	@Override
+	public List<ComPhoto> printComByRNo(int recipeNo) {
+		List<ComPhoto> cList = pStore.selectComByRNo(session,recipeNo);
+		return cList;
+	}
+
+	@Override
+	public List<WhatRecipe> printWhat() {
+		List<WhatRecipe> wList = pStore.selectWhatRecipe(session);
+		return wList;
+	}
+
+	@Override
+	public int modifyRecipe(Recipe recipe) {
+		int result = pStore.updateRecipe(session,recipe);
+		return result;
+	}
+
+	@Override
+	public int modifyIng(Ingradient ingradient) {
+		int result = pStore.updateIng(session,ingradient);
+		return result;
+	}
+
+	@Override
+	public int modifyOrder(Order order) {
+		int result = pStore.updateOrder(session,order);
+		return result;
+	}
+
+	@Override
+	public int modifyCom(ComPhoto comPhoto) {
+		int result = pStore.updateCom(session,comPhoto);
+		return result;
+	}
+	@Override
+	public int removeRecipe(Integer recipeNo) {
+		int result = pStore.removeRecipeUpdate(session,recipeNo);
+		return result;
+	}
 
 
 }

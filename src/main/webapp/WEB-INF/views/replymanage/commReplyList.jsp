@@ -60,14 +60,8 @@
 				할인정보게시판
 			</c:if>
 			</td>
-<%-- 			<c:if test="${community.cStatus eq 'N'???}">--%>
-<!-- 			<a>원글이 삭제된 댓글입니다.</a> -->
-<%-- 			</c:if>	 --%>
-<%-- 			<c:if test="${/}">	 --%>
-			<!-- ${community.communityTitle }-->
 			<td>
 			<a href="/communityreplymanage/detail.kh?communityNo=${cReply.refCommunityNo }&page=${currentPage }">원글 본문보기</a>
-<%-- 			</c:if> --%>
 			</td>
 
 			<td>${cReply.replyContents }</td>

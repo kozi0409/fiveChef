@@ -95,7 +95,7 @@
  	
  	<!-- 레시피 관리 코드 --> 	  	
  	<resultMap type="Recipe" id="recipeResultMap2">
- 		<id property="recipeNo" column="RECIPE_NO"/>
+ 		<id property="recipeNo" column="RECIPE_NO" />
 		<result property="recipeTitle" column="RECIPE_TITLE" />
 		<result property="recipeIntro" column="RECIPE_INTRO" />
 		<result property="thumbnailName" column="THUMBNAIL_NAME" />
@@ -110,7 +110,8 @@
 		<result property="recipeTime" column="RECIPE_TIME" />
 		<result property="recipePerson" column="RECIPE_PERSON" />
 		<result property="rCreateDate" column="R_CREATE_DATE" />
- 	</resultMap>
+		<result property="rStatus" column="R_STATUS" />
+	</resultMap>
  	
  	<resultMap type="com.kh.fivechef.recipe.domain.Ingradient" id="ingredientResultMap2">
  		<id property="ingNo" column="ING_NUM"/>
@@ -151,77 +152,128 @@
  		<result property="smallCatName" 			column="SMALL_CAT_NAME" />
  	</resultMap>
  	
- 	 	<insert id="insertRecipe">
-		INSERT INTO RECIPE_TBL VALUES(RECIPE_NO_SEQ.NEXTVAL,#{recipeTitle},#{recipeIntro},#{thumbnailName},#{thumbnailRename},#{thumbnailpath},#{typeCategory},#{wayCategory},0,0,#{userId},#{recipeLevel},#{recipeTime},#{recipePerson},DEFAULT,DEFAULT)
- 	</insert>
- 	<insert id="insertIngradient">
- 		INSERT INTO INGRADIENT_TBL VALUES(ING_NUM_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{ingBundleName},#{ingAmount},#{largeCatId},#{smallCatId})
- 	</insert>
- 	<insert id="insertOrder">
- 		INSERT INTO ORDER_TBL VALUES(ORDER_NUM_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{recipeContents},#{orderPhotoName},#{orderPhotoRename},#{orderPhotopath})
- 	</insert>
- 	<insert id="insertComPhoto">
- 		INSERT INTO COMPHOTO_TBL VALUES(COMPHOTO_NO_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{comPhotoName},#{comPhotoRename},#{comPhotopath})
- 	</insert>
+ 	<resultMap type="com.kh.fivechef.recipe.domain.WhatRecipe"
+		id="whatRecipeMap2">
+		<id property="whatNo" column="WHAT_NO" />
+		<result property="typeCode" column="TYPECODE" />
+		<result property="typeName" column="TYPENAME" />
+	</resultMap>
+	
+<insert id="insertIngradient">
+		INSERT INTO INGRADIENT_TBL
+		VALUES(ING_NUM_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{ingBundleName},#{ingAmount},#{largeCatId},#{smallCatId})
+	</insert>
+	<insert id="insertOrder">
+		INSERT INTO ORDER_TBL
+		VALUES(ORDER_NUM_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{recipeContents},#{orderPhotoName},#{orderPhotoRename},#{orderPhotopath})
+	</insert>
+	<insert id="insertComPhoto">
+		INSERT INTO COMPHOTO_TBL
+		VALUES(COMPHOTO_NO_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{comPhotoName},#{comPhotoRename},#{comPhotopath})
+	</insert>
+
+	<update id="removeRecipeUpdate">
+		UPDATE RECIPE_TBL SET R_STATUS = 'N' WHERE RECIPE_NO = #{recipeNo}
+	</update>
+	
  	<select id="selectAllRecipe" resultMap="recipeResultMap2">
  		SELECT * FROM RECIPE_TBL
- 			
- 			<choose>
- 				<when test="category == 'countView'">
- 					ORDER BY RECIPE_LIKE_COUNT DESC
- 				</when>
- 				<when test="category == 'likeView'">
- 					ORDER BY RECIPE_LIKE_COUNT DESC
- 				</when>
- 				<otherwise>
- 					ORDER BY R_CREATE_DATE
- 				</otherwise>
- 			</choose>		
- 	</select>
- 	<select id="selectCountAllRecipe" resultType="_int">
- 		<!-- 숫자하나 가져올땐 resultType 으로 처리 -->
- 		SELECT COUNT(*) FROM RECIPE_TBL
- 	</select>
- 	<select id="selectOneByRecipeNo" resultMap="recipeResultMap2">
- 		SELECT * FROM RECIPE_TBL WHERE RECIPE_NO = #{recipeNo}
- 	</select>
- 	<select id="selectAllIng" resultMap="ingredientResultMap2">
- 		SELECT * FROM INGRADIENT_TBL A JOIN SMALL_CATEGORY B ON A.SMALL_CAT_ID = B.SMALL_CAT_ID JOIN LARGE_CATEGORY C ON A.LARGE_CAT_ID = C.LARGE_CAT_ID WHERE RECIPE_NO = #{recipeNo}
- 	</select>
- 	<select id="selectAllOrder" resultMap="orderResultMap2">
- 		SELECT * FROM ORDER_TBL WHERE RECIPE_NO = #{recipeNo}
- 	</select>
- 	<select id="selectAllComPhoto" resultMap="comPhotoRecultMap2">
- 		SELECT * FROM COMPHOTO_TBL WHERE RECIPE_NO = #{recipeNo}
- 	</select>
- 	
+		<if test="whatRecipe != null and whatRecipe !=''">
+			WHERE R_STATUS = 'Y' AND TYPE_CATEGORY = #{whatRecipe} or WAY_CATEGORY = #{whatRecipe} 
+		</if>
+		<if test="whatRecipe == null || whatRecipe == ''">
+			WHERE R_STATUS = 'Y'
+		</if>
+		<choose>
+			<when test="category == 'countView'">
+				ORDER BY RECIPE_COUNT DESC
+			</when>
+			<when test="category == 'likeView'">
+				ORDER BY RECIPE_LIKE_COUNT DESC
+			</when>
+			<otherwise>
+				ORDER BY R_CREATE_DATE DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+<!--  <select id="selectCountAllRecipe" resultType="_int"> -->
+<!-- 		 -->
+<!-- 		SELECT COUNT(*) FROM RECIPE_TBL  -->
+<!-- 		<if test="whatRecipe != null and whatRecipe !=''"> -->
+<!-- 			WHERE R_STATUS = 'Y' AND ( TYPE_CATEGORY = #{whatRecipe} or WAY_CATEGORY = #{whatRecipe} ) -->
+<!-- 		</if> -->
+<!-- 		<if test="whatRecipe == null || whatRecipe == ''"> -->
+<!-- 			WHERE R_STATUS = 'Y' -->
+<!-- 		</if> -->
+<!-- 	</select> -->
+	<select id="selectOneByRecipeNo" resultMap="recipeResultMap2">
+		SELECT * FROM
+		RECIPE_TBL WHERE RECIPE_NO = #{recipeNo}
+	</select>
+	<select id="selectAllIng" resultMap="ingredientResultMap2">
+		SELECT * FROM INGRADIENT_TBL
+		A JOIN SMALL_CATEGORY B ON A.SMALL_CAT_ID =
+		B.SMALL_CAT_ID JOIN
+		LARGE_CATEGORY C ON A.LARGE_CAT_ID =
+		C.LARGE_CAT_ID WHERE RECIPE_NO =
+		#{recipeNo}
+	</select>
+	<select id="selectAllOrder" resultMap="orderResultMap2">
+		SELECT * FROM ORDER_TBL
+		WHERE RECIPE_NO = #{recipeNo}
+	</select>
+	<select id="selectAllComPhoto" resultMap="comPhotoRecultMap2">
+		SELECT * FROM
+		COMPHOTO_TBL WHERE RECIPE_NO = #{recipeNo}
+	</select>
+	<select id="selectWhatRecipe" resultMap="whatRecipeMap2">
+		SELECT * FROM
+		WHATRECIPE_TBL
+	</select>
  	<!-- 조회수 -->
 	<update id="updateBoardCount">
 		UPDATE RECIPE_TBL SET RECIPE_COUNT = RECIPE_COUNT+1 WHERE RECIPE_NO = #{recipeNo }
 	</update>
-	<!-- 좋아요 버튼구동용 -->
-	<select id="selectCheckLikeId" resultType="_int">
-		SELECT COUNT(*) FROM R_LIKE_TBL WHERE RECIPE_NO = #{recipeNo} AND USER_ID = #{userId}
+
+	<select id="selectAllByRecipeValue" resultMap="recipeResultMap2">
+		SELECT * FROM RECIPE_TBL
+		<where>
+			<if test = "searchCondition.toString() == 'title'">
+			RECIPE_TITLE LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test = "searchCondition.toString() == 'contents'">
+			RECIPE_INTRO LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test = "searchCondition.toString() == 'writer'">
+			USER_ID LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test = "searchCondition.toString() == 'all'">
+			RECIPE_TITLE LIKE '%'||#{searchValue}||'%'
+			OR RECIPE_INTRO LIKE '%'||#{searchValue}||'%'
+			OR USER_ID LIKE '%'||#{searchValue}||'%'
+			</if>
+		</where>
 	</select>
-	<!-- 좋아요 등록 -->
-	<insert id="insertLike">
-		INSERT INTO R_LIKE_TBL VALUES(LIKE_NO_SEQ.NEXTVAL,#{recipeNo},#{userId},DEFAULT)
-	</insert>
-	<!-- 좋아요 갯수 업뎃 -->
-	<update id="updateLikeCount">
-		UPDATE RECIPE_TBL SET RECIPE_LIKE_COUNT = RECIPE_LIKE_COUNT +1 WHERE RECIPE_NO=#{recipeNo}
-	</update>
-	<!-- 좋아요 삭제 -->
- 	<delete id="deleteLike">
- 		DELETE FROM R_LIKE_TBL WHERE RECIPE_NO = #{recipeNo} AND USER_ID = #{userId}
- 	</delete>
- 	<!-- 좋아요 갯수 다운 -->
-	<update id="updateDLikeCount">
-		UPDATE RECIPE_TBL SET RECIPE_LIKE_COUNT = RECIPE_LIKE_COUNT -1 WHERE RECIPE_NO=#{recipeNo}
-	</update>
-	
-	<select id="selectAllSmallCat" resultMap="smallResultMap2">
- 		SELECT * FROM SMALL_CATEGORY
- 	</select>
+ 	
+ <select id="selectCountAllRecipe" resultType="_int">
+		SELECT COUNT(*) FROM RECIPE_TBL
+		<where>
+			<if test = "searchCondition.toString() == 'title'">
+				RECIPE_TITLE LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test = "searchCondition.toString() == 'contents'">
+				RECIPE_INTRO LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test = "searchCondition.toString() == 'writer'">
+				USER_ID LIKE '%'||#{searchValue}||'%'
+			</if>
+			<if test = "searchCondition.toString() == 'all'">
+				RECIPE_TITLE LIKE '%'||#{searchValue}||'%'
+				OR RECIPE_INTRO LIKE '%'||#{searchValue}||'%'
+				OR USER_ID LIKE '%'||#{searchValue}||'%'
+			</if>
+		</where>
+	</select>
  
  </mapper>

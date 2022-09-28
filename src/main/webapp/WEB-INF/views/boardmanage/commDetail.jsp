@@ -59,7 +59,7 @@
 		</c:if>
 	</table>
 	
-	<p style="color: #46D2D2; font-size:20px; font-family:malgun gothic;">[ 댓글 목록 ]<p>
+<!-- 	<p style="color: #46D2D2; font-size:20px; font-family:malgun gothic;">[ 댓글 목록 ]<p> -->
 	<table align="center" width="500" border="1" class="table table-bordered">
 		<c:forEach items="${rList }" var="cReply">
 			<tr>
