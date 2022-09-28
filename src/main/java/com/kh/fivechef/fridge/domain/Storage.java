@@ -33,6 +33,14 @@ public class Storage {
 		this.ingredBundle = ingredBundle;
 	}
 
+	
+	public Storage(int storageNo, int fridgeNo, int storageSelectNo) {
+		super();
+		this.storageNo = storageNo;
+		this.fridgeNo = fridgeNo;
+		this.storageSelectNo = storageSelectNo;
+	}
+
 	public int getStorageNo() {
 		return storageNo;
 	}

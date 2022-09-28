@@ -17,4 +17,5 @@ public interface StorageService {
 	public int modifyStorage(Storage storage);
 	public int registIngred(Storage storage);
 	public Storage printIngred(Integer fridgeNo);
+	public int deleteIngred(Storage storage);
 }

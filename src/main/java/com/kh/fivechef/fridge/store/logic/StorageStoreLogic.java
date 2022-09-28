@@ -73,4 +73,10 @@ public class StorageStoreLogic implements StorageStore {
 		return ibundle;
 	}
 
+	@Override
+	public int deleteIngred(SqlSession session, Storage storage) {
+		int result = session.update("FridgeMapper.deleteIngred", storage);
+		return result;
+	}
+
 }

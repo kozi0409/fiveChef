@@ -85,6 +85,13 @@ public class StorageServiceImpl implements StorageService {
 		return iBundle;
 	}
 
+
+	@Override
+	public int deleteIngred(Storage storage) {
+		int result = sStore.deleteIngred(session, storage);
+		return result;
+	}
+
 		
 	
 	

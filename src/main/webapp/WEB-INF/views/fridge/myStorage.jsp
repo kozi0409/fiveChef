@@ -121,12 +121,29 @@ textarea.form-controls {
 			<h1 align="center" >${fridgeName } 페이지</h1>
 		</div>
 	</header>
+	
 		<div class="card-body" style="background-color:rgb(255, 198, 198); border-radius: 10px; padding: 30px;">
 		<div class="row">
-			<div class="col" align="left">
-				<button class="btn btn-secondary" onclick="location.href='/fridge/myFridge.kh'">&#10094; 이전 페이지</button>
-				<button class="btn btn-info" onclick="console.log('검색');">검색</button>
+			<div class="col-2" align="left">
+				<div class="row">
+					<div class="col">
+						<button class="btn btn-secondary" onclick="location.href='/fridge/myFridge.kh'">&#10094; 이전 페이지</button>
+						<div class="col">
+							<form action="/recipe/searchIngMyFridge.kh" method="post">
+								<c:forEach items="${stList }" var="storage" varStatus="j">
+									<input type="hidden" id="seachingIng${j.index }" name="ingredBundle" value="${storage.ingredBundle }">
+									<input type="hidden" name="fridgeNo" value="${fridgeNo}">
+									<input type="hidden" name="fridgeName" value="${fridgeName}">
+									<input type="hidden" name="stSelectNo" value="${j.index }">
+									<input type="hidden" name="storageNo" value="${storage.storageNo }">
+								</c:forEach>
+									<input class="btn btn-info" type="submit" value="검색"> 
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
+			
 			<div class="col" align="right">
 				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage" id="btn-2">&#43; 칸 생성</button>
 				<button class="btn btn-danger" onclick="deleteStorage(${fridgeNo }, '${fridgeName }');" id="btn-2">&#8722;  칸 삭제</button>
@@ -195,7 +212,13 @@ textarea.form-controls {
 									</form>
 								</div>
 								<div class="col-5">
-									<button class="btn btn-danger">재료 삭제</button>
+									<form action="/fridge/deleteIngred.kh" method="post">
+										<input type="hidden" name="fridgeNo" value="${fridgeNo}">
+										<input type="hidden" name="fridgeName" value="${fridgeName}">
+										<input type="hidden" name="stSelectNo" value="${j.index }">
+										<input type="hidden" name="storageNo" value="${storage.storageNo }">
+										<input class="btn btn-danger" type="submit" value="재료 삭제"> 
+									</form>
 								</div>
 							</div>
 						</div>
@@ -208,7 +231,7 @@ textarea.form-controls {
 										<div class="col">
 											<div class="row" id="values">
 												<div class="col-1">
-													<input type="checkbox" id="ingredCheck${k }">
+<%-- 													<input type="checkbox" id="ingredCheck${k }"> --%>
 												</div>
 												<div class="col">
 													<label for="ingredCheck${k }"> ${ingred.ingredBundle }</label>
@@ -339,8 +362,8 @@ textarea.form-controls {
 			for(let i=0; i < e.options.length; i++) {
 				const option = e.options[i];
 			  	if(option.selected) {
-				    selsList.push(option.text);
-// 				    texts.push(option.value);
+				    selsList.push(option.value);
+// 				    texts.push(option.text);
 			  	}
 			}
 			
@@ -349,18 +372,6 @@ textarea.form-controls {
 		}
 		
 		
-// 		$.ajax({
-// 		    url: "전송 페이지",
-// 		    type: "POST",
-// 		    data : "전송할 데이터",
-// 		    dataType : "요청한 데이터 형식"(html/xml/json/text/jsonp),
-// 		    success : (data)=>{
-// 		        // 전송에 성공했을 때 실행될 함수 정의
-// 		    }
-// 		    error : ()=>{
-// 		        // 전송에 실패했을 때 실행될 함수 정의
-// 		    }
-// 		})
 	</script>
 </body>
 </html>
