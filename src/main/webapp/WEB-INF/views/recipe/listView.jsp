@@ -12,7 +12,59 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="../resources/rcss/listView.css">
+<script type="module" src="../resources/multibox/multi-checkbox.js"></script>
 <style type="text/css">
+.wrap {
+border: 1px solid #ccc;
+margin-top: 0;
+padding-left: 2%;
+background-color: #fff;
+}
+div{
+	/* border: 1px solid #ccc; */
+}
+.searchzone > div>div{
+	padding-top: 1%;
+	padding-bottom: 1%;
+	
+}
+#active {
+	padding: 1%;
+	color: #fff;
+	background-color: rgb(209, 24, 79);
+	border-radius: 15%;
+	
+}
+
+.searchzone a{
+	padding: 1%;
+	color: #000;
+	
+}
+
+
+.searchzone > div>div>p>a:hover{
+	color: rgb(209, 24, 79);
+	text-decoration: none;
+}
+.cg{
+	border-right: 1px solid #ccc;
+	margin-right: 3px;
+}
+.ing{
+	margin: 0;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+.ing > select{
+	margin: 0;
+	width: 100%;
+
+}
+.iline {
+	border-bottom: 1px solid #ccc;
+}
+
 
 .page_bar {
 	position:relative;
@@ -25,6 +77,17 @@
 	
 	padding-bottom: 1%;
 
+}
+.r{
+	position: relative;
+	margin: 10%;
+	
+}
+.r .btn{
+	justify-content: right;
+	text-align: right;
+	display: block;
+	float: left;
 }
 .btn-primary{
 color:#fff;
@@ -48,17 +111,102 @@ border-color:rgb(209, 24, 79)
 </style>
 </head>
 <body class="bg-light vsc-initialized">
-<%-- <input type="hidden" name="userId" value="${sessionScope.loginUser.userId }"> --%>
 	<div class="wrap row">
+		<div class="searchzone row" >
+			<div class="row">
+				<div class="cg col-md-1">
+					<p class="sel fs-6"><b>종류별</b></p>
+				</div>
+				<div class="col-md-10">
+					<p class="sel fs-6">
+						<!-- 전체보기는 리셋으로 -->
+						<a href="/recipe/recipeList.kh">전체</a>
+						<c:forEach items="${wList }" var="wRecipe" varStatus="i">
+							<c:if test="${wRecipe.typeCode eq 'TYPE'}">
+								<c:choose>
+									<c:when test="${wRecipe.whatNo eq whatRecipe}">
+										<a href="/recipe/recipeList.kh?whatRecipe=${wRecipe.whatNo}" id="active" >${wRecipe.typeName}</a>
+									</c:when>
+									<c:otherwise>
+										<a href="/recipe/recipeList.kh?whatRecipe=${wRecipe.whatNo}">${wRecipe.typeName}</a>
+									</c:otherwise>
+
+								</c:choose>
+							</c:if>
+						</c:forEach>
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cg col-md-1">
+					<p class="sel fs-6"><b>방법별</b></p>
+				</div>
+				<div class="col-md-10">
+					<p class="sel fs-6">
+						<a href="/recipe/recipeList.kh">전체</a>
+						<c:forEach items="${wList }" var="wRecipe" varStatus="i">
+							<c:if test="${wRecipe.typeCode eq 'WAY'}">
+								<c:choose>
+									<c:when test="${wRecipe.whatNo eq whatRecipe}">
+										<a href="/recipe/recipeList.kh?whatRecipe=${wRecipe.whatNo}" id="active" >${wRecipe.typeName}</a>
+									</c:when>
+									<c:otherwise>
+										<a href="/recipe/recipeList.kh?whatRecipe=${wRecipe.whatNo}">${wRecipe.typeName}</a>
+									</c:otherwise>
+
+								</c:choose>
+							</c:if>
+						</c:forEach>
+					</p>
+				</div>
+			</div>
+			<div class="iline row">
+				<div class="cg col-md-1">
+					<p class="sel fs-6"><b>재료별</b></p>
+				</div>
+				<c:forEach items="${lList }" var="largeCat" varStatus="i">
+					<c:if test="${largeCat.largeCatId != 'A9' && largeCat.largeCatId != 'A10' && largeCat.largeCatId != 'A11' && largeCat.largeCatId != 'A13'}">
+						
+						<div class="ing col-md-1">
+							<!-- <p class="sel fs-9"> -->
+								<select class="select form-select-sm" id="theme" name="smallCatId" id="smallCatId${k.index +1}" required="">
+									<option>${largeCat.largeCatName}</option>	
+									<hr>
+									<c:forEach items="${sList }" var="smallCat" varStatus="k">
+										<c:if test="${largeCat.largeCatId eq smallCat.largeCatId}">
+											<option value="${smallCat.smallCatId}">${smallCat.smallCatName}</option>	
+											
+										</c:if>
+
+									</c:forEach>
+								</select>
+							<!-- </p> -->
+						</div>
+								</c:if>
+						</c:forEach>
+
+			</div>
+			<div class="row">
+				<div class="cg col-md-1">
+					<p class="sel fs-6"><b>선택재료</b></p>
+				</div>
+				<div class="iaddzone col-md-10">
+					sdf
+				</div>
+			</div>
+
+
+
+		</div>
 		<div class="row" id="titlediv">
 		<div class="col-md-8">
 		<h2> 총 <span style="border: #ccc">${totalCount }</span>개의 레시피가 있습니다.</h2>
 		</div>
 		<div class="r col-md-4" id="gogo">
 			<form action="/recipe/recipeList.kh" method="get">
-				<button class="listView" name="category" value="">전체보기</button>
-				<button class="listView" name="category" value="countView">조회수순</button>
-				<button class="listView" name="category" value="likeView">좋아요순 </button>
+				<a class="btn btn-outline-secondary" href="/recipe/recipeList.kh?whatRecipe=${whatRecipe}&category=" name="category" value="">최신순</a>
+				<a class="btn btn-outline-secondary" href="/recipe/recipeList.kh?whatRecipe=${whatRecipe}&category=countView" name="category" value="countView">조회수순</a>
+				<a class="btn btn-outline-secondary" href="/recipe/recipeList.kh?whatRecipe=${whatRecipe}&category=likeView" name="category" value="likeView">좋아요순 </a>
 			</form>
 		</div>
 	</div>	
@@ -70,9 +218,13 @@ border-color:rgb(209, 24, 79)
 								onerror="this.src='../resources/images/logo.png'"
 								src="/resources/ruploadFiles/${recipe.thumbnailRename }" alt="">
 								<em>Click</em></span><strong>${recipe.recipeTitle }</strong></a>
-						<p>${recipe.userId }</p>
-						<p>좋아요: ${recipe.recipeLikeCount } 조회수: ${recipe.recipeCount }</p>
-						<p>🕓: ${recipe.recipeTime}분</p></li>
+								<p>${recipe.userId }</p>
+								<p>좋아요: ${recipe.recipeLikeCount } 조회수: ${recipe.recipeCount }</p>
+								<c:forEach items="${wList }" var="wList" varStatus="i">
+									<c:if test="${recipe.recipeTime eq wList.whatNo}">
+									<p>🕓: ${wList.typeName}</p></c:if>
+								</c:forEach>
+							</li>
 				</c:forEach>
 				
 			</ul>
@@ -81,18 +233,21 @@ border-color:rgb(209, 24, 79)
 		<div class="row">
 		<div class="page_bar col-md-12" align="center">
 				<c:if test="${currentPage > 1 }">
-						<a class="btn btn-primary" href="/recipe/${urlVal }.kh?page=${currentPage -1 }&category=${listValue }"><</a>
+						<a class="btn btn-primary" href="/recipe/${urlVal }.kh?page=${currentPage -1 }&category=${listValue }&whatRecipe=${whatRecipe}"><</a>
+				</c:if>
+				<c:if test="${totalCount <= 1 }">
+					<a class="btn btn-primary1" href="/recipe/${urlVal }.kh?page=${p }&category=${listValue }&whatRecipe=${whatRecipe}"><b>1</b></a>
 				</c:if>
 				<c:forEach var="p" begin="${startNavi }" end="${endNavi}">
 					<c:if test="${currentPage eq p }">
-						<a class="btn btn-primary1" href="/recipe/${urlVal }.kh?page=${p }&category=${listValue }"><b>${p }</b></a>
+						<a class="btn btn-primary1" href="/recipe/${urlVal }.kh?page=${p }&category=${listValue }&whatRecipe=${whatRecipe}"><b>${p }</b></a>
 					</c:if>
 					<c:if test="${currentPage ne p and currentPage ne null}">
-						<a class="btn btn-primary" href="/recipe/${urlVal }.kh?page=${p }&category=${listValue }">${p }</a>
+						<a class="btn btn-primary" href="/recipe/${urlVal }.kh?page=${p }&category=${listValue }&whatRecipe=${whatRecipe}">${p }</a>
 						</c:if>
 				</c:forEach>
 				<c:if test="${currentPage < maxPage }">
-						<a class="btn btn-primary" href="/recipe/${urlVal }.kh?page=${currentPage +1 }&category=${listValue }">></a>
+						<a class="btn btn-primary" href="/recipe/${urlVal }.kh?page=${currentPage +1 }&category=${listValue }&whatRecipe=${whatRecipe}">></a>
 				</c:if>
 		</div>
 		</div>
@@ -102,6 +257,9 @@ border-color:rgb(209, 24, 79)
 <footer>
 <jsp:include page="/WEB-INF/views/main/footer.jsp"></jsp:include>
 </footer>
+<script>
 
+	
+</script>
 </body>
 </html>

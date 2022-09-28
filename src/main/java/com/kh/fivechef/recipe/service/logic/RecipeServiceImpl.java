@@ -47,14 +47,14 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 
 	@Override
-	public List<Recipe> printAllRecipe(String listValue, int currentPage, int limit) {
-		List<Recipe> rList=rStore.selectAllRecipe(session, listValue,currentPage,limit);
+	public List<Recipe> printAllRecipe(String whatRecipe,String listValue, int currentPage, int limit) {
+		List<Recipe> rList=rStore.selectAllRecipe(session,whatRecipe, listValue,currentPage,limit);
 		return rList;
 	}
 
 	@Override
-	public int countAllRecipe() {
-		int count = rStore.selectCountAllRecipe(session);
+	public int countAllRecipe(String whatRecipe, String listValue) {
+		int count = rStore.selectCountAllRecipe(session,whatRecipe, listValue);
 		return count;
 	}
 
@@ -164,6 +164,12 @@ public class RecipeServiceImpl implements RecipeService{
 	@Override
 	public int modifyCom(ComPhoto comPhoto) {
 		int result = rStore.updateCom(session,comPhoto);
+		return result;
+	}
+
+	@Override
+	public int removeRecipe(Integer recipeNo) {
+		int result = rStore.removeRecipeUpdate(session,recipeNo);
 		return result;
 	}
 

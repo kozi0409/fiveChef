@@ -20,9 +20,9 @@ public interface RecipeService {
 
 	public int registerComPhoto(ComPhoto comPhoto);
 
-	public List<Recipe> printAllRecipe(String listValue, int currentPage, int limit);
+	public List<Recipe> printAllRecipe(String whatRecipe,String listValue, int currentPage, int limit);
 
-	public int countAllRecipe();
+	public int countAllRecipe(String whatRecipe, String listValue);
 
 	public Recipe printOneByNo(Integer recipeNo);
 
@@ -57,6 +57,10 @@ public interface RecipeService {
 	public int modifyOrder(Order order);
 
 	public int modifyCom(ComPhoto comPhoto);
+
+	public int removeRecipe(Integer recipeNo);
+
+
 
 
 }

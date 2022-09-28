@@ -101,6 +101,7 @@ height: 400px;
 
 }
 #btn-2 {
+	width: 200px;
 	height: 40px;
 	border: 0;
 	color: white;
@@ -129,7 +130,9 @@ height: 400px;
 	background-color: rgb(209, 24, 79);
 	border-color: rgb(209, 24, 79)
 }
-
+.list{
+	text-align: center;
+}
 
 </style>
 </head>
@@ -175,18 +178,28 @@ height: 400px;
 								<div class="per row align-items-center justify-content-center">
 									<div class="col-4">
 										<img src="/resources/images/people-fill.svg">
-										<p><b>3인분</b></p>
+									<c:forEach items="${wList }" var="wList" varStatus="i">
+									<c:if test="${recipe.recipePerson eq wList.whatNo}">
+									<p><b>${wList.typeName}</b></p>
+									</c:if>
+								</c:forEach>
 										<!-- ${recipe.recipePerson } -->
 									</div>
 									<div class="col-4">
 										<img src="/resources/images/alarm.svg">
-										<p><b>30분</b></p>
+										<c:forEach items="${wList }" var="wList" varStatus="i">
+									<c:if test="${recipe.recipeTime eq wList.whatNo}">
+									<p><b>${wList.typeName}</b></p>
+									</c:if></c:forEach>
 										<!-- ${recipe.recipeTime } -->
 
 									</div>
 									<div class="col-4">
 										<img src="/resources/images/star-half.svg">
-										<p><b>아무나</b></p>
+										<c:forEach items="${wList }" var="wList" varStatus="i">
+									<c:if test="${recipe.recipeLevel eq wList.whatNo}">
+									<p><b>${wList.typeName}</b></p>
+									</c:if></c:forEach>
 										<!-- ${recipe.recipeLevel } -->
 									</div>
 
@@ -297,13 +310,16 @@ height: 400px;
 							</div>
 						</div>
 						<hr id="cutline">
-						<div class="container">
-							<div class="row g-3">
-							<a class="btn btn-primary btn-lg col-md-4" id="btn-2" href="/recipe/recipeModifyView.kh?recipeNo=${recipe.recipeNo }&page=${page}">수정페이지로</a>
-							<a class="btn btn-primary btn-lg col-md-4" id="btn-2" href="#" onclick="boardRemove(${page})">삭제하기</a> 
+						
+							<div class="list row">
+							 <div class="col-12">
+							 <c:if test="${loginUser.userId eq recipe.userId }">
+							<a class="btn btn-primary btn-lg col-md-4" id="btn-2" href="/recipe/recipeModifyView.kh?recipeNo=${recipe.recipeNo }&page=${page}&loginId=${sessionScope.loginUser.userId}">수정페이지로</a>
+							<a class="btn btn-primary btn-lg col-md-4" id="btn-2" onclick="recipeRemove()" href="/recipe/recipeRemove.kh?recipeNo=${recipe.recipeNo }">삭제하기</a></c:if> 
 							<a class="btn btn-primary btn-lg col-md-4" id="btn-2" href="/recipe/${urlVal }.kh?page=${page }&category=${listValue }">리스트</a>
 							</div>
-						</div>
+							</div>
+						
 					</div>
 
 				</div>
@@ -311,118 +327,6 @@ height: 400px;
 		</div>
 
 	</main>
-
-
-	<!-- <h1 align="center">${recipe.recipeNo }번게시글상세보기</h1>
-	<br>
-	<br>
-	<table align="center" width="1200" border="1">
-		<tr>
-			<td>제목</td>
-			<td>${recipe.recipeTitle }</td>
-			<td rowspan="10" width=300><img alt="본문이미지"
-				src="/resources/ruploadFiles/${recipe.thumbnailRename }" width=300
-				height=300></td>
-		</tr>
-		<tr>
-			<td>작성자</td>
-			<td>${recipe.userId }</td>
-
-		</tr>
-
-		<tr>
-			<td>작성날짜</td>
-			<td>${recipe.rCreateDate }</td>
-
-		</tr>
-		<tr>
-			<td>조회수 **${result }**${like.userId }</td>
-			<td colspan="">${recipe.recipeCount }</td>
-		</tr>
-		<tr>
-			<td>좋아요수</td>
-			<td colspan="">${recipe.recipeLikeCount }<form method="post" name="form">
-				<input type="hidden" name="category" value="${listValue }">
-				<input type="hidden" name="page" value="${page }">
-				<input type="hidden" name="recipeNo" value="${recipe.recipeNo }">
-				
-				<input type="hidden" name="userId" value="${like.userId }">
-				<button type="submit" id="likeup" onclick="javascript: form.action='/recipe/recipeLike.kh'">좋아요</button>
-			</form>
-			</td>
-
-		</tr>
-		<tr>
-			<td>카테고리</td>
-			<td colspan="">${recipe.typeCategory }</td>
-		</tr>
-		<tr>
-			<td>방법</td>
-			<td colspan="">${recipe.wayCategory }</td>
-		</tr>
-		<tr>
-			<td>난이도</td>
-			<td colspan="">${recipe.recipeLevel }</td>
-		</tr>
-		<tr>
-			<td>조리시간</td>
-			<td colspan="">${recipe.recipeTime }</td>
-		</tr>
-		<tr>
-			<td>인원</td>
-			<td colspan="">${recipe.recipePerson }</td>
-		</tr>
-		<tr height="300">
-			<td>요리소개</td>
-			<td colspan="2">${recipe.recipeIntro }</td>
-
-		</tr>
-		<tr>
-			<td>${bundle }재료</td>
-			<td colspan="2"><c:forEach items="${iList }" var="ingradient"
-					varStatus="i">
-					<p>
-						<input type="text" name="largeCatName"
-							value="${ingradient.largeCatName }" readonly="readonly">
-						<input type="text" name="smallCatName"
-							value="${ingradient.smallCatName }" readonly="readonly">
-						<input type="text" value="${ingradient.ingAmount }"
-							readonly="readonly">
-					</p>
-				</c:forEach></td>
-		</tr>
-		<tr>
-			<td colspan="3">요리순서</td>
-
-		</tr>
-		<c:forEach items="${oList }" var="order" varStatus="i">
-			<tr>
-				<td>STEP ${i.count }</td>
-				<td>${order.recipeContents }</td>
-				<td><img alt="본문이미지"
-					src="/resources/ruploadFiles/${order.orderPhotoRename }" width=300
-					height=300></td>
-			</tr>
-		</c:forEach>
-		<tr height="300">
-			<td>완성사진</td>
-			<td colspan="2"><c:forEach items="${cList }" var="comPhoto"
-					varStatus="i">
-					<img alt="본문이미지"
-						src="/resources/ruploadFiles/${comPhoto.comPhotoRename }"
-						width=200 height=200>
-				</c:forEach></td>
-		</tr>
-		<tr>
-			<td colspan="2" align="center">
-				<c:if test=""></c:if>
-				<a
-				href="/recipe/recipeModifyView.kh?recipeNo=${recipe.recipeNo }&page=${page}">수정페이지로</a>
-				<a href="#" onclick="boardRemove(${page})">삭제하기</a> <a
-				href="/recipe/${urlVal }.kh?page=${page }&category=${listValue }">리스트</a>
-			</td>
-		</tr>
-	</table> -->
 	<script type="text/javascript">
 		var likecheck = ${result}
 		$(document).ready(function() {
@@ -436,6 +340,13 @@ height: 400px;
 				$("#likeup").html("좋아요 취소");
 			}
 		});
+		
+		function recipeRemove() {
+			event.preventDefault(); // 하이퍼링크 이동 방지
+			if(confirm("해당 게시글을 삭제하시겠습니까?")) {
+				location.href="/recipe/recipeRemove.kh?recipeNo=${recipe.recipeNo }";
+			}
+		}
 
 		// $(document).ready(function() {
 		//     alert('Hello Dexter!');

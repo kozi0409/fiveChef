@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,7 +83,8 @@ textarea.form-controls {
 	left: 50%;
 	margin-top: 0;
 	transform: translate(-50%, -50%);
-	!important
+	!
+	important
 }
 
 #thumbnailzone .form-label {
@@ -93,6 +94,12 @@ textarea.form-controls {
 #thumbnailzone input {
 	position: relative;
 	width: 100%;
+}
+
+#ingHidden {
+	visibility: hidden;
+	height: 0px;
+	width: 0px;
 }
 </style>
 <script>
@@ -185,7 +192,7 @@ textarea.form-controls {
 											onerror="" src=""> <input type="file" name="uploadFile"
 											class="form-control" id="thumbnail"
 											accept="image/jpeg, image/png, image/jpg"
-											onchange="imgView(this);">
+											onchange="imgView(this);" required>
 										</label>
 										<div class="invalid-feedback">Valid last name is
 											required.</div>
@@ -256,122 +263,202 @@ textarea.form-controls {
 									<p class="fw-bolder ">재료등록</p>
 								</div>
 
+
+
+
+								<!-- 히든존 -->
+								<div id="ingHidden">
+									<select class="form-select" name="largeCatId" id="largeCatId"
+										onchange="setOpt(this)">
+										<option value="" selected="selected">대분류 선택</option>
+										<c:forEach items="${lList }" var="largeCat" varStatus="i">
+											<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
+										</c:forEach>
+									</select> <select class="form-select" name="smallCatId" id="smallCatId">
+										<option value="" selected>재료선택</option>
+										<c:forEach items="${sList }" var="smallCat" varStatus="i">
+											<option value="${smallCat.smallCatId }"
+												class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
+										</c:forEach>
+									</select>
+								</div>
 								<!-- 여기서부터 append -->
+								<div class="row g-1">
+
+									<div id="" class=" row g-1">
+										<div class="col-md-2">
+
+											<select class="form-select" name="largeCatId"
+												id="largeCatId1" onchange="setOpt(this)" required="">
+												<option value="0" selected="selected">대분류 선택</option>
+												<c:forEach items="${lList }" var="largeCat" varStatus="i">
+													<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+
+										<div class="col-md-2">
+											<select class="form-select" name="smallCatId"
+												id="smallCatId1" required="">
+												<option value="0" selected>재료선택</option>
+												<c:forEach items="${sList }" var="smallCat" varStatus="i">
+													<option value="${smallCat.smallCatId }"
+														class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+										<div class="col-md-2">
+											<input type="text" class="form-control" name="ingAmount"
+												id="ingAmount" placeholder="예) 300g" required="">
+											<div class="invalid-feedback">Please enter your
+												shipping address.</div>
+										</div>
+									</div>
+
+
+
+									<div id="" class=" row g-1">
+										<div class="col-md-2">
+											<select class="form-select" name="largeCatId"
+												id="largeCatId2" onchange="setOpt(this)" required="">
+												<option value="0" selected="selected">대분류 선택</option>
+												<c:forEach items="${lList }" var="largeCat" varStatus="i">
+													<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+
+										<div class="col-md-2">
+											<select class="form-select" name="smallCatId"
+												id="smallCatId2" required="">
+												<option value="0" selected>재료선택</option>
+												<c:forEach items="${sList }" var="smallCat" varStatus="i">
+													<option value="${smallCat.smallCatId }"
+														class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+										<div class="col-md-2">
+											<input type="text" class="form-control" name="ingAmount"
+												id="ingAmount" placeholder="예) 300g" required="">
+											<div class="invalid-feedback">Please enter your
+												shipping address.</div>
+										</div>
+									</div>
+
+
+									<div id="" class=" row g-1">
+										<div class="col-md-2">
+											<select class="form-select" name="largeCatId"
+												id="largeCatId3" onchange="setOpt(this)" required="">
+												<option value="0" selected="selected">대분류 선택</option>
+												<c:forEach items="${lList }" var="largeCat" varStatus="i">
+													<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+
+										<div class="col-md-2">
+											<select class="form-select" name="smallCatId"
+												id="smallCatId3" required="">
+												<option value="0" selected>재료선택</option>
+												<c:forEach items="${sList }" var="smallCat" varStatus="i">
+													<option value="${smallCat.smallCatId }"
+														class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+										<div class="col-md-2">
+											<input type="text" class="form-control" name="ingAmount"
+												id="ingAmount" placeholder="예) 300g" required="">
+											<div class="invalid-feedback">Please enter your
+												shipping address.</div>
+										</div>
+									</div>
+
+									<div id="" class="row g-1">
+										<div class="col-md-2">
+											<select class="form-select" name="largeCatId"
+												id="largeCatId4" onchange="setOpt(this)" required="">
+												<option value="0" selected="selected">대분류 선택</option>
+												<c:forEach items="${lList }" var="largeCat" varStatus="i">
+													<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+
+										<div class="col-md-2">
+											<select class="form-select" name="smallCatId"
+												id="smallCatId4" required="">
+												<option value="0" selected>재료선택</option>
+												<c:forEach items="${sList }" var="smallCat" varStatus="i">
+													<option value="${smallCat.smallCatId }"
+														class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+										<div class="col-md-2">
+											<input type="text" class="form-control" name="ingAmount"
+												id="ingAmount" placeholder="예) 300g" required="">
+											<div class="invalid-feedback">Please enter your
+												shipping address.</div>
+										</div>
+									</div>
+									<div id="" class="row g-1">
+										<div class="col-md-2">
+											<select class="form-select" name="largeCatId"
+												id="largeCatId5" onchange="setOpt(this)" required="">
+												<option value="0" selected="selected">대분류 선택</option>
+												<c:forEach items="${lList }" var="largeCat" varStatus="i">
+													<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+
+										<div class="col-md-2">
+											<select class="form-select" name="smallCatId"
+												id="smallCatId5" required="">
+												<option value="0" selected>재료선택</option>
+												<c:forEach items="${sList }" var="smallCat" varStatus="i">
+													<option value="${smallCat.smallCatId }"
+														class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
+												</c:forEach>
+											</select>
+											<div class="invalid-feedback">Please select a valid
+												country.</div>
+										</div>
+										<div class="col-md-2">
+											<input type="text" class="form-control" name="ingAmount"
+												id="ingAmount" placeholder="예) 300g" required="">
+											<div class="invalid-feedback">Please enter your
+												shipping address.</div>
+										</div>
+									</div>
+								</div>
 								<div id="mainDiv" class="row g-1">
-									<div id="">
-										<div id="" class=" row g-1">
-											<div class="col-md-2">
-											
-												<select class="form-select" name="largeCatId"
-													id="largeCatId${fn:length(lList) -12}" onchange="setOpt(this)" required="">
-													<option value="0" selected="selected">대분류 선택</option>
-													<c:forEach items="${lList }" var="largeCat" varStatus="i">
-														<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
-													</c:forEach>
-												</select>
-												<div class="invalid-feedback">Please select a valid
-													country.</div>
-											</div>
-
-											<div class="col-md-2">
-												<select class="form-select" name="smallCatId"
-													id="smallCatId${fn:length(lList) -12}" required="">
-													<option value="0" selected>재료선택</option>
-													<c:forEach items="${sList }" var="smallCat" varStatus="i">
-														<option value="${smallCat.smallCatId }"
-															class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
-													</c:forEach>
-												</select>
-												<div class="invalid-feedback">Please select a valid
-													country.</div>
-											</div>
-											<div class="col-md-2">
-												<input type="text" class="form-control" name="ingAmount"
-													id="ingAmount" placeholder="예) 300g" required="">
-												<div class="invalid-feedback">Please enter your
-													shipping address.</div>
-											</div>
-										</div>
-
-
-									</div>
-									<div id="">
-										<div id="" class=" row g-1">
-											<div class="col-md-2">
-												<select class="form-select" name="largeCatId"
-													id="largeCatId2" onchange="setOpt(this)" required="">
-													<option value="0" selected="selected">대분류 선택</option>
-													<c:forEach items="${lList }" var="largeCat" varStatus="i">
-														<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
-													</c:forEach>
-												</select>
-												<div class="invalid-feedback">Please select a valid
-													country.</div>
-											</div>
-
-											<div class="col-md-2">
-												<select class="form-select" name="smallCatId"
-													id="smallCatId2" required="">
-													<option value="0" selected>재료선택</option>
-													<c:forEach items="${sList }" var="smallCat" varStatus="i">
-														<option value="${smallCat.smallCatId }"
-															class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
-													</c:forEach>
-												</select>
-												<div class="invalid-feedback">Please select a valid
-													country.</div>
-											</div>
-											<div class="col-md-2">
-												<input type="text" class="form-control" name="ingAmount"
-													id="ingAmount" placeholder="예) 300g" required="">
-												<div class="invalid-feedback">Please enter your
-													shipping address.</div>
-											</div>
-										</div>
-
-
-									</div>
-									<div id="">
-										<div id="" class=" row g-1">
-											<div class="col-md-2">
-												<select class="form-select" name="largeCatId"
-													id="largeCatId" required="">
-													<option value="" selected="selected">대분류 선택</option>
-													<c:forEach items="${lList }" var="largeCat" varStatus="i">
-														<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
-													</c:forEach>
-												</select>
-												<div class="invalid-feedback">Please select a valid
-													country.</div>
-											</div>
-
-											<div class="col-md-2">
-												<select class="form-select" name="smallCatId"
-													id="smallCatId" required="">
-													<option value="" selected>재료선택</option>
-													<c:forEach items="${sList }" var="smallCat" varStatus="i">
-														<option value="${smallCat.smallCatId }"
-															class="${smallCat.largeCatId }">${smallCat.smallCatName }</option>
-													</c:forEach>
-												</select>
-												<div class="invalid-feedback">Please select a valid
-													country.</div>
-											</div>
-											<div class="col-md-2">
-												<input type="text" class="form-control" name="ingAmount"
-													id="ingAmount" placeholder="예) 300g" required="">
-												<div class="invalid-feedback">Please enter your
-													shipping address.</div>
-											</div>
-										</div>
-
-
-									</div>
-
+									<!-- 복사존 -->
 									<div id="ing-app" class="ingapp row g-1">
 										<div class="col-md-2">
-											<select class="form-select" name="largeCatId" id="largeCatId"
-												required="">
+											<select class="form-select" name="largeCatId"
+												onchange="setOpt(this)" id="largeCatId" required="">
 												<option value="" selected="selected">대분류 선택</option>
 												<c:forEach items="${lList }" var="largeCat" varStatus="i">
 													<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
@@ -400,133 +487,134 @@ textarea.form-controls {
 												shipping address.</div>
 										</div>
 									</div>
-
-
-								</div>
-
-								<!-- -- -->
-								<div class="btn-group col-md-3" role="group"
-									aria-label="Basic radio toggle button group">
-									<input type="radio" class="btn-check" name="btnradio"
-										id="ing-add"></input> <label class="btn btn-outline-primary"
-										for="btnradio2" onclick="adding()">추가</label> <input
-										type="radio" class="btn-check" name="btnradio" id="ing-del"
-										autocomplete="off"> <label
-										class="btn btn-outline-primary" for="btnradio3"
-										onclick="deling()">삭제</label>
-								</div>
-
-
-
-								<hr class="my-4">
-
-								<!-- 여기서부터  order-->
-								<div class="col-12">
-									<p class="fw-bolder ">
-									<h4>
-										<b>요리순서</b>
-									</h4>
-								</div>
-								<div id="orderDiv">
-									<div id="order-app" class="orderapp row g-3">
-										<div class="row g-3">
-											<div class="col-md-8 ">
-												<div class="input-group col-md-4 ">
-													<span class="input-group-text">Step</span>
-													<textarea class="form-controls" cols="83" rows="7"
-														aria-label="With textarea" name="recipeContents"
-														placeholder="요리 방법을 적어주세요!"></textarea>
-												</div>
-											</div>
-											<div class="col-md-4 ">
-												<div id="thumbnailzone">
-													<label class="form-label"> <img onerror="" src="">
-														<input type="file" name="ouploadFile" class="form-control"
-														accept="image/jpeg, image/png, image/jpg"
-														onchange="imgView(this);">
-													</label>
-												</div>
-											</div>
-										</div>
-
-									</div>
-								</div>
-
-								<!-- -- -->
-								<div class="btn-group col-md-3" role="group"
-									aria-label="Basic radio toggle button group">
-									<input type="radio" class="btn-check" name="btnradio"
-										id="order-add"></input> <label class="btn btn-outline-primary"
-										for="btnradio2" onclick="addorder()">추가</label> <input
-										type="radio" class="btn-check" name="btnradio" id="order-del"
-										autocomplete="off"> <label
-										class="btn btn-outline-primary" for="btnradio3"
-										onclick="delorder()">삭제</label>
 								</div>
 							</div>
+						</div>
+				</div>
 
-							<hr class="my-4">
-							<br>
-							<div class="col-12">
-								<p class="fw-bolder ">
-								<h4>
-									<b>완성사진등록</b>
-								</h4>
-							</div>
-							<br> <br>
-							<div class="row g-3">
-								<div class="col-md-3">
-									<label>완성사진1</label>
-									<div id="thumbnailzone">
-										<label class="form-label"><img onerror="" src="">
-											<input type="file" name="cuploadFile" class="form-control"
-											accept="image/jpeg, image/png, image/jpg"
-											onchange="imgView(this);"> </label>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<label>완성사진2</label>
-									<div id="thumbnailzone">
-										<label class="form-label"><img onerror="" src="">
-											<input type="file" name="cuploadFile" class="form-control"
-											accept="image/jpeg, image/png, image/jpg"
-											onchange="imgView(this);"> </label>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<label>완성사진3</label>
-									<div id="thumbnailzone">
-										<label class="form-label"><img onerror="" src="">
-											<input type="file" name="cuploadFile" class="form-control"
-											accept="image/jpeg, image/png, image/jpg"
-											onchange="imgView(this);"> </label>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<label>완성사진4</label>
-									<div id="thumbnailzone">
-										<label class="form-label"><img onerror="" src="">
-											<input type="file" name="cuploadFile" class="form-control"
-											accept="image/jpeg, image/png, image/jpg"
-											onchange="imgView(this);"> </label>
-									</div>
+
+
+				<!-- -- -->
+				<div class="btn-group col-md-3" role="group"
+					aria-label="Basic radio toggle button group">
+					<input type="radio" class="btn-check" name="btnradio" id="ing-add"></input>
+					<label class="btn btn-outline-primary" for="btnradio2"
+						onclick="adding()">추가</label> <input type="radio"
+						class="btn-check" name="btnradio" id="ing-del" autocomplete="off">
+					<label class="btn btn-outline-primary" for="btnradio3"
+						onclick="deling()">삭제</label>
+				</div>
+
+
+
+				<hr class="my-4">
+
+				<!-- 여기서부터  order-->
+				<div class="col-12">
+					<p class="fw-bolder ">
+					<h4>
+						<b>요리순서</b>
+					</h4>
+				</div>
+				<div id="orderDiv">
+					<div id="order-app" class="orderapp row g-3">
+						<div class="row g-3">
+							<div class="col-md-8 ">
+								<div class="input-group col-md-4 ">
+									<span class="input-group-text">Step</span>
+									<textarea class="form-controls" cols="83" rows="7"
+										aria-label="With textarea" name="recipeContents"
+										placeholder="요리 방법을 적어주세요!" required></textarea>
 								</div>
 							</div>
-							<br>
-
-							<hr class="my-4">
-							<div class="row">
-								<button class="btn btn-primary btn-lg col-md-6" id="btn-2"
-									type="submit">레시피 저장</button>
-								<button class="btn btn-primary btn-lg col-md-6" id="btn-2"
-									type="reset">취소</button>
+							<div class="col-md-4 ">
+								<div id="thumbnailzone">
+									<label class="form-label"> <img onerror="" src="">
+										<input type="file" name="ouploadFile" class="form-control"
+										accept="image/jpeg, image/png, image/jpg"
+										onchange="imgView(this);" required>
+									</label>
+								</div>
 							</div>
+						</div>
 
-							<br> <br> <br>
-					</form>
+					</div>
+				</div>
+
+				<!-- -- -->
+				<div class="btn-group col-md-3" role="group"
+					aria-label="Basic radio toggle button group">
+					<input type="radio" class="btn-check" name="btnradio"
+						id="order-add"></input> <label class="btn btn-outline-primary"
+						for="btnradio2" onclick="addorder()">추가</label> <input
+						type="radio" class="btn-check" name="btnradio" id="order-del"
+						autocomplete="off"> <label class="btn btn-outline-primary"
+						for="btnradio3" onclick="delorder()">삭제</label>
 				</div>
 			</div>
-		</main>
+
+			<hr class="my-4">
+			<br>
+			<div class="col-12">
+				<p class="fw-bolder ">
+				<h4>
+					<b>완성사진등록</b>
+				</h4>
+			</div>
+			<br> <br>
+			<div class="row g-3">
+				<div class="col-md-3">
+					<label>완성사진1</label>
+					<div id="thumbnailzone">
+						<label class="form-label"><img onerror="" src=""> <input
+							type="file" name="cuploadFile" class="form-control"
+							accept="image/jpeg, image/png, image/jpg"
+							onchange="imgView(this);"> </label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<label>완성사진2</label>
+					<div id="thumbnailzone">
+						<label class="form-label"><img onerror="" src=""> <input
+							type="file" name="cuploadFile" class="form-control"
+							accept="image/jpeg, image/png, image/jpg"
+							onchange="imgView(this);"> </label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<label>완성사진3</label>
+					<div id="thumbnailzone">
+						<label class="form-label"><img onerror="" src=""> <input
+							type="file" name="cuploadFile" class="form-control"
+							accept="image/jpeg, image/png, image/jpg"
+							onchange="imgView(this);"> </label>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<label>완성사진4</label>
+					<div id="thumbnailzone">
+						<label class="form-label"><img onerror="" src=""> <input
+							type="file" name="cuploadFile" class="form-control"
+							accept="image/jpeg, image/png, image/jpg"
+							onchange="imgView(this);"> </label>
+					</div>
+				</div>
+			</div>
+			<br>
+
+			<hr class="my-4">
+			<div class="row">
+				<button class="btn btn-primary btn-lg col-md-6" id="btn-2"
+					type="submit">레시피 저장</button>
+				<button class="btn btn-primary btn-lg col-md-6" id="btn-2"
+					type="reset">취소</button>
+			</div>
+
+			<br> <br> <br>
+			</form>
+	</div>
+	</div>
+	</main>
 
 	</div>
 	<footer>
@@ -534,96 +622,59 @@ textarea.form-controls {
 
 	</footer>
 	<script>
+		$(".form-controls").blur(function() {
+			var check = $('.form-controls').val().indexOf(",");
+			console.log(('.form-controls'))
+
+		})
+
 		var malls = false;
-		
-		////
+
+		//시작시 소분류 재료 목록 초기화
 		$(document).ready(function() {
 			for (var i = 0; i < 100; i++) {
-				malls = $("#smallCatId"+i).find("option[value!=0]");
-	 			malls.detach();
+				malls = $("#smallCatId" + i).find("option[value!=0]");
+				malls.detach();
 			}
-			
+
 		});
-		
-		var k ="";
+		//대분류 선택시 소분류 노출
+		var k = "";
 		function setOpt(a) {
-			k = $(a).attr("id").charAt($(a).attr("id").length-1)
+			k = $(a).attr("id").charAt($(a).attr("id").length - 1)
 			console.log(k)
 			console.log($("#smallCatId" + k).find("option[value!=0]"));
-			$("#smallCatId"+k).find("option[value!=0]").detach();
-			$("#smallCatId"+k).append(malls.filter("." + event.target.value));
+			$("#smallCatId" + k).find("option[value!=0]").detach();
+			$("#smallCatId" + k).append(malls.filter("." + event.target.value));
 			// console.log($(a).attr("id").charAt($(a).attr("id").length-1))
 			//  var idx = el.options.selectedIndex;
 			// console.log(idx)
 
 		}
 		$(function() {
-			malls = $("#smallCatId"+k).find("option[value!=0]");
+			malls = $("#smallCatId" + k).find("option[value!=0]");
 		});
-		
-		////
-		
-		
-// 		function update_selected() {
-// 			// k = $(this).attr("id").charAt($(this).attr("id").length-1)
 
-// 			// console.log(document.getElementById(this))
-// 			$("#smallCatId").val(0);
-// 			$("#smallCatId").find("option[value!=0]").detach();
-// 			$("#smallCatId").append(malls.filter("." + $(this).val()));
-// 			// event.preventDefault();
-// 			// event.stopPropagation();
-			
-// 		}
-// 		$(function() {
-// 			malls = $("#smallCatId").find("option[value!=0]");
-// 			malls.detach();
-// 			// event.preventDefault();
-// 			// event.stopPropagation();
-// 			$("#largeCatId").change(update_selected);
-// 			$("#largeCatId").trigger("change");
-// 			console.log(0)
-
-// 		});
-// var k = -"";
-// 		function setOpt(a) {
-
-// 			console.log(k)
-// 			malls = $("#smallCatId" + k).find("option[value!=0]");
-// 			malls.detach();
-
-// 			$("#largeCatId" + k).change(function() {
-// 				k = $(this).attr("id").charAt($(this).attr("id").length - 1)
-// 				console.log(k)
-
-// 				console.log(document.getElementById(this))
-// 				$("#smallCatId" + k).val(0);
-// 				$("#smallCatId" + k).find("option[value!=0]").detach();
-// 				$("#smallCatId" + k).append(malls.filter("." + $(this).val()));
-
-// 			});
-// 			$("#largeCatId" + k).trigger("change");
-
-// 		};
-
+		// 재료추가
 		var ingNode = document.querySelector('#ing-app');
+
 		function adding() {
 			console.log(ingNode)
 			mainDiv.appendChild(ingNode.cloneNode(true));
 		}
-
+		// 재료삭제
 		function deling() {
 			var ingNodeClass = document.querySelectorAll('.ingapp');
 			console.log(ingNodeClass[0])
 			ingNodeClass[0].remove();
 		}
-
+		// 요리순서추가
 		var orderNode = document.querySelector('#order-app');
 		function addorder() {
 			console.log(orderNode)
 			orderDiv.appendChild(orderNode.cloneNode(true));
 		}
-
+		//요리순서 삭제
 		function delorder() {
 			var orderNodeClass = document.querySelectorAll('.orderapp');
 			console.log(orderNodeClass[0])
@@ -632,17 +683,14 @@ textarea.form-controls {
 		$(document).ready(function() {
 
 		});
+		//이미지 뷰어
 		function imgView(obj) {
-
 			var imgid = obj.previousElementSibling;
-
 			imgid.src = URL.createObjectURL(event.target.files[0]);
 			imgid.onload = function() {
 				URL.revokeObjectURL(imgid.src);// free memory
-
 			}
 			imgCheck()
-
 		};
 		// function loadFile(input) {
 		// 	var file = input.files[0];	//선택된 파일 가져오기
@@ -666,6 +714,27 @@ textarea.form-controls {
 		//     var container = document.getElementById('image-show');
 		//     container.appendChild(newImage);
 		// }
+		// 		function update_selected() {
+		// 			// k = $(this).attr("id").charAt($(this).attr("id").length-1)
+
+		// 			// console.log(document.getElementById(this))
+		// 			$("#smallCatId").val(0);
+		// 			$("#smallCatId").find("option[value!=0]").detach();
+		// 			$("#smallCatId").append(malls.filter("." + $(this).val()));
+		// 			// event.preventDefault();
+		// 			// event.stopPropagation();
+
+		// 		}
+		// 		$(function() {
+		// 			malls = $("#smallCatId").find("option[value!=0]");
+		// 			malls.detach();
+		// 			// event.preventDefault();
+		// 			// event.stopPropagation();
+		// 			$("#largeCatId").change(update_selected);
+		// 			$("#largeCatId").trigger("change");
+		// 			console.log(0)
+
+		// 		});
 	</script>
 
 </body>

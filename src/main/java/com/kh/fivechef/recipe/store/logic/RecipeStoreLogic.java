@@ -40,7 +40,7 @@ public class RecipeStoreLogic implements RecipeStore{
 	public int insertComPhoto(SqlSession session, ComPhoto comPhoto) {
 		int result;
 		//왜 실행이 안되었는데 저장이 되는것?
-		System.out.println(comPhoto.getComPhotoName());
+//		System.out.println(comPhoto.getComPhotoName());
 		if(comPhoto.getComPhotoName() == null) {
 			System.out.println("실패");
 			return 0;
@@ -52,9 +52,10 @@ public class RecipeStoreLogic implements RecipeStore{
 	}
 
 	@Override
-	public List<Recipe> selectAllRecipe(SqlSession session, String listValue, int currentPage, int limit) {
+	public List<Recipe> selectAllRecipe(SqlSession session,String whatRecipe, String listValue, int currentPage, int limit) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("category", listValue);
+		paramMap.put("whatRecipe",whatRecipe);
 		int offset=(currentPage-1)*limit;
 		RowBounds rowBounds = new RowBounds(offset,limit);
 		List<Recipe> rList = session.selectList("RecipeMapper.selectAllRecipe",paramMap,rowBounds);
@@ -62,8 +63,11 @@ public class RecipeStoreLogic implements RecipeStore{
 	}
 
 	@Override
-	public int selectCountAllRecipe(SqlSession session) {
-		int count = session.selectOne("RecipeMapper.selectCountAllRecipe");
+	public int selectCountAllRecipe(SqlSession session,String whatRecipe, String listValue) {
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("category", listValue);
+		paramMap.put("whatRecipe",whatRecipe);
+		int count = session.selectOne("RecipeMapper.selectCountAllRecipe",paramMap);
 		return count;
 	}
 
@@ -183,6 +187,7 @@ public class RecipeStoreLogic implements RecipeStore{
 	public int updateOrder(SqlSession session, Order order) {
 //		System.out.println(order.getOrderPhotoName());
 		int result;
+		//order에서 사진삽입없이 데이터 넘어왔을때 사진을 제외하고 수정되도록
 		if(order.getOrderPhotoName() ==null) {
 			result = session.update("RecipeMapper.updateOrderNull",order);
 		}else {
@@ -193,10 +198,17 @@ public class RecipeStoreLogic implements RecipeStore{
 
 	@Override
 	public int updateCom(SqlSession session, ComPhoto comPhoto) {
+		//사진수정없으면 수정x
 		if(comPhoto.getComPhotoName() == null) {
 			return 0;
 		}
 		int result = session.update("RecipeMapper.updateCom",comPhoto);
+		return result;
+	}
+
+	@Override
+	public int removeRecipeUpdate(SqlSession session, Integer recipeNo) {
+		int result =session.update("RecipeMapper.removeRecipeUpdate",recipeNo);
 		return result;
 	}
 

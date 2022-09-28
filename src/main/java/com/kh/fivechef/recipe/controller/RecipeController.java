@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,9 +46,9 @@ public class RecipeController {
 		List<LargeCategory> lList = sService.printLargeCat();
 		List<SmallCategory> sList = rService.printSmallCat();
 		List<WhatRecipe> wList = rService.printWhat();
-		
+
 		System.out.println(sList);
-		mv.addObject("wList",wList);
+		mv.addObject("wList", wList);
 		mv.addObject("lList", lList);
 		mv.addObject("sList", sList);
 		mv.setViewName("recipe/recipeWriteFormcopy");
@@ -183,9 +184,10 @@ public class RecipeController {
 	@RequestMapping(value = "/recipe/recipeList.kh", method = RequestMethod.GET)
 	public ModelAndView recipeAllListView(ModelAndView mv,
 			@RequestParam(value = "category", required = false) String listValue,
-			@RequestParam(value = "page", required = false) Integer page) {
+			@RequestParam(value = "page", required = false) Integer page
+			,@RequestParam(value="whatRecipe",required = false) String whatRecipe){
 		int currentPage = (page != null) ? page : 1;
-		int totalCount = rService.countAllRecipe();
+		int totalCount = rService.countAllRecipe(whatRecipe,listValue);
 		int recipeLimit = 18;
 		int naviLimit = 5;
 		int maxPage;
@@ -197,12 +199,23 @@ public class RecipeController {
 		if (maxPage < endNavi) {
 			endNavi = maxPage;
 		}
-		List<Recipe> rList = rService.printAllRecipe(listValue, currentPage, recipeLimit);
 		// store에서 hashmap사용하면 데이터 정상 반영됨
 //		System.out.println(totalCount);
+		// 요리방법종류인원난이도시간출력
+		List<WhatRecipe> wList = rService.printWhat();
+		//재료 카테고리 출력
+		List<LargeCategory> lList = sService.printLargeCat();
+		List<SmallCategory> sList = rService.printSmallCat();
+		List<Recipe> rList = rService.printAllRecipe(whatRecipe,listValue, currentPage, recipeLimit);
+		//whatNo 체크
+//		System.out.println(whatRecipe);
 		if (!rList.isEmpty()) {
 			mv.addObject("rList", rList);
 		}
+		mv.addObject("whatRecipe",whatRecipe);
+		mv.addObject("lList", lList);
+		mv.addObject("sList", sList);
+		mv.addObject("wList", wList);
 		mv.addObject("startNavi", startNavi);
 		mv.addObject("endNavi", endNavi);
 		mv.addObject("maxPage", maxPage);
@@ -250,7 +263,7 @@ public class RecipeController {
 			}
 			// 요리순서 출력
 			List<Order> oList = rService.printAllOrder(recipeNo);
-			
+
 			// 완성사진 출력
 			List<ComPhoto> cList = rService.printAllComPhoto(recipeNo);
 			// 요리방법종류인원난이도시간출력
@@ -278,18 +291,20 @@ public class RecipeController {
 	@RequestMapping(value = "/recipe/recipeModifyView.kh", method = RequestMethod.GET)
 	public ModelAndView recipeModifyView(ModelAndView mv
 //			,@RequestParam(value="recipeNo",required=false) Integer recipeNo
-			, @RequestParam("page") Integer page, HttpSession session, HttpServletRequest request) {
+			, @RequestParam("page") Integer page
+			,@RequestParam(value="loginId" ,required =false) String loginId
+			, HttpSession session, HttpServletRequest request) {
 
 		try {
 			// 비정상적인 접근 체크
-//			String user = (String) session.getAttribute("loginUser");
-//			if(user == null) {
-//				System.out.println("수정창 로그인없이 접근");
-//				request.setAttribute("msg", "정상적인 접근이 아닙니다.");
-//				request.setAttribute("url", "/");
-//				mv.setViewName("common/alert");
-//				return mv;
-//			}
+			User user = (User) session.getAttribute("loginUser");
+			if (user == null) {
+				System.out.println("수정창 로그인없이 접근");
+				request.setAttribute("msg", "정상적인 접근이 아닙니다.");
+				request.setAttribute("url", "/");
+				mv.setViewName("common/alert");
+				return mv;
+			}
 			int recipeNo = (Integer) session.getAttribute("recipeNo");
 			System.out.println("수정페이지 진입 글번호: " + recipeNo);
 			Recipe recipe = rService.printRecipeByRNo(recipeNo);
@@ -300,6 +315,21 @@ public class RecipeController {
 			List<LargeCategory> lList = sService.printLargeCat();
 			List<SmallCategory> sList = rService.printSmallCat();
 			List<WhatRecipe> wList = rService.printWhat();
+//			이거왜안돼..?
+//			String uc = user.getUserId();
+			String rc = recipe.getUserId();
+//			System.out.println(user.getUserId());
+//			System.out.println(recipe.getUserId());
+			System.out.println(loginId);
+			System.out.println(loginId == rc);
+//			if (user.getUserId() != recipe.getUserId()) {
+//				System.out.println("수정창 작성자 아닌회원 접근");
+//				request.setAttribute("msg", "작성자만 수정할 수 있습니다..");
+//				request.setAttribute("url", "/recipe/recipeDetailView.kh?recipeNo=" + recipeNo);
+//				mv.setViewName("common/alert");
+//				return mv;
+//			}
+
 			String bundle = "이름없음";
 			// 로그인 구현되면 세션에 있는 아이디로 바꿔줘야함
 			if (!iList.isEmpty()) {
@@ -307,7 +337,7 @@ public class RecipeController {
 			}
 //			System.out.println(iList);
 			System.out.println(oList);
-			mv.addObject("bundle",bundle);
+			mv.addObject("bundle", bundle);
 			mv.addObject("wList", wList);
 			mv.addObject("lList", lList);
 			mv.addObject("sList", sList);
@@ -325,43 +355,39 @@ public class RecipeController {
 	}
 
 	@RequestMapping(value = "/recipe/recipeModify.kh", method = RequestMethod.POST)
-	public ModelAndView recipeModify(ModelAndView mv
-			, @RequestParam(value = "recipeNo", required = false) Integer recipeNo
-			, @RequestParam(value = "reuploadFile", required = false) MultipartFile reuploadFile
-			, @RequestParam(value = "reouploadFile", required = false) List<MultipartFile> reouploadFile
-			, @RequestParam(value = "recuploadFile", required = false) List<MultipartFile> recuploadFile
-			, @RequestParam("page") Integer page
-			, @ModelAttribute Recipe recipe
-			, @ModelAttribute Order order
-			, @ModelAttribute ComPhoto comPhoto
-			, @ModelAttribute Ingradient ing
-			, @ModelAttribute WhatRecipe what
-			,HttpServletRequest request) {
+	public ModelAndView recipeModify(ModelAndView mv,
+			@RequestParam(value = "recipeNo", required = false) Integer recipeNo,
+			@RequestParam(value = "reuploadFile", required = false) MultipartFile reuploadFile,
+			@RequestParam(value = "reouploadFile", required = false) List<MultipartFile> reouploadFile,
+			@RequestParam(value = "recuploadFile", required = false) List<MultipartFile> recuploadFile,
+			@RequestParam("page") Integer page, @ModelAttribute Recipe recipe, @ModelAttribute Order order,
+			@ModelAttribute ComPhoto comPhoto, @ModelAttribute Ingradient ing, @ModelAttribute WhatRecipe what,
+			HttpServletRequest request) {
 		try {
-			//파일 삭제
+			// 파일 삭제
 			String thumbnailName = reuploadFile.getOriginalFilename();
-			if(reuploadFile != null && !thumbnailName.equals("")) {
+			if (reuploadFile != null && !thumbnailName.equals("")) {
 				String root = request.getSession().getServletContext().getRealPath("resources");
 				String savedPath = root + "\\ruploadFiles";
 				File file = new File(savedPath + "\\" + recipe.getThumbnailRename());
-				if(file.exists()) {
+				if (file.exists()) {
 					file.delete();
 				}
-				//파일다시저장
+				// 파일다시저장
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyymmddhhmmss");
-				String thumbnailRename = sdf.format(new Date(System.currentTimeMillis()))+"."
-						+ thumbnailName.substring(thumbnailName.lastIndexOf(".")+1);
+				String thumbnailRename = sdf.format(new Date(System.currentTimeMillis())) + "."
+						+ thumbnailName.substring(thumbnailName.lastIndexOf(".") + 1);
 				String thumbnailpath = savedPath + "\\" + thumbnailRename;
 				reuploadFile.transferTo(new File(thumbnailpath));
 				recipe.setThumbnailName(thumbnailName);
 				recipe.setThumbnailRename(thumbnailRename);
 				recipe.setThumbnailpath(thumbnailpath);
 			}
-			//레시피저장
+			// 레시피저장
 			int result = rService.modifyRecipe(recipe);
-			//재료찢기
+			// 재료찢기
 			List<Ingradient> iList = new ArrayList<Ingradient>();
-			for(int i = 0; i<ing.getIngAmount().split(",").length;i++) {
+			for (int i = 0; i < ing.getIngAmount().split(",").length; i++) {
 				Ingradient ingredient = new Ingradient();
 				ingredient.setRecipeNo(ing.getRecipeNo());
 				ingredient.setIngNo(ing.getIngNo().split(",")[i]);
@@ -371,16 +397,16 @@ public class RecipeController {
 				ingredient.setSmallCatId(ing.getSmallCatId().split(",")[i]);
 				iList.add(ingredient);
 			}
-			//오더찢기
+			// 오더찢기
 			List<Order> oList = new ArrayList<Order>();
 			for (int i = 0; i < order.getRecipeContents().split(",").length; i++) {
 				Order ord = new Order();
 				ord.setRecipeNo(order.getRecipeNo());
 				ord.setOrederNo(order.getOrederNo().split(",")[i]);
 				ord.setRecipeContents(order.getRecipeContents().split(",")[i]);
-				//이미지파일삭제
+				// 이미지파일삭제
 				String orderPhotoName = reouploadFile.get(i).getOriginalFilename();
-				if(reouploadFile.get(i) !=null && !orderPhotoName.equals("") && !orderPhotoName.equals(" ")) {
+				if (reouploadFile.get(i) != null && !orderPhotoName.equals("") && !orderPhotoName.equals(" ")) {
 					System.out.println(1);
 					String root = request.getSession().getServletContext().getRealPath("resources");
 					String savedPath = root + "\\ruploadFiles";
@@ -389,10 +415,10 @@ public class RecipeController {
 //					if(file.exists()) {
 //						file.delete();
 //					}
-					//파일 다시저장
+					// 파일 다시저장
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyymmddhhmmss");
-					String orderPhotoRename = sdf.format(new Date(System.currentTimeMillis()))+ "ro" + i +"."
-							+ orderPhotoName.substring(thumbnailName.lastIndexOf(".")+1);
+					String orderPhotoRename = sdf.format(new Date(System.currentTimeMillis())) + "ro" + i + "."
+							+ orderPhotoName.substring(thumbnailName.lastIndexOf(".") + 1);
 					String orderPhotopath = savedPath + "\\" + orderPhotoRename;
 					reouploadFile.get(i).transferTo(new File(orderPhotopath));
 					ord.setOrderPhotoName(orderPhotoName);
@@ -401,19 +427,19 @@ public class RecipeController {
 				}
 				oList.add(ord);
 			}
-			//완성사진찢기
+			// 완성사진찢기
 			List<ComPhoto> cList = new ArrayList<ComPhoto>();
-			for( int i = 0; i< comPhoto.getComPhotoNo().split(",").length ; i++) {
+			for (int i = 0; i < comPhoto.getComPhotoNo().split(",").length; i++) {
 				ComPhoto com = new ComPhoto();
 				com.setRecipeNo(comPhoto.getRecipeNo());
 				com.setComPhotoNo(comPhoto.getComPhotoNo().split(",")[i]);
 				String comPhotoName = recuploadFile.get(i).getOriginalFilename();
-				if(recuploadFile.get(i) != null && !comPhotoName.equals("")) {
+				if (recuploadFile.get(i) != null && !comPhotoName.equals("")) {
 					String root = request.getSession().getServletContext().getRealPath("resources");
 					String savedPath = root + "\\ruploadFiles";
 					SimpleDateFormat sdf = new SimpleDateFormat("yyyymmddhhmmss");
-					String comPhotoRename = sdf.format(new Date(System.currentTimeMillis()))+ "rc" + i +"."
-							+comPhotoName.substring(comPhotoName.lastIndexOf(".")+1);
+					String comPhotoRename = sdf.format(new Date(System.currentTimeMillis())) + "rc" + i + "."
+							+ comPhotoName.substring(comPhotoName.lastIndexOf(".") + 1);
 					String comPhotopath = savedPath + "\\" + comPhotoRename;
 					recuploadFile.get(i).transferTo(new File(comPhotopath));
 					com.setComPhotoName(comPhotoName);
@@ -422,20 +448,20 @@ public class RecipeController {
 				}
 				cList.add(com);
 			}
-			for(int i = 0; i<cList.size();i++) {
+			for (int i = 0; i < cList.size(); i++) {
 				int cresult = rService.modifyCom(cList.get(i));
 			}
-			
+
 //			System.out.println(oList);
-			//재료저장
+			// 재료저장
 			for (int i = 0; i < iList.size(); i++) {
 				int iresult = rService.modifyIng(iList.get(i));
 			}
-			//요리순서 저장
+			// 요리순서 저장
 			for (int i = 0; i < oList.size(); i++) {
 				int oresult = rService.modifyOrder(oList.get(i));
 			}
-			mv.setViewName("redirect:/recipe/recipeDetailView.kh?recipeNo="+recipeNo);
+			mv.setViewName("redirect:/recipe/recipeDetailView.kh?recipeNo=" + recipeNo);
 		} catch (Exception e) {
 			e.printStackTrace();
 			mv.addObject("msg", "레시피 수정 실패").setViewName("common/errorPage");
@@ -443,10 +469,40 @@ public class RecipeController {
 
 		return mv;
 	}
-	@RequestMapping(value = "/recipe/recipeRemove.kh", method = RequestMethod.POST)
-	public ModelAndView recipeRemove(ModelAndView mv
-			, @RequestParam(value = "recipeNo", required = false) Integer recipeNo) {
-		//여기서부터
+
+	@RequestMapping(value = "/recipe/recipeRemove.kh", method = RequestMethod.GET)
+	public ModelAndView recipeRemove(ModelAndView mv,
+			@RequestParam(value = "recipeNo", required = false) Integer recipeNo, HttpSession session,
+			HttpServletRequest request) {
+
+		try {
+			String user = String.valueOf(session.getAttribute("loginUser"));
+			if (user == null) {
+				System.out.println("삭제창 로그인없이 접근");
+				request.setAttribute("msg", "작성자만 삭제할 수 있습니다.");
+				request.setAttribute("url", "/recipe/recipeDetailView.kh?recipeNo=" + recipeNo);
+				mv.setViewName("common/alert");
+				return mv;
+			}
+//			Recipe recipe = rService.printRecipeByRNo(recipeNo);
+//			if (user != recipe.getUserId()) {
+//				System.out.println("수정창 작성자 아닌회원 접근");
+//				request.setAttribute("msg", "작성자만 삭제할 수 있습니다.");
+//				request.setAttribute("url", "/recipe/recipeDetailView.kh?recipeNo=" + recipeNo);
+//				mv.setViewName("common/alert");
+//				return mv;
+//			}
+			mv.addObject("recipeNo", recipeNo);
+			int result = rService.removeRecipe(recipeNo);
+			request.setAttribute("msg", "레시피가 삭제 되었습니다.");
+			request.setAttribute("url", "/recipe/recipeList.kh");
+			mv.setViewName("common/alert");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.addObject("msg", "레시피 삭제 실패").setViewName("common/errorPage");
+		}
+
+		// 여기서부터
 		return mv;
 	}
 
@@ -492,7 +548,6 @@ public class RecipeController {
 			return "common/alert";
 		}
 	}
-
 
 	@RequestMapping(value = "/recipe/addRecipe.kh", method = RequestMethod.POST)
 	public ModelAndView addRecipeReply(ModelAndView mv, @ModelAttribute Recipe recipe, @ModelAttribute Order order,
