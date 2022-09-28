@@ -184,46 +184,138 @@ public class RecipeController {
 	@RequestMapping(value = "/recipe/recipeList.kh", method = RequestMethod.GET)
 	public ModelAndView recipeAllListView(ModelAndView mv,
 			@RequestParam(value = "category", required = false) String listValue,
-			@RequestParam(value = "page", required = false) Integer page
-			,@RequestParam(value="whatRecipe",required = false) String whatRecipe){
-		int currentPage = (page != null) ? page : 1;
-		int totalCount = rService.countAllRecipe(whatRecipe,listValue);
-		int recipeLimit = 18;
-		int naviLimit = 5;
-		int maxPage;
-		int startNavi;
-		int endNavi;
-		maxPage = (int) ((double) totalCount / recipeLimit + 0.9);
-		startNavi = ((int) ((double) currentPage / naviLimit + 0.9) - 1) * naviLimit + 1;
-		endNavi = startNavi + naviLimit - 1;
-		if (maxPage < endNavi) {
-			endNavi = maxPage;
-		}
-		// store에서 hashmap사용하면 데이터 정상 반영됨
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "whatRecipe", required = false) String whatRecipe
+			,HttpSession session) {
+
+		try {
+			System.out.println(listValue);
+			if(session.getAttribute("postingid") != null && (listValue == "" || listValue == null)) {
+				session.removeAttribute("postingid");
+				System.out.println("세션삭제");
+			}
+			String[] searching=null;
+			if(session.getAttribute("postingid") != null) {
+				searching = ((String) session.getAttribute("postingid")).split(",");;
+			System.out.println(searching);
+			}
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = rService.countAllRecipe(searching,whatRecipe, listValue);
+			int recipeLimit = 18;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int) ((double) totalCount / recipeLimit + 0.9);
+			startNavi = ((int) ((double) currentPage / naviLimit + 0.9) - 1) * naviLimit + 1;
+			endNavi = startNavi + naviLimit - 1;
+			if (maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			// store에서 hashmap사용하면 데이터 정상 반영됨
 //		System.out.println(totalCount);
-		// 요리방법종류인원난이도시간출력
-		List<WhatRecipe> wList = rService.printWhat();
-		//재료 카테고리 출력
-		List<LargeCategory> lList = sService.printLargeCat();
-		List<SmallCategory> sList = rService.printSmallCat();
-		List<Recipe> rList = rService.printAllRecipe(whatRecipe,listValue, currentPage, recipeLimit);
-		//whatNo 체크
+			// 요리방법종류인원난이도시간출력
+			List<WhatRecipe> wList = rService.printWhat();
+			// 재료 카테고리 출력
+			List<LargeCategory> lList = sService.printLargeCat();
+			List<SmallCategory> sList = rService.printSmallCat();
+			List<Recipe> rList = rService.printAllRecipe(searching,whatRecipe, listValue, currentPage, recipeLimit);
+			// whatNo 체크
 //		System.out.println(whatRecipe);
-		if (!rList.isEmpty()) {
-			mv.addObject("rList", rList);
+			if (!rList.isEmpty()) {
+				mv.addObject("rList", rList);
+			}
+			
+			mv.addObject("searching",searching);
+			mv.addObject("whatRecipe", whatRecipe);
+			mv.addObject("lList", lList);
+			mv.addObject("sList", sList);
+			mv.addObject("wList", wList);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("urlVal", "recipeList");
+			mv.addObject("listValue", listValue);
+			mv.addObject("totalCount", totalCount);
+			mv.setViewName("recipe/listView");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mv.addObject("msg", "리스 조회 실패").setViewName("common/errorPage");
 		}
-		mv.addObject("whatRecipe",whatRecipe);
-		mv.addObject("lList", lList);
-		mv.addObject("sList", sList);
-		mv.addObject("wList", wList);
-		mv.addObject("startNavi", startNavi);
-		mv.addObject("endNavi", endNavi);
-		mv.addObject("maxPage", maxPage);
-		mv.addObject("currentPage", currentPage);
-		mv.addObject("urlVal", "recipeList");
-		mv.addObject("listValue", listValue);
-		mv.addObject("totalCount", totalCount);
-		mv.setViewName("recipe/listView");
+
+		return mv;
+	}
+
+	@RequestMapping(value = "/recipe/searchIng.kh", method = RequestMethod.POST)
+	public ModelAndView searchIng(ModelAndView mv,
+			@RequestParam(value = "postingid", required = false) String postingid,
+			@RequestParam(value = "category", required = false) String listValue,
+			@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "whatRecipe", required = false) String whatRecipe, 
+			HttpServletRequest request,
+			HttpSession session) {
+		try {
+			
+			//지호님 레시피 검색 참고
+			
+			//재료목록 null 체크
+//			System.out.println(postingid);
+//			System.out.println(1);
+			if (postingid == "") {
+				request.setAttribute("msg", "입력값이 없습니다.");
+				request.setAttribute("url", "/recipe/recipeList.kh");
+				mv.setViewName("common/alert");
+				return mv;
+			}
+			
+//			System.out.println(2);
+			String[] searching = postingid.split(",");
+//			System.out.println(3);
+			session.setAttribute("postingid", postingid);
+//			if(session.getAttribute("postingid") == null) {
+//				System.out.println(4);
+//			}
+			int currentPage = (page != null) ? page : 1;
+			int totalCount = rService.countAllRecipe(searching, whatRecipe, listValue);
+			int recipeLimit = 18;
+			int naviLimit = 5;
+			int maxPage;
+			int startNavi;
+			int endNavi;
+			maxPage = (int) ((double) totalCount / recipeLimit + 0.9);
+			startNavi = ((int) ((double) currentPage / naviLimit + 0.9) - 1) * naviLimit + 1;
+			endNavi = startNavi + naviLimit - 1;
+			if (maxPage < endNavi) {
+				endNavi = maxPage;
+			}
+			// 요리방법종류인원난이도시간출력
+			List<WhatRecipe> wList = rService.printWhat();
+			// 재료 카테고리 출력
+			List<LargeCategory> lList = sService.printLargeCat();
+			List<SmallCategory> sList = rService.printSmallCat();
+			List<Recipe> rList = rService.printAllRecipe(searching,whatRecipe, listValue, currentPage, recipeLimit);
+			
+			if (!rList.isEmpty()) {
+				mv.addObject("rList", rList);
+			}
+			mv.addObject("searching",searching);
+			mv.addObject("whatRecipe", whatRecipe);
+			mv.addObject("lList", lList);
+			mv.addObject("sList", sList);
+			mv.addObject("wList", wList);
+			mv.addObject("startNavi", startNavi);
+			mv.addObject("endNavi", endNavi);
+			mv.addObject("maxPage", maxPage);
+			mv.addObject("currentPage", currentPage);
+			mv.addObject("urlVal", "recipeList");
+			mv.addObject("listValue", listValue);
+			mv.addObject("totalCount", totalCount);
+			mv.setViewName("recipe/listView");
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 
 		return mv;
 	}
@@ -291,9 +383,8 @@ public class RecipeController {
 	@RequestMapping(value = "/recipe/recipeModifyView.kh", method = RequestMethod.GET)
 	public ModelAndView recipeModifyView(ModelAndView mv
 //			,@RequestParam(value="recipeNo",required=false) Integer recipeNo
-			, @RequestParam("page") Integer page
-			,@RequestParam(value="loginId" ,required =false) String loginId
-			, HttpSession session, HttpServletRequest request) {
+			, @RequestParam("page") Integer page, @RequestParam(value = "loginId", required = false) String loginId,
+			HttpSession session, HttpServletRequest request) {
 
 		try {
 			// 비정상적인 접근 체크
@@ -353,7 +444,8 @@ public class RecipeController {
 		}
 		return mv;
 	}
-	//레시피수정
+
+	// 레시피수정
 	@RequestMapping(value = "/recipe/recipeModify.kh", method = RequestMethod.POST)
 	public ModelAndView recipeModify(ModelAndView mv,
 			@RequestParam(value = "recipeNo", required = false) Integer recipeNo,

@@ -23,9 +23,9 @@ public interface RecipeStore {
 
 	public int insertComPhoto(SqlSession session, ComPhoto comPhoto);
 
-	public List<Recipe> selectAllRecipe(SqlSession session, String whatRecipe, String listValue, int currentPage, int Limit);
+	public List<Recipe> selectAllRecipe(SqlSession session,String[] searching, String whatRecipe, String listValue, int currentPage, int Limit);
 
-	public int selectCountAllRecipe(SqlSession session,String whatRecipe, String listValue);
+	public int selectCountAllRecipe(SqlSession session,String[] searching,String whatRecipe, String listValue);
 
 	public Recipe selectOneByRecipeNo(SqlSession session, Integer recipeNo);
 

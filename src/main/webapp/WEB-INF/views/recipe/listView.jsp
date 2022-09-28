@@ -5,12 +5,13 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/views/main/user_navs.jsp"></jsp:include>
+<script src="../../../resources/js/jquery-3.6.1.min.js"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>레시피 리스트</title>
 <link rel="stylesheet" href="../resources/rcss/listView.css">
 <script type="module" src="../resources/multibox/multi-checkbox.js"></script>
 <style type="text/css">
@@ -41,7 +42,14 @@ div{
 	color: #000;
 	
 }
+.iaddspec{
+	padding: 1%;
+	color: #000;	
+}
 
+.iaddspec:hover{
+	color: rgb(209, 24, 79);	
+}
 
 .searchzone > div>div>p>a:hover{
 	color: rgb(209, 24, 79);
@@ -107,7 +115,9 @@ border-color:rgb(209, 24, 79)
 #titlediv {
 	border-bottom: 1px solid #aaa;
 }
-
+.btn-group{
+	padding-left: 50px;
+}
 </style>
 </head>
 <body class="bg-light vsc-initialized">
@@ -169,8 +179,8 @@ border-color:rgb(209, 24, 79)
 						
 						<div class="ing col-md-1">
 							<!-- <p class="sel fs-9"> -->
-								<select class="select form-select-sm" id="theme" name="smallCatId" id="smallCatId${k.index +1}" required="">
-									<option>${largeCat.largeCatName}</option>	
+								<select class="select form-select-sm" name="categorySelect" id="categorySelect" multiple size="3" onchange="saveIng(this)">
+									<option disabled>${largeCat.largeCatName}</option>	
 									<hr>
 									<c:forEach items="${sList }" var="smallCat" varStatus="k">
 										<c:if test="${largeCat.largeCatId eq smallCat.largeCatId}">
@@ -190,8 +200,18 @@ border-color:rgb(209, 24, 79)
 				<div class="cg col-md-1">
 					<p class="sel fs-6"><b>선택재료</b></p>
 				</div>
-				<div class="iaddzone col-md-10">
-					sdf
+				<div class="iaddzone col-md-7">
+					<p class="sel fs-6"  id="iaddzone">
+					</p>
+				</div>
+				<div class="bb col-md-3">
+					<div class="btn-group" role="group" aria-label="Basic mixed styles example">
+						<form action="/recipe/searchIng.kh" method="post">
+						<button type="button" class="btn btn-danger" onclick="location.href='/recipe/recipeList.kh'">초기화</button>
+						<input type="hidden" value="" id="postingid" name="postingid">
+						<button type="submit" class="btn btn-warning" onclick="ingRecipeSearch()">검색</button>
+					</form>
+					  </div>
 				</div>
 			</div>
 
@@ -199,15 +219,23 @@ border-color:rgb(209, 24, 79)
 
 		</div>
 		<div class="row" id="titlediv">
+			<div class="row">
+				<div class="col-md-12">
+					
+					
+				</div>
+			</div>
 		<div class="col-md-8">
-		<h2> 총 <span style="border: #ccc">${totalCount }</span>개의 레시피가 있습니다.</h2>
+		<h2> 총 <span style="border: #ccc">${totalCount }</span>개의 레시피가 있습니다.${sessionScope.postingid == null}</h2>
 		</div>
 		<div class="r col-md-4" id="gogo">
-			<form action="/recipe/recipeList.kh" method="get">
-				<a class="btn btn-outline-secondary" href="/recipe/recipeList.kh?whatRecipe=${whatRecipe}&category=" name="category" value="">최신순</a>
-				<a class="btn btn-outline-secondary" href="/recipe/recipeList.kh?whatRecipe=${whatRecipe}&category=countView" name="category" value="countView">조회수순</a>
-				<a class="btn btn-outline-secondary" href="/recipe/recipeList.kh?whatRecipe=${whatRecipe}&category=likeView" name="category" value="likeView">좋아요순 </a>
-			</form>
+			
+				<form action="/recipe/recipeList.kh" method="get">
+					<a class="btn btn-outline-secondary" href="/recipe/recipeList.kh?whatRecipe=${whatRecipe}&category=all" name="category" value="all">최신순</a>
+					<a class="btn btn-outline-secondary" href="/recipe/recipeList.kh?whatRecipe=${whatRecipe}&category=countView" name="category" value="countView">조회수순</a>
+					<a class="btn btn-outline-secondary" href="/recipe/recipeList.kh?whatRecipe=${whatRecipe}&category=likeView" name="category" value="likeView">좋아요순 </a>
+				</form>
+			
 		</div>
 	</div>	
 		<div class="fixed_img_col" align="center">
@@ -258,7 +286,54 @@ border-color:rgb(209, 24, 79)
 <jsp:include page="/WEB-INF/views/main/footer.jsp"></jsp:include>
 </footer>
 <script>
-
+	//jstl 재료목록 js 배열화
+	var count = 0;
+	var smallidlist= new Array();
+	const smallCat = new Array();
+	<c:forEach items="${sList }" var="smallCat" varStatus="i">
+		smallCat.push({
+			smallCatId : "${smallCat.smallCatId}",
+			smallCatName : "${smallCat.smallCatName}"
+		});
+	</c:forEach>
+	
+	//재료목록 선택시 선택재료 추가
+	function saveIng(ingCode){
+		console.log(smallCat[0].smallCatId == $(ingCode).val());
+		// console.log(document.getElementById('categorySelect').value())
+		// if()
+		// document.getElementsByClassName('.iaddzone').innerText = $(ingCode).val();
+		// array.forEach(element => {
+		
+		// });
+		console.log(count)
+		if(count >= 10){
+			alert("10개까지 넣을 수 있습니다.")
+		}
+		var form = document.getElementById("iaddzone");
+		var s = $(ingCode).val().toString()
+		if(count <10){
+			smallCat.forEach(function(item,index) {
+				if(item.smallCatId == $(ingCode).val()){
+					form.innerHTML += '<span class="iaddspec"><b>➕'+item.smallCatName+'</b></span>'
+					smallidlist.push(item.smallCatId)
+				}
+			});
+			console.log(smallidlist)
+			count++;
+		}
+		$("#postingid").val(smallidlist);
+	}		
+	// function ingRecipeSearch(){
+	// 	if(smallidlist == ""){
+	// 		alert("값이없습니다");
+	// 		location.href="/recipe/recipeList.kh"
+	// 	}
+	// 	if(smallidlist != ""){
+	// 		action="/recipe/searchIng.kh"
+	// 	}
+	// 	console.log(smallidlist == "")
+	// }
 	
 </script>
 </body>

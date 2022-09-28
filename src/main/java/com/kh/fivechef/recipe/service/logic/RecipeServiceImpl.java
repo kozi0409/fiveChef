@@ -47,14 +47,14 @@ public class RecipeServiceImpl implements RecipeService{
 	}
 
 	@Override
-	public List<Recipe> printAllRecipe(String whatRecipe,String listValue, int currentPage, int limit) {
-		List<Recipe> rList=rStore.selectAllRecipe(session,whatRecipe, listValue,currentPage,limit);
+	public List<Recipe> printAllRecipe(String[] searching,String whatRecipe,String listValue, int currentPage, int limit) {
+		List<Recipe> rList=rStore.selectAllRecipe(session,searching,whatRecipe, listValue,currentPage,limit);
 		return rList;
 	}
 
 	@Override
-	public int countAllRecipe(String whatRecipe, String listValue) {
-		int count = rStore.selectCountAllRecipe(session,whatRecipe, listValue);
+	public int countAllRecipe(String[] searching,String whatRecipe, String listValue) {
+		int count = rStore.selectCountAllRecipe(session, searching,whatRecipe, listValue);
 		return count;
 	}
 

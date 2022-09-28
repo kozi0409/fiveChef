@@ -84,40 +84,90 @@
 		INSERT INTO COMPHOTO_TBL
 		VALUES(COMPHOTO_NO_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{comPhotoName},#{comPhotoRename},#{comPhotopath})
 	</insert>
+	
+	
+	<!-- 리스트 출력 매퍼 -->
 	<select id="selectAllRecipe" resultMap="recipeResultMap">
 		SELECT * FROM RECIPE_TBL
-		<if test="whatRecipe != null and whatRecipe !=''">
-			WHERE R_STATUS = 'Y' AND TYPE_CATEGORY = #{whatRecipe} or WAY_CATEGORY = #{whatRecipe} 
-		</if>
-		<if test="whatRecipe == null || whatRecipe == ''">
-			WHERE R_STATUS = 'Y'
-		</if>
 		<choose>
-			<when test="category == 'countView'">
-				ORDER BY RECIPE_COUNT DESC
-			</when>
-			<when test="category == 'likeView'">
-				ORDER BY RECIPE_LIKE_COUNT DESC
+			<when test="searching != null">
+			WHERE RECIPE_NO IN (SELECT DISTINCT RECIPE_NO FROM INGRADIENT_TBL WHERE SMALL_CAT_ID IN
+				<foreach collection="searching" item="arr" open="(" close=")" separator=",">
+				 	#{arr}
+				</foreach>
+				)
+				AND R_STATUS = 'Y' 
+				<choose>
+					<when test="category == 'countView'">
+						ORDER BY RECIPE_COUNT DESC
+					</when>
+					<when test="category == 'likeView'">
+						ORDER BY RECIPE_LIKE_COUNT DESC
+					</when>
+					<otherwise>
+						ORDER BY R_CREATE_DATE DESC
+					</otherwise>
+				</choose>
 			</when>
 			<otherwise>
-				ORDER BY R_CREATE_DATE DESC
+				<if test="whatRecipe != null and whatRecipe !=''">
+					WHERE R_STATUS = 'Y' AND TYPE_CATEGORY = #{whatRecipe} or WAY_CATEGORY = #{whatRecipe} 
+				</if>
+				<if test="whatRecipe == null || whatRecipe == ''">
+					WHERE R_STATUS = 'Y'
+				</if>
+				<choose>
+					<when test="category == 'countView'">
+						ORDER BY RECIPE_COUNT DESC
+					</when>
+					<when test="category == 'likeView'">
+						ORDER BY RECIPE_LIKE_COUNT DESC
+					</when>
+					<otherwise>
+						ORDER BY R_CREATE_DATE DESC
+					</otherwise>
+				</choose>
 			</otherwise>
 		</choose>
 	</select>
+	
+	
+	
+	<!-- 리스트 카운트 -->
 	<select id="selectCountAllRecipe" resultType="_int">
 		<!-- 숫자하나 가져올땐 resultType 으로 처리 -->
 		SELECT COUNT(*) FROM RECIPE_TBL 
-		<if test="whatRecipe != null and whatRecipe !=''">
-			WHERE R_STATUS = 'Y' AND ( TYPE_CATEGORY = #{whatRecipe} or WAY_CATEGORY = #{whatRecipe} )
-		</if>
-		<if test="whatRecipe == null || whatRecipe == ''">
-			WHERE R_STATUS = 'Y'
-		</if>
+		<choose>
+			<when test="searching != null">
+			WHERE RECIPE_NO IN (SELECT DISTINCT RECIPE_NO FROM INGRADIENT_TBL WHERE SMALL_CAT_ID IN
+				<foreach collection="searching" item="arr" open="(" close=")" separator=",">
+				 	#{arr}
+				</foreach>
+				)
+				AND R_STATUS = 'Y' 
+			</when>
+			<otherwise>
+				<if test="whatRecipe != null and whatRecipe !=''">
+					WHERE R_STATUS = 'Y' AND TYPE_CATEGORY = #{whatRecipe} or WAY_CATEGORY = #{whatRecipe} 
+				</if>
+				<if test="whatRecipe == null || whatRecipe == ''">
+					WHERE R_STATUS = 'Y'
+				</if>
+			</otherwise>
+		</choose>
+
 	</select>
+	
+	
+	
+	
 	<select id="selectOneByRecipeNo" resultMap="recipeResultMap">
 		SELECT * FROM
 		RECIPE_TBL WHERE RECIPE_NO = #{recipeNo}
 	</select>
+	
+	
+	
 	<select id="selectAllIng" resultMap="ingredientResultMap">
 		SELECT * FROM INGRADIENT_TBL
 		A JOIN SMALL_CATEGORY B ON A.SMALL_CAT_ID =
