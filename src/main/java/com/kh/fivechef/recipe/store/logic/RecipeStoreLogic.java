@@ -52,10 +52,11 @@ public class RecipeStoreLogic implements RecipeStore{
 	}
 
 	@Override
-	public List<Recipe> selectAllRecipe(SqlSession session,String whatRecipe, String listValue, int currentPage, int limit) {
-		HashMap<String, String> paramMap = new HashMap<String, String>();
+	public List<Recipe> selectAllRecipe(SqlSession session,String[] searching,String whatRecipe, String listValue, int currentPage, int limit) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("category", listValue);
 		paramMap.put("whatRecipe",whatRecipe);
+		paramMap.put("searching",searching);
 		int offset=(currentPage-1)*limit;
 		RowBounds rowBounds = new RowBounds(offset,limit);
 		List<Recipe> rList = session.selectList("RecipeMapper.selectAllRecipe",paramMap,rowBounds);
@@ -63,10 +64,11 @@ public class RecipeStoreLogic implements RecipeStore{
 	}
 
 	@Override
-	public int selectCountAllRecipe(SqlSession session,String whatRecipe, String listValue) {
-		HashMap<String, String> paramMap = new HashMap<String, String>();
+	public int selectCountAllRecipe(SqlSession session,String[] searching,String whatRecipe, String listValue) {
+		HashMap<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("category", listValue);
 		paramMap.put("whatRecipe",whatRecipe);
+		paramMap.put("searching",searching);
 		int count = session.selectOne("RecipeMapper.selectCountAllRecipe",paramMap);
 		return count;
 	}
