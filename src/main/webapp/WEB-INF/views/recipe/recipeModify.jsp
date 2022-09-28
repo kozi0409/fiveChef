@@ -318,13 +318,13 @@ textarea.form-controls {
 								</div>
 								<div id="ingHidden">
 									<select class="form-select" name="largeCatId" id="largeCatId"
-										onchange="setOpt(this)" required="">
+										onchange="setOpt(this)" >
 										<option value="" selected="selected">대분류 선택</option>
 										<c:forEach items="${lList }" var="largeCat" varStatus="i">
 											<option id="largeCatOpt" value="${largeCat.largeCatId }">${largeCat.largeCatName }</option>
 										</c:forEach>
 									</select> <select class="form-select" name="smallCatId" id="smallCatId"
-										required="">
+										>
 										<option value="" selected>재료선택</option>
 										<c:forEach items="${sList }" var="smallCat" varStatus="i">
 											<option value="${smallCat.smallCatId }"

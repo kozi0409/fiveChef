@@ -23,9 +23,9 @@ public interface RecipeStore {
 
 	public int insertComPhoto(SqlSession session, ComPhoto comPhoto);
 
-	public List<Recipe> selectAllRecipe(SqlSession session, String listValue, int currentPage, int Limit);
+	public List<Recipe> selectAllRecipe(SqlSession session, String whatRecipe, String listValue, int currentPage, int Limit);
 
-	public int selectCountAllRecipe(SqlSession session);
+	public int selectCountAllRecipe(SqlSession session,String whatRecipe, String listValue);
 
 	public Recipe selectOneByRecipeNo(SqlSession session, Integer recipeNo);
 
@@ -66,6 +66,8 @@ public interface RecipeStore {
 	public int updateOrder(SqlSession session, Order order);
 
 	public int updateCom(SqlSession session, ComPhoto comPhoto);
+
+	public int removeRecipeUpdate(SqlSession session, Integer recipeNo);
 
 
 

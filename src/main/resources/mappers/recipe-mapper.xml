@@ -85,8 +85,13 @@
 		VALUES(COMPHOTO_NO_SEQ.NEXTVAL,RECIPE_NO_SEQ.CURRVAL,#{comPhotoName},#{comPhotoRename},#{comPhotopath})
 	</insert>
 	<select id="selectAllRecipe" resultMap="recipeResultMap">
-		SELECT * FROM RECIPE_TBL WHERE R_STATUS = 'Y'
-
+		SELECT * FROM RECIPE_TBL
+		<if test="whatRecipe != null and whatRecipe !=''">
+			WHERE R_STATUS = 'Y' AND TYPE_CATEGORY = #{whatRecipe} or WAY_CATEGORY = #{whatRecipe} 
+		</if>
+		<if test="whatRecipe == null || whatRecipe == ''">
+			WHERE R_STATUS = 'Y'
+		</if>
 		<choose>
 			<when test="category == 'countView'">
 				ORDER BY RECIPE_COUNT DESC
@@ -101,7 +106,13 @@
 	</select>
 	<select id="selectCountAllRecipe" resultType="_int">
 		<!-- 숫자하나 가져올땐 resultType 으로 처리 -->
-		SELECT COUNT(*) FROM RECIPE_TBL
+		SELECT COUNT(*) FROM RECIPE_TBL 
+		<if test="whatRecipe != null and whatRecipe !=''">
+			WHERE R_STATUS = 'Y' AND ( TYPE_CATEGORY = #{whatRecipe} or WAY_CATEGORY = #{whatRecipe} )
+		</if>
+		<if test="whatRecipe == null || whatRecipe == ''">
+			WHERE R_STATUS = 'Y'
+		</if>
 	</select>
 	<select id="selectOneByRecipeNo" resultMap="recipeResultMap">
 		SELECT * FROM
@@ -202,6 +213,11 @@
 	<update id="updateCom">
 		UPDATE COMPHOTO_TBL SET COMPHOTO_NAME=#{comPhotoName},COMPHOTO_RENAME=#{comPhotoRename},COMPHOTO_PATH=#{comPhotopath}
 		WHERE RECIPE_NO=#{recipeNo} AND COMPHOTO_NO=#{comPhotoNo}
+	</update>
+	
+	<!-- delete -->
+	<update id="removeRecipeUpdate">
+		UPDATE RECIPE_TBL SET R_STATUS = 'N' WHERE RECIPE_NO = #{recipeNo}
 	</update>
 
 </mapper>
