@@ -320,7 +320,7 @@ textarea.form-controls {
 				}
 			}
 		}
-		
+		// 민석님
 		function list_selected(e) {
 			const selsList = [];
 // 			const texts = [];
