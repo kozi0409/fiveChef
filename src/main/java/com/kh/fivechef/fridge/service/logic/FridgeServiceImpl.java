@@ -31,8 +31,8 @@ public class FridgeServiceImpl implements FridgeService{
 	}
 
 	@Override
-	public List<Fridge> printAllFridge() {
-		List<Fridge> fList = fStore.selectAllFridge(session);
+	public List<Fridge> printAllFridge(String userId) {
+		List<Fridge> fList = fStore.selectAllFridge(session, userId);
 		return fList;
 	}
 

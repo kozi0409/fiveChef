@@ -71,6 +71,20 @@ public class StorageServiceImpl implements StorageService {
 		return result;
 	}
 
+
+	@Override
+	public int registIngred(Storage storage) {
+		int result = sStore.updateIngred(session, storage);
+		return result;
+	}
+
+
+	@Override
+	public Storage printIngred(Integer fridgeNo) {
+		Storage iBundle = sStore.selectIngred(session, fridgeNo);
+		return iBundle;
+	}
+
 		
 	
 	

@@ -21,17 +21,22 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.fivechef.fridge.domain.Fridge;
 import com.kh.fivechef.fridge.service.FridgeService;
+import com.kh.fivechef.user.domain.User;
+import com.kh.fivechef.user.service.UserService;
 
 
 @Controller
 public class FridgeController {
 	@Autowired
 	private FridgeService fService;
+	@Autowired
+	private UserService uService;
 	
 //	@RequestMapping(value="/fridge/myFridge.kh", method=RequestMethod.GET)
 //	public String showMyFridge() {
 //		return "fridge/myFridge";
 //	}
+	
 	
 	// 냉장고 등록
 	@PostMapping("/fridge/register.kh")
@@ -40,6 +45,9 @@ public class FridgeController {
 			, @RequestParam(value="uploadProfile", required=false) MultipartFile uploadFile
 			, HttpServletRequest request) {
 		try {
+			HttpSession session = request.getSession();
+			User user = (User)session.getAttribute("loginUser");
+			fridge.setUserId(user.getUserId());
 			String fridgeFilename = uploadFile.getOriginalFilename();
 			if(!fridgeFilename.equals("")) {
 				//////////////////////////////////////////////////////////////////////경로, 파일이름 설정
@@ -63,7 +71,7 @@ public class FridgeController {
 			}
 			int result = fService.registerFridge(fridge);
 			System.out.println(result);
-			mv.setViewName("redirect:/");
+			mv.setViewName("redirect:/fridge/myFridge.kh");
 		} catch (Exception e) {
 			mv.addObject("msg", e.getMessage());
 			mv.setViewName("common/errorPage");
@@ -73,19 +81,31 @@ public class FridgeController {
 	
 	// 냉장고 조회
 	@RequestMapping(value="/fridge/myFridge.kh", method=RequestMethod.GET)
-	public ModelAndView fridgeListView(ModelAndView mv) {
-		List<Fridge> fList = fService.printAllFridge();
-		boolean checkYn = false;
-		if(fList.size() <= 3) {
-			checkYn = true;
-		} else if(fList.size() == 0) {
-			checkYn = true;
+	public ModelAndView fridgeListView(ModelAndView mv, HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		User user = (User)session.getAttribute("loginUser");
+		if(user != null) {
+			String userId = user.getUserId();
+			User uOne = uService.printOneUser(userId);
+			mv.addObject("user", uOne);
+			List<Fridge> fList = fService.printAllFridge(userId);
+			boolean checkYn = false;
+			if(fList.size() <= 3) {
+				checkYn = true;
+			} else if(fList.size() == 0) {
+				checkYn = true;
+			}
+			if(!fList.isEmpty()) {
+				mv.addObject("fList", fList);
+				mv.addObject("checkYn", checkYn);
+			}
+			mv.setViewName("fridge/myFridge");
+			
+		} else {
+			request.setAttribute("msg", "로그인후 이용 가능한 서비스입니다.");
+			request.setAttribute("url", "/user/loginView.kh");
+			mv.setViewName("common/alert");
 		}
-		if(!fList.isEmpty()) {
-			mv.addObject("fList", fList);
-			mv.addObject("checkYn", checkYn);
-		}
-		mv.setViewName("fridge/myFridge");
 		return mv;
 	}
 	
@@ -116,7 +136,7 @@ public class FridgeController {
 			}
 			System.out.println(fridge);
 			int result = fService.modifyFridge(fridge);
-			mv.setViewName("redirect:/");
+			mv.setViewName("redirect:/fridge/myFridge.kh");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString()).setViewName("common/errorPage");
 		}
@@ -134,7 +154,7 @@ public class FridgeController {
 			int result = fService.removeOneByNo(fridgeNo);
 			if(result > 0) {
 				session.removeAttribute("fridgeNo");
-				mv.setViewName("redirect:/");
+				mv.setViewName("redirect:/fridge/myFridge.kh");
 			}
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
