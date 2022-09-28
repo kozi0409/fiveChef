@@ -90,4 +90,8 @@
 		UPDATE STORAGE_TBL SET INGRED_BUNDLE = INGRED_BUNDLE||','||#{ingredBundle}
  		WHERE FRIDGE_NO = #{fridgeNo} AND STORAGE_NO = #{storageNo} AND STORAGE_SELECT_NO = #{storageSelectNo}
  	</update>
+ 	<update id="deleteIngred">
+ 		UPDATE STORAGE_TBL SET INGRED_BUNDLE = null
+ 		WHERE FRIDGE_NO = #{fridgeNo} AND STORAGE_NO = #{storageNo} AND STORAGE_SELECT_NO = #{storageSelectNo}
+ 	</update>
  </mapper>

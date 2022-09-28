@@ -19,4 +19,5 @@ public interface StorageStore {
 	public int updateStorage(SqlSession session, Storage storage);
 	public int updateIngred(SqlSession session, Storage storage);
 	public Storage selectIngred(SqlSession session, Integer fridgeNo);
+	public int deleteIngred(SqlSession session, Storage storage);
 }

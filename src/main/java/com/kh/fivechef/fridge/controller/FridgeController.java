@@ -115,6 +115,9 @@ public class FridgeController {
 			, @RequestParam(value="reloadFile", required=false) MultipartFile reloadFile
 			, HttpServletRequest request) {
 		try {
+			HttpSession session = request.getSession();
+			User user = (User)session.getAttribute("loginUser");
+			fridge.setUserId(user.getUserId());
 			String fridgeFilename = reloadFile.getOriginalFilename();
 			if(reloadFile != null && !fridgeFilename.equals("")) {
 				// 수정, 1. 대체(replace) / 2. 삭제 후 등록  // 2번이 편함
@@ -134,7 +137,6 @@ public class FridgeController {
 				fridge.setFridgeFileRename(fridgeFileRename);
 				fridge.setFridgeFilepath(fridgeFilepath);
 			}
-			System.out.println(fridge);
 			int result = fService.modifyFridge(fridge);
 			mv.setViewName("redirect:/fridge/myFridge.kh");
 		} catch (Exception e) {
