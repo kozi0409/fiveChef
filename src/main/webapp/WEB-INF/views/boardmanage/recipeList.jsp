@@ -16,28 +16,28 @@
 	<div class="table-responsive">
 	<p align="center" style="color: #46D2D2; font-size:34px; font-family:malgun gothic;">[ 레시피 게시판 관리 ]<p>
 	<table align="center" border="1" width="" class="table table-hover">
-		<tr> <!-- class="table-info" -->
-			<td colspan="6" align="center">
-				<form action="/recipemanage/search.kh" method="get">
-				<div align="center">
-					<div style="display:inline-block;">
-						<select name="searchCondition" class="btn btn-info">
-							<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option>
-							<option value="writer" <c:if test="${searchCondition eq 'writer' }">selected</c:if>>작성자</option>
-							<option value="title" <c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option>
-							<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option>
-						</select>
-					</div>
-					<div style="display:inline-block;">
-						<input style="width:300px;" type="text" name="searchValue" value="${searchValue}">
-					</div>
-					<div style="display:inline-block;">
-						<input type="submit" value="검색" class="btn btn-info">
-					</div>
-					</div>
-				</form>
-			</td>
-		</tr>
+<!-- 		<tr> class="table-info" -->
+<!-- 			<td colspan="6" align="center"> -->
+<!-- 				<form action="/recipemanage/search.kh" method="get"> -->
+<!-- 				<div align="center"> -->
+<!-- 					<div style="display:inline-block;"> -->
+<!-- 						<select name="searchCondition" class="btn btn-info"> -->
+<%-- 							<option value="all" <c:if test="${searchCondition eq 'all' }">selected</c:if>>전체</option> --%>
+<%-- 							<option value="writer" <c:if test="${searchCondition eq 'writer' }">selected</c:if>>작성자</option> --%>
+<%-- 							<option value="title" <c:if test="${searchCondition eq 'title' }">selected</c:if>>제목</option> --%>
+<%-- 							<option value="contents" <c:if test="${searchCondition eq 'contents' }">selected</c:if>>내용</option> --%>
+<!-- 						</select> -->
+<!-- 					</div> -->
+<!-- 					<div style="display:inline-block;"> -->
+<%-- 						<input style="width:300px;" type="text" name="searchValue" value="${searchValue}"> --%>
+<!-- 					</div> -->
+<!-- 					<div style="display:inline-block;"> -->
+<!-- 						<input type="submit" value="검색" class="btn btn-info"> -->
+<!-- 					</div> -->
+<!-- 					</div> -->
+<!-- 				</form> -->
+<!-- 			</td> -->
+<!-- 		</tr> -->
 		<tr align="center">
 			<th width="80">번호</th>
 			<th width="80">게시판</th>
