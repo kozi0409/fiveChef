@@ -110,7 +110,7 @@ public class CommunityStoreLogic implements CommunityStore{
 	public int selectTotalSCount(SqlSessionTemplate session, String searchCondition, String searchValue) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
-		paramMap.put("searchValud", searchValue);
+		paramMap.put("searchValue", searchValue);
 		int totalSCount = session.selectOne("CommunityMapper.selectTotalSCount", paramMap);
 		return totalSCount;
 	}
@@ -139,7 +139,7 @@ public class CommunityStoreLogic implements CommunityStore{
 	public int selectTotalCount(SqlSessionTemplate session, String searchCondition, String searchValue) {
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("searchCondition", searchCondition);
-		paramMap.put("searchValud", searchValue);
+		paramMap.put("searchValue", searchValue);
 		int totalCount = session.selectOne("CommunityMapper.selectTotalCount", paramMap);
 		return totalCount;
 	}

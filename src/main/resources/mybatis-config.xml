@@ -30,7 +30,8 @@
 		<mapper resource="mappers/user-mapper.xml"></mapper>
 		<mapper resource="mappers/qna-mapper.xml"></mapper>
 		<mapper resource="mappers/community-mapper.xml"></mapper>
-		<mapper resource="mappers/postmanage-mapper.xml"></mapper>
+		<mapper resource="mappers/boardmanage-mapper.xml"></mapper>
 		<mapper resource="mappers/replymanage-mapper.xml"></mapper>
+		<mapper resource="mappers/userNotice-mapper.xml"></mapper>
 	</mappers>
 </configuration>

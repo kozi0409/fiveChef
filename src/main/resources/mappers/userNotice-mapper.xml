@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <!-- 나는 맵퍼다 선언 -->
+ <mapper namespace="UserNoticeMapper">
+  	<resultMap type="Notice" id="userNoticeResultMap">
+ 		<id 	property="noticeNo" 		column="NOTICE_NO"/>
+  		<result property="noticeTitle" 		column="NOTICE_TITLE"/>
+		<result property="noticeContents" 	column="NOTICE_CONTENTS"/>
+  		<result property="noticeWriter" 	column="NOTICE_WRITER"/>
+  		<result property="noticeFilename"	column="NOTICE_FILENAME"/>
+  		<result property="noticeFileRename" column="NOTICE_FILERENAME"/>
+  		<result property="noticeFilepath" 	column="NOTICE_FILEPATH"/>
+  		<result property="noticeCount" 		column="NOTICE_COUNT"/>
+  		<result property="nCreateDate" 		column="N_CREATE_DATE"/>
+  		<result property="nUpdateDate" 		column="N_UPDATE_DATE"/>
+  		<result property="nStatus" 			column="N_STATUS"/>
+ 	</resultMap>
+ 	
+ 	<select id="selectTotalCount" resultType="_int">
+  		SELECT COUNT(*) FROM NOTICE_TBL WHERE N_STATUS = 'Y'
+  	</select>
+  	
+  	<select id="selectAllNotice" resultMap="userNoticeResultMap">
+  		SELECT * FROM NOTICE_TBL WHERE N_STATUS = 'Y' ORDER BY NOTICE_NO DESC
+  	</select>
+  	
+  	<select id="selectOneByNo" resultMap="userNoticeResultMap">
+  		SELECT * FROM NOTICE_TBL WHERE NOTICE_NO = #{noticeNo } AND N_STATUS = 'Y' 
+  	</select>
+  	
+  	<update id="updateCount">
+		UPDATE NOTICE_TBL SET NOTICE_COUNT = NOTICE_COUNT + 1 WHERE NOTICE_NO = #{noticeNo}
+	</update>
+ </mapper>

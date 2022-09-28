@@ -78,9 +78,9 @@
 		<div style="display : inline-block">    
             <select name = "searchCondition">
                 <option value="all" <c:if test="${searchCondition eq 'all'}">select</c:if>>전체</option>
-                <option value="writer" <c:if test="${searchCondition eq 'all'}">select</c:if>>작성자</option>
-                <option value="title" <c:if test="${searchCondition eq 'all'}">select</c:if>>제목</option>
-                <option value="contents" <c:if test="${searchCondition eq 'all'}">select</c:if>>내용</option>
+                <option value="writer" <c:if test="${searchCondition eq 'writer'}">select</c:if>>작성자</option>
+                <option value="title" <c:if test="${searchCondition eq 'title'}">select</c:if>>제목</option>
+                <option value="contents" <c:if test="${searchCondition eq 'contents'}">select</c:if>>내용</option>
             </select>
         </div> 		
         <div style="display : inline-block">
