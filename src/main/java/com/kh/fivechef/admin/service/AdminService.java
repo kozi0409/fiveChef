@@ -40,6 +40,10 @@ public interface AdminService {
 	public int removeOneByUserId(String userId);
 	//관리자가 회원정보 수정
 	public int modifyUser(User user);
+	//관지라 ID찾기
+	public Admin findAdminId(String adminEmail);
+	//관지라 PWD찾기
+	public Admin findAdminPwd(String adminId, String adminEmail);
 	
 	
 	//관리자 검색
@@ -63,8 +67,9 @@ public interface AdminService {
 	public QnA printOneByQna(Integer questionNo);
 	public int answerQna(QnA qna);
 	public List<QnA> printAllByQnaValue(String searchCondition, String searchValue, int currentPage, int qnaLimit);
-	public Admin findAdminId(String adminEmail);
-	public Admin findAdminPwd(String adminId, String adminEmail);
+	
+	
+	
 	public List<User> printNewUser();
 	public List<Community> printNewCommunity();
 	public List<QnA> printNewQna();
