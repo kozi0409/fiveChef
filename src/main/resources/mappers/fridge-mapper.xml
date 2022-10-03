@@ -62,7 +62,7 @@
  	
  	<insert id="insertStorage">
  		INSERT INTO STORAGE_TBL
- 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo}, 'A1', 0, null)
+ 		VALUES(SEQ_STORAGE_NO.NEXTVAL, #{storageName}, #{fridgeNo}, 'A1', #{storageSelectNo}, null)
  	</insert>
  	
  	<select id="selectStorage" resultMap="storageResultMap">
@@ -87,7 +87,7 @@
  		WHERE FRIDGE_NO = #{fridgeNo}
  	</select>
  	<update id="updateIngred">
-		UPDATE STORAGE_TBL SET INGRED_BUNDLE = INGRED_BUNDLE||','||#{ingredBundle}
+		UPDATE STORAGE_TBL SET INGRED_BUNDLE = INGRED_BUNDLE||#{ingredBundle}||','
  		WHERE FRIDGE_NO = #{fridgeNo} AND STORAGE_NO = #{storageNo} AND STORAGE_SELECT_NO = #{storageSelectNo}
  	</update>
  	<update id="deleteIngred">

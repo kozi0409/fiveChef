@@ -145,7 +145,7 @@ textarea.form-controls {
 			</div>
 			
 			<div class="col" align="right">
-				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage" id="btn-2">&#43; 칸 생성</button>
+				<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createStorage" id="btn-2" onclick="modalTransVal()">&#43; 칸 생성</button>
 				<button class="btn btn-danger" onclick="deleteStorage(${fridgeNo }, '${fridgeName }');" id="btn-2">&#8722;  칸 삭제</button>
 			</div>
 		</div>
@@ -222,28 +222,35 @@ textarea.form-controls {
 								</div>
 							</div>
 						</div>
-<!-- 						<div class = "vertical"></div> -->
 						<div class="col" style="padding:20px">
 							<div class="row row-cols-6">
-								<c:forEach items="${stList }" var="ingred" varStatus="k">
-									<input type="hidden" name="ingred">
-									<c:if test="${ingred.storageSelectNo eq j.index}">
-										<div class="col">
-											<div class="row" id="values">
-												<div class="col-1">
-<%-- 													<input type="checkbox" id="ingredCheck${k }"> --%>
-												</div>
-												<div class="col">
-													<label for="ingredCheck${k }"> ${ingred.ingredBundle }</label>
-												</div>
-											</div>
-										</div>
+								<c:forEach items="${iList[j.index] }" var="ingred" varStatus="n">
+									<c:if test="${not empty ingred}">
+										<c:forEach items="${sList }" var="smallCat" varStatus="s">
+	<!-- 										<input type="hidden" name="ingred"> -->
+													<c:if test="${ingred eq smallCat.smallCatId }">
+														<div class="col">
+															<div class="row" id="values">
+																<div class="col-1">
+																	<input type="checkbox" id="ingredCheck${k }">
+																</div>
+																<div class="col">
+																	<label for="ingredCheck${n }"> ${smallCat.smallCatName }</label>
+																</div>
+															</div>
+														</div>
+													</c:if>
+										</c:forEach>
 									</c:if>
-<%-- 									${ingred.ingredBundle } --%>
+									<c:if test="${empty ingred}">
+										재료를 입력해주세요
+									</c:if>
 								</c:forEach>
 							</div>
 						</div>
 					</div>
+					
+					
 					<!--Modify Storage Modal -->
 					<div class="modal fade" id="modifyStorage${j.index }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered">
@@ -286,32 +293,33 @@ textarea.form-controls {
 		</div>
 	</div>
 		
-		
-		<!--Create Storage Modal -->
-		<div class="modal fade" id="createStorage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-				 	<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">칸 생성</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					    <div class="modal-body">
-						    <div class="modal-body p-5 pt-0">
-								<form action="/fridge/createStorage.kh?fridgeNo=${fridgeNo}&fridgeName=${fridgeName}" method="post">
-									<br>
-									<div class="form-floating mb-3">
-										<input type="hidden" name="fridgeNo" value="${fridgeNo}">
-										<input type="hidden" name="largeCatId" value="${largeCatId }">
-										<input type="text" class="form-control rounded-4" id="storageName" placeholder="칸 이름 입력" name="storageName" required>
-										<label for="floatingInput">칸 이름</label>
-									</div>
-									<button class="w-100 mb-2 btn btn-lg btn-primary" type="submit">생성 완료</button>
-								</form>
-							</div>
-				    	</div>
+	<!--Create Storage Modal -->
+	<div class="modal fade" id="createStorage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			 	<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">칸 생성</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
+				    <div class="modal-body">
+					    <div class="modal-body p-5 pt-0">
+							<form action="/fridge/createStorage.kh?fridgeNo=${fridgeNo}&fridgeName=${fridgeName}" method="post">
+								<br>
+								<div class="form-floating mb-3">
+									<input type="hidden" name="fridgeNo" value="${fridgeNo}">
+									<input type="hidden" name="largeCatId" value="${largeCatId }">
+									<input type="hidden" name="stSelectNo" value="" id="stSelNo">
+									<input type="text" class="form-control rounded-4" id="storageName" placeholder="칸 이름 입력" name="storageName" required>
+									<label for="floatingInput">칸 이름 </label>
+								</div>
+								<button class="w-100 mb-2 btn btn-lg btn-primary" type="submit" >생성 완료</button>
+							</form>
+						</div>
+			    	</div>
 			</div>
-		</div>	
+		</div>
+	</div>
+		
 		
 		
 		
@@ -335,18 +343,19 @@ textarea.form-controls {
 			$(".chkBox:checked").each(function(index, item){
 				checkedList.push(this.value);
 			});
+			
 			if (checkedList == ''){
 				alert("삭제할 칸을 선택해주시기 바랍니다.");
 			} else {
-				event.preventDefault(); // 하이퍼링크 이동 방지
 				if(confirm("다시 복원 할 수 없습니다.\n정말 삭제하시겠습니까?")){
 					$.each(checkedList, function(index, item){
+						console.log(checkedList);
 						var $form = $("<form>"); // <>꺽쇠를 적어야 태그 생성
 		 				$form.attr("action", "/fridge/deleteStorage.kh");
 		 				$form.attr("method", "post");
 		 				$form.append("<input type='hidden' value='"+fNo+"' name='fridgeNo'>");
 		 				$form.append("<input type='hidden' value='"+fName+"' name='fridgeName'>");
-		 				$form.append("<input type='hidden' value='"+checkedList[index]+"' name='stSelectNo'>");
+		 				$form.append("<input type='hidden' value='"+checkedList+"' name='stSelectNo'>");
 		 				$form.appendTo("body");
 						$form.submit();
 					});
@@ -368,6 +377,14 @@ textarea.form-controls {
 			}
 			
 			$('#ingredBundle'+jNo+'').val(selsList);
+			
+		}
+		
+		function modalTransVal(st){
+			$.each(st, function(index, item){
+				$(".stSelNo").val(index)
+				console.log(st[i]);
+			});
 			
 		}
 		

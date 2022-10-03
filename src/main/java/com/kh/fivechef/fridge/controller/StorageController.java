@@ -1,5 +1,8 @@
 package com.kh.fivechef.fridge.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,31 +42,32 @@ public class StorageController {
 			List<LargeCategory> lList = sService.printLargeCat();
 			List<SmallCategory> sList = sService.printSmallCat("A1");
 			List<Storage> stList = sService.printStorage(fridgeNo);
-//			String [] searching = new String[100];
-//			for(int i = 0; i < stList.size(); i++) {
-////				System.out.println(i);
-//				String subIngred = stList.get(i).getIngredBundle();
-////				System.out.println(subIngred);
-//				if (subIngred != null || subIngred != "") {
-//					subIngred.substring(0);
-//					searching = subIngred.split(",");
-//					
-//				}
-//			}
-////			System.out.println(searching);
-//			for(int i = 0; i < searching.length; i++) {
-////				System.out.println(searching[i]);
-//			}
 			
 			mv.addObject("fridgeNo", fridgeNo);
 			mv.addObject("fridgeName", fridgeName);
 			mv.addObject("lList", lList);
 			mv.addObject("sList", sList);
 			mv.addObject("stList", stList);
+			if(stList.size() != 0) {
+				List<Object> printIngred = new ArrayList<Object>();
+				for(int i = 0; i < stList.size(); i++) {
+					String subIngred = stList.get(i).getIngredBundle();
+					if(subIngred != null) {
+						subIngred = subIngred.substring(0, subIngred.length() - 1);
+						String[] ingredArr = subIngred.split("\\,");
+						HashSet<String> hashSet = new HashSet(Arrays.asList(ingredArr));
+						String[] resultArr = hashSet.toArray(new String[0]);
+						printIngred.add(resultArr);
+					} else {
+						printIngred.add(" "+",");
+					}
+				}	
+				mv.addObject("iList", printIngred);
+			}
 			mv.setViewName("fridge/myMain");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
-			mv.setViewName("fridge/errorPage");
+			mv.setViewName("common/errorPage");
 		}
 		return mv;
 	}
@@ -81,7 +85,22 @@ public class StorageController {
 		SelectBox selectBox = new SelectBox(storageNo, largeCatId, selectBoxNo);
 		int result = sService.registSelectValue(selectBox);
 		List<Storage> stList = sService.printStorage(fridgeNo);
-		
+		if(stList.size() != 0) {
+			List<Object> printIngred = new ArrayList<Object>();
+			for(int i = 0; i < stList.size(); i++) {
+				String subIngred = stList.get(i).getIngredBundle();
+				if(subIngred != null) {
+					subIngred = subIngred.substring(0, subIngred.length() - 1);
+					String[] ingredArr = subIngred.split("\\,");
+					HashSet<String> hashSet = new HashSet(Arrays.asList(ingredArr));
+					String[] resultArr = hashSet.toArray(new String[0]);
+					printIngred.add(resultArr);
+				} else {
+					printIngred.add(" "+",");
+				}
+			}
+			mv.addObject("iList", printIngred);
+		}
 		
 		mv.addObject("sList", sList);
 		mv.addObject("lList", lList);
@@ -101,7 +120,8 @@ public class StorageController {
 			,@ModelAttribute Storage storage
 			,@RequestParam("largeCatId") String largeCatId
 			,@RequestParam("fridgeNo") Integer fridgeNo
-			,@RequestParam("fridgeName") String fridgeName) {
+			,@RequestParam("fridgeName") String fridgeName
+			) {
 		int result = sService.registStorage(storage);
 		List<LargeCategory> lList = sService.printLargeCat();
 		List<SmallCategory> sList = sService.printSmallCat(largeCatId);
@@ -134,10 +154,14 @@ public class StorageController {
 	public ModelAndView storageRemove(ModelAndView mv
 			,@RequestParam("fridgeNo") Integer fridgeNo
 			,@RequestParam("fridgeName") String fridgeName
-			,@RequestParam("stSelectNo") Integer stSelectNo
+			,@RequestParam("stSelectNo") String stSelectNo
 			) {
+		String[] arrStSelectNo = stSelectNo.split(",");
+		for(int i = 0; i < arrStSelectNo.length; i++) {
+			int stNo = Integer.parseInt(arrStSelectNo[i]);
+			int result = sService.removeStorage(fridgeNo, stNo);
+		}
 		List<LargeCategory> lList = sService.printLargeCat();
-		int result = sService.removeStorage(fridgeNo, stSelectNo);
 		mv.addObject("lList", lList);
 		mv.addObject("fridgeNo", fridgeNo);
 		mv.addObject("fridgeName", fridgeName);
@@ -165,7 +189,7 @@ public class StorageController {
 			mv.setViewName("redirect:/fridge/storage.kh");
 		} catch (Exception e) {
 			mv.addObject("msg", e.toString());
-			mv.setViewName("fridge/errorPage");
+			mv.setViewName("common/errorPage");
 		}  
 		return mv;
 		
@@ -198,14 +222,9 @@ public class StorageController {
 			HttpServletRequest request,
 			HttpSession session) {
 		try {
-			
-			//지호님 레시피 검색 참고
-			
 			//재료목록 null 체크
 			String subIngred = ingredBundle;
-			subIngred.substring(0);
-//			System.out.println(ingredBundle);
-//			System.out.println(1);
+			subIngred = subIngred.substring(0, subIngred.length() - 1);
 			if (ingredBundle == "") {
 				request.setAttribute("msg", "입력값이 없습니다.");
 				request.setAttribute("url", "/recipe/recipeList.kh");
@@ -213,13 +232,8 @@ public class StorageController {
 				return mv;
 			}
 			
-//			System.out.println(2);
 			String[] searching = subIngred.split(",");
-//			System.out.println(3);
 			session.setAttribute("postingid", ingredBundle);
-//			if(session.getAttribute("postingid") == null) {
-//				System.out.println(4);
-//			}
 			int currentPage = (page != null) ? page : 1;
 			int totalCount = rService.countAllRecipe(searching, whatRecipe, listValue);
 			int recipeLimit = 18;
