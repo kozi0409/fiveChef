@@ -118,7 +118,7 @@
 <img width="1249" alt="image" src="https://user-images.githubusercontent.com/109094051/194549799-fccbe33e-3992-4c65-a938-18d8a2f0af11.png">
 
 * 댓글 관리
-추가예정
+<img width="1260" alt="화면 캡처 2022-10-12 023541" src="https://user-images.githubusercontent.com/109094051/197457832-fa40811a-0341-4754-96d7-0cab95232c1b.png">
 
 * Q&A 관리
 <img width="1251" alt="image" src="https://user-images.githubusercontent.com/109094051/194550224-1293f7de-addf-4fd2-a28c-85bc9e9738e2.png">
